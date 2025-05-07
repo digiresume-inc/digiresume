@@ -1,10 +1,22 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Montserrat, Bricolage_Grotesque } from 'next/font/google';
 
 export const metadata: Metadata = {
-  title: 'turborepo-shadcn-tailwind-v4',
-  description: 'Turborepo-Shadcn-Tailwind CSS v4 Boilerplate',
+  title: 'Linkfolio',
+  description: 'Your portfolio on web light and powerful',
 };
+
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+});
+
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin"],
+});
+
 
 export default function RootLayout({
   children,
@@ -13,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${montserrat.variable} ${bricolage.variable} montserrat`}>{children}</body>
     </html>
   );
 }

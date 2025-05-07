@@ -9,3 +9,46 @@
  * you can always add it with the @source directive.
  */
 @source '../../node_modules/@repo/ui';
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+.montserrat {
+    font-family: var(--font-montserrat);
+}
+
+.bricolage {
+    font-family: var(--font-bricolage);
+}
+
+
+.animate-slide-up {
+    opacity: 0;
+    animation: slideUp 1s ease forwards;
+}
+
+.delay-1 {
+    animation-delay: 0.5s;
+}
+
+.delay-2 {
+    animation-delay: 1s;
+}
+
+.delay-3 {
+    animation-delay: 1.5s;
+}
+
+@keyframes slideUp {
+    to {
+        opacity: 1;
+    }
+}
