@@ -1,0 +1,10 @@
+{
+    "name": "@lf/utils",
+    "description": "Utilities for the Linkfolio",
+    "exports": {
+        ".": "./src/index.ts"
+    },
+    "devDependencies": {
+        "@repo/typescript-config": "workspace:*"
+    }
+}

@@ -18,11 +18,14 @@ importers:
         specifier: 5.7.3
         version: 5.7.3
 
-  apps/nextjs:
+  apps/web:
     dependencies:
-      '@repo/ui':
+      '@lf/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@lf/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       lucide-react:
         specifier: ^0.476.0
         version: 0.476.0(react@19.0.0)
@@ -168,6 +171,12 @@ importers:
       typescript:
         specifier: ^5
         version: 5.7.3
+
+  packages/utils:
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
 
 packages:
 

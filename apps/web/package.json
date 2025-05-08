@@ -1,5 +1,5 @@
 {
-  "name": "nextjs",
+  "name": "web",
   "version": "0.1.0",
   "type": "module",
   "private": true,
@@ -11,7 +11,8 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@repo/ui": "workspace:*",
+    "@lf/ui": "workspace:*",
+    "@lf/utils": "workspace:*",
     "lucide-react": "^0.476.0",
     "motion": "^12.10.0",
     "next": "^15.2.4",

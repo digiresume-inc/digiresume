@@ -9,14 +9,14 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from '@repo/ui/components/base/navigation-menu';
-import { cn } from '@repo/ui/lib/utils';
-import { icons, Menu, MoveRight } from 'lucide-react';
+} from '@lf/ui/components/base/navigation-menu';
+import { cn } from '@lf/ui/lib/utils';
+import { Menu } from 'lucide-react';
 import { FlipWords } from '@/components/flipword';
-import { Button } from '@repo/ui/components/base/button';
-import { Input } from '@repo/ui/components/base/input';
-import { Label } from '@repo/ui/components/base/label';
-import { Popover, PopoverContent, PopoverTrigger } from '@repo/ui/components/base/popover';
+import { Button } from '@lf/ui/components/base/button';
+import { Input } from '@lf/ui/components/base/input';
+import { Label } from '@lf/ui/components/base/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@lf/ui/components/base/popover';
 import UsernameCheck from '@/components/usernamecheck';
 
 const components: { title: string; href: string; description: string }[] = [
@@ -176,7 +176,7 @@ export default function DemoPage() {
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
-            <div className="bg-secondary border flex px-4 py-2 rounded-full items-center gap-2 text-sm cursor-pointer">
+            <div className="bg-primary text-primary-foreground flex px-4 py-2 rounded-full items-center gap-2 text-sm cursor-pointer">
               Sign in
             </div>
           </div>
@@ -208,9 +208,9 @@ export default function DemoPage() {
             </div>
           </div>
         </main>
-        <div className='relative flex lg:hidden'>
+        <div className="relative flex lg:hidden">
           <div className="absolute bottom-0 left-0 w-full h-36 pointer-events-none bg-gradient-to-t from-background/80 to-transparent z-10" />
-          <img className='animate-slide-up' src='/linkfolio_vertical.png' />
+          <img className="animate-slide-up" src="/linkfolio_vertical.png" />
         </div>
         <div className="relative hidden lg:flex min-h-[554px] rounded-md">
           <div className="absolute bottom-0 left-0 w-full h-48 pointer-events-none bg-gradient-to-t from-background/80 to-transparent z-10" />

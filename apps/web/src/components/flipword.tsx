@@ -1,25 +1,31 @@
-"use client";
-import React, { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { cn } from "@repo/ui/lib/utils";
+'use client';
+import React, { useCallback, useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { cn } from '@lf/ui/lib/utils';
 
-const words = ["Startup ", "Project ", "Creation ", "Skills ", "Journey ", "Earnings ", "Blogs ", "Career "];
+const words = [
+  'Startup ',
+  'Project ',
+  'Creation ',
+  'Skills ',
+  'Journey ',
+  'Earnings ',
+  'Blogs ',
+  'Career ',
+];
 
 interface FlipWordsProps {
   duration?: number;
   className?: string;
 }
 
-export const FlipWords: React.FC<FlipWordsProps> = ({
-  duration = 3000,
-  className,
-}) => {
+export const FlipWords: React.FC<FlipWordsProps> = ({ duration = 3000, className }) => {
   const [currentWord, setCurrentWord] = useState(words[0]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);
 
   const startAnimation = useCallback(() => {
-    const word = words[(words.indexOf(currentWord || "") + 1) % words.length];
+    const word = words[(words.indexOf(currentWord || '') + 1) % words.length];
     setCurrentWord(word);
     setIsAnimating(true);
   }, [currentWord]);
@@ -44,7 +50,7 @@ export const FlipWords: React.FC<FlipWordsProps> = ({
         initial={isFirstRender ? {} : { opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
-          type: "spring",
+          type: 'spring',
           stiffness: 100,
           damping: 10,
         }}
@@ -52,22 +58,22 @@ export const FlipWords: React.FC<FlipWordsProps> = ({
           opacity: 0,
           y: -40,
           x: 40,
-          filter: "blur(8px)",
+          filter: 'blur(8px)',
           scale: 2,
-          position: "absolute",
+          position: 'absolute',
         }}
-        className={cn("z-10 inline-block relative", className)}
+        className={cn('z-10 inline-block relative', className)}
         key={currentWord}
       >
-        {(currentWord || "").split("").map((letter, index) => (
+        {(currentWord || '').split('').map((letter, index) => (
           <motion.span
-            key={(currentWord || "") + index}
+            key={(currentWord || '') + index}
             initial={
               isFirstRender
-                ? { opacity: 1, y: 0, filter: "blur(0px)" }
-                : { opacity: 0, y: 10, filter: "blur(8px)" }
+                ? { opacity: 1, y: 0, filter: 'blur(0px)' }
+                : { opacity: 0, y: 10, filter: 'blur(8px)' }
             }
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{
               delay: isFirstRender ? 0 : index * 0.08,
               duration: 0.4,

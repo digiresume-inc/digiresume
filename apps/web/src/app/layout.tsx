@@ -8,15 +8,14 @@ export const metadata: Metadata = {
 };
 
 const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin"],
+  variable: '--font-montserrat',
+  subsets: ['latin'],
 });
 
 const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
-  subsets: ["latin"],
+  variable: '--font-bricolage',
+  subsets: ['latin'],
 });
-
 
 export default function RootLayout({
   children,
