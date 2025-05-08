@@ -11,13 +11,19 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.0.1",
+    "@lf/supabase": "workspace:*",
     "@lf/ui": "workspace:*",
     "@lf/utils": "workspace:*",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.49.4",
     "lucide-react": "^0.476.0",
     "motion": "^12.10.0",
     "next": "^15.2.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.3",
+    "zod": "^3.24.4"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

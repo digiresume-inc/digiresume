@@ -3,23 +3,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { cn } from '@lf/ui/lib/utils';
 
-const words = [
-  'Startup ',
-  'Project ',
-  'Creation ',
-  'Skills ',
-  'Journey ',
-  'Earnings ',
-  'Blogs ',
-  'Career ',
-];
-
 interface FlipWordsProps {
   duration?: number;
   className?: string;
+  words: string[];
 }
 
-export const FlipWords: React.FC<FlipWordsProps> = ({ duration = 3000, className }) => {
+export const FlipWords: React.FC<FlipWordsProps> = ({ duration = 3000, className, words }) => {
   const [currentWord, setCurrentWord] = useState(words[0]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);
