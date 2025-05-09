@@ -34,9 +34,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <div className="w-4 lg:w-6 h-4 lg:h-6 bg-primary rounded-md"></div>
           <h1 className="text-xl lg:text-2xl font-extrabold">Linkfolio</h1>
         </div>
-        <div className="opacity-70 hidden lg:block">
+        <div className="opacity-50 hidden lg:block">
           <FlipWords
-            className="absolute top-1/4 right-1/6 text-5xl font-bold bricolage"
+            className="absolute top-1/4 right-1/12 text-5xl font-bold bricolage"
             words={words}
             duration={2000}
           />
