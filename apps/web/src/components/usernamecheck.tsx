@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Loader, MoveRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
+import supabase from '@lf/supabase/supabase';
 
 const variants = {
   hidden: { opacity: 0, y: 20 },
@@ -14,6 +15,20 @@ const UsernameCheck = () => {
   const [usernameLoading, setUsernameLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
 
+  const checkUsername = async (username: string) => {
+    if (!username) return;
+    setUsernameLoading(true);
+
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("username")
+      .eq("username", username);
+
+    setUsernameAvailable(data?.length === 0);
+    setUsernameLoading(false);
+    setIsTyping(false);
+  };
+
   const debounce = (func: (...args: any[]) => void, wait: number) => {
     let timeout: NodeJS.Timeout | null = null;
     return (...args: any[]) => {
@@ -22,9 +37,12 @@ const UsernameCheck = () => {
     };
   };
 
+  const debouncedUpdateField = useCallback(debounce(checkUsername, 800), []);
+
   const handleChange = (value: string) => {
     setUsernameCheck(value);
     setIsTyping(true);
+    debouncedUpdateField(value); // Pass value directly
   };
 
   return (
@@ -43,8 +61,8 @@ const UsernameCheck = () => {
               isTyping || !usernameCheck
                 ? '' // White while typing or empty
                 : usernameAvailable
-                  ? '#22c55e' // Green if available
-                  : '#ef4444', // Red if not available
+                  ? 'oklch(0.723 0.219 149.579)' // Green if available
+                  : '#fb2c36', // Red if not available
           }}
           data-active={isTyping || !usernameCheck}
           className="flex-1 border-none outline-none data-[active=true]:text-lightprimary-text data-[active=true]:dark:text-primary-text/80 py-1 lg:py-2 bg-transparent text-sm lg:text-lg w-[90%] transition-colors duration-300"
@@ -71,7 +89,7 @@ const UsernameCheck = () => {
           ) : (
             <MoveRight
               aria-disabled={!usernameCheck || !usernameAvailable}
-              className="aria-disabled:group-hover/home-input:translate-x-0 group-hover/home-input:translate-x-0.5 transition-all duration-200 ease-out"
+              className="aria-disabled:group-hover/home-input:cursor-not-allowed aria-disabled:group-hover/home-input:translate-x-0 group-hover/home-input:translate-x-0.5 transition-all duration-200 ease-out"
               size={20}
             />
           )}

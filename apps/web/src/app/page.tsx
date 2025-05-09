@@ -113,7 +113,7 @@ export default async function Home() {
                 </defs>
                 <g clipPath="url(#__lottie_element_2)">
                   <g
-                    className="animate-slide-up delay-1"
+                    className="animate-fade delay-1"
                     clipPath="url(#__lottie_element_8)"
                     transform="matrix(1,0,0,1,-191.48599243164062,313.66400146484375)"
                     opacity={1}
@@ -133,7 +133,7 @@ export default async function Home() {
                     </g>
                   </g>
                   <g
-                    className="animate-slide-up delay-2"
+                    className="animate-fade delay-2"
                     clipPath="url(#__lottie_element_13)"
                     transform="matrix(1,0,0,1,-131.34500122070312,199.7919921875)"
                     opacity={1}
@@ -153,7 +153,7 @@ export default async function Home() {
                     </g>
                   </g>
                   <g
-                    className="animate-slide-up delay-3"
+                    className="animate-fade delay-3"
                     clipPath="url(#__lottie_element_18)"
                     transform="matrix(1,0,0,1,136.09100341796875,76.9630126953125)"
                     opacity={1}
