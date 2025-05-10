@@ -2,12 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Loader, MoveRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
-import supabase from '@lf/supabase/supabase';
-
-const variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
+import supabase from '@/supabase/supabase';
 
 const UsernameCheck = () => {
   const [usernameAvailable, setUsernameAvailable] = useState(false);

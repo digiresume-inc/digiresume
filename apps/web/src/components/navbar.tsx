@@ -72,7 +72,8 @@ const Navbar = ({ user }: { user: User | null }) => {
                   <Menu />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-80 z-[1000] ml-4">
+              <PopoverContent className="w-80 z-[1000] ml-4 mt-4 relative">
+                <div className="absolute z-0 -top-2 left-[13%] lg:left-[23%] -translate-x-1/2 w-4 h-4 rotate-45 border-t border-l bg-popover" />
                 <div className="grid gap-4">
                   <div className="space-y-2">
                     <h4 className="font-medium leading-none">Dimensions</h4>
@@ -163,12 +164,13 @@ const Navbar = ({ user }: { user: User | null }) => {
           {user ? (
             <Popover open={menuOpen} onOpenChange={setMenuOpen}>
               <PopoverTrigger asChild>
-                <Avatar className='cursor-pointer'>
+                <Avatar className="cursor-pointer">
                   <AvatarImage src="https://github.com/shadcn.png" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </PopoverTrigger>
-              <PopoverContent className="w-80 z-[1000] ml-4 flex flex-col gap-3">
+              <PopoverContent className="w-fit h-fit max-w-60 mr-1 lg:mr-15 mt-4 relative z-[1000] flex flex-col gap-3">
+                <div className="absolute z-0 -top-2 left-[83%] lg:left-[63%] -translate-x-1/2 w-4 h-4 rotate-45 border-t border-l bg-popover" />
                 <div className="flex text-sm gap-1 items-center">
                   <span className="truncate max-w-[95%]">Signed in as: {user.email}</span>
                 </div>

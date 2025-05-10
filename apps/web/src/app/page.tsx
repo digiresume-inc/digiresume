@@ -2,7 +2,7 @@ import * as React from 'react';
 import { cn } from '@lf/ui/lib/utils';
 import { FlipWords } from '@/components/flipword';
 import UsernameCheck from '@/components/usernamecheck';
-import { createSClient } from '@lf/supabase/server';
+import { createSClient } from '@/supabase/server';
 import Navbar from '@/components/navbar';
 
 const words = [

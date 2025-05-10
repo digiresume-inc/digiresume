@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { createSClient } from "@lf/supabase/server";
+import { createSClient } from "@/supabase/server";
 
 const loginSchema = z.object({
   email: z.string().email(),

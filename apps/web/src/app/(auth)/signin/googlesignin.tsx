@@ -1,10 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { createClient } from '@lf/supabase/client';
-import { Loader } from 'lucide-react';
-import Image from 'next/image';
-import { Button } from '@lf/ui/components/base/button';
+import { createClient } from '@/supabase/client';
 import { LoadingButton } from '@/components/loadingbutton';
 
 export default function GoogleSignin({ text }: { text: string }) {
