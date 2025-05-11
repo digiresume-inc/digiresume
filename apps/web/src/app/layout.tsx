@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Montserrat, Bricolage_Grotesque } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   title: 'Linkfolio',
@@ -37,6 +38,7 @@ export default function RootLayout({
           speed={200}
           shadow="0 0 10px #c2a180,0 0 5px #c2a180"
         />
+        <Toaster richColors position="bottom-right" />
         {children}
       </body>
     </html>

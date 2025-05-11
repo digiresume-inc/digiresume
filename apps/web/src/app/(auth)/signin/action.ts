@@ -10,14 +10,11 @@ const loginSchema = z.object({
 
 export const loginUser = async ({
   email,
-  password,
 }: {
   email: string;
-  password: string;
 }) => {
   const loginUserValidation = loginSchema.safeParse({
     email,
-    password,
   });
 
   if (!loginUserValidation.success) {
@@ -30,9 +27,8 @@ export const loginUser = async ({
 
   const supabase = createSClient();
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithOtp({
     email,
-    password,
   });
 
   if (error) {
@@ -42,7 +38,7 @@ export const loginUser = async ({
     };
   }
 
-  if (!data.user) {
+  if (!data) {
     return {
       error: true,
       message: "Login failed. Please try again.",
@@ -51,10 +47,6 @@ export const loginUser = async ({
 
   return {
     success: true,
-    message: "Login successful",
-    user: {
-      id: data.user.id,
-      email: data.user.email,
-    },
+    message: "Magic link sent to your email.",
   };
 };
