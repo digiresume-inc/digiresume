@@ -11,9 +11,9 @@ export const ToastError = ({
   const toastId = toast.error(message, {
     duration: duration,
     style: {
-      background: '#c5a587',
-      color: '#b44c38',
-      border: '1px solid #d6bfa9',
+      background: '#b44c38',
+      color: '#ffffff',
+      border: '1px solid #c9644f',
       borderRadius: '10px',
       padding: '15px',
     },
@@ -21,7 +21,7 @@ export const ToastError = ({
       <X
         onClick={() => toast.dismiss(toastId)}
         className="cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 bg-transparent text-primary-text/70 hover:text-primary-text/90 duration-200 transition-all ease-out"
-        size={18}
+        size={15}
       />
     ),
   });
@@ -44,9 +44,9 @@ export const ToastSuccess = ({
     ),
     duration: duration,
     style: {
-      background: '#c5a587',
-      color: '#3b8b4c',
-      border: '1px solid #d6bfa9',
+      background: '#15803d',
+      color: '#ffffff',
+      border: '1px solid #1cca5b',
       borderRadius: '10px',
       padding: '15px',
     },

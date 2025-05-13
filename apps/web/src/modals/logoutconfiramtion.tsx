@@ -50,7 +50,7 @@ const LogoutConfirmation = ({
               opacity: 0,
             }}
             transition={{ type: 'spring', bounce: 0.3, duration: 0.4 }}
-            className="relative z-50 w-full border border-foreground/30 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-[0%] data-[state=closed]:slide-out-to-top-[0%] data-[state=open]:slide-in-from-left-[0%] data-[state=open]:slide-in-from-top-[0%] rounded-lg md:w-full bg-secondary sm:align-middle sm:w-full sm:max-w-sm p-0 gap-0 pb-5 !block"
+            className="relative z-50 w-full border border-foreground/10 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-[0%] data-[state=closed]:slide-out-to-top-[0%] data-[state=open]:slide-in-from-left-[0%] data-[state=open]:slide-in-from-top-[0%] rounded-lg md:w-full bg-secondary sm:align-middle sm:w-full sm:max-w-sm p-0 gap-0 pb-5 !block"
             style={{ pointerEvents: 'auto' }}
           >
             <div className="flex flex-col gap-1.5 text-center sm:text-left py-4 px-5 border-b">
@@ -65,7 +65,7 @@ const LogoutConfirmation = ({
             </div>
             <div className="w-full h-px" />
             <div className="flex gap-2 px-5 pt-5">
-              <Button onClick={() => setModal(false)} variant={'ghost'} className="w-1/2">
+              <Button disabled={logoutLoading} onClick={() => setModal(false)} variant={'outline'} className="w-1/2 cursor-pointer">
                 {' '}
                 <span className="truncate">Cancel</span>{' '}
               </Button>
@@ -79,9 +79,11 @@ const LogoutConfirmation = ({
                 <span className="truncate">Logout</span>
               </LoadingButton>
             </div>
-            <button
+            <Button
+              variant={'ghost'}
+              disabled={logoutLoading}
+              size={'icon'}
               onClick={() => setModal(false)}
-              type="button"
               className="cursor-pointer absolute right-4 top-4 rounded-sm opacity-50 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none  disabled:pointer-events-none "
             >
               <svg
@@ -100,7 +102,7 @@ const LogoutConfirmation = ({
                 <path d="m6 6 12 12" />
               </svg>
               <span className="sr-only">Close</span>
-            </button>
+            </Button>
           </motion.div>
         </div>
       )}

@@ -64,7 +64,7 @@ const Navbar = ({ user }: { user: User | null }) => {
     <>
       <LogoutConfirmation modal={logoutModal} setModal={setLogoutModal} />
       <header className="fixed top-0 left-0 z-[900] w-full pt-5 px-5 lg:px-0">
-        <div className="max-w-5xl w-full relative mx-auto flex items-center justify-between rounded-full bg-transparent p-2 lg:p-3 pl-5 ">
+        <div className="max-w-5xl w-full relative mx-auto flex items-center justify-between rounded-full bg-secondary/10 p-2 lg:p-3 pl-5 bg-clip-padding backdrop-filter backdrop-blur-sm border">
           <div className="block lg:hidden">
             <Popover>
               <PopoverTrigger asChild>
@@ -189,7 +189,7 @@ const Navbar = ({ user }: { user: User | null }) => {
           ) : (
             <Link
               href={'/signin'}
-              className="bg-primary font-semibold text-primary-foreground flex px-4 py-2 rounded-full items-center gap-2 text-sm cursor-pointer"
+              className="bg-primary font-medium text-primary-foreground flex px-4 py-2 rounded-full items-center gap-2 text-sm cursor-pointer"
             >
               Sign in
             </Link>

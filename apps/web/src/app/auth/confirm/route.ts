@@ -6,21 +6,32 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const token_hash = searchParams.get('token_hash');
   const type = searchParams.get('type');
-  const next = searchParams.get('next') ?? '/';
+  const next = searchParams.get('next') ?? '/dashboard';
 
   if (token_hash && type) {
     const supabase = await createSClient();
 
-    const { error } = await supabase.auth.verifyOtp({
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.verifyOtp({
       type: 'email',
       token_hash,
     });
+
     if (!error) {
-      // redirect user to specified redirect URL or root of app
-      redirect(next);
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user?.id)
+        .single();
+      if (profile?.onboarding === 'pending') {
+        redirect('/onboarding');
+      } else {
+        redirect(next);
+      }
     }
   }
 
-  // redirect the user to an error page with some instructions
   redirect('/auth/auth-code-error');
 }

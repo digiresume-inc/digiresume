@@ -38,7 +38,7 @@ export default function RootLayout({
           speed={200}
           shadow="0 0 10px #c2a180,0 0 5px #c2a180"
         />
-        <Toaster richColors position="bottom-right" />
+        <Toaster richColors position="top-right" />
         {children}
       </body>
     </html>
