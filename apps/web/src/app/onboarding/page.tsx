@@ -32,7 +32,7 @@ export default async function Onboarding() {
       <div className="absolute inset-0 z-[-1]">
         <div
           className={cn(
-            'absolute inset-x-0 bottom-0 h-[350px]',
+            'absolute inset-x-0 bottom-0 h-[200px]',
             '[background-size:20px_20px]',
             '[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]',
             'dark:[background-image:radial-gradient(#09090b_1px,transparent_1px)]',
