@@ -106,7 +106,7 @@ const OnboardingForm = () => {
         <form
           onSubmit={form.handleSubmit((data) => {
             setLoading(true);
-            const newData =  processFormData(data);
+            const newData = processFormData(data);
             setTimeout(() => {
               console.log(newData);
               setLoading(false);
@@ -148,13 +148,13 @@ const OnboardingForm = () => {
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
                   <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
-                    Profile information <User />
+                    <User className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Profile information
                   </h1>
-                  <div className="flex flex-col gap-4 w-full">
+                  <div className="flex flex-col gap-4 w-full max-w-74">
                     <div>
                       <Input
                         id="name"
-                        className="bg-secondary w-full max-w-74"
+                        className="bg-secondary w-full text-sm lg:text-base"
                         type="text"
                         placeholder="Enter your name"
                         {...form.register('name')}
@@ -197,7 +197,7 @@ const OnboardingForm = () => {
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 <div className="flex flex-col items-start justify-start px-3 py-2 gap-4 w-full">
                   <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
-                    Any important Links <Link />
+                    <Link className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Any important Links
                   </h1>
 
                   {linkFields.map((field, index) => (
@@ -252,7 +252,7 @@ const OnboardingForm = () => {
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
                   <h1 className="text-lg lg:text-xl font-semibold flex items-center justify-center gap-2">
-                    Skills <Wrench />
+                    <Wrench className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Skills
                   </h1>
                   <SkillsSelect
                     value={form.watch('skills') ?? []}
@@ -266,7 +266,8 @@ const OnboardingForm = () => {
                 </div>
                 <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
                   <h1 className="text-lg lg:text-xl font-semibold flex items-center justify-center gap-2">
-                    Startups/Projects <FolderKanban />
+                    <FolderKanban className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} />{' '}
+                    Startups/Projects
                   </h1>
                   {startupFields.map((field, index) => (
                     <Card
@@ -294,8 +295,9 @@ const OnboardingForm = () => {
                         {/* Startup Name */}
                         <div className="flex flex-col gap-1">
                           <label className="text-xs lg:text-sm flex items-center gap-1">
-                            <IdCard className="h-4 w-4 text-muted-foreground"/>
-                            Startup Name</label>
+                            <IdCard className="h-4 w-4 text-muted-foreground" />
+                            Startup Name
+                          </label>
                           <Input
                             {...register(`startups.${index}.name`)}
                             placeholder="e.g., Popat Match"
@@ -350,15 +352,16 @@ const OnboardingForm = () => {
                   </Button>
                 </div>
               </div>
-              <div className="w-full flex items-center justify-center mb-12">
+              <div className="w-full flex items-center justify-center mb-12 gap-4">
                 <SubmitButton
-                  className="w-full max-w-64 items-center justify-center text-base lg:text-lg font-semibold"
+                  className="w-full max-w-48 lg:max-w-64 items-center justify-center text-sm lg:text-lg font-medium lg:font-semibold"
                   pending={loading}
                   loadingText="Finishing up..."
                 >
                   Finish
                   <ListChecks className="w-4 lg:w-6 h-4 lg:h-6" />
                 </SubmitButton>
+                <Button className='max-w-48 text-sm lg:text-lg font-medium lg:font-semibold' variant={'outline'}>Skip</Button>
               </div>
             </motion.div>
           )}

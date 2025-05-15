@@ -3,7 +3,7 @@ export type Skill = {
   label: string;
   value: string;
   logo: string; // URL or local path
-  category: 'Language' | 'Framework' | 'Tool' | 'Database' | 'Design';
+  category: 'Language' | 'Framework' | 'Tool' | 'Database' | 'Design' | 'Cloud';
 };
 
 export const skills: Skill[] = [
@@ -42,6 +42,12 @@ export const skills: Skill[] = [
     label: 'C#',
     value: 'csharp',
     logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg',
+    category: 'Language',
+  },
+  {
+    label: 'C',
+    value: 'c',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/1/18/C_Programming_Language.svg',
     category: 'Language',
   },
   {
@@ -259,6 +265,27 @@ export const skills: Skill[] = [
     category: 'Framework',
   },
 
+  // CLOUD
+
+  {
+    label: 'AWS',
+    value: 'aws',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg',
+    category: 'Cloud',
+  },
+  {
+    label: 'Google Cloud',
+    value: 'gcp',
+    logo: 'https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg',
+    category: 'Cloud',
+  },
+  {
+    label: 'Azure',
+    value: 'azure',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg',
+    category: 'Cloud',
+  },
+
   // TOOLS
   {
     label: 'Git',
@@ -362,6 +389,13 @@ export const skills: Skill[] = [
     logo: 'https://avatars.githubusercontent.com/u/56325436?s=200&v=4',
     category: 'Tool',
   },
+  {
+    label: "Prisma",
+    value: "prisma",
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-original.svg",
+    category: "Tool"
+  },
+  
 
   // DATABASES
   {

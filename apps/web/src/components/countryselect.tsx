@@ -181,7 +181,7 @@ export const CountryCombobox = React.forwardRef<HTMLButtonElement, CountryCombob
   function CountryCombobox(
     {
       options,
-      searchPlaceholder = 'Search items...',
+      searchPlaceholder = 'Search country',
       width = '400px',
       height = '400px',
       value,
@@ -200,8 +200,7 @@ export const CountryCombobox = React.forwardRef<HTMLButtonElement, CountryCombob
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="justify-between w-full max-w-74"
-            style={{ width }}
+            className="justify-between w-full max-w-74 bg-secondary font-light"
           >
             {selectedOption
               ? options.find((option) => option === selectedOption)
