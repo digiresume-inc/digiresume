@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 import OnboardingForm from '@/components/onboardingform';
 import { createSClient } from '@/supabase/server';
+import type { Database } from '@/lib/types/supabasetypes';
 
 const words = [
   'Startup ',
@@ -21,7 +22,11 @@ export default async function Onboarding() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const { data, error } = await supabase.from('profiles').select('*').eq('id', user?.id).single();
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('onboarding,username')
+    .eq('id', user?.id)
+    .single();
 
   if (!user || data?.onboarding !== 'pending') {
     redirect('/');
@@ -53,7 +58,7 @@ export default async function Onboarding() {
           src="/test/linkfolio_vertical_login.png"
         />
       </div>
-      <OnboardingForm />
+      <OnboardingForm username={data.username} />
     </div>
   );
 }

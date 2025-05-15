@@ -200,7 +200,7 @@ export const CountryCombobox = React.forwardRef<HTMLButtonElement, CountryCombob
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="justify-between w-full max-w-74 bg-secondary font-light"
+            className="justify-between w-full max-w-74 bg-secondary font-light text-sm"
           >
             {selectedOption
               ? options.find((option) => option === selectedOption)

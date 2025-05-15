@@ -1,17 +1,19 @@
 'use client';
-import { ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/toast';
 import { createClient } from '@/supabase/client';
 import { Button } from '@lf/ui/components/base/button';
 import { Input } from '@lf/ui/components/base/input';
 import { redirect } from 'next/navigation';
 import React, { useState } from 'react';
 import {
+  Check,
   FolderKanban,
   Globe,
   IdCard,
   Link,
   Link2,
   ListChecks,
+  Loader2,
   Pencil,
   Plus,
   User,
@@ -30,15 +32,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitButton } from './submitbutton';
 import { motion } from 'motion/react';
 import { CountryCombobox } from './countryselect';
-import { processFormData } from '@lf/utils';
+import { onboardUser } from '@/app/onboarding/action';
 
-const OnboardingForm = () => {
+const OnboardingForm = ({ username }: { username: string }) => {
+  const supabase = createClient();
   const [onboardingType, setOnboardingType] = useState('none');
   const [loading, setLoading] = useState(false);
+  const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null);
+  const [usernameLoading, setUsernameLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   const form = useForm<z.infer<typeof onboardingSchema>>({
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
+      username: '',
       name: '',
       country: '',
       links: [],
@@ -68,7 +75,6 @@ const OnboardingForm = () => {
   });
 
   const updateOnboardStatus = async () => {
-    const supabase = createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -84,8 +90,19 @@ const OnboardingForm = () => {
     }
   };
 
+  const checkUsername = async (username: string) => {
+    if (!username) return;
+    setUsernameLoading(true);
+    const { data } = await supabase.from('profiles').select('username').eq('username', username);
+
+    setUsernameAvailable(data?.length === 0);
+    setUsernameLoading(false);
+    setIsTyping(false);
+  };
+
   const showOnboarding = onboardingType === 'scratch';
   const showFirstStep = onboardingType === 'none';
+  const stepStart = username ? 2 : 3;
 
   return (
     <div className="w-full h-full px-6 py-12 lg:px-52 lg:py-24">
@@ -99,23 +116,42 @@ const OnboardingForm = () => {
       </header>
       <div className="absolute top-[80px] lg:top-[140px] w-full lg:max-w-4xl lg:left-12 lg:right-12 h-36 pointer-events-none bg-gradient-to-b from-background/80 to-transparent z-10" />
       <main className="w-full max-w-2xl flex-1 overflow-y-auto h-full no_scrollbar scrollbar-hidden relative">
-        <div className="flex items-start justify-start gap-3 mb-4 h-fit relative">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          viewport={{ once: true }}
+          className="flex items-start justify-start gap-3 mb-4 h-fit relative"
+        >
           <div className="absolute w-px h-full bg-border left-5 top-4"></div>
           <div className="w-full h-8 bg-transparent"></div>
-        </div>
+        </motion.div>
         <form
-          onSubmit={form.handleSubmit((data) => {
-            setLoading(true);
-            const newData = processFormData(data);
-            setTimeout(() => {
-              console.log(newData);
-              setLoading(false);
-            }, 1000);
+          onSubmit={form.handleSubmit(async (data) => {
+            const result = await onboardUser(data);
+            if (result?.field && !result.success) {
+              form.setError(result.field as any, {
+                type: 'server',
+                message: result.message,
+              });
+              form.setFocus(result.field as any);
+            }
+            if (result.success) {
+              ToastSuccess({ message: result.message || '' });
+            }else{
+              ToastError({ message: result.message || '' });
+            }
           })}
           className="space-y-4"
         >
           {showFirstStep && (
-            <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              viewport={{ once: true }}
+              className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative"
+            >
               <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
                 1
               </div>
@@ -131,7 +167,7 @@ const OnboardingForm = () => {
                   Start from scratch <BiEdit />
                 </Button>
               </div>
-            </div>
+            </motion.div>
           )}
           {showOnboarding && (
             <motion.div
@@ -141,9 +177,41 @@ const OnboardingForm = () => {
               viewport={{ once: true }}
               className="flex flex-col items-start justify-start"
             >
+              {!username && (
+                <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
+                  <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
+                    2
+                    <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
+                  </div>
+                  <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
+                    <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
+                      <IdCard className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Select Username
+                    </h1>
+                    <div className="w-full max-w-74">
+                      <div className="flex items-center justify-start border rounded-md">
+                        <span className="text-sm font-medium text-muted-foreground bg-secondary px-2 py-2 rounded-l-md border-muted border-r">
+                          linkfolio.page
+                        </span>
+                        <Input
+                          id="username"
+                          type="text"
+                          placeholder="username"
+                          {...form.register('username')}
+                          className="w-full text-sm rounded-none rounded-r-md bg-secondary"
+                        />
+                      </div>
+                      {form.formState.errors.username && (
+                        <p className="text-xs lg:text-sm text-destructive mt-1">
+                          {form.formState.errors.username.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
               <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
-                  2
+                  {stepStart}
                 </div>
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
@@ -154,7 +222,7 @@ const OnboardingForm = () => {
                     <div>
                       <Input
                         id="name"
-                        className="bg-secondary w-full text-sm lg:text-base"
+                        className="bg-secondary w-full text-sm"
                         type="text"
                         placeholder="Enter your name"
                         {...form.register('name')}
@@ -192,7 +260,7 @@ const OnboardingForm = () => {
               </div>
               <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
-                  3
+                  {stepStart + 1}
                 </div>
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 <div className="flex flex-col items-start justify-start px-3 py-2 gap-4 w-full">
@@ -247,7 +315,7 @@ const OnboardingForm = () => {
               </div>
               <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
-                  4
+                  {stepStart + 2}
                 </div>
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
@@ -262,7 +330,7 @@ const OnboardingForm = () => {
               </div>
               <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
-                  5
+                  {stepStart + 3}
                 </div>
                 <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
                   <h1 className="text-lg lg:text-xl font-semibold flex items-center justify-center gap-2">
@@ -355,13 +423,18 @@ const OnboardingForm = () => {
               <div className="w-full flex items-center justify-center mb-12 gap-4">
                 <SubmitButton
                   className="w-full max-w-48 lg:max-w-64 items-center justify-center text-sm lg:text-lg font-medium lg:font-semibold"
-                  pending={loading}
+                  pending={form.formState.isSubmitting}
                   loadingText="Finishing up..."
                 >
                   Finish
                   <ListChecks className="w-4 lg:w-6 h-4 lg:h-6" />
                 </SubmitButton>
-                <Button className='max-w-48 text-sm lg:text-lg font-medium lg:font-semibold' variant={'outline'}>Skip</Button>
+                <Button
+                  className="max-w-48 text-sm lg:text-lg font-medium lg:font-semibold"
+                  variant={'outline'}
+                >
+                  Skip
+                </Button>
               </div>
             </motion.div>
           )}

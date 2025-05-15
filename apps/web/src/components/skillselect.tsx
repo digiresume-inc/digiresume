@@ -20,7 +20,6 @@ type Props = {
 
 export function SkillsSelect({ value, onChange }: Props) {
   const [search, setSearch] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
 
   const filtered = allSkills.filter(
     (s) =>

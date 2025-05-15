@@ -19,6 +19,13 @@ const skillSchema = z.object({
 });
 
 export const onboardingSchema = z.object({
+  username: z
+    .string()
+    .optional()
+    .refine((val) => val === undefined || val === '' || /^[a-z0-9_.]{3,30}$/.test(val), {
+      message:
+        'Username must be 3-30 chars, lowercase letters, numbers, underscores or periods only.',
+    }),
   name: z.string().min(3, 'Name must be at least 3 characters long.'),
   country: z.string().min(2, 'Please select a country'),
   links: z.array(linkSchema).optional(),
