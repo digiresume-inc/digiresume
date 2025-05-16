@@ -6,13 +6,7 @@ import { Card, CardContent } from '@lf/ui/components/base/card';
 import { Skill } from '@lf/utils';
 import React from 'react';
 
-interface Params {
-  username: string;
-  utm_source?: string;
-  utm_location?: string;
-}
-
-export default async function UsernamePage({ params }: { params: Params }) {
+export default async function UsernamePage({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
 
   let profile;
