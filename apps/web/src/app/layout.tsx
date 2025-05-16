@@ -40,6 +40,7 @@ export default function RootLayout({
         />
         <Toaster richColors position="top-right" />
         {children}
+        
       </body>
     </html>
   );

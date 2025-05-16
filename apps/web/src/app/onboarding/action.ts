@@ -9,6 +9,8 @@ export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+
   if (data.username) {
     const { data: existingUsers, error } = await supabase
       .from('profiles')
@@ -42,6 +44,7 @@ export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
       links: newData.links,
       skills: data.skills,
       onboarding: 'completed',
+      ...(data.username && { username: data.username })
     })
     .eq('id', user?.id);
 

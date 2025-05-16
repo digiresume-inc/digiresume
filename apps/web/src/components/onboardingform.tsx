@@ -33,14 +33,12 @@ import { SubmitButton } from './submitbutton';
 import { motion } from 'motion/react';
 import { CountryCombobox } from './countryselect';
 import { onboardUser } from '@/app/onboarding/action';
+import { LoadingButton } from './loadingbutton';
 
 const OnboardingForm = ({ username }: { username: string }) => {
   const supabase = createClient();
   const [onboardingType, setOnboardingType] = useState('none');
-  const [loading, setLoading] = useState(false);
-  const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null);
-  const [usernameLoading, setUsernameLoading] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
+  const [linkedinLoading, setLinkedinLoading] = useState(false);
 
   const form = useForm<z.infer<typeof onboardingSchema>>({
     resolver: zodResolver(onboardingSchema),
@@ -90,18 +88,8 @@ const OnboardingForm = ({ username }: { username: string }) => {
     }
   };
 
-  const checkUsername = async (username: string) => {
-    if (!username) return;
-    setUsernameLoading(true);
-    const { data } = await supabase.from('profiles').select('username').eq('username', username);
-
-    setUsernameAvailable(data?.length === 0);
-    setUsernameLoading(false);
-    setIsTyping(false);
-  };
-
   const showOnboarding = onboardingType === 'scratch';
-  const showFirstStep = onboardingType === 'none';
+  const showFirstStep = onboardingType === 'none' || onboardingType === 'linkedin';
   const stepStart = username ? 2 : 3;
 
   return (
@@ -109,7 +97,12 @@ const OnboardingForm = ({ username }: { username: string }) => {
       <header className="mb-6">
         <div className="flex items-center justify-between lg:justify-start gap-4 w-full">
           <h1 className="text-2xl lg:text-4xl font-bold">Onboarding</h1>
-          <Button onClick={updateOnboardStatus} size={'sm'} variant={'outline'}>
+          <Button
+            disabled={linkedinLoading || form.formState.isSubmitting}
+            onClick={updateOnboardStatus}
+            size={'sm'}
+            variant={'outline'}
+          >
             Skip
           </Button>
         </div>
@@ -128,6 +121,14 @@ const OnboardingForm = ({ username }: { username: string }) => {
         </motion.div>
         <form
           onSubmit={form.handleSubmit(async (data) => {
+            if (!username && !data.username) {
+              form.setError('username', {
+                type: 'required',
+                message: 'username is required',
+              });
+              form.setFocus('username');
+              return;
+            }
             const result = await onboardUser(data);
             if (result?.field && !result.success) {
               form.setError(result.field as any, {
@@ -135,12 +136,10 @@ const OnboardingForm = ({ username }: { username: string }) => {
                 message: result.message,
               });
               form.setFocus(result.field as any);
+              return;
             }
-            if (result.success) {
-              ToastSuccess({ message: result.message || '' });
-            }else{
-              ToastError({ message: result.message || '' });
-            }
+
+            redirect('/dashboard');
           })}
           className="space-y-4"
         >
@@ -160,10 +159,22 @@ const OnboardingForm = ({ username }: { username: string }) => {
               )}
               <div className="flex flex-col items-start justify start px-3 py-2 gap-4">
                 <h1 className="text-lg lg:text-xl font-semibold">Select onboarding type</h1>
-                <Button onClick={() => setOnboardingType('linkedin')} className="min-w-58">
+                <LoadingButton
+                  onClick={() => {
+                    setOnboardingType('linkedin');
+                    setLinkedinLoading(true);
+                  }}
+                  pending={linkedinLoading}
+                  loadingText="Fetching..."
+                  className="min-w-58"
+                >
                   Import from Linkedin <SiLinkedin />
-                </Button>
-                <Button onClick={() => setOnboardingType('scratch')} className="min-w-58">
+                </LoadingButton>
+                <Button
+                  disabled={linkedinLoading}
+                  onClick={() => setOnboardingType('scratch')}
+                  className="min-w-58"
+                >
                   Start from scratch <BiEdit />
                 </Button>
               </div>
@@ -420,21 +431,15 @@ const OnboardingForm = ({ username }: { username: string }) => {
                   </Button>
                 </div>
               </div>
-              <div className="w-full flex items-center justify-center mb-12 gap-4">
+              <div className="w-full max-w-md flex mb-15">
                 <SubmitButton
-                  className="w-full max-w-48 lg:max-w-64 items-center justify-center text-sm lg:text-lg font-medium lg:font-semibold"
+                  className="ml-auto w-full max-w-[85%] items-center justify-center text-sm lg:text-lg font-medium lg:font-semibold"
                   pending={form.formState.isSubmitting}
                   loadingText="Finishing up..."
                 >
                   Finish
                   <ListChecks className="w-4 lg:w-6 h-4 lg:h-6" />
                 </SubmitButton>
-                <Button
-                  className="max-w-48 text-sm lg:text-lg font-medium lg:font-semibold"
-                  variant={'outline'}
-                >
-                  Skip
-                </Button>
               </div>
             </motion.div>
           )}
