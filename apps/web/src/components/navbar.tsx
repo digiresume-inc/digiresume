@@ -1,6 +1,6 @@
 'use client';
 import { User } from '@supabase/supabase-js';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   NavigationMenu,
@@ -12,13 +12,12 @@ import {
   navigationMenuTriggerStyle,
 } from '@lf/ui/components/base/navigation-menu';
 import { Button } from '@lf/ui/components/base/button';
-import { Input } from '@lf/ui/components/base/input';
-import { Label } from '@lf/ui/components/base/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@lf/ui/components/base/popover';
 import { Avatar, AvatarFallback, AvatarImage } from '@lf/ui/components/base/avatar';
 import { LogOut, Menu } from 'lucide-react';
 import { cn } from '@lf/ui/lib/utils';
 import LogoutConfirmation from '@/modals/logoutconfiramtion';
+import SlideInNavbar from './mobilenavbar';
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -59,49 +58,30 @@ const components: { title: string; href: string; description: string }[] = [
 
 const Navbar = ({ user }: { user: User | null }) => {
   const [logoutModal, setLogoutModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (isOpen || logoutModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, logoutModal]);
+
   return (
     <>
       <LogoutConfirmation modal={logoutModal} setModal={setLogoutModal} />
+      <SlideInNavbar isOpen={isOpen} setIsOpen={setIsOpen} />
       <header className="fixed top-0 left-0 z-[900] w-full pt-5 px-5 lg:px-0">
         <div className="max-w-5xl w-full relative mx-auto flex items-center justify-between rounded-full bg-secondary/10 p-2 lg:p-3 pl-5 bg-clip-padding backdrop-filter backdrop-blur-sm border">
           <div className="block lg:hidden">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button size={'icon'} variant="ghost">
-                  <Menu />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-80 z-[1000] ml-4 mt-4 relative">
-                <div className="absolute z-0 -top-2 left-[13%] lg:left-[23%] -translate-x-1/2 w-4 h-4 rotate-45 border-t border-l bg-popover" />
-                <div className="grid gap-4">
-                  <div className="space-y-2">
-                    <h4 className="font-medium leading-none">Dimensions</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Set the dimensions for the layer.
-                    </p>
-                  </div>
-                  <div className="grid gap-2">
-                    <div className="grid grid-cols-3 items-center gap-4">
-                      <Label htmlFor="width">Width</Label>
-                      <Input id="width" defaultValue="100%" className="col-span-2 h-8" />
-                    </div>
-                    <div className="grid grid-cols-3 items-center gap-4">
-                      <Label htmlFor="maxWidth">Max. width</Label>
-                      <Input id="maxWidth" defaultValue="300px" className="col-span-2 h-8" />
-                    </div>
-                    <div className="grid grid-cols-3 items-center gap-4">
-                      <Label htmlFor="height">Height</Label>
-                      <Input id="height" defaultValue="25px" className="col-span-2 h-8" />
-                    </div>
-                    <div className="grid grid-cols-3 items-center gap-4">
-                      <Label htmlFor="maxHeight">Max. height</Label>
-                      <Input id="maxHeight" defaultValue="none" className="col-span-2 h-8" />
-                    </div>
-                  </div>
-                </div>
-              </PopoverContent>
-            </Popover>
+            <Button onClick={() => setIsOpen(true)} size={'icon'} variant="ghost">
+              <Menu />
+            </Button>
           </div>
           <div className="flex items-center justify-center gap-2">
             <div className="w-4 lg:w-6 h-4 lg:h-6 bg-primary rounded-md"></div>
@@ -165,7 +145,7 @@ const Navbar = ({ user }: { user: User | null }) => {
             <Popover open={menuOpen} onOpenChange={setMenuOpen}>
               <PopoverTrigger asChild>
                 <Avatar className="cursor-pointer">
-                  <AvatarImage referrerPolicy='no-referrer' src={user?.user_metadata.avatar_url} />
+                  <AvatarImage referrerPolicy="no-referrer" src={user?.user_metadata.avatar_url} />
                   <AvatarFallback>LF</AvatarFallback>
                 </Avatar>
               </PopoverTrigger>
