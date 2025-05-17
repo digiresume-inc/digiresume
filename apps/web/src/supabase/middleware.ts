@@ -1,6 +1,6 @@
-import { createServerClient } from "@supabase/ssr";
-import { NextResponse, type NextRequest } from "next/server";
-import { guestRoutes, authRoutes } from "@/lib/utils/routes";
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse, type NextRequest } from 'next/server';
+import { guestRoutes, authRoutes } from '@/lib/utils/routes';
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -16,9 +16,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            request.cookies.set(name, value)
-          );
+          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value));
           supabaseResponse = NextResponse.next({
             request,
           });
@@ -39,17 +37,22 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const url = request.nextUrl.clone();
-    const pathname = url.pathname;
+  const pathname = url.pathname;
 
   if (!user && authRoutes.includes(pathname)) {
     // Not logged in and trying to access protected page
-    url.pathname = "/signin";
+    url.pathname = '/signin';
     return NextResponse.redirect(url);
   }
 
-  if (user && !authRoutes.includes(pathname) && pathname === "/signin") {
+  if (user && !authRoutes.includes(pathname) && pathname === '/signin') {
     // Logged in user trying to access /signin
-    url.pathname = "/dashboard";
+    url.pathname = '/dashboard/home';
+    return NextResponse.redirect(url);
+  }
+
+  if (user && pathname === '/dashboard') {
+    url.pathname = '/dashboard/home';
     return NextResponse.redirect(url);
   }
 

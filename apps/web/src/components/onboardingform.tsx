@@ -3,7 +3,7 @@ import { ToastError, ToastSuccess } from '@/components/toast';
 import { createClient } from '@/supabase/client';
 import { Button } from '@lf/ui/components/base/button';
 import { Input } from '@lf/ui/components/base/input';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import {
   Check,
@@ -37,6 +37,7 @@ import { LoadingButton } from './loadingbutton';
 
 const OnboardingForm = ({ username }: { username: string }) => {
   const supabase = createClient();
+  const router = useRouter();
   const [onboardingType, setOnboardingType] = useState('none');
   const [linkedinLoading, setLinkedinLoading] = useState(false);
 
@@ -84,7 +85,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
       .eq('id', user?.id);
     if (!error) {
       ToastSuccess({ message: 'Onboarding skipped' });
-      redirect('/');
+      router.push('/dashboard/home');
     }
   };
 
@@ -139,7 +140,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
               return;
             }
 
-            redirect('/dashboard');
+            router.push('/dashboard/home');
           })}
           className="space-y-4"
         >

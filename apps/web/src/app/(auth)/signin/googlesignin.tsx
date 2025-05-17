@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { createClient } from '@/supabase/client';
 import { LoadingButton } from '@/components/loadingbutton';
 
-export default function GoogleSignin({ text }: { text: string }) {
+export default function GoogleSignin() {
   const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
   const supabase = createClient();
   const searchParams = useSearchParams();

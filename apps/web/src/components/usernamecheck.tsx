@@ -70,7 +70,7 @@ const UsernameCheck = () => {
           className={`border group/home-input aria-disabled:opacity-50 bg-primary aria-disabled:hover:bg-lightaccent-bg dark:aria-disabled:hover:bg-accent-bg aria-disabled:hover:border-lightaccent-border dark:aria-disabled:hover:border-accent-border hover:bg-lightaccent-selection dark:hover:bg-accent-selection hover:border-lightaccent-strongerborder dark:hover:border-accent-strongerborder border-lightaccent-border  dark:border-accent-border rounded-full p-2 lg:p-3 transition-all ease-out duration-200`}
           href={
             usernameAvailable && usernameCheck && !usernameLoading
-              ? `/register?username=${usernameCheck}`
+              ? `/signin?username=${usernameCheck}`
               : undefined
           }
           aria-disabled={!usernameCheck || !usernameAvailable}

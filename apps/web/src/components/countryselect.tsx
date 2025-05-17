@@ -117,7 +117,7 @@ const CountryList = ({
           width: '100%',
           overflow: 'auto',
         }}
-        className='no_scrollbar scrollbar-hidden'
+        className="no_scrollbar scrollbar-hidden"
         onMouseDown={() => setIsKeyboardNavActive(false)}
         onMouseMove={() => setIsKeyboardNavActive(false)}
       >
@@ -159,6 +159,10 @@ const CountryList = ({
                   )}
                 />
                 {filteredOptions[virtualOption.index]?.label}
+                <img
+                  className="w-4"
+                  src={`https://flagsapi.com/${filteredOptions[virtualOption.index]?.label.split('-')[1]}/flat/64.png`}
+                />
               </CommandItem>
             ))}
           </div>

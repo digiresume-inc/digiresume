@@ -20,7 +20,7 @@ import { SubmitButton } from '@/components/submitbutton';
 import GoogleSignin from './googlesignin';
 import { ToastError, ToastSuccess } from '@/components/toast';
 
-const LoginForm = () => {
+const LoginForm = ({ username }: { username: string | string[] }) => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -59,7 +59,7 @@ const LoginForm = () => {
         </div>
       </CardHeader>
       <CardContent>
-        <GoogleSignin text="in" />
+        <GoogleSignin />
 
         <div className="flex items-center space-x-2 mt-4 mb-4">
           <hr className="flex-grow border-t border-lightsecondary-border dark:border-secondary-border" />
