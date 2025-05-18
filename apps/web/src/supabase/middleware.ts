@@ -47,12 +47,7 @@ export async function updateSession(request: NextRequest) {
 
   if (user && !authRoutes.includes(pathname) && pathname === '/signin') {
     // Logged in user trying to access /signin
-    url.pathname = '/dashboard/home';
-    return NextResponse.redirect(url);
-  }
-
-  if (user && pathname === '/dashboard') {
-    url.pathname = '/dashboard/home';
+    url.pathname = '/dashboard';
     return NextResponse.redirect(url);
   }
 
