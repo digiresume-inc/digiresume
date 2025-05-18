@@ -17,5 +17,8 @@
   "engines": {
     "pnpm": ">=9",
     "node": ">=22"
+  },
+  "dependencies": {
+    "styled-jsx": "^5.1.7"
   }
 }
