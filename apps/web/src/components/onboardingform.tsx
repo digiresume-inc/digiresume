@@ -257,6 +257,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                               value={field.value}
                               onChange={field.onChange}
                               ref={field.ref}
+                              className='bg-secondary max-w-74'
                             />
                             {form.formState.errors.country && (
                               <p className="text-xs text-destructive mt-1">

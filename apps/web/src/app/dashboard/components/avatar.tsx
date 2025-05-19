@@ -1,15 +1,145 @@
 'use client';
-import { ImagePlus } from 'lucide-react';
-import React from 'react';
+import { ToastError, ToastSuccess } from '@/components/toast';
+import { createClient } from '@/supabase/client';
+import { Button } from '@lf/ui/components/base/button';
+import React, { useState } from 'react';
+import { Pencil, ImagePlus, Loader2 } from 'lucide-react';
 
-const AvatarComponent = () => {
+const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
+  const supabase = createClient();
+  const [avatarUrl, setAvatarUrl] = useState(avatar_url);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleFile = async (file: File) => {
+    if (file.size > 2 * 1024 * 1024) {
+      ToastError({ message: 'File size exceeds 2MB limit.' });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (avatar_url) {
+        const oldFilePath = avatar_url.split(
+          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/userimages/`
+        )[1];
+
+        if (oldFilePath) {
+          await supabase.storage.from('userimages').remove([`${oldFilePath}`]);
+        }
+      }
+
+      const fileExt = file.name.split('.').pop();
+      const filePath = `${Date.now()}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('userimages')
+        .upload(filePath, file);
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage.from('userimages').getPublicUrl(filePath);
+
+      await supabase
+        .from('profiles')
+        .update({
+          avatar_url: data.publicUrl,
+        })
+        .eq('id', user?.id);
+
+      setAvatarUrl(data.publicUrl);
+      ToastSuccess({ message: 'Image uploaded.' });
+    } catch (error) {
+      ToastError({ message: 'An unexpected error occurred.' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      handleFile(event.target.files[0]);
+    }
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(false);
+    const file = event.dataTransfer.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      handleFile(file);
+    } else {
+      ToastError({ message: 'Invalid file type. Please upload an image.' });
+    }
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
   return (
     <div className="col-span-2 lg:col-span-1 aspect-square rounded-2xl flex flex-col items-center justify-start p-6 bg-secondary shadow-md border border-border">
       <h3 className="text-base lg:text-lg font-semibold text-foreground mb-3">Your Avatar</h3>
 
-      <div className="cursor-pointer hover:opacity-80 transition-opacity opacity-60 w-24 aspect-square bg-muted rounded-lg border-2 border-dashed border-foreground/30 flex items-center justify-center">
-        <ImagePlus className="w-6 h-6 text-foreground/60" />
-      </div>
+      {isLoading ? (
+        <div
+          className={`transition-all w-24 aspect-square rounded-lg border-2 flex items-center justify-center border-dashed border-foreground/30 bg-muted opacity-80`}
+        >
+          <Loader2 className="w-6 h-6 text-foreground/60 animate-spin" />
+        </div>
+      ) : avatarUrl ? (
+        <div className="relative">
+          <img
+            src={avatarUrl}
+            alt="Avatar"
+            className="w-24 h-24 rounded-lg object-cover border-2 border-muted/30"
+          />
+          <Button
+            onClick={() => {
+              if (!isLoading) document.getElementById('fileInput')?.click();
+            }}
+            disabled={isLoading}
+            size="icon"
+            className="absolute top-[-10px] right-[-10px] z-10 rounded-full"
+          >
+            <Pencil />
+          </Button>
+        </div>
+      ) : (
+        <div
+          onClick={() => document.getElementById('fileInput')?.click()}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          aria-disabled={isLoading}
+          role="button"
+          tabIndex={0}
+          className={`cursor-pointer transition-all w-24 aspect-square rounded-lg border-2 flex items-center justify-center ${
+            isDragging
+              ? 'border-primary/80 bg-primary/60 opacity-100'
+              : 'border-dashed border-foreground/30 bg-muted opacity-60 hover:opacity-80'
+          }`}
+        >
+          <ImagePlus className="w-6 h-6 text-foreground/60" />
+        </div>
+      )}
+
+      <input
+        type="file"
+        name="picture"
+        id="fileInput"
+        onChange={handleFileChange}
+        accept="image/*"
+        className="hidden"
+      />
       <p className="text-xs text-muted-foreground mt-3 text-center">Max size: 2MB</p>
       <p className="text-xs text-muted-foreground mt-1 text-center">Accepted: jpg, png, jpeg</p>
     </div>

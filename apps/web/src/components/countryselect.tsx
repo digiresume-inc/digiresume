@@ -178,6 +178,7 @@ interface CountryComboboxProps {
   width?: string;
   height?: string;
   value?: string;
+  className?: string;
   onChange?: (value: string) => void;
 }
 
@@ -185,30 +186,40 @@ export const CountryCombobox = React.forwardRef<HTMLButtonElement, CountryCombob
   function CountryCombobox(
     {
       options,
-      searchPlaceholder = 'Search country',
+      searchPlaceholder = 'Choose country',
       width = '400px',
       height = '400px',
       value,
       onChange,
+      className,
     },
     ref
   ) {
     const [open, setOpen] = React.useState(false);
     const selectedOption = value ?? '';
+    const countryCode = selectedOption.split('-')[1];
 
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
-            ref={ref} // ← important
+            ref={ref}
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="justify-between w-full max-w-74 bg-secondary font-light text-sm"
+            className={`justify-between w-full ${className} font-light text-sm`}
           >
-            {selectedOption
-              ? options.find((option) => option === selectedOption)
-              : searchPlaceholder}
+            {selectedOption ? (
+              <span className='flex items-center gap-2'>
+                {options.find((option) => option === selectedOption)}
+                <img
+                  className="w-4"
+                  src={`https://flagsapi.com/${countryCode}/flat/64.png`}
+                />
+              </span>
+            ) : (
+              searchPlaceholder
+            )}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
