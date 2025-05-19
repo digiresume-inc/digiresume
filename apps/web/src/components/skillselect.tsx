@@ -16,9 +16,11 @@ import { X } from 'lucide-react';
 type Props = {
   value: Skill[];
   onChange: (skills: Skill[]) => void;
+  className?: string;
+  largeBadge?: boolean;
 };
 
-export function SkillsSelect({ value, onChange }: Props) {
+export function SkillsSelect({ value, onChange, className, largeBadge }: Props) {
   const [search, setSearch] = useState('');
 
   const filtered = allSkills.filter(
@@ -31,18 +33,26 @@ export function SkillsSelect({ value, onChange }: Props) {
   const removeSkill = (s: Skill) => onChange(value.filter((v) => v.value !== s.value));
 
   return (
-    <div className="space-y-2 w-full max-w-84">
+    <div className={`space-y-2 w-full ${className}`}>
       <div className="flex flex-wrap gap-2">
         {value.map((skill) => (
-          <Badge key={skill.value} variant="secondary" className="flex items-center gap-1 rounded-full">
-            <img src={skill.logo} alt={skill.label} className="h-3 w-3" />
+          <Badge
+            key={skill.value}
+            variant="secondary"
+            className={`flex items-center gap-1 rounded-full ${largeBadge && 'px-2 py-1'}`}
+          >
+            <img
+              src={skill.logo}
+              alt={skill.label}
+              className={`${largeBadge ? 'h-4 w-4' : 'h-3 w-3'}`}
+            />
             {skill.label}
             <button
               type="button"
               onClick={() => removeSkill(skill)}
-              className="ml-1 h-3 w-3 flex items-center justify-center hover:opacity-70"
+              className={`ml-1 ${largeBadge ? 'h-4 w-4' : 'h-3 w-3'} flex items-center justify-center hover:opacity-70`}
             >
-              <X className="h-3 w-3" />
+              <X className={`${largeBadge ? 'h-4 w-4' : 'h-3 w-3'}`} />
             </button>
           </Badge>
         ))}

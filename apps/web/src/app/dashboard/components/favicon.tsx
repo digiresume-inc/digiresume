@@ -93,7 +93,7 @@ const FaviconUploader = ({ favicon_url }: { favicon_url: string }) => {
   };
 
   return (
-    <div className="col-span-2 lg:col-span-1 aspect-square rounded-2xl flex flex-col items-center justify-start p-6 bg-secondary shadow-md border border-border">
+    <div className="col-span-2 md:col-span-1 aspect-square rounded-2xl flex flex-col items-center justify-start p-6 bg-secondary shadow-md border border-border">
       <h3 className="text-base lg:text-lg font-semibold text-foreground mb-3">Your Favicon</h3>
 
       {isLoading ? (
@@ -105,7 +105,7 @@ const FaviconUploader = ({ favicon_url }: { favicon_url: string }) => {
           <img
             src={faviconUrl}
             alt="Favicon"
-            className="w-24 h-24 rounded-lg object-contain border-2 border-muted/30 bg-white"
+            className="w-24 h-24 rounded-full object-contain border-2 border-muted/30 bg-white"
           />
           <Button
             onClick={() => {
@@ -113,7 +113,7 @@ const FaviconUploader = ({ favicon_url }: { favicon_url: string }) => {
             }}
             disabled={isLoading}
             size="icon"
-            className="absolute top-[-10px] right-[-10px] z-10 rounded-full"
+            className="absolute top-[-2px] right-[-2px] z-10 rounded-full"
           >
             <Pencil />
           </Button>

@@ -338,6 +338,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                   <SkillsSelect
                     value={form.watch('skills') ?? []}
                     onChange={(v) => form.setValue('skills', v)}
+                    className='max-w-84'
                   />
                 </div>
               </div>

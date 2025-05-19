@@ -64,7 +64,7 @@ export const countries = [
     "Grenada-GD",
     "Guatemala-GT",
     "Guinea-GN",
-    "Guinea-Bissau-GW",
+    "Guinea Bissau-GW",
     "Guyana-GY",
     "Haiti-HT",
     "Honduras-HN",
