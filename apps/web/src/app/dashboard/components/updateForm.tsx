@@ -45,8 +45,10 @@ const UpdateForm = ({ profile }: { profile: any }) => {
       country: '',
       skills: [] as Skill[],
       headline: '',
-      profile_link: '',
-      profile_link_text: '',
+      profile_link: {
+        url: '',
+        text: '',
+      },
     },
   });
 
@@ -59,8 +61,10 @@ const UpdateForm = ({ profile }: { profile: any }) => {
         country: profile.country || '',
         skills: profile.skills || [],
         headline: profile.headline || '',
-        profile_link_text: profile.profile_link.text || '',
-        profile_link: profile.profile_link.url || '',
+        profile_link: {
+          url: profile.profile_link?.url || '',
+          text: profile.profile_link?.text || '',
+        },
       });
     }
   }, [profile, form]);
@@ -71,11 +75,10 @@ const UpdateForm = ({ profile }: { profile: any }) => {
   } = form;
 
   const profileLink = form.watch('profile_link');
-  const profileLinkText = form.watch('profile_link_text');
   const headline = form.watch('headline');
 
   return (
-    <div className="relative flex flex-col lg:flex-row min-h-screen w-full max-w-7xl mx-auto gap-4">
+    <div className="relative flex flex-col lg:flex-row h-screen w-full max-w-7xl mx-auto gap-4">
       {/* Left: Scrollable Content */}
       <div className="lg:w-[60%] w-full h-screen overflow-y-auto px-4 py-6 no_scrollbar scrollbar-hidden">
         <div className="w-full grid grid-cols-4 md:grid-cols-3 items-center justify-center gap-4">
@@ -106,7 +109,7 @@ const UpdateForm = ({ profile }: { profile: any }) => {
                     placeholder="Username"
                     autoComplete="off"
                     {...form.register('username')}
-                    className="focus:ring-0 focus-visible:ring-0 focus-visible:border-accent focus:oultine-none cursor-not-allowed pl-9 py-2"
+                    className="focus:ring-0 focus-visible:ring-0 focus-visible:border-accent focus:oultine-none cursor-not-allowed pl-9 py-2 text-sm lg:text-base"
                     readOnly
                   />
                 </div>
@@ -125,7 +128,7 @@ const UpdateForm = ({ profile }: { profile: any }) => {
                     placeholder="Email address"
                     autoComplete="off"
                     {...form.register('email')}
-                    className="focus:ring-0 focus-visible:ring-0 focus-visible:border-accent focus:oultine-none cursor-not-allowed pl-9 py-2"
+                    className="focus:ring-0 focus-visible:ring-0 focus-visible:border-accent focus:oultine-none cursor-not-allowed pl-9 py-2 text-sm lg:text-base"
                     readOnly
                   />
                 </div>
@@ -144,7 +147,7 @@ const UpdateForm = ({ profile }: { profile: any }) => {
                     placeholder="Full name"
                     autoComplete="off"
                     {...form.register('full_name')}
-                    className="pl-9 py-2"
+                    className="pl-9 py-2 text-sm lg:text-base"
                   />
                 </div>
               </div>
@@ -218,7 +221,7 @@ const UpdateForm = ({ profile }: { profile: any }) => {
                   id="headline"
                   rows={2}
                   placeholder="Headline..."
-                  className="col-span-1 lg:col-span-2"
+                  className="col-span-1 lg:col-span-2 text-sm lg:text-base"
                   {...form.register('headline')}
                 />
               </div>
@@ -233,10 +236,10 @@ const UpdateForm = ({ profile }: { profile: any }) => {
                   <Input
                     id="profile_link_text"
                     type="text"
-                    placeholder="My profile | My Webiste | My Portfolio"
+                    placeholder="My profile | My Webiste"
                     autoComplete="off"
-                    {...form.register('profile_link_text')}
-                    className="pl-9 py-2"
+                    {...form.register('profile_link.text')}
+                    className="pl-9 py-2 text-sm lg:text-base"
                   />
                 </div>
               </div>
@@ -253,8 +256,8 @@ const UpdateForm = ({ profile }: { profile: any }) => {
                     type="text"
                     placeholder="https://mywebsite.com"
                     autoComplete="off"
-                    {...form.register('profile_link')}
-                    className="pl-9 py-2"
+                    {...form.register('profile_link.url')}
+                    className="pl-9 py-2 text-sm lg:text-base"
                   />
                 </div>
               </div>
@@ -274,7 +277,6 @@ const UpdateForm = ({ profile }: { profile: any }) => {
             </Button>
           </div>
         </form>
-        {/* Mobile: Toggle overlay button */}
         <div className="lg:hidden mt-6">
           <button
             onClick={() => setShowOverlay(true)}
@@ -365,14 +367,14 @@ const UpdateForm = ({ profile }: { profile: any }) => {
                       Resume
                     </a>
                   )}
-                  {profileLink && profileLinkText && (
+                  {profileLink.url && profileLink.text && (
                     <a
                       target="_blank"
-                      href={profileLink}
+                      href={profileLink.url}
                       className="flex items-center justify-center gap-0.5 underline underline-offset-1"
                     >
                       <Link2 className="w-[12px] h-[12px]" />
-                      {profileLinkText}
+                      {profileLink.text}
                     </a>
                   )}
                 </div>
@@ -388,38 +390,6 @@ const UpdateForm = ({ profile }: { profile: any }) => {
                   ))}
                 </div>
 
-                <h1 className="text-xl font-bold">Welcome to Example</h1>
-                <p className="text-sm">
-                  This is a sample iPhone browser mockup. You can place your app preview or webpage
-                  here!
-                </p>
-                <button className="px-4 py-2 text-sm bg-primary text-white rounded">
-                  Learn More
-                </button>
-                <h1 className="text-xl font-bold">Welcome to Example</h1>
-                <p className="text-sm">
-                  This is a sample iPhone browser mockup. You can place your app preview or webpage
-                  here!
-                </p>
-                <button className="px-4 py-2 text-sm bg-primary text-white rounded">
-                  Learn More
-                </button>
-                <h1 className="text-xl font-bold">Welcome to Example</h1>
-                <p className="text-sm">
-                  This is a sample iPhone browser mockup. You can place your app preview or webpage
-                  here!
-                </p>
-                <button className="px-4 py-2 text-sm bg-primary text-white rounded">
-                  Learn More
-                </button>
-                <h1 className="text-xl font-bold">Welcome to Example</h1>
-                <p className="text-sm">
-                  This is a sample iPhone browser mockup. You can place your app preview or webpage
-                  here!
-                </p>
-                <button className="px-4 py-2 text-sm bg-primary text-white rounded">
-                  Learn More
-                </button>
               </div>
             </div>
           </div>
