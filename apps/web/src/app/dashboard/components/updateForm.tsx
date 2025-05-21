@@ -1,21 +1,18 @@
 'use client';
 import { Button } from '@lf/ui/components/base/button';
-import { countries, Skill } from '@lf/utils';
+import { countries, profileUpdateSchema, Skill } from '@lf/utils';
 import {
   X,
   BatteryLow,
   SignalMedium,
   ExternalLink,
-  FileUser,
   Loader2,
-  Cross,
   MapPin,
   User,
   IdCard,
   Mail,
   File,
   Save,
-  Text,
   Type,
   Link2,
 } from 'lucide-react';
@@ -31,17 +28,22 @@ import { BiRupee } from 'react-icons/bi';
 import { Textarea } from '@lf/ui/components/base/textarea';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
 import { SkillsSelect } from '@/components/skillselect';
+import { updateProfile } from '../actions/updateProfile';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ToastSuccess } from '@/components/toast';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
+import { Card } from '@lf/ui/components/base/card';
 
 const UpdateForm = ({ profile }: { profile: any }) => {
   const [preview, setPreview] = useState(false);
-  const [fetchLoading, setFetchLoading] = useState(false);
+  const [fetchLoading, setFetchLoading] = useState(true);
   const [showOverlay, setShowOverlay] = useState(false);
 
-  const form = useForm({
+  const form = useForm<z.infer<typeof profileUpdateSchema>>({
+    resolver: zodResolver(profileUpdateSchema),
     defaultValues: {
       full_name: '',
-      username: '',
-      email: '',
       country: '',
       skills: [] as Skill[],
       headline: '',
@@ -56,8 +58,6 @@ const UpdateForm = ({ profile }: { profile: any }) => {
     if (profile) {
       form.reset({
         full_name: profile.full_name || '',
-        username: profile.username || '',
-        email: profile.email || '',
         country: profile.country || '',
         skills: profile.skills || [],
         headline: profile.headline || '',
@@ -66,226 +66,337 @@ const UpdateForm = ({ profile }: { profile: any }) => {
           text: profile.profile_link?.text || '',
         },
       });
+      setFetchLoading(false);
     }
   }, [profile, form]);
 
   const {
     control,
-    formState: { isDirty },
+    formState: { isDirty, isSubmitting },
   } = form;
 
   const profileLink = form.watch('profile_link');
   const headline = form.watch('headline');
+  const full_name = form.watch('full_name');
+  const country = form.watch('country');
+  const experience = [
+    {
+      year: '2024 – Present',
+      role: 'Frontend Developer',
+      company: 'Dub.co',
+      description:
+        'Worked on fixing UI bugs, link redirects, and improving overall UX for link management.',
+    },
+    {
+      year: '2023 – 2024',
+      role: 'Full Stack Intern',
+      company: 'Outlier AI',
+      description:
+        'Built internal tools using Next.js and Supabase, collaborated closely with design and ML teams.',
+    },
+    {
+      year: '2022 – 2023',
+      role: 'Open Source Contributor',
+      company: 'Various Projects',
+      description:
+        'Contributed to DevTools and open source communities like React Query and ShadCN.',
+    },
+  ];
 
   return (
     <div className="relative flex flex-col lg:flex-row h-screen w-full max-w-7xl mx-auto gap-4">
       {/* Left: Scrollable Content */}
-      <div className="lg:w-[60%] w-full h-screen overflow-y-auto px-4 py-6 no_scrollbar scrollbar-hidden">
-        <div className="w-full grid grid-cols-4 md:grid-cols-3 items-center justify-center gap-4">
-          <AvatarComponent avatar_url={profile.avatar_url} />
-          <FaviconComponent favicon_url={profile.favicon_url} />
-          <ResumeComponent resume_url={profile.resume_url} />
+      {fetchLoading ? (
+        <div className="lg:w-[60%] w-full h-screen overflow-y-auto px-4 py-6 no_scrollbar scrollbar-hidden">
+          <div className="flex items-center justify-center h-full">
+            <Loader2 className="animate-spin text-primary" size={32} />
+          </div>
         </div>
-        <form
-          onSubmit={form.handleSubmit((data) => {
-            console.log('Form submitted:', data);
-          })}
-          className="w-full"
-        >
-          <div className="flex flex-col items-start justify-center border p-3 lg:p-4 rounded-lg w-full mt-12">
-            <p className="text-lg font-semibold mb-4">Profile</p>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-              <div className="col-span-1">
-                <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
-                  Username
-                </label>
-                <div className="relative">
-                  <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
-                    <IdCard strokeWidth={1} size={20} className="text-xl" />
-                  </span>
-                  <Input
-                    id="username"
-                    type="text"
-                    placeholder="Username"
-                    autoComplete="off"
-                    {...form.register('username')}
-                    className="focus:ring-0 focus-visible:ring-0 focus-visible:border-accent focus:oultine-none cursor-not-allowed pl-9 py-2 text-sm lg:text-base"
-                    readOnly
-                  />
-                </div>
-              </div>
-              <div className="col-span-1">
-                <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
-                  Email
-                </label>
-                <div className="relative">
-                  <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
-                    <Mail strokeWidth={1} size={20} className="text-xl" />
-                  </span>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Email address"
-                    autoComplete="off"
-                    {...form.register('email')}
-                    className="focus:ring-0 focus-visible:ring-0 focus-visible:border-accent focus:oultine-none cursor-not-allowed pl-9 py-2 text-sm lg:text-base"
-                    readOnly
-                  />
-                </div>
-              </div>
-              <div className="col-span-1">
-                <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
-                  Full Name
-                </label>
-                <div className="relative">
-                  <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
-                    <User strokeWidth={1} size={20} className="text-xl" />
-                  </span>
-                  <Input
-                    id="full_name"
-                    type="text"
-                    placeholder="Full name"
-                    autoComplete="off"
-                    {...form.register('full_name')}
-                    className="pl-9 py-2 text-sm lg:text-base"
-                  />
-                </div>
-              </div>
-              <div className="col-span-1">
-                <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
-                  Country
-                </label>
-                <Controller
-                  name="country"
-                  control={control}
-                  rules={{ required: 'Country is required' }}
-                  render={({ field }) => (
-                    <div>
-                      <CountryCombobox
-                        options={countries}
-                        value={field.value}
-                        onChange={field.onChange}
-                        ref={field.ref}
-                        className="bg-background"
+      ) : (
+        <div className="lg:w-[60%] w-full h-screen overflow-y-auto px-4 py-6 no_scrollbar scrollbar-hidden">
+          <div className="w-full grid grid-cols-4 md:grid-cols-3 items-center justify-center gap-4">
+            <AvatarComponent avatar_url={profile.avatar_url} />
+            <FaviconComponent favicon_url={profile.favicon_url} />
+            <ResumeComponent resume_url={profile.resume_url} />
+          </div>
+          <Tabs defaultValue="profile" className="w-full mt-12">
+            <TabsList className="flex w-full overflow-x-auto">
+              <TabsTrigger value="profile">Profile</TabsTrigger>
+              <TabsTrigger value="experience">Experience</TabsTrigger>
+              <TabsTrigger value="startups">Startups</TabsTrigger>
+              <TabsTrigger value="projects">Projects</TabsTrigger>
+              <TabsTrigger value="links">Links</TabsTrigger>
+            </TabsList>
+            <TabsContent value="profile">
+              <form
+                onSubmit={form.handleSubmit(async (data) => {
+                  const dirtyFields = form.formState.dirtyFields;
+                  const changedData: Partial<typeof data> = {};
+
+                  // Recursive function to extract changed fields only
+                  const extractDirty = (dirty: any, current: any, target: any) => {
+                    for (const key in dirty) {
+                      if (typeof dirty[key] === 'object' && !Array.isArray(dirty[key])) {
+                        target[key] = {};
+                        extractDirty(dirty[key], current[key], target[key]);
+                      } else {
+                        target[key] = current[key];
+                      }
+                    }
+                  };
+
+                  extractDirty(dirtyFields, data, changedData);
+                  console.log('changedData', changedData);
+                  const result = await updateProfile(data);
+                  ToastSuccess({ message: result.message });
+                })}
+                className="w-full"
+              >
+                <div className="flex flex-col items-start justify-center border p-3 lg:p-4 rounded-lg w-full mt-4">
+                  <p className="text-lg font-semibold mb-4">Profile</p>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+                    <div className="col-span-1">
+                      <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+                        Username
+                      </label>
+                      <div className="relative">
+                        <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                          <IdCard strokeWidth={1} size={18} />
+                        </span>
+                        <Input
+                          id="username"
+                          type="text"
+                          placeholder="Username"
+                          autoComplete="off"
+                          value={profile.username}
+                          className="focus:ring-0 focus-visible:ring-0 focus-visible:border-accent focus:oultine-none cursor-not-allowed pl-9 py-2 text-sm"
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <div className="col-span-1">
+                      <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+                        Email
+                      </label>
+                      <div className="relative">
+                        <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                          <Mail strokeWidth={1} size={18} />
+                        </span>
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="Email address"
+                          autoComplete="off"
+                          value={profile.email}
+                          className="focus:ring-0 focus-visible:ring-0 focus-visible:border-accent focus:oultine-none cursor-not-allowed pl-9 py-2 text-sm"
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                    <div className="col-span-1">
+                      <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+                        Full Name
+                      </label>
+                      <div className="relative">
+                        <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                          <User strokeWidth={1} size={18} />
+                        </span>
+                        <Input
+                          id="full_name"
+                          type="text"
+                          placeholder="Full name"
+                          autoComplete="off"
+                          {...form.register('full_name')}
+                          className="pl-9 py-2 text-sm"
+                        />
+                      </div>
+                      {form.formState.errors.full_name && (
+                        <p className="text-xs lg:text-sm text-destructive mt-1">
+                          {form.formState.errors.full_name.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="col-span-1">
+                      <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+                        Country
+                      </label>
+                      <Controller
+                        name="country"
+                        control={control}
+                        rules={{ required: 'Country is required' }}
+                        render={({ field }) => (
+                          <div>
+                            <CountryCombobox
+                              options={countries}
+                              value={field.value}
+                              onChange={field.onChange}
+                              ref={field.ref}
+                              className="bg-background"
+                            />
+                          </div>
+                        )}
                       />
                     </div>
-                  )}
-                />
-              </div>
-              <div className="col-span-1 lg:col-span-2">
-                <div className="flex items-center justify-start">
-                  <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
-                    Headline
-                  </label>
-                  <HoverCard openDelay={250}>
-                    <HoverCardTrigger className="text-xs font-medium text-lightprimary-text dark:text-primary-text cursor-pointer">
-                      <button className="underline cursor-pointer text-card-foreground/80">
-                        (*Markdown Guide*)
-                      </button>
-                    </HoverCardTrigger>
-                    <HoverCardContent className="bg-secondary border rounded-md z-50">
-                      <div className="flex flex-col p-2">
-                        <p className="text-sm font-semibold text-lightprimary-text/80 dark:text-primary-text/80">
-                          Markdown guide
-                        </p>
-                        <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80 mt-2">
-                          <span className="text-lightaccent-text dark:text-accent-text">
-                            **text**
-                          </span>{' '}
-                          → <span className="font-bold">text</span>
-                        </p>
-                        <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
-                          <span className="text-lightaccent-text dark:text-accent-text">
-                            *text*
-                          </span>{' '}
-                          → <span className="italic">text</span>
-                        </p>
-                        <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
-                          <span className="text-lightaccent-text dark:text-accent-text">
-                            [link](https://mystartup.com)
-                          </span>{' '}
-                          →{' '}
-                          <a
-                            href="https://mystartup.com"
-                            target="_blank"
-                            className="font-medium underline"
-                          >
-                            link
-                          </a>
-                        </p>
+                    <div className="col-span-1 lg:col-span-2">
+                      <div className="flex items-center justify-start">
+                        <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+                          Headline
+                        </label>
+                        <HoverCard openDelay={250}>
+                          <HoverCardTrigger className="text-xs font-medium text-lightprimary-text dark:text-primary-text cursor-pointer">
+                            <button className="underline cursor-pointer text-card-foreground/80">
+                              (*Markdown Guide*)
+                            </button>
+                          </HoverCardTrigger>
+                          <HoverCardContent className="bg-secondary border rounded-md z-50">
+                            <div className="flex flex-col p-2">
+                              <p className="text-sm font-semibold text-lightprimary-text/80 dark:text-primary-text/80">
+                                Markdown guide
+                              </p>
+                              <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80 mt-2">
+                                <span className="text-lightaccent-text dark:text-accent-text">
+                                  **text**
+                                </span>{' '}
+                                → <span className="font-bold">text</span>
+                              </p>
+                              <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
+                                <span className="text-lightaccent-text dark:text-accent-text">
+                                  *text*
+                                </span>{' '}
+                                → <span className="italic">text</span>
+                              </p>
+                              <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
+                                <span className="text-lightaccent-text dark:text-accent-text">
+                                  [link](https://mystartup.com)
+                                </span>{' '}
+                                →{' '}
+                                <a
+                                  href="https://mystartup.com"
+                                  target="_blank"
+                                  className="font-medium underline"
+                                >
+                                  link
+                                </a>
+                              </p>
+                            </div>
+                          </HoverCardContent>
+                        </HoverCard>
                       </div>
-                    </HoverCardContent>
-                  </HoverCard>
+                      <Textarea
+                        id="headline"
+                        rows={2}
+                        placeholder="Headline..."
+                        className="col-span-1 lg:col-span-2 text-sm"
+                        {...form.register('headline')}
+                      />
+                      {form.formState.errors.headline && (
+                        <p className="text-xs lg:text-sm text-destructive mt-1">
+                          {form.formState.errors.headline.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="col-span-1">
+                      <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+                        Profile Link Text
+                      </label>
+                      <div className="relative">
+                        <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                          <Type strokeWidth={1} size={18} />
+                        </span>
+                        <Input
+                          id="profile_link_text"
+                          type="text"
+                          placeholder="My profile | My Webiste"
+                          autoComplete="off"
+                          {...form.register('profile_link.text')}
+                          className="pl-9 py-2 text-sm"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-span-1">
+                      <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+                        Profile Link
+                      </label>
+                      <div className="relative">
+                        <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                          <Link2 strokeWidth={1} size={18} />
+                        </span>
+                        <Input
+                          id="profile_link"
+                          type="text"
+                          placeholder="https://mywebsite.com"
+                          autoComplete="off"
+                          {...form.register('profile_link.url')}
+                          className="pl-9 py-2 text-sm"
+                        />
+                        {form.formState.errors.profile_link && (
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
+                            {form.formState.errors.profile_link.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <Textarea
-                  id="headline"
-                  rows={2}
-                  placeholder="Headline..."
-                  className="col-span-1 lg:col-span-2 text-sm lg:text-base"
-                  {...form.register('headline')}
-                />
-              </div>
-              <div className="col-span-1">
-                <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
-                  Profile Link Text
-                </label>
-                <div className="relative">
-                  <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
-                    <Type strokeWidth={1} size={20} className="text-xl" />
-                  </span>
-                  <Input
-                    id="profile_link_text"
-                    type="text"
-                    placeholder="My profile | My Webiste"
-                    autoComplete="off"
-                    {...form.register('profile_link.text')}
-                    className="pl-9 py-2 text-sm lg:text-base"
+                <div className="w-full mt-8 flex flex-col items-start justify-center border p-3 lg:p-4 rounded-lg">
+                  <p className="text-lg font-semibold mb-4">Skills</p>
+                  <SkillsSelect
+                    value={form.watch('skills') ?? []}
+                    onChange={(v) => form.setValue('skills', v, { shouldDirty: true })}
+                    largeBadge
                   />
                 </div>
-              </div>
-              <div className="col-span-1">
-                <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
-                  Profile Link
-                </label>
-                <div className="relative">
-                  <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
-                    <Link2 strokeWidth={1} size={20} className="text-xl" />
-                  </span>
-                  <Input
-                    id="profile_link"
-                    type="text"
-                    placeholder="https://mywebsite.com"
-                    autoComplete="off"
-                    {...form.register('profile_link.url')}
-                    className="pl-9 py-2 text-sm lg:text-base"
-                  />
+                <div className="w-full flex items-center justify-end">
+                  <Button
+                    type="submit"
+                    variant={'outline'}
+                    disabled={!isDirty || isSubmitting}
+                    className="mt-6"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="animate-spin" /> Saving...
+                      </>
+                    ) : (
+                      <>
+                        <Save /> Save changes
+                      </>
+                    )}
+                  </Button>
                 </div>
-              </div>
-            </div>
+              </form>
+            </TabsContent>
+            <TabsContent value="experience">
+              <form>
+                <div className="flex flex-col items-start justify-center border p-3 lg:p-4 rounded-lg w-full mt-4">
+                  <p className="text-lg font-semibold mb-4">Experience</p>
+                  <div className='flex flex-col items-center justify-center w-full gap-2'>
+                    {experience.map((exp, index) => (
+                      <Card
+                        key={index}
+                        className="flex flex-col items-start justify-center w-full border p-3 lg:p-4 rounded-lg"
+                      >
+                        <p className="text-sm font-semibold">{exp.year}</p>
+                        <p className="text-sm font-medium">{exp.role}</p>
+                        <p className="text-xs text-card-foreground/70">{exp.company}</p>
+                        <p className="text-xs text-card-foreground/70">{exp.description}</p>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              </form>
+            </TabsContent>
+          </Tabs>
+          <div className="lg:hidden mt-6">
+            <button
+              onClick={() => setShowOverlay(true)}
+              className="bg-blue-600 text-white px-4 py-2 rounded"
+            >
+              Open Panel
+            </button>
           </div>
-          <div className="w-full mt-8 flex flex-col items-start justify-center border p-3 lg:p-4 rounded-lg">
-            <p className="text-lg font-semibold mb-4">Skills</p>
-            <SkillsSelect
-              value={form.watch('skills') ?? []}
-              onChange={(v) => form.setValue('skills', v, { shouldDirty: true })}
-              largeBadge
-            />
-          </div>
-          <div className="w-full flex items-center justify-end">
-            <Button type="submit" variant={'outline'} disabled={!isDirty} className="mt-6">
-              <Save /> Save changes
-            </Button>
-          </div>
-        </form>
-        <div className="lg:hidden mt-6">
-          <button
-            onClick={() => setShowOverlay(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded"
-          >
-            Open Panel
-          </button>
         </div>
-      </div>
+      )}
 
       <div
         className={`${
@@ -322,76 +433,83 @@ const UpdateForm = ({ profile }: { profile: any }) => {
             <div className="absolute right-[-16px] top-[130px] w-[4px] h-[60px] rounded-full bg-black z-20"></div>
 
             {/* iPhone Screen */}
-            <div className="w-[270px] h-[590px] bg-secondary rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
-              {/* URL Bar */}
-
-              {/* Content */}
-              <div className="p-4 space-y-2">
-                <div className="w-full bg-background rounded-full h-8 flex items-center justify-between px-2">
-                  <img className="h-5 w-5 rounded-full" src={profile.favicon_url} />
-                  <p className="text-xs">/{profile.username}</p>
-                  <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/u/${profile.username}`}>
-                    <ExternalLink strokeWidth={1.5} size={14} className="text-foreground" />
-                  </Link>
+            {fetchLoading ? (
+              <div className="w-[270px] h-[590px] bg-secondary rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
+                <div className="flex items-center justify-center h-full">
+                  <Loader2 className="animate-spin text-primary" size={32} />
                 </div>
-
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-12 h-12 p-0.5 border border-dashed border-primary rounded-full">
-                    <img className="w-full h-full rounded-full" src={profile.avatar_url} />
-                  </div>
-                  <div className="flex flex-col items-start justify-center gap-1">
-                    <p className="text-sm font-semibold ml-1">{profile.full_name}</p>
-                    <p className="flex text-xs font-medium gap-1">
-                      <MapPin className="w-[14px] h-[14px] mr-[-2px]" />
-                      {profile.country.split('-')[0]}
-                      <img
-                        className="w-4"
-                        src={`https://flagsapi.com/${profile.country.split('-')[1]}/flat/64.png`}
-                      />
-                      <span className="h-[15px] w-px bg-primary mx-1" />
-                      <span className="flex items-center">
-                        <BiRupee className="w-4 h-4 mr-[-1px]" />2 cr/m
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div className="text-xxs font-medium text-center px-4">{headline}</div>
-                <div className="flex items-center justify-center text-xxs gap-2">
-                  {profile.resume_url && (
-                    <a
-                      target="_blank"
-                      className="flex items-center justify-center gap-0.5 underline underline-offset-1"
-                      href={profile.resume_url}
-                    >
-                      <File className="w-[11px] h-[11px]" />
-                      Resume
-                    </a>
-                  )}
-                  {profileLink.url && profileLink.text && (
-                    <a
-                      target="_blank"
-                      href={profileLink.url}
-                      className="flex items-center justify-center gap-0.5 underline underline-offset-1"
-                    >
-                      <Link2 className="w-[12px] h-[12px]" />
-                      {profileLink.text}
-                    </a>
-                  )}
-                </div>
-                <div className="flex flex-wrap items-center justify-center gap-1">
-                  {form.getValues('skills').map((skill: Skill) => (
-                    <div
-                      key={skill.value}
-                      className="flex items-center font-medium justify-center gap-1 bg-primary/50 rounded-full px-2 py-0.5 text-tiny"
-                    >
-                      <img src={skill.logo} alt={skill.label} className="h-2 w-2" />
-                      {skill.label}
-                    </div>
-                  ))}
-                </div>
-
               </div>
-            </div>
+            ) : (
+              <div className="w-[270px] h-[590px] bg-secondary rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
+                {/* URL Bar */}
+
+                {/* Content */}
+                <div className="p-4 space-y-2">
+                  <div className="w-full bg-background rounded-full h-8 flex items-center justify-between px-2">
+                    <img className="h-5 w-5 rounded-full" src={profile.favicon_url} />
+                    <p className="text-xs">/{profile.username}</p>
+                    <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/u/${profile.username}`}>
+                      <ExternalLink strokeWidth={1.5} size={14} className="text-foreground" />
+                    </Link>
+                  </div>
+
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-12 h-12 p-0.5 border border-dashed border-primary rounded-full">
+                      <img className="w-full h-full rounded-full" src={profile.avatar_url} />
+                    </div>
+                    <div className="flex flex-col items-start justify-center gap-1">
+                      <p className="text-sm font-semibold ml-1">{full_name}</p>
+                      <p className="flex text-xs font-medium gap-1">
+                        <MapPin className="w-[14px] h-[14px] mr-[-2px]" />
+                        {country.split('-')[0]}
+                        <img
+                          className="w-4"
+                          src={`https://flagsapi.com/${country.split('-')[1]}/flat/64.png`}
+                        />
+                        <span className="h-[15px] w-px bg-primary mx-1" />
+                        <span className="flex items-center">
+                          <BiRupee className="w-4 h-4 mr-[-1px]" />2 cr/m
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-xxs font-medium text-center px-4">{headline}</div>
+                  <div className="flex items-center justify-center text-xxs gap-2">
+                    {profile.resume_url && (
+                      <a
+                        target="_blank"
+                        className="flex items-center justify-center gap-0.5 underline underline-offset-1"
+                        href={profile.resume_url}
+                      >
+                        <File className="w-[11px] h-[11px]" />
+                        Resume
+                      </a>
+                    )}
+                    {profileLink?.url && profileLink.text && (
+                      <a
+                        target="_blank"
+                        href={profileLink.url}
+                        className="flex items-center justify-center gap-0.5 underline underline-offset-1"
+                      >
+                        <Link2 className="w-[12px] h-[12px]" />
+                        {profileLink.text}
+                      </a>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap items-center justify-center gap-1">
+                    {form.getValues('skills')?.map((skill: Skill) => (
+                      <div
+                        key={skill.value}
+                        className="flex items-center font-medium justify-center gap-1 bg-primary/50 rounded-full px-2 py-0.5 text-tiny"
+                      >
+                        <img src={skill.logo} alt={skill.label} className="h-2 w-2" />
+                        {skill.label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

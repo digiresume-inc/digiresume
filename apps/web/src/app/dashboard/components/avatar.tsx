@@ -4,12 +4,14 @@ import { createClient } from '@/supabase/client';
 import { Button } from '@lf/ui/components/base/button';
 import React, { useState } from 'react';
 import { Pencil, ImagePlus, Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
   const supabase = createClient();
   const [avatarUrl, setAvatarUrl] = useState(avatar_url);
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleFile = async (file: File) => {
     if (file.size > 2 * 1024 * 1024) {
@@ -51,6 +53,7 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
         .eq('id', user?.id);
 
       setAvatarUrl(data.publicUrl);
+      router.refresh();
       ToastSuccess({ message: 'Image uploaded.' });
     } catch (error) {
       ToastError({ message: 'An unexpected error occurred.' });
