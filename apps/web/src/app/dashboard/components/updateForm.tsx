@@ -370,16 +370,24 @@ const UpdateForm = ({ profile }: { profile: any }) => {
               <form>
                 <div className="flex flex-col items-start justify-center border p-3 lg:p-4 rounded-lg w-full mt-4">
                   <p className="text-lg font-semibold mb-4">Experience</p>
-                  <div className='flex flex-col items-center justify-center w-full gap-2'>
+                  <div className="flex flex-col items-center justify-center w-full gap-2">
                     {experience.map((exp, index) => (
                       <Card
                         key={index}
-                        className="flex flex-col items-start justify-center w-full border p-3 lg:p-4 rounded-lg"
+                        className="flex flex-row items-center justify-start w-full border p-3 lg:p-4 rounded-lg"
                       >
-                        <p className="text-sm font-semibold">{exp.year}</p>
+                        <div className="w-12 h-12 rounded-full bg-primary" />
+                        <div className="flex flex-col items-start justify-center">
+                          <span className="flex gap-2 items-center justify-start text-base font-medium text-card-foreground/70">
+                            {exp.company} <p className="text-sm">&#183;</p>{' '}
+                            <p className="text-xs">{exp.role}</p>
+                          </span>
+                          <p className="text-xs text-card-foreground/70">{exp.description}</p>
+                        </div>
+                        {/* <p className="text-sm font-semibold">{exp.year}</p>
                         <p className="text-sm font-medium">{exp.role}</p>
                         <p className="text-xs text-card-foreground/70">{exp.company}</p>
-                        <p className="text-xs text-card-foreground/70">{exp.description}</p>
+                        <p className="text-xs text-card-foreground/70">{exp.description}</p> */}
                       </Card>
                     ))}
                   </div>
