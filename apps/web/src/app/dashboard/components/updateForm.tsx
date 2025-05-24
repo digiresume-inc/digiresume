@@ -1,12 +1,6 @@
 'use client';
 import { Button } from '@lf/ui/components/base/button';
-import {
-  countries,
-  experienceSchema,
-  profileUpdateSchema,
-  singleExperienceSchema,
-  Skill,
-} from '@lf/utils';
+import { countries, profileUpdateSchema, Skill } from '@lf/utils';
 import {
   X,
   BatteryLow,
@@ -21,10 +15,6 @@ import {
   Save,
   Type,
   Link2,
-  Plus,
-  Pencil,
-  ArrowRight,
-  CornerDownRight,
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import AvatarComponent from './avatar';
@@ -43,42 +33,11 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ToastSuccess } from '@/components/toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
-import ExperienceUpdate from './experienceUpdate';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@lf/ui/components/base/dialog';
-import { updateExperience } from '../actions/updateExperience';
-import { useRouter } from 'next/navigation';
-
-type SingleExperience = z.infer<typeof singleExperienceSchema>;
+import ExperienceForm from './experienceForm';
 
 const UpdateForm = ({ profile }: { profile: any }) => {
-  const [preview, setPreview] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(true);
   const [showOverlay, setShowOverlay] = useState(false);
-  const [selectedExperience, setSelectedExperience] = useState<SingleExperience | null>(null);
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
-
-  const handleEdit = (exp: SingleExperience) => {
-    setSelectedExperience(exp);
-    setOpen(true);
-  };
-
-  const handleUpdate = async (updatedExp: SingleExperience) => {
-    const updatedExperienceList = profile.experience.map((exp: any) =>
-      exp.a === updatedExp.a ? { ...updatedExp } : exp
-    );
-
-    const result = await updateExperience(updatedExperienceList);
-
-    if (result.success) {
-      ToastSuccess({ message: result.message });
-
-      setOpen(false);
-      setSelectedExperience(null);
-
-      router.refresh();
-    }
-  };
 
   const form = useForm<z.infer<typeof profileUpdateSchema>>({
     resolver: zodResolver(profileUpdateSchema),
@@ -138,38 +97,40 @@ const UpdateForm = ({ profile }: { profile: any }) => {
             <ResumeComponent resume_url={profile.resume_url} />
           </div>
           <Tabs defaultValue="profile" className="w-full mt-12">
-            <TabsList className="flex w-full overflow-x-auto overflow-y-hidden bg-background rounded-none">
-              <TabsTrigger
-                className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                value="profile"
-              >
-                Profile
-              </TabsTrigger>
-              <TabsTrigger
-                className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                value="experience"
-              >
-                Experience
-              </TabsTrigger>
-              <TabsTrigger
-                className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                value="startups"
-              >
-                Startups
-              </TabsTrigger>
-              <TabsTrigger
-                className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                value="projects"
-              >
-                Projects
-              </TabsTrigger>
-              <TabsTrigger
-                className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                value="links"
-              >
-                Links
-              </TabsTrigger>
-            </TabsList>
+            <div className="overflow-x-auto">
+              <TabsList className="flex w-fit gap-4 lg:gap-6 px-2 lg:px-3 bg-background rounded-none">
+                <TabsTrigger
+                  className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                  value="profile"
+                >
+                  Profile
+                </TabsTrigger>
+                <TabsTrigger
+                  className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                  value="experience"
+                >
+                  Experience
+                </TabsTrigger>
+                <TabsTrigger
+                  className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                  value="startups"
+                >
+                  Startups
+                </TabsTrigger>
+                <TabsTrigger
+                  className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                  value="projects"
+                >
+                  Projects
+                </TabsTrigger>
+                <TabsTrigger
+                  className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                  value="links"
+                >
+                  Links
+                </TabsTrigger>
+              </TabsList>
+            </div>
             <TabsContent value="profile">
               <form
                 onSubmit={form.handleSubmit(async (data) => {
@@ -409,48 +370,8 @@ const UpdateForm = ({ profile }: { profile: any }) => {
                 </div>
               </form>
             </TabsContent>
-            <TabsContent value="experience">
-              {profile.experience.map((exp: any, index: number) => (
-                <div key={index} className="w-full mt-4 p-4">
-                  <div className="flex items-center justify-start gap-2">
-                    <img src={exp.logo} className="w-8 h-8 rounded-full" />
-                    <h3 className="text-lg font-semibold mr-2">{exp.company}</h3>
-                    <Button
-                      variant={'outline'}
-                      size={'icon'}
-                      className="p-1"
-                      onClick={() => handleEdit(exp)}
-                    >
-                      <Pencil size={12} />
-                    </Button>
-                  </div>
-                  {exp.roles.map((role: any, roleIndex: number) => (
-                    <div
-                      key={roleIndex}
-                      className="flex items-center justify-start gap-2 mt-2 pl-4"
-                    >
-                      <CornerDownRight className="w-4 h-4 text-muted-foreground" />
-                      <p className="text-sm font-medium">{role.title}</p>
-                      <span className="text-xs text-muted-foreground">
-                        ({role.start_date} - {role.end_date})
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ))}
-              <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="sm:max-w-[600px]">
-                  <DialogHeader>
-                    <DialogTitle>Edit Experience</DialogTitle>
-                  </DialogHeader>
-                  {selectedExperience && (
-                    <ExperienceUpdate
-                      selectedExperience={selectedExperience}
-                      onSubmit={handleUpdate}
-                    />
-                  )}
-                </DialogContent>
-              </Dialog>
+            <TabsContent value="experience" className="mt-4">
+              <ExperienceForm profile={profile} />
             </TabsContent>
           </Tabs>
           <div className="lg:hidden mt-6">

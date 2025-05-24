@@ -2,14 +2,13 @@ import GitHubCalendarClient from '@/components/githubcalendar';
 import { createSClient } from '@/supabase/server';
 import { redis } from '@/redis/config';
 import { Badge } from '@lf/ui/components/base/badge';
-import { Card, CardContent } from '@lf/ui/components/base/card';
-import { Skill } from '@lf/utils';
+import { formatMonthShortYear, getLineHeightPercent, getMonthsDifference, Skill } from '@lf/utils';
 import React from 'react';
-import { MapPin } from 'lucide-react';
-import { Button } from '@lf/ui/components/base/button';
+import { Info, MapPin } from 'lucide-react';
 import { BiRupee } from 'react-icons/bi';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
 import { SiGithub, SiLinkedin, SiX } from 'react-icons/si';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
 
 export default async function UsernamePage({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
@@ -185,7 +184,7 @@ function renderProfile(profile: any, username: string) {
               ))}
             </div>
             <Tabs defaultValue="experience" className="w-full mt-8">
-              <TabsList className="flex w-fit gap-8 px-4 bg-transparent">
+              <TabsList className="flex w-fit gap-4 lg:gap-6 px-2 lg:px-3 bg-transparent">
                 <TabsTrigger
                   value="experience"
                   className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[15px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
@@ -205,60 +204,98 @@ function renderProfile(profile: any, username: string) {
                   Projects
                 </TabsTrigger>
               </TabsList>
-
               <TabsContent value="experience">
                 {' '}
-                <div className="mt-6 pl-4">
-                  {profile.experience.map((company: any, companyIndex: any) => (
-                    <div className="group" key={companyIndex}>
-                      <div className="w-full flex justify-between">
-                        <div className="flex items-center gap-2 relative">
-                          <img
-                            alt={company.name}
-                            className="cursor-pointer w-10 h-10 rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity border-primaryBorder flex-grow border"
-                            src={company.logo}
-                          />
-                          <p className="font-medium text-lg truncate">{company.name}</p>
-                          <div className="absolute w-[1.5px] h-4 bg-primary left-[19px] top-full" />
-                        </div>
-                      </div>
+                <div className="mt-6 pl-2 lg:pl-4">
+                  {profile.experience.map((company: any, companyIndex: any) => {
+                    const lineHeight = getLineHeightPercent(company.roles.length);
 
-                      {company.roles.map((role: any, roleIndex: any) => (
+                    return (
+                      <div className="group relative" key={companyIndex}>
                         <div
-                          key={roleIndex}
-                          className={`${
-                            roleIndex === 0 ? 'pl-8' : 'pl-8'
-                          } relative w-full transition-colors duration-200 flex flex-col items-center ${
-                            roleIndex === company.roles.length - 1 ? 'py-6' : 'py-4'
-                          }`}
-                        >
-                          {roleIndex === 0 && (
-                            <div className="absolute w-[1.5px] bg-primary h-[115%] left-[19px]" />
-                          )}
-                          <div className="w-full flex relative">
-                            <div className="w-4 h-3 border-l-2 border-b-2 rounded-bl-lg absolute -left-[13px] border-primary" />
-                            <div className="w-full flex ml-4">
-                              <div className="group w-full duration-300 ease-in-out rounded-2xl outline-none transition-shadow group b-0 ">
-                                <div
-                                  className="w-full group flex items-center relative text-left cursor-default p-0"
-                                  role="none"
-                                >
-                                  <div className="w-full flex flex-col gap-2">
-                                    <div className="flex items-center justify-between w-full">
-                                      <div className="w-full flex flex-col gap-1">
-                                        <div className="flex items-center gap-2">
-                                          <p className="text-gray-1k font-semibold text-sm">
-                                            {role.title}
+                          style={{
+                            height: lineHeight,
+                          }}
+                          className="absolute w-[1.5px] bg-primary top-[50px] left-[19px]"
+                        />
+                        <div className="w-full flex justify-between">
+                          <div className="flex items-center gap-2 relative">
+                            <img
+                              alt={company.company}
+                              className="cursor-pointer w-10 h-10 rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity border-primaryBorder flex-grow border"
+                              src={company.company_logo}
+                            />
+                            <p className="font-bold text-base lg:text-lg truncate">
+                              {company.company}
+                            </p>
+                            <HoverCard>
+                              <HoverCardTrigger asChild>
+                                <Info
+                                  strokeWidth={1}
+                                  size={16}
+                                  className="text-muted-foreground cursor-pointer"
+                                />
+                              </HoverCardTrigger>
+                              <HoverCardContent className="w-80 text-xs font-medium mt-4 relative">
+                                {company.contribution}
+                              </HoverCardContent>
+                            </HoverCard>
+                          </div>
+                        </div>
+
+                        {company.roles.map((role: any, roleIndex: any) => (
+                          <div
+                            key={roleIndex}
+                            className={`${
+                              roleIndex === 0 ? 'pl-8' : 'pl-8'
+                            } relative w-full transition-colors duration-200 flex flex-col items-center py-4`}
+                          >
+                            <div className="w-full flex relative">
+                              <div className="w-4 h-3 border-l-2 border-b-2 rounded-bl-lg absolute -left-[13px] border-primary" />
+                              <div className="w-full flex ml-3 lg:ml-4">
+                                <div className="group w-full duration-300 ease-in-out rounded-2xl outline-none transition-shadow group b-0 ">
+                                  <div
+                                    className="w-full group flex items-center relative text-left cursor-default p-0"
+                                    role="none"
+                                  >
+                                    <div className="w-full flex flex-col gap-2">
+                                      <div className="flex items-center justify-between w-full">
+                                        <div className="w-full flex flex-col gap-1">
+                                          <div className="flex items-center gap-2 truncate overflow-hidden">
+                                            <span className="flex items-center justify-start gap-1 truncate overflow-hidden whitespace-nowrap">
+                                              <p className="font-semibold text-xs lg:text-sm truncate max-w-46 sm:max-w-fit">
+                                                {role.headline}
+                                              </p>
+                                              <p>•</p>
+                                              <span className="text-xxs lg:text-xs text-muted-foreground truncate max-w-16 lg:max-w-fit">
+                                                {role.employment_type}
+                                              </span>
+                                            </span>
+                                          </div>
+
+                                          <p className="text-muted-foreground font-normal text-xxs lg:text-xs truncate overflow-hidden whitespace-nowrap max-w-58 sm:max-w-fit">
+                                            <strong className="truncate overflow-hidden">
+                                              {formatMonthShortYear(role.start_date)} -{' '}
+                                              {role.end_date
+                                                ? formatMonthShortYear(role.end_date)
+                                                : 'Present'}
+                                              {role.end_date && (
+                                                <span className="ml-0.5">
+                                                  (
+                                                  {getMonthsDifference(
+                                                    role.start_date,
+                                                    role.end_date
+                                                  )}
+                                                  )
+                                                </span>
+                                              )}
+                                              <span className="mx-0.5">•</span>
+                                              <span className="font-normal">
+                                                {role.location}, {role.location_type}
+                                              </span>
+                                            </strong>
                                           </p>
                                         </div>
-                                        <p className="text-muted-foreground font-normal text-xs">
-                                          <strong>
-                                            {role.start_date} - {role.end_date} ({role.timeWorked}){' '}
-                                            <span className="font-normal capitalize">
-                                              • {role.location}
-                                            </span>
-                                          </strong>
-                                        </p>
                                       </div>
                                     </div>
                                   </div>
@@ -266,10 +303,10 @@ function renderProfile(profile: any, username: string) {
                               </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
+                        ))}
+                      </div>
+                    );
+                  })}
                 </div>
               </TabsContent>
               <TabsContent value="startups">...</TabsContent>
