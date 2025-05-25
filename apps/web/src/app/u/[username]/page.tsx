@@ -14,8 +14,19 @@ import { Info, MapPin, File, Link2 } from 'lucide-react';
 import { BiRupee } from 'react-icons/bi';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
 import { SiGithub, SiLinkedin, SiX } from 'react-icons/si';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
 import { Popover, PopoverTrigger, PopoverContent } from '@lf/ui/components/base/popover';
+import { iconMap } from '@/app/dashboard/utils/iconMap';
+
+function getPlatformIcon(url: string) {
+  try {
+    const host = new URL(url).hostname.replace('www.', '');
+    const platform = Object.keys(iconMap).find((key) => host.includes(key.toLowerCase()));
+    const Icon = iconMap[platform || ''];
+    return Icon ? <Icon size={18} /> : <Link2 size={18} />;
+  } catch {
+    return <Link2 size={18} />;
+  }
+}
 
 export default async function UsernamePage({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
@@ -338,21 +349,28 @@ function renderProfile(profile: any, username: string) {
               <TabsContent value="startups">...</TabsContent>
               <TabsContent value="projects">...</TabsContent>
             </Tabs>
-            <div className="@container">
-              <div className="gap-2 px-4 flex flex-wrap justify-start">
-                <div className="flex flex-col items-center gap-2  py-2.5 text-center w-20">
-                  <SiX />
-                  <p className=" text-sm font-medium leading-normal">Twitter</p>
-                </div>
-                <div className="flex flex-col items-center gap-2 py-2.5 text-center w-20">
-                  <SiGithub />
-                  <p className=" text-sm font-medium leading-normal">GitHub</p>
-                </div>
-                <div className="flex flex-col items-center gap-2  py-2.5 text-center w-20">
-                  <SiLinkedin />
-                  <p className=" text-sm font-medium leading-normal">LinkedIn</p>
-                </div>
+            <div className="gap-2 flex flex-wrap items-center justify-center lg:justify-start p-4">
+              {profile.socials.map((social: any, index: number) => {
+                const icon = getPlatformIcon(social.url);
+                return (
+                  <a target='_blank' href={social.url} key={index} className="w-12 h-12 border rounded-full p-2 flex items-center justify-center">
+                    <>{icon}</>
+                  </a>
+                );
+              })}
+
+              {/* <div className="flex flex-col items-center gap-2  py-2.5 text-center w-20">
+                <SiX />
+                <p className=" text-sm font-medium leading-normal">Twitter</p>
               </div>
+              <div className="flex flex-col items-center gap-2 py-2.5 text-center w-20">
+                <SiGithub />
+                <p className=" text-sm font-medium leading-normal">GitHub</p>
+              </div>
+              <div className="flex flex-col items-center gap-2  py-2.5 text-center w-20">
+                <SiLinkedin />
+                <p className=" text-sm font-medium leading-normal">LinkedIn</p>
+              </div> */}
             </div>
           </div>
         </div>

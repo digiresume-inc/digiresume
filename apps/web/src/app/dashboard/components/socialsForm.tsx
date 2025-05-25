@@ -61,7 +61,7 @@ const SocialsForm = ({ profile }: { profile: any }) => {
       )}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
-          <DialogHeader>
+          <DialogHeader className='mb-4'>
             <DialogTitle>Add/Edit Socials</DialogTitle>
           </DialogHeader>
           <SocialsUpdate profile={profile} setOpen={setOpen} />

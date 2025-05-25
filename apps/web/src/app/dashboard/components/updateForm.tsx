@@ -36,6 +36,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base
 import ExperienceForm from './experienceForm';
 import SocialsForm from './socialsForm';
 
+
 const UpdateForm = ({ profile }: { profile: any }) => {
   const [fetchLoading, setFetchLoading] = useState(true);
   const [showOverlay, setShowOverlay] = useState(false);
@@ -111,12 +112,6 @@ const UpdateForm = ({ profile }: { profile: any }) => {
                   value="experience"
                 >
                   Experience
-                </TabsTrigger>
-                <TabsTrigger
-                  className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                  value="work"
-                >
-                  Work
                 </TabsTrigger>
                 <TabsTrigger
                   className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
