@@ -34,6 +34,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ToastSuccess } from '@/components/toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
 import ExperienceForm from './experienceForm';
+import SocialsForm from './socialsForm';
 
 const UpdateForm = ({ profile }: { profile: any }) => {
   const [fetchLoading, setFetchLoading] = useState(true);
@@ -113,21 +114,21 @@ const UpdateForm = ({ profile }: { profile: any }) => {
                 </TabsTrigger>
                 <TabsTrigger
                   className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                  value="startups"
+                  value="work"
                 >
-                  Startups
+                  Work
                 </TabsTrigger>
                 <TabsTrigger
                   className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                  value="projects"
+                  value="socials"
                 >
-                  Projects
+                  Socials
                 </TabsTrigger>
                 <TabsTrigger
                   className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                  value="links"
+                  value="themes"
                 >
-                  Links
+                  Themes
                 </TabsTrigger>
               </TabsList>
             </div>
@@ -373,6 +374,9 @@ const UpdateForm = ({ profile }: { profile: any }) => {
             <TabsContent value="experience" className="mt-4">
               <ExperienceForm profile={profile} />
             </TabsContent>
+            <TabsContent value="socials" className="mt-4">
+              <SocialsForm profile={profile} />
+            </TabsContent>
           </Tabs>
           <div className="lg:hidden mt-6">
             <button
@@ -501,46 +505,6 @@ const UpdateForm = ({ profile }: { profile: any }) => {
         </div>
       </div>
     </div>
-    // <div className="flex gap-2 min-h-screen relative">
-    //   <div className="lg:w-[60%] w-full lg:overflow-y-auto bg-lightprimary-bg dark:bg-primary-bg pt-4 px-0 lg:px-4"></div>
-    //   <div className="flex justify-center items-center min-h-screen p-4">
-    //     <div className="relative w-[300px] h-[620px] rounded-[50px] bg-black shadow-2xl overflow-hidden border-[14px] border-black">
-    //       {/* Dynamic Island */}
-    //       <div className="absolute top-[14px] left-1/2 -translate-x-1/2 bg-black rounded-full w-[100px] h-[20px] z-10"></div>
-
-    //       {/* Side Buttons */}
-    //       <div className="absolute left-[-6px] top-[100px] w-[4px] h-[40px] bg-gray-600 rounded-full"></div>
-    //       <div className="absolute left-[-6px] top-[160px] w-[4px] h-[40px] bg-gray-600 rounded-full"></div>
-    //       <div className="absolute right-[-6px] top-[130px] w-[4px] h-[60px] bg-gray-600 rounded-full"></div>
-
-    //       {/* Screen */}
-    //       <div className="w-full h-full bg-secondary rounded-[36px] overflow-hidden">
-    //         {/* Browser URL Bar */}
-    //         <div className="bg-secondary px-4 py-2 flex items-center space-x-2 text-sm">
-    //           <div className="w-2 h-2 rounded-full bg-red-500"></div>
-    //           <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
-    //           <div className="w-2 h-2 rounded-full bg-green-500"></div>
-    //           {/* <input
-    //             type="text"
-    //             value="https://example.com"
-    //             className="ml-4 flex-1 bg-white border border-gray-300 rounded px-2 py-1 text-xs"
-    //             readOnly
-    //           /> */}
-    //         </div>
-
-    //         {/* Example content */}
-    //         <div className="p-4 space-y-4">
-    //           <h1 className="text-xl font-bold ">Welcome to Example</h1>
-    //           <p className=" text-sm">
-    //             This is a sample iPhone browser mockup. You can place your app preview or webpage
-    //             here!
-    //           </p>
-    //           <button className="px-4 py-2 text-sm">Learn More</button>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 

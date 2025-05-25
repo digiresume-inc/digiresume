@@ -2,13 +2,20 @@ import GitHubCalendarClient from '@/components/githubcalendar';
 import { createSClient } from '@/supabase/server';
 import { redis } from '@/redis/config';
 import { Badge } from '@lf/ui/components/base/badge';
-import { formatMonthShortYear, getLineHeightPercent, getMonthsDifference, Skill } from '@lf/utils';
+import {
+  formatMonthShortYear,
+  formatMonthYear,
+  getLineHeightPercent,
+  getMonthsDifference,
+  Skill,
+} from '@lf/utils';
 import React from 'react';
-import { Info, MapPin } from 'lucide-react';
+import { Info, MapPin, File, Link2 } from 'lucide-react';
 import { BiRupee } from 'react-icons/bi';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
 import { SiGithub, SiLinkedin, SiX } from 'react-icons/si';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
+import { Popover, PopoverTrigger, PopoverContent } from '@lf/ui/components/base/popover';
 
 export default async function UsernamePage({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
@@ -92,43 +99,9 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
 
 function renderProfile(profile: any, username: string) {
   return (
-    // <div className="min-h-screen w-full flex flex-col gap-4 items-center justify-center">
-    //   <h1 className="font-extrabold text-5xl">{username}</h1>
-
-    //   {/* Skills */}
-    //   <div className="flex flex-wrap gap-2">
-    // {profile.skills.map((skill: Skill) => (
-    //   <Badge
-    //     key={skill.value}
-    //     variant="secondary"
-    //     className="flex items-center gap-1 rounded-full"
-    //   >
-    //     <img src={skill.logo} alt={skill.label} className="h-3 w-3" />
-    //     {skill.label}
-    //   </Badge>
-    // ))}
-    //   </div>
-
-    //   <div>
-    //     {profile.startups.map((startup: any, index: number) => (
-    //       <Card key={index} className="w-84">
-    //         <CardContent>
-    //           <h1 className="font-bold text-2xl">{startup.name}</h1>
-    //           <h1 className="font-medium text-lg">{startup.url}</h1>
-    //           <h1 className="font-light text-base">{startup.description}</h1>
-    //         </CardContent>
-    //       </Card>
-    //     ))}
-    //   </div>
-
-    //   <GitHubCalendarClient username="steven-tey" />
-    // </div>
-    <div
-      className="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden"
-      // style={{ fontFamily: 'Manrope, "Noto Sans", sans-serif' }}
-    >
+    <div className="relative flex size-full min-h-screen flex-col overflow-x-hidden">
       <div className="layout-container flex h-full grow flex-col">
-        <div className="px-40 flex flex-1 justify-center py-5">
+        <div className="flex flex-1 justify-center py-5">
           <div className="flex flex-col max-w-[960px] flex-1">
             <div className="flex p-4">
               <div className="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
@@ -142,34 +115,47 @@ function renderProfile(profile: any, username: string) {
                       {profile.full_name}
                     </p>
                     <p className="flex items-center justify-start text-sm font-normal gap-0.5 lg:gap-1">
-                      <MapPin className="w-3 lg:w-4 h-3 lg:h-4" /> {profile.country.split('-')[0]}{' '}
+                      <MapPin className="w-3 lg:w-[14px] h-3 lg:h-[14px]" />{' '}
+                      {profile.country.split('-')[0]}{' '}
                       <img
                         src={`https://flagsapi.com/${profile.country.split('-')[1]}/flat/64.png`}
                         className="w-4 lg:w-5 h-4 lg:h-5"
                       />
-                      <span className="w-px h-3 bg-primary/70 mx-1 lg:mx-2" />
+                      <span className="w-px h-4 bg-primary/70 mx-1 lg:mx-2" />
                       <span className="flex items-center gap-0.5">
-                        <BiRupee className="w-4 h-4 mt-0.5" />
-                        <span className="-ml-1">10cr/month</span>
+                        <BiRupee className="w-4 h-4 mt-[1px]" />
+                        <span className="-ml-0.5">10cr/month</span>
                       </span>
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            {/* <div className="flex justify-stretch">
-              <div className="flex flex-1 gap-3 flex-wrap px-4 py-3 justify-start">
-                <Button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 text-sm font-bold leading-normal tracking-[0.015em]">
-                  <span className="truncate">Follow</span>
-                </Button>
-                <Button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 text-sm font-bold leading-normal tracking-[0.015em]">
-                  <span className="truncate">Message</span>
-                </Button>
-              </div>
-            </div> */}
             <div className="flex flex-col items-center lg:items-start justify-center p-4">
               <h1 className="text-base lg:text-2xl font-bold">Full Stack Web/App Developer</h1>
               <p className="text-sm text-muted-foreground">Contributor @Dub.co · VBIT Alumni</p>
+            </div>
+            <div className="flex items-center justify-center lg:justify-start lg:items-start p-4 gap-3">
+              {profile.resume_url && (
+                <a
+                  href={profile.resume_url}
+                  target="_blank"
+                  className="flex items-center gap-1 text-sm lg:text-base border-b-2 border-dashed text-foreground/80 border-primary/70 hover:border-primary hover:text-foreground transition"
+                >
+                  <File strokeWidth={1} size={16} />
+                  Resume
+                </a>
+              )}
+              {profile.profile_link?.url && profile.profile_link.text && (
+                <a
+                  href={profile.profile_link?.url}
+                  target="_blank"
+                  className="flex items-center gap-1 text-sm lg:text-base border-b-2 border-dashed text-foreground/80 border-primary/70 hover:border-primary hover:text-foreground transition"
+                >
+                  <Link2 strokeWidth={1} size={16} />
+                  {profile.profile_link.text}
+                </a>
+              )}
             </div>
             <div className="flex gap-x-2 gap-y-3 p-4 flex-wrap items-center justify-center lg:justify-start">
               {profile.skills.map((skill: Skill) => (
@@ -183,27 +169,41 @@ function renderProfile(profile: any, username: string) {
                 </Badge>
               ))}
             </div>
-            <Tabs defaultValue="experience" className="w-full mt-8">
-              <TabsList className="flex w-fit gap-4 lg:gap-6 px-2 lg:px-3 bg-transparent">
-                <TabsTrigger
-                  value="experience"
-                  className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[15px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                >
-                  Experience
-                </TabsTrigger>
-                <TabsTrigger
-                  value="startups"
-                  className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[15px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                >
-                  Startups
-                </TabsTrigger>
-                <TabsTrigger
-                  value="projects"
-                  className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[15px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                >
-                  Projects
-                </TabsTrigger>
-              </TabsList>
+            <Tabs defaultValue="experience" className="w-full mt-8 p-4">
+              <div className="relative rounded-sm overflow-x-scroll h-10 no_scrollbar scrollbar-hidden">
+                <TabsList className="absolute flex flex-row justify-stretch w-full bg-background">
+                  <TabsTrigger
+                    value="experience"
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                  >
+                    Experience
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="startups"
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                  >
+                    Startups
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="projects"
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                  >
+                    Projects
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="skills"
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                  >
+                    Skills
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="more"
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                  >
+                    More
+                  </TabsTrigger>
+                </TabsList>
+              </div>
               <TabsContent value="experience">
                 {' '}
                 <div className="mt-6 pl-2 lg:pl-4">
@@ -211,7 +211,7 @@ function renderProfile(profile: any, username: string) {
                     const lineHeight = getLineHeightPercent(company.roles.length);
 
                     return (
-                      <div className="group relative" key={companyIndex}>
+                      <div className="group relative mb-4" key={companyIndex}>
                         <div
                           style={{
                             height: lineHeight,
@@ -228,27 +228,25 @@ function renderProfile(profile: any, username: string) {
                             <p className="font-bold text-base lg:text-lg truncate">
                               {company.company}
                             </p>
-                            <HoverCard>
-                              <HoverCardTrigger asChild>
+                            <Popover>
+                              <PopoverTrigger asChild>
                                 <Info
                                   strokeWidth={1}
                                   size={16}
                                   className="text-muted-foreground cursor-pointer"
                                 />
-                              </HoverCardTrigger>
-                              <HoverCardContent className="w-80 text-xs font-medium mt-4 relative">
+                              </PopoverTrigger>
+                              <PopoverContent className="w-80 text-xs font-medium mt-4 relative">
                                 {company.contribution}
-                              </HoverCardContent>
-                            </HoverCard>
+                              </PopoverContent>
+                            </Popover>
                           </div>
                         </div>
 
                         {company.roles.map((role: any, roleIndex: any) => (
                           <div
                             key={roleIndex}
-                            className={`${
-                              roleIndex === 0 ? 'pl-8' : 'pl-8'
-                            } relative w-full transition-colors duration-200 flex flex-col items-center py-4`}
+                            className="relative w-full transition-colors duration-200 flex flex-col items-center py-4 pl-8"
                           >
                             <div className="w-full flex relative">
                               <div className="w-4 h-3 border-l-2 border-b-2 rounded-bl-lg absolute -left-[13px] border-primary" />
@@ -260,42 +258,70 @@ function renderProfile(profile: any, username: string) {
                                   >
                                     <div className="w-full flex flex-col gap-2">
                                       <div className="flex items-center justify-between w-full">
-                                        <div className="w-full flex flex-col gap-1">
-                                          <div className="flex items-center gap-2 truncate overflow-hidden">
-                                            <span className="flex items-center justify-start gap-1 truncate overflow-hidden whitespace-nowrap">
-                                              <p className="font-semibold text-xs lg:text-sm truncate max-w-46 sm:max-w-fit">
-                                                {role.headline}
-                                              </p>
-                                              <p>•</p>
-                                              <span className="text-xxs lg:text-xs text-muted-foreground truncate max-w-16 lg:max-w-fit">
-                                                {role.employment_type}
-                                              </span>
-                                            </span>
-                                          </div>
-
-                                          <p className="text-muted-foreground font-normal text-xxs lg:text-xs truncate overflow-hidden whitespace-nowrap max-w-58 sm:max-w-fit">
-                                            <strong className="truncate overflow-hidden">
-                                              {formatMonthShortYear(role.start_date)} -{' '}
-                                              {role.end_date
-                                                ? formatMonthShortYear(role.end_date)
-                                                : 'Present'}
-                                              {role.end_date && (
-                                                <span className="ml-0.5">
-                                                  (
-                                                  {getMonthsDifference(
-                                                    role.start_date,
-                                                    role.end_date
-                                                  )}
-                                                  )
+                                        <Popover>
+                                          <PopoverTrigger asChild>
+                                            <div className="w-full flex flex-col gap-1">
+                                              <div className="flex items-center gap-2 truncate overflow-hidden">
+                                                <span className="flex items-center justify-start gap-1 truncate overflow-hidden whitespace-nowrap">
+                                                  <p className="font-semibold text-sm truncate max-w-46 sm:max-w-fit">
+                                                    {role.headline}
+                                                  </p>
+                                                  <p>•</p>
+                                                  <span className="text-xs text-muted-foreground truncate max-w-16 lg:max-w-fit">
+                                                    {role.employment_type}
+                                                  </span>
                                                 </span>
-                                              )}
-                                              <span className="mx-0.5">•</span>
-                                              <span className="font-normal">
-                                                {role.location}, {role.location_type}
-                                              </span>
-                                            </strong>
-                                          </p>
-                                        </div>
+                                              </div>
+                                              <p className="text-muted-foreground font-normal text-xs truncate overflow-hidden whitespace-nowrap max-w-58 sm:max-w-fit">
+                                                <strong className="truncate overflow-hidden">
+                                                  {formatMonthShortYear(role.start_date)} -{' '}
+                                                  {role.end_date
+                                                    ? formatMonthShortYear(role.end_date)
+                                                    : 'Present'}
+                                                  {role.end_date && (
+                                                    <span className="ml-0.5">
+                                                      (
+                                                      {getMonthsDifference(
+                                                        role.start_date,
+                                                        role.end_date
+                                                      )}
+                                                      )
+                                                    </span>
+                                                  )}
+                                                  <span className="mx-0.5">•</span>
+                                                  <span className="font-normal">
+                                                    {role.location}, {role.location_type}
+                                                  </span>
+                                                </strong>
+                                              </p>
+                                            </div>
+                                          </PopoverTrigger>
+                                          <PopoverContent className="text-sm font-medium block sm:hidden">
+                                            <ul className="list-disc pl-4 space-y-1">
+                                              <li>{role.headline}</li>
+                                              <li>{role.employment_type}</li>
+                                              <li>
+                                                {formatMonthYear(role.start_date)}
+                                                <span className="mx-1">-</span>
+                                                {role.end_date
+                                                  ? formatMonthYear(role.end_date)
+                                                  : 'Present'}
+                                                {role.end_date && (
+                                                  <span className="mx-1">
+                                                    (
+                                                    {getMonthsDifference(
+                                                      role.start_date,
+                                                      role.end_date
+                                                    )}
+                                                    )
+                                                  </span>
+                                                )}
+                                              </li>
+                                              <li>{role.location}</li>
+                                              <li>{role.location_type}</li>
+                                            </ul>
+                                          </PopoverContent>
+                                        </Popover>
                                       </div>
                                     </div>
                                   </div>
@@ -312,10 +338,6 @@ function renderProfile(profile: any, username: string) {
               <TabsContent value="startups">...</TabsContent>
               <TabsContent value="projects">...</TabsContent>
             </Tabs>
-
-            <h3 className=" text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
-              Socials
-            </h3>
             <div className="@container">
               <div className="gap-2 px-4 flex flex-wrap justify-start">
                 <div className="flex flex-col items-center gap-2  py-2.5 text-center w-20">
