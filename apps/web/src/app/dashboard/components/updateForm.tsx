@@ -6,13 +6,15 @@ import {
   formatMonthShortYear,
   getLineHeightPercent,
   getMonthsDifference,
+  NewTheme,
+  NewThemes,
   profileUpdateSchema,
   Project,
   Skill,
   Startup,
   statusOptions,
   Theme,
-  Themes
+  Themes,
 } from '@lf/utils';
 import {
   X,
@@ -52,6 +54,7 @@ import ExperienceForm from './experienceForm';
 import SocialsForm from './socialsForm';
 import { iconMap } from '../utils/iconMap';
 import MarkdownParser from '@/components/markdownparser';
+import ThemeSelect from './themeSelect';
 
 function getPlatformIcon(url: string) {
   try {
@@ -75,7 +78,7 @@ const UpdateForm = ({
 }) => {
   const [fetchLoading, setFetchLoading] = useState(true);
   const [showOverlay, setShowOverlay] = useState(false);
-  const [theme, setTheme] = useState<Theme | null>(Themes[0] as Theme);
+  const [localTheme, setLocalTheme] = useState<NewTheme | null>(profile.theme);
 
   const form = useForm<z.infer<typeof profileUpdateSchema>>({
     resolver: zodResolver(profileUpdateSchema),
@@ -421,6 +424,9 @@ const UpdateForm = ({
             <TabsContent value="socials" className="mt-4">
               <SocialsForm profile={profile} />
             </TabsContent>
+            <TabsContent value="themes" className="mt-4">
+              <ThemeSelect theme={profile.theme} localTheme={localTheme} setLocalTheme={setLocalTheme} />
+            </TabsContent>
           </Tabs>
           <div className="lg:hidden mt-6">
             <button
@@ -475,31 +481,14 @@ const UpdateForm = ({
                 </div>
               </div>
             ) : (
-              <div
-                style={{
-                  backgroundColor: theme?.theme_data?.primary_bg || '#2a2522',
-                }}
-                className="w-[270px] h-[590px] rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar"
-              >
+              <div className="w-[270px] h-[590px] rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar bg-background">
                 {/* URL Bar */}
 
                 {/* Content */}
                 <div className="p-4 space-y-2">
-                  <div
-                    style={{
-                      background: theme?.theme_data?.secondary_bg || '#3b3129',
-                    }}
-                    className="w-full rounded-full h-6 flex items-center justify-between px-2"
-                  >
+                  <div className="w-full rounded-full h-6 flex items-center justify-between px-2 bg-secondary">
                     <img className="h-5 w-5 rounded-full" src={profile.favicon_url} />
-                    <p
-                      style={{
-                        color: theme?.theme_data?.primary_text || '#ebe4d6',
-                      }}
-                      className="text-xs"
-                    >
-                      /{profile.username}
-                    </p>
+                    <p className="text-xs">/{profile.username}</p>
                     <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/u/${profile.username}`}>
                       <ExternalLink strokeWidth={1.5} size={14} className="text-foreground" />
                     </Link>
