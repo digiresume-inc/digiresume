@@ -3,19 +3,23 @@ import { createSClient } from '@/supabase/server';
 import { redis } from '@/redis/config';
 import { Badge } from '@lf/ui/components/base/badge';
 import {
+  categoryOptions,
   formatMonthShortYear,
   formatMonthYear,
   getLineHeightPercent,
   getMonthsDifference,
   Skill,
+  Startup,
+  statusOptions,
 } from '@lf/utils';
 import React from 'react';
-import { Info, MapPin, File, Link2 } from 'lucide-react';
+import { Info, MapPin, File, Link2, ExternalLink } from 'lucide-react';
 import { BiRupee } from 'react-icons/bi';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
-import { SiGithub, SiLinkedin, SiX } from 'react-icons/si';
 import { Popover, PopoverTrigger, PopoverContent } from '@lf/ui/components/base/popover';
 import { iconMap } from '@/app/dashboard/utils/iconMap';
+import { Button } from '@lf/ui/components/base/button';
+import ShareCard from './components/shareCard';
 
 function getPlatformIcon(url: string) {
   try {
@@ -32,6 +36,7 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
   const { username } = await params;
 
   let profile;
+  let startups;
 
   try {
     const supabase = createSClient();
@@ -40,12 +45,7 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
       .select(
         `
         *,
-        startups (
-          id,
-          name,
-          url,
-          description
-        )
+        startups (*)
       `
       )
       .eq('username', username)
@@ -60,6 +60,7 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
     }
 
     profile = data;
+    startups = data.startups.sort((a: Startup, b: Startup) => a.index - b.index);
     // const cached = await redis.get(`profile:${username}`);
 
     // if (cached) {
@@ -105,15 +106,16 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
     );
   }
 
-  return renderProfile(profile, username);
+  return renderProfile(profile, startups);
 }
 
-function renderProfile(profile: any, username: string) {
+function renderProfile(profile: any, startups: any) {
   return (
     <div className="relative flex size-full min-h-screen flex-col overflow-x-hidden">
       <div className="layout-container flex h-full grow flex-col">
         <div className="flex flex-1 justify-center py-5">
-          <div className="flex flex-col max-w-[960px] flex-1">
+          <div className="flex flex-col max-w-[960px] flex-1 relative">
+            <ShareCard profile={profile} />
             <div className="flex p-4">
               <div className="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
                 <div className="flex gap-4 items-center justify-center lg:justify-start">
@@ -346,14 +348,82 @@ function renderProfile(profile: any, username: string) {
                   })}
                 </div>
               </TabsContent>
-              <TabsContent value="startups">...</TabsContent>
+              <TabsContent value="startups">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-6 pl-2 lg:pl-4">
+                  {startups.map((startup: Startup, index: number) => {
+                    return (
+                      <div
+                        key={index}
+                        className="min-h-34 col-span-1 w-full bg-card rounded-lg border border-primary/60 p-3 flex flex-col gap-2 items-start justify-start"
+                      >
+                        <div className="flex items-center justify-center gap-2">
+                          <div className="w-12 h-12 p-0.5 border border-primary/60 rounded-full border-dashed">
+                            <img
+                              src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
+                              className="w-full h-full rounded-full"
+                            />
+                          </div>
+                          <div className="flex flex-col items-start justify-center gap-1">
+                            <p className="text-base font-bold ml-1">{startup.name}</p>
+                            <div className="flex gap-2 items-center justify-start w-full">
+                              {(() => {
+                                const currentStatus = statusOptions.find(
+                                  (s) => s.status === startup.status
+                                );
+                                return currentStatus ? (
+                                  <span
+                                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs bg-secondary`}
+                                  >
+                                    <span>{currentStatus.icon}</span>
+                                    <span>{currentStatus.text}</span>
+                                  </span>
+                                ) : (
+                                  <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs bg-secondary">
+                                    {startup.status}
+                                  </span>
+                                );
+                              })()}
+                              {(() => {
+                                const currentCategory = categoryOptions.find(
+                                  (s) => s.category === startup.category
+                                );
+                                return currentCategory ? (
+                                  <span
+                                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs bg-secondary`}
+                                  >
+                                    <span>{currentCategory.icon}</span>
+                                    <span>{currentCategory.text}</span>
+                                  </span>
+                                ) : (
+                                  <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs bg-secondary">
+                                    {startup.category}
+                                  </span>
+                                );
+                              })()}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="h-px w-full bg-primary/60" />
+                        <div className="text-xs font-medium">
+                          <p className="line-clamp-3">{startup.description}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </TabsContent>
               <TabsContent value="projects">...</TabsContent>
             </Tabs>
-            <div className="gap-2 flex flex-wrap items-center justify-center lg:justify-start p-4">
+            <div className="gap-2 flex flex-wrap items-center justify-center lg:justify-start p-4 mt-6">
               {profile.socials.map((social: any, index: number) => {
                 const icon = getPlatformIcon(social.url);
                 return (
-                  <a target='_blank' href={social.url} key={index} className="w-12 h-12 border rounded-full p-2 flex items-center justify-center">
+                  <a
+                    target="_blank"
+                    href={social.url}
+                    key={index}
+                    className="w-12 h-12 border rounded-full p-2 flex items-center justify-center"
+                  >
                     <>{icon}</>
                   </a>
                 );

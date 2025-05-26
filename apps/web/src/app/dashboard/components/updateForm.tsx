@@ -1,6 +1,16 @@
 'use client';
 import { Button } from '@lf/ui/components/base/button';
-import { countries, profileUpdateSchema, Skill } from '@lf/utils';
+import {
+  categoryOptions,
+  countries,
+  formatMonthShortYear,
+  getLineHeightPercent,
+  getMonthsDifference,
+  profileUpdateSchema,
+  Skill,
+  Startup,
+  statusOptions,
+} from '@lf/utils';
 import {
   X,
   BatteryLow,
@@ -15,6 +25,7 @@ import {
   Save,
   Type,
   Link2,
+  Info,
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import AvatarComponent from './avatar';
@@ -36,8 +47,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base
 import ExperienceForm from './experienceForm';
 import SocialsForm from './socialsForm';
 
-
-const UpdateForm = ({ profile }: { profile: any }) => {
+const UpdateForm = ({ profile, startups }: { profile: any;startups: any }) => {
   const [fetchLoading, setFetchLoading] = useState(true);
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -493,6 +503,181 @@ const UpdateForm = ({ profile }: { profile: any }) => {
                       </div>
                     ))}
                   </div>
+                  <Tabs defaultValue="experience" className="w-full mt-8">
+                    <div className="relative rounded-sm overflow-x-scroll h-10 no_scrollbar scrollbar-hidden">
+                      <TabsList className="absolute flex flex-row justify-stretch w-full bg-secondary">
+                        <TabsTrigger
+                          value="experience"
+                          className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] border-transparent data-[state=active]:bg-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                        >
+                          Experience
+                        </TabsTrigger>
+                        <TabsTrigger
+                          value="startups"
+                          className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] border-transparent data-[state=active]:bg-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                        >
+                          Startups
+                        </TabsTrigger>
+                        <TabsTrigger
+                          value="projects"
+                          className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] border-transparent data-[state=active]:bg-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                        >
+                          Projects
+                        </TabsTrigger>
+                      </TabsList>
+                    </div>
+                    <TabsContent value="experience">
+                      <div className="mt-2">
+                        {profile.experience.map((company: any, companyIndex: any) => {
+                          const lineHeight = getLineHeightPercent(company.roles.length);
+
+                          return (
+                            <div className="group relative mb-4" key={companyIndex}>
+                              <div
+                                style={{
+                                  height: lineHeight,
+                                }}
+                                className="absolute w-[1.5px] bg-primary top-[34px] left-[15px]"
+                              />
+                              <div className="w-full flex justify-between">
+                                <div className="flex items-center gap-1 relative">
+                                  <img
+                                    alt={company.company}
+                                    className="cursor-pointer w-8 h-8 rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity border-primaryBorder flex-grow border"
+                                    src={company.company_logo}
+                                  />
+                                  <p className="font-bold text-xs truncate">{company.company}</p>
+                                  <Info
+                                    strokeWidth={1}
+                                    size={10}
+                                    className="text-muted-foreground cursor-pointer"
+                                  />
+                                </div>
+                              </div>
+
+                              {company.roles.map((role: any, roleIndex: any) => (
+                                <div
+                                  key={roleIndex}
+                                  className="relative w-full transition-colors duration-200 flex flex-col items-center py-2 pl-7"
+                                >
+                                  <div className="w-full flex relative">
+                                    <div className="w-4 h-3 border-l-2 border-b-2 rounded-bl-lg absolute -left-[13px] border-primary" />
+                                    <div className="w-full flex ml-2">
+                                      <div className="group w-full duration-300 ease-in-out rounded-2xl outline-none transition-shadow group b-0 ">
+                                        <div
+                                          className="w-full group flex items-center relative text-left cursor-default p-0"
+                                          role="none"
+                                        >
+                                          <div className="w-full flex flex-col gap-2">
+                                            <div className="flex items-center justify-between w-full">
+                                              <div className="w-full flex flex-col">
+                                                <div className="flex items-center gap-2 truncate overflow-hidden">
+                                                  <span className="flex items-center justify-start gap-1 truncate overflow-hidden whitespace-nowrap">
+                                                    <p className="font-semibold text-xxs truncate max-w-46 sm:max-w-fit">
+                                                      {role.headline}
+                                                    </p>
+                                                    <p>•</p>
+                                                    <span className="text-tiny text-muted-foreground truncate max-w-16 lg:max-w-fit">
+                                                      {role.employment_type}
+                                                    </span>
+                                                  </span>
+                                                </div>
+                                                <p className="text-muted-foreground font-normal text-tiny truncate overflow-hidden whitespace-nowrap max-w-58 sm:max-w-fit">
+                                                  <strong className="truncate overflow-hidden">
+                                                    {formatMonthShortYear(role.start_date)} -{' '}
+                                                    {role.end_date
+                                                      ? formatMonthShortYear(role.end_date)
+                                                      : 'Present'}
+                                                    {role.end_date && (
+                                                      <span className="ml-0.5">
+                                                        (
+                                                        {getMonthsDifference(
+                                                          role.start_date,
+                                                          role.end_date
+                                                        )}
+                                                        )
+                                                      </span>
+                                                    )}
+                                                    <span className="mx-0.5">•</span>
+                                                    <span className="font-normal">
+                                                      {role.location}, {role.location_type}
+                                                    </span>
+                                                  </strong>
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="startups">
+                      <div className="space-y-2">
+                        {startups.map((startup: Startup, index: number) => (
+                          <div
+                            key={index}
+                            className="w-full bg-card rounded-lg border border-primary/60 h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
+                          >
+                            <div className="flex items-center justify-center gap-2">
+                              <img
+                                src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
+                                className="w-8 h-8 rounded-full"
+                              />
+                              <div className="flex flex-col items-start justify-center gap-1">
+                                <p className="text-xs font-semibold">{startup.name}</p>
+                                <div className="flex gap-2 items-center justify-start w-full">
+                                  {(() => {
+                                    const currentStatus = statusOptions.find(
+                                      (s) => s.status === startup.status
+                                    );
+                                    return currentStatus ? (
+                                      <span
+                                        className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary`}
+                                      >
+                                        <span>{currentStatus.icon}</span>
+                                        <span>{currentStatus.text}</span>
+                                      </span>
+                                    ) : (
+                                      <span className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary">
+                                        {startup.status}
+                                      </span>
+                                    );
+                                  })()}
+                                  {(() => {
+                                    const currentCategory = categoryOptions.find(
+                                      (s) => s.category === startup.category
+                                    );
+                                    return currentCategory ? (
+                                      <span
+                                        className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary`}
+                                      >
+                                        <span>{currentCategory.icon}</span>
+                                        <span>{currentCategory.text}</span>
+                                      </span>
+                                    ) : (
+                                      <span className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary">
+                                        {startup.category}
+                                      </span>
+                                    );
+                                  })()}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="text-xxs font-medium">
+                              <p className="line-clamp-3">{startup.description}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </TabsContent>
+                  </Tabs>
                 </div>
               </div>
             )}

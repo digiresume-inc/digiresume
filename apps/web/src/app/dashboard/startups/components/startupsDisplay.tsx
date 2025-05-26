@@ -1,17 +1,17 @@
 'use client';
 import { Button } from '@lf/ui/components/base/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@lf/ui/components/base/dialog';
-import { Startup } from '@lf/utils';
-import { GripVertical, Plus } from 'lucide-react';
+import { Startup, categoryOptions, statusOptions } from '@lf/utils';
+import { Edit, GripVertical, Plus, Trash } from 'lucide-react';
 import React, { useState } from 'react';
 import StartupForm from './startupForm';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { ToastError, ToastSuccess } from '@/components/toast';
 import { createClient } from '@/supabase/client';
+import { useRouter } from 'next/navigation';
 
 const StartupsDisplay = ({ startups }: { startups: any }) => {
   const supabase = createClient();
-  const [localStartups, setLocalStartups] = useState<Startup[]>(startups);
   const [startupDraggingItemId, setStartupDraggingItemId] = useState<string | null>(null);
   const emptyStartup: Startup = {
     index: startups.length + 1,
@@ -28,6 +28,7 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
   const [open, setOpen] = useState(false);
   const [actionType, setActionType] = useState('Edit');
   const [selectedStartup, setSelectedStartup] = useState<Startup | null>(null);
+  const router = useRouter();
 
   const StartupsDragStart = (start: any) => {
     setStartupDraggingItemId(start.draggableId); // Set the ID of the currently dragged item
@@ -38,13 +39,12 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
 
     if (!result.destination) return;
 
-    const reorderedStartups = Array.from(localStartups);
+    const reorderedStartups = Array.from(startups as Startup[]);
     const [reorderedStartup] = reorderedStartups.splice(result.source.index, 1);
     reorderedStartups.splice(result.destination.index, 0, reorderedStartup as Startup);
     try {
-      setLocalStartups(reorderedStartups as Startup[]);
       await Promise.all(
-        reorderedStartups.map(async (startup, index) => {
+        reorderedStartups.map(async (startup: Startup, index: number) => {
           if (startup.index !== index + 1) {
             const { error } = await supabase
               .from('startups')
@@ -59,13 +59,25 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
       );
 
       ToastSuccess({ message: 'Order updated' });
+      router.refresh();
     } catch (error) {
       ToastError({ message: 'An unexpected error occurred.' });
     }
   };
   return (
     <>
-      <div className="flex flex-col items-center justify-center gap-3">
+      <div className="flex flex-col items-center justify-center gap-3 relative">
+        <Button
+          onClick={() => {
+            setActionType('Add');
+            setSelectedStartup(emptyStartup);
+            setOpen(true);
+          }}
+          variant={'default'}
+          className="w-full sticky top-0 left-0"
+        >
+          <Plus /> Add New
+        </Button>
         <DragDropContext onDragStart={StartupsDragStart} onDragEnd={StartupsDragEnd}>
           <Droppable droppableId="startup-list">
             {(provided) => (
@@ -75,7 +87,7 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
                 className="w-full flex flex-col"
               >
                 {/* Render draggable items here */}
-                {localStartups.map((startup: Startup, index: number) => (
+                {startups.map((startup: Startup, index: number) => (
                   <Draggable key={startup.id} draggableId={startup.id!} index={index}>
                     {(provided) => (
                       <div
@@ -90,36 +102,83 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
                               : 'opacity-100 border border-primary/40'
                         }`}
                       >
-                        <div key={index} className="bg-card w-full min-h-36 rounded-lg p-4">
-                          <div className="flex items-center justify-center w-full">
+                        <div key={index} className="bg-card w-full min-h-36 rounded-lg p-2 lg:p-4">
+                          <div className="flex items-center justify-center w-full gap-2">
                             <div className="w-[5%] h-full">
                               {' '}
-                              <GripVertical strokeWidth={1.2} />
+                              <GripVertical className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1.2} />
                             </div>
                             <div className="flex flex-col items-center justify-center w-[95%] gap-2">
                               <div className="flex items-center justify-center w-full gap-2">
-                                <div
-                                  onClick={() => {
-                                    setActionType('Edit');
-                                    setSelectedStartup(startup);
-                                    setOpen(true);
-                                  }}
-                                  className="w-12 h-12 flex items-center justify-center"
-                                >
+                                <div className="w-8 lg:w-12 h-8 lg:h-12 flex items-center justify-center">
                                   <img
                                     src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
-                                    className="w-12 h-12 rounded-full"
+                                    className="w-8 lg:w-12 h-8 lg:h-12 rounded-full"
                                   />
                                 </div>
-                                <div className="h-12 w-[calc(100%-64px)] flex flex-col gap-2 items-center justify-center">
-                                  <div className="h-6 w-full bg-secondary rounded-lg" />
-                                  <div className="flex gap-2 h-6 items-center justify-center w-full">
-                                    <div className="h-full w-1/2 bg-secondary rounded-lg" />
-                                    <div className="h-full w-1/2 bg-secondary rounded-lg" />
+                                <div className="w-[calc(100%-64px)] flex flex-col items-center justify-center gap-1">
+                                  <div className="w-full flex items-center justify-between">
+                                    <p className="font-semibold text-sm lg:text-base">
+                                      {startup.name}
+                                    </p>
+                                    <div className="flex items-center justify-center gap-2">
+                                      <Button
+                                        onClick={() => {
+                                          setActionType('Edit');
+                                          setSelectedStartup(startup);
+                                          setOpen(true);
+                                        }}
+                                        size={'icon'}
+                                        variant={'outline'}
+                                      >
+                                        <Edit />
+                                      </Button>
+                                      <Button size={'icon'} variant={'destructive'}>
+                                        <Trash />
+                                      </Button>
+                                    </div>
+                                  </div>
+                                  <div className="flex gap-2 items-center justify-start w-full">
+                                    {(() => {
+                                      const currentStatus = statusOptions.find(
+                                        (s) => s.status === startup.status
+                                      );
+                                      return currentStatus ? (
+                                        <span
+                                          className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary`}
+                                        >
+                                          <span>{currentStatus.icon}</span>
+                                          <span>{currentStatus.text}</span>
+                                        </span>
+                                      ) : (
+                                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary">
+                                          {startup.status}
+                                        </span>
+                                      );
+                                    })()}
+                                    {(() => {
+                                      const currentCategory = categoryOptions.find(
+                                        (s) => s.category === startup.category
+                                      );
+                                      return currentCategory ? (
+                                        <span
+                                          className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary`}
+                                        >
+                                          <span>{currentCategory.icon}</span>
+                                          <span>{currentCategory.text}</span>
+                                        </span>
+                                      ) : (
+                                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary">
+                                          {startup.category}
+                                        </span>
+                                      );
+                                    })()}
                                   </div>
                                 </div>
                               </div>
-                              <div className="h-16 w-full bg-secondary rounded-lg"></div>
+                              <div className="h-16 w-full bg-secondary text-sm p-3 rounded-md">
+                                <p className="line-clamp-2">{startup.description}</p>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -132,17 +191,6 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
             )}
           </Droppable>
         </DragDropContext>
-        <Button
-          onClick={() => {
-            setActionType('Add');
-            setSelectedStartup(emptyStartup);
-            setOpen(true);
-          }}
-          variant={'outline'}
-          className="w-full"
-        >
-          <Plus /> Add New
-        </Button>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">

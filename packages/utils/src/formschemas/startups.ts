@@ -158,8 +158,13 @@ export const startupSchema = z.object({
   id: z.string().optional(),
   index: z.number().nonnegative(),
   name: z.string().min(1, { message: 'Startup Name is required' }),
-  description: z.string().min(1, { message: 'Description is required' }),
-  url: z.string().url({ message: 'Please enter a valid url' }),
+  description: z.string().min(1, { message: 'Description is required' }).max(200,{ message: 'Max length exceeded' } ),
+  url: z
+    .string()
+    .url({ message: 'Please enter a valid URL' })
+    .refine((val) => val.startsWith('https://'), {
+      message: 'Only HTTPS URLs are allowed',
+    }),
   revenue: z
     .number({ message: 'Enter a valid number' })
     .nonnegative({ message: 'Revenue must be a positive number' }),

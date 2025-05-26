@@ -22,6 +22,7 @@ import { Check, Loader2, Save } from 'lucide-react';
 import { addStartup } from '../actions/addStartup';
 import { ToastError, ToastSuccess } from '@/components/toast';
 import { updateStartup } from '../actions/updateStartup';
+import { useRouter } from 'next/navigation';
 
 type StartupFormData = z.infer<typeof startupSchema>;
 
@@ -45,11 +46,14 @@ export default function StartupForm({
     defaultValues: startup!,
   });
 
+  const router = useRouter();
+
   const onSubmit = async (data: StartupFormData) => {
-    const result = actionType === "Add" ? await addStartup(data) : await updateStartup(data);
+    const result = actionType === 'Add' ? await addStartup(data) : await updateStartup(data);
 
     if (result.success) {
       ToastSuccess({ message: result.message });
+      router.refresh();
       setOpen(false);
     } else {
       ToastError({ message: result.message });
@@ -60,36 +64,42 @@ export default function StartupForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
-        <label className="block mb-1 text-sm lg:text-base text-foreground/70">Name</label>
-        <Input {...register('name')} placeholder="Startup name" className="text-sm lg:text-base" />
+        <label className="block mb-1 text-sm text-foreground/70">Name</label>
+        <Input {...register('name')} placeholder="Startup name" className="text-sm" />
         {errors.name && <p className="text-sm text-destructive mt-0.5">{errors.name.message}</p>}
       </div>
 
       <div>
-        <label className="block mb-1 text-sm lg:text-base text-foreground/70">Description</label>
-        <Textarea
-          {...register('description')}
-          placeholder="What's your startup about?"
-          className="text-sm lg:text-base"
-        />
+        <label className="block mb-1 text-sm text-foreground/70">Description</label>
+        <div className="relative">
+          <Textarea
+            {...register('description')}
+            placeholder="How crazy is your startup?"
+            className="text-sm pb-6"
+            maxLength={200}
+          />
+          <p className="absolute bottom-1.5 right-3 text-xxs text-muted-foreground">
+            {(watch('description') || '').length}/200
+          </p>
+        </div>
         {errors.description && (
           <p className="text-sm text-destructive mt-0.5">{errors.description.message}</p>
         )}
       </div>
 
       <div>
-        <label className="block mb-1 text-sm lg:text-base text-foreground/70">URL</label>
-        <Input {...register('url')} placeholder="https://..." className="text-sm lg:text-base" />
+        <label className="block mb-1 text-sm text-foreground/70">URL</label>
+        <Input {...register('url')} placeholder="https://popatmatch.com" className="text-sm" />
         {errors.url && <p className="text-sm text-destructive mt-0.5">{errors.url.message}</p>}
       </div>
 
       <div>
-        <label className="block mb-1 text-sm lg:text-base text-foreground/70">Revenue</label>
+        <label className="block mb-1 text-sm text-foreground/70">Estimated Revenue</label>
         <Input
           type="number"
           {...register('revenue', { valueAsNumber: true })}
-          placeholder="1000"
-          className="text-sm lg:text-base"
+          placeholder="Estimated startup revenue"
+          className="text-sm"
         />
         {errors.revenue && (
           <p className="text-sm text-destructive mt-0.5">{errors.revenue.message}</p>
@@ -98,7 +108,7 @@ export default function StartupForm({
 
       <div className="flex items-center justify-center gap-2">
         <div className="w-[70%]">
-          <label className="block mb-1 text-sm lg:text-base text-foreground/70">Status</label>
+          <label className="block mb-1 text-sm text-foreground/70">Status</label>
           <Select
             value={watch('status')}
             onValueChange={(val) => setValue('status', val as StartupFormData['status'])}
@@ -122,7 +132,7 @@ export default function StartupForm({
           )}
         </div>
         <div className="w-[30%]">
-          <label className="flex items-center gap-2 text-xs lg:text-base text-foreground/70">
+          <label className="flex items-center gap-2 text-xs lg:text-sm text-foreground/70">
             Show Status
           </label>
           <div className="flex p-3">
@@ -135,7 +145,7 @@ export default function StartupForm({
       </div>
 
       <div>
-        <label className="block mb-1 text-sm lg:text-base text-foreground/70">Category</label>
+        <label className="block mb-1 text-sm text-foreground/70">Category</label>
         <Select
           value={watch('category')}
           onValueChange={(val) => setValue('category', val as StartupFormData['category'])}
@@ -160,7 +170,7 @@ export default function StartupForm({
       </div>
       {/* Optional api_info */}
 
-      <label className="flex items-center gap-2 cursor-pointer text-sm lg:text-base">
+      <label className="flex items-center gap-2 cursor-pointer text-sm">
         <Checkbox
           checked={watch('show_on_profile')}
           onCheckedChange={(val) => setValue('show_on_profile', !!val)}
