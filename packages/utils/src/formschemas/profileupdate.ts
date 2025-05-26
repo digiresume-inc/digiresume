@@ -25,6 +25,8 @@ export const profileUpdateSchema = z.object({
   full_name: z.string().min(3, 'Full name must be at least 3 characters'),
   country: z.string().min(3, 'Country must be at least 3 characters'),
   skills: z.array(skillSchema),
+  company: z.string().min(1, 'Please enter your company name'),
+  education: z.string().min(1, 'Please enter your education details'),
   headline: z
     .string()
     .min(3, 'Headline must be at least 3 characters')

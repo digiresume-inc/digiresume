@@ -23,6 +23,7 @@ import { ToastError, ToastSuccess } from '@/components/toast';
 import { useRouter } from 'next/navigation';
 import { addProject } from '../actions/addProject';
 import { updateProject } from '../actions/updateProject';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
 
 type ProjectFormSchema = z.infer<typeof projectSchema>;
 
@@ -70,7 +71,40 @@ export default function ProjectForm({
       </div>
 
       <div>
-        <label className="block mb-1 text-sm text-foreground/70">Description</label>
+        <label className="mb-1 text-sm text-foreground/70 flex items-center gap-2">
+          Description
+          <HoverCard openDelay={250}>
+            <HoverCardTrigger className="text-xs font-medium text-lightprimary-text dark:text-primary-text cursor-pointer">
+              <button className="underline cursor-pointer text-card-foreground/80">
+                (*Markdown Guide*)
+              </button>
+            </HoverCardTrigger>
+            <HoverCardContent className="bg-secondary border rounded-md z-50">
+              <div className="flex flex-col p-2">
+                <p className="text-sm font-semibold text-lightprimary-text/80 dark:text-primary-text/80">
+                  Markdown guide
+                </p>
+                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80 mt-2">
+                  <span className="text-lightaccent-text dark:text-accent-text">**text**</span> →{' '}
+                  <span className="font-bold">text</span>
+                </p>
+                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
+                  <span className="text-lightaccent-text dark:text-accent-text">*text*</span> →{' '}
+                  <span className="italic">text</span>
+                </p>
+                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
+                  <span className="text-lightaccent-text dark:text-accent-text">
+                    [ab](https://ab.com)
+                  </span>{' '}
+                  →{' '}
+                  <a href="https://ab.com" target="_blank" className="font-medium underline">
+                    ab
+                  </a>
+                </p>
+              </div>
+            </HoverCardContent>
+          </HoverCard>
+        </label>
         <div className="relative">
           <Textarea
             {...register('description')}

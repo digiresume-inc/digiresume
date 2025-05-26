@@ -23,6 +23,7 @@ import { addStartup } from '../actions/addStartup';
 import { ToastError, ToastSuccess } from '@/components/toast';
 import { updateStartup } from '../actions/updateStartup';
 import { useRouter } from 'next/navigation';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
 
 type StartupFormData = z.infer<typeof startupSchema>;
 
@@ -70,7 +71,40 @@ export default function StartupForm({
       </div>
 
       <div>
-        <label className="block mb-1 text-sm text-foreground/70">Description</label>
+        <label className="mb-1 text-sm text-foreground/70 flex items-center gap-2">
+          Description
+          <HoverCard openDelay={250}>
+            <HoverCardTrigger className="text-xs font-medium text-lightprimary-text dark:text-primary-text cursor-pointer">
+              <button className="underline cursor-pointer text-card-foreground/80">
+                (*Markdown Guide*)
+              </button>
+            </HoverCardTrigger>
+            <HoverCardContent className="bg-secondary border rounded-md z-50">
+              <div className="flex flex-col p-2">
+                <p className="text-sm font-semibold text-lightprimary-text/80 dark:text-primary-text/80">
+                  Markdown guide
+                </p>
+                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80 mt-2">
+                  <span className="text-lightaccent-text dark:text-accent-text">**text**</span> →{' '}
+                  <span className="font-bold">text</span>
+                </p>
+                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
+                  <span className="text-lightaccent-text dark:text-accent-text">*text*</span> →{' '}
+                  <span className="italic">text</span>
+                </p>
+                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
+                  <span className="text-lightaccent-text dark:text-accent-text">
+                    [tmkoc](https://tmkoc.com)
+                  </span>{' '}
+                  →{' '}
+                  <a href="https://tmkoc.com" target="_blank" className="font-medium underline">
+                    tmkoc
+                  </a>
+                </p>
+              </div>
+            </HoverCardContent>
+          </HoverCard>
+        </label>
         <div className="relative">
           <Textarea
             {...register('description')}
@@ -111,7 +145,9 @@ export default function StartupForm({
           <label className="block mb-1 text-sm text-foreground/70">Status</label>
           <Select
             value={watch('status')}
-            onValueChange={(val) => setValue('status', val as StartupFormData['status'], { shouldDirty: true })}
+            onValueChange={(val) =>
+              setValue('status', val as StartupFormData['status'], { shouldDirty: true })
+            }
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select status" />
@@ -148,7 +184,9 @@ export default function StartupForm({
         <label className="block mb-1 text-sm text-foreground/70">Category</label>
         <Select
           value={watch('category')}
-          onValueChange={(val) => setValue('category', val as StartupFormData['category'], { shouldDirty: true })}
+          onValueChange={(val) =>
+            setValue('category', val as StartupFormData['category'], { shouldDirty: true })
+          }
         >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select category" />

@@ -11,6 +11,8 @@ import {
   Skill,
   Startup,
   statusOptions,
+  Theme,
+  Themes
 } from '@lf/utils';
 import {
   X,
@@ -27,6 +29,9 @@ import {
   Type,
   Link2,
   Info,
+  University,
+  Newspaper,
+  Building2,
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import AvatarComponent from './avatar';
@@ -37,8 +42,6 @@ import { CountryCombobox } from '@/components/countryselect';
 import { Controller, useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { BiRupee } from 'react-icons/bi';
-import { Textarea } from '@lf/ui/components/base/textarea';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
 import { SkillsSelect } from '@/components/skillselect';
 import { updateProfile } from '../actions/updateProfile';
 import { z } from 'zod';
@@ -72,6 +75,7 @@ const UpdateForm = ({
 }) => {
   const [fetchLoading, setFetchLoading] = useState(true);
   const [showOverlay, setShowOverlay] = useState(false);
+  const [theme, setTheme] = useState<Theme | null>(Themes[0] as Theme);
 
   const form = useForm<z.infer<typeof profileUpdateSchema>>({
     resolver: zodResolver(profileUpdateSchema),
@@ -79,7 +83,9 @@ const UpdateForm = ({
       full_name: '',
       country: '',
       skills: [] as Skill[],
+      company: '',
       headline: '',
+      education: '',
       profile_link: {
         url: '',
         text: '',
@@ -93,7 +99,9 @@ const UpdateForm = ({
         full_name: profile.full_name || '',
         country: profile.country || '',
         skills: profile.skills || [],
+        company: profile.company || '',
         headline: profile.headline || '',
+        education: profile.education || '',
         profile_link: {
           url: profile.profile_link?.url || '',
           text: profile.profile_link?.text || '',
@@ -111,6 +119,8 @@ const UpdateForm = ({
 
   const profileLink = form.watch('profile_link');
   const headline = form.watch('headline');
+  const company = form.watch('company');
+  const education = form.watch('education');
   const full_name = form.watch('full_name');
   const country = form.watch('country');
 
@@ -269,61 +279,68 @@ const UpdateForm = ({
                         )}
                       />
                     </div>
-                    <div className="col-span-1 lg:col-span-2">
-                      <div className="flex items-center justify-start">
-                        <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
-                          Headline
-                        </label>
-                        <HoverCard openDelay={250}>
-                          <HoverCardTrigger className="text-xs font-medium text-lightprimary-text dark:text-primary-text cursor-pointer">
-                            <button className="underline cursor-pointer text-card-foreground/80">
-                              (*Markdown Guide*)
-                            </button>
-                          </HoverCardTrigger>
-                          <HoverCardContent className="bg-secondary border rounded-md z-50">
-                            <div className="flex flex-col p-2">
-                              <p className="text-sm font-semibold text-lightprimary-text/80 dark:text-primary-text/80">
-                                Markdown guide
-                              </p>
-                              <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80 mt-2">
-                                <span className="text-lightaccent-text dark:text-accent-text">
-                                  **text**
-                                </span>{' '}
-                                → <span className="font-bold">text</span>
-                              </p>
-                              <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
-                                <span className="text-lightaccent-text dark:text-accent-text">
-                                  *text*
-                                </span>{' '}
-                                → <span className="italic">text</span>
-                              </p>
-                              <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
-                                <span className="text-lightaccent-text dark:text-accent-text">
-                                  [link](https://mystartup.com)
-                                </span>{' '}
-                                →{' '}
-                                <a
-                                  href="https://mystartup.com"
-                                  target="_blank"
-                                  className="font-medium underline"
-                                >
-                                  link
-                                </a>
-                              </p>
-                            </div>
-                          </HoverCardContent>
-                        </HoverCard>
+                    <div className="col-span-1">
+                      <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+                        Headline
+                      </label>
+                      <div className="relative">
+                        <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                          <Newspaper strokeWidth={1} size={18} />
+                        </span>
+                        <Input
+                          id="headline"
+                          placeholder="Full Stack Dev | Data Engineer ..."
+                          className="col-span-1 lg:col-span-2 text-sm pl-9 py-2"
+                          {...form.register('headline')}
+                        />
                       </div>
-                      <Textarea
-                        id="headline"
-                        rows={2}
-                        placeholder="Headline..."
-                        className="col-span-1 lg:col-span-2 text-sm"
-                        {...form.register('headline')}
-                      />
                       {form.formState.errors.headline && (
                         <p className="text-xs lg:text-sm text-destructive mt-1">
                           {form.formState.errors.headline.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="col-span-1">
+                      <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+                        Current Company
+                      </label>
+                      <div className="relative">
+                        <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                          <Building2 strokeWidth={1} size={18} />
+                        </span>
+                        <Input
+                          id="company"
+                          placeholder="Google | Meta ..."
+                          className="col-span-1 lg:col-span-2 text-sm pl-9 py-2"
+                          {...form.register('company')}
+                        />
+                      </div>
+                      {form.formState.errors.company && (
+                        <p className="text-xs lg:text-sm text-destructive mt-1">
+                          {form.formState.errors.company.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="col-span-1 lg:col-span-2">
+                      <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+                        Education
+                      </label>
+                      <div className="relative">
+                        <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                          <University strokeWidth={1} size={18} />
+                        </span>
+                        <Input
+                          id="education"
+                          type="text"
+                          placeholder="Jethalal Uni | IITkgp ..."
+                          autoComplete="off"
+                          {...form.register('education')}
+                          className="pl-9 py-2 text-sm"
+                        />
+                      </div>
+                      {form.formState.errors.education && (
+                        <p className="text-xs lg:text-sm text-destructive mt-1">
+                          {form.formState.errors.education.message}
                         </p>
                       )}
                     </div>
@@ -458,19 +475,36 @@ const UpdateForm = ({
                 </div>
               </div>
             ) : (
-              <div className="w-[270px] h-[590px] bg-background rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
+              <div
+                style={{
+                  backgroundColor: theme?.theme_data?.primary_bg || '#2a2522',
+                }}
+                className="w-[270px] h-[590px] rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar"
+              >
                 {/* URL Bar */}
 
                 {/* Content */}
                 <div className="p-4 space-y-2">
-                  <div className="w-full bg-muted rounded-full h-6 flex items-center justify-between px-2">
+                  <div
+                    style={{
+                      background: theme?.theme_data?.secondary_bg || '#3b3129',
+                    }}
+                    className="w-full rounded-full h-6 flex items-center justify-between px-2"
+                  >
                     <img className="h-5 w-5 rounded-full" src={profile.favicon_url} />
-                    <p className="text-xs">/{profile.username}</p>
+                    <p
+                      style={{
+                        color: theme?.theme_data?.primary_text || '#ebe4d6',
+                      }}
+                      className="text-xs"
+                    >
+                      /{profile.username}
+                    </p>
                     <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/u/${profile.username}`}>
                       <ExternalLink strokeWidth={1.5} size={14} className="text-foreground" />
                     </Link>
                   </div>
-                  <div className='h-1 w-full'/>
+                  <div className="h-1 w-full" />
 
                   <div className="flex items-center justify-center gap-2">
                     <div className="w-12 h-12 p-0.5 border border-dashed border-primary rounded-full">
@@ -478,8 +512,8 @@ const UpdateForm = ({
                     </div>
                     <div className="flex flex-col items-start justify-center gap-1">
                       <p className="text-sm font-semibold ml-1">{full_name}</p>
-                      <p className="flex text-xs font-medium gap-1">
-                        <MapPin className="w-[14px] h-[14px] mr-[-2px]" />
+                      <p className="flex items-center text-xs font-medium gap-1">
+                        <MapPin className="w-[12px] h-[12px] mr-[-2px]" />
                         {country.split('-')[0]}
                         <img
                           className="w-4"
@@ -487,17 +521,15 @@ const UpdateForm = ({
                         />
                         <span className="h-[15px] w-px bg-primary mx-1" />
                         <span className="flex items-center">
-                          <BiRupee className="w-4 h-4 mr-[-1px]" />2 cr/m
+                          <BiRupee strokeWidth={1} className="w-[12px] h-[12px]" />2 cr/m
                         </span>
                       </p>
                     </div>
                   </div>
                   <div className="flex flex-col items-center justify-center p-2">
-                    <h1 className="text-xs font-bold">
-                      Full Stack Developer
-                    </h1>
+                    <h1 className="text-xs font-bold">{headline}</h1>
                     <p className="text-xxs text-muted-foreground">
-                      Contributor @Dub.co · VBIT Alumni
+                      at @{company} · {education} Alumni
                     </p>
                   </div>
                   <div className="flex items-center justify-center text-xxs gap-2 mb-3">
