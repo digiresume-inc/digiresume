@@ -1,10 +1,11 @@
 'use client';
+import MarkdownParser from '@/components/markdownparser';
 import { Button } from '@lf/ui/components/base/button';
 import { Startup, statusOptions, categoryOptions } from '@lf/utils';
-import { BatteryLow, Loader2, SignalMedium, X } from 'lucide-react';
+import { BatteryLow, SignalMedium, X } from 'lucide-react';
 import React, { useState } from 'react';
 
-const PreviewComponent = ({ startups }: { startups: any }) => {
+const StartupsPreviewComponent = ({ startups }: { startups: any }) => {
   const [showOverlay, setShowOverlay] = useState(false);
 
   return (
@@ -96,7 +97,10 @@ const PreviewComponent = ({ startups }: { startups: any }) => {
                     </div>
                   </div>
                   <div className="text-xxs font-medium">
-                    <p className="line-clamp-3">{startup.description}</p>
+                    <span className="line-clamp-3">
+                      {' '}
+                      <MarkdownParser text={startup.description} />
+                    </span>
                   </div>
                 </div>
               ))}
@@ -108,4 +112,4 @@ const PreviewComponent = ({ startups }: { startups: any }) => {
   );
 };
 
-export default PreviewComponent;
+export default StartupsPreviewComponent;

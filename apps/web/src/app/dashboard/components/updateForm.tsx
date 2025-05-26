@@ -7,6 +7,7 @@ import {
   getLineHeightPercent,
   getMonthsDifference,
   profileUpdateSchema,
+  Project,
   Skill,
   Startup,
   statusOptions,
@@ -46,8 +47,29 @@ import { ToastSuccess } from '@/components/toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
 import ExperienceForm from './experienceForm';
 import SocialsForm from './socialsForm';
+import { iconMap } from '../utils/iconMap';
+import MarkdownParser from '@/components/markdownparser';
 
-const UpdateForm = ({ profile, startups }: { profile: any;startups: any }) => {
+function getPlatformIcon(url: string) {
+  try {
+    const host = new URL(url).hostname.replace('www.', '');
+    const platform = Object.keys(iconMap).find((key) => host.includes(key.toLowerCase()));
+    const Icon = iconMap[platform || ''];
+    return Icon ? <Icon size={15} /> : <Link2 size={15} />;
+  } catch {
+    return <Link2 size={15} />;
+  }
+}
+
+const UpdateForm = ({
+  profile,
+  startups,
+  projects,
+}: {
+  profile: any;
+  startups: any;
+  projects: any;
+}) => {
   const [fetchLoading, setFetchLoading] = useState(true);
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -430,24 +452,25 @@ const UpdateForm = ({ profile, startups }: { profile: any;startups: any }) => {
 
             {/* iPhone Screen */}
             {fetchLoading ? (
-              <div className="w-[270px] h-[590px] bg-secondary rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
+              <div className="w-[270px] h-[590px] bg-background rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
                 <div className="flex items-center justify-center h-full">
                   <Loader2 className="animate-spin text-primary" size={32} />
                 </div>
               </div>
             ) : (
-              <div className="w-[270px] h-[590px] bg-secondary rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
+              <div className="w-[270px] h-[590px] bg-background rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
                 {/* URL Bar */}
 
                 {/* Content */}
                 <div className="p-4 space-y-2">
-                  <div className="w-full bg-background rounded-full h-8 flex items-center justify-between px-2">
+                  <div className="w-full bg-muted rounded-full h-6 flex items-center justify-between px-2">
                     <img className="h-5 w-5 rounded-full" src={profile.favicon_url} />
                     <p className="text-xs">/{profile.username}</p>
                     <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/u/${profile.username}`}>
                       <ExternalLink strokeWidth={1.5} size={14} className="text-foreground" />
                     </Link>
                   </div>
+                  <div className='h-1 w-full'/>
 
                   <div className="flex items-center justify-center gap-2">
                     <div className="w-12 h-12 p-0.5 border border-dashed border-primary rounded-full">
@@ -469,15 +492,22 @@ const UpdateForm = ({ profile, startups }: { profile: any;startups: any }) => {
                       </p>
                     </div>
                   </div>
-                  <div className="text-xxs font-medium text-center px-4">{headline}</div>
-                  <div className="flex items-center justify-center text-xxs gap-2">
+                  <div className="flex flex-col items-center justify-center p-2">
+                    <h1 className="text-xs font-bold">
+                      Full Stack Developer
+                    </h1>
+                    <p className="text-xxs text-muted-foreground">
+                      Contributor @Dub.co · VBIT Alumni
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-center text-xxs gap-2 mb-3">
                     {profile.resume_url && (
                       <a
-                        target="_blank"
-                        className="flex items-center justify-center gap-0.5 underline underline-offset-1"
                         href={profile.resume_url}
+                        target="_blank"
+                        className="flex items-center gap-0.5 border-b-2 border-dashed text-foreground/80 border-primary/70 hover:border-primary hover:text-foreground transition"
                       >
-                        <File className="w-[11px] h-[11px]" />
+                        <File strokeWidth={1} className="w-[11px] h-[11px]" />
                         Resume
                       </a>
                     )}
@@ -485,7 +515,7 @@ const UpdateForm = ({ profile, startups }: { profile: any;startups: any }) => {
                       <a
                         target="_blank"
                         href={profileLink.url}
-                        className="flex items-center justify-center gap-0.5 underline underline-offset-1"
+                        className="flex items-center gap-0.5 border-b-2 border-dashed text-foreground/80 border-primary/70 hover:border-primary hover:text-foreground transition"
                       >
                         <Link2 className="w-[12px] h-[12px]" />
                         {profileLink.text}
@@ -496,7 +526,7 @@ const UpdateForm = ({ profile, startups }: { profile: any;startups: any }) => {
                     {form.getValues('skills')?.map((skill: Skill) => (
                       <div
                         key={skill.value}
-                        className="flex items-center font-medium justify-center gap-1 bg-primary/50 rounded-full px-2 py-0.5 text-tiny"
+                        className="flex items-center font-medium justify-center gap-1 bg-secondary rounded-full px-2 py-0.5 text-tiny"
                       >
                         <img src={skill.logo} alt={skill.label} className="h-2 w-2" />
                         {skill.label}
@@ -505,7 +535,7 @@ const UpdateForm = ({ profile, startups }: { profile: any;startups: any }) => {
                   </div>
                   <Tabs defaultValue="experience" className="w-full mt-8">
                     <div className="relative rounded-sm overflow-x-scroll h-10 no_scrollbar scrollbar-hidden">
-                      <TabsList className="absolute flex flex-row justify-stretch w-full bg-secondary">
+                      <TabsList className="absolute flex flex-row justify-stretch w-full bg-background">
                         <TabsTrigger
                           value="experience"
                           className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] border-transparent data-[state=active]:bg-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
@@ -671,13 +701,74 @@ const UpdateForm = ({ profile, startups }: { profile: any;startups: any }) => {
                               </div>
                             </div>
                             <div className="text-xxs font-medium">
-                              <p className="line-clamp-3">{startup.description}</p>
+                              <span className="line-clamp-3">
+                                <MarkdownParser text={startup.description} />{' '}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="projects">
+                      <div className="space-y-2">
+                        {projects.map((project: Project, index: number) => (
+                          <div
+                            key={index}
+                            className="w-full bg-card rounded-lg border border-primary/60 h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
+                          >
+                            <div className="flex items-center justify-center gap-2">
+                              <img
+                                src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
+                                className="w-8 h-8 rounded-full"
+                              />
+                              <div className="flex flex-col items-start justify-center gap-1">
+                                <p className="text-xs font-semibold">{project.name}</p>
+                                <div className="flex gap-2 items-center justify-start w-full">
+                                  {(() => {
+                                    const currentCategory = categoryOptions.find(
+                                      (s) => s.category === project.category
+                                    );
+                                    return currentCategory ? (
+                                      <span
+                                        className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary`}
+                                      >
+                                        <span>{currentCategory.icon}</span>
+                                        <span>{currentCategory.text}</span>
+                                      </span>
+                                    ) : (
+                                      <span className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary">
+                                        {project.category}
+                                      </span>
+                                    );
+                                  })()}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="text-xxs font-medium">
+                              <span className="line-clamp-3">
+                                <MarkdownParser text={project.description} />{' '}
+                              </span>
                             </div>
                           </div>
                         ))}
                       </div>
                     </TabsContent>
                   </Tabs>
+                  <div className="gap-1 flex flex-wrap items-center justify-center p-2 mt-6">
+                    {profile.socials.map((social: any, index: number) => {
+                      const icon = getPlatformIcon(social.url);
+                      return (
+                        <a
+                          target="_blank"
+                          href={social.url}
+                          key={index}
+                          className="w-10 h-10 border border-primary/60 rounded-full p-2 flex items-center justify-center"
+                        >
+                          <>{icon}</>
+                        </a>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )}

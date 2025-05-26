@@ -8,6 +8,7 @@ import {
   formatMonthYear,
   getLineHeightPercent,
   getMonthsDifference,
+  Project,
   Skill,
   Startup,
   statusOptions,
@@ -20,6 +21,7 @@ import { Popover, PopoverTrigger, PopoverContent } from '@lf/ui/components/base/
 import { iconMap } from '@/app/dashboard/utils/iconMap';
 import { Button } from '@lf/ui/components/base/button';
 import ShareCard from './components/shareCard';
+import MarkdownParser from '@/components/markdownparser';
 
 function getPlatformIcon(url: string) {
   try {
@@ -37,6 +39,7 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
 
   let profile;
   let startups;
+  let projects;
 
   try {
     const supabase = createSClient();
@@ -45,7 +48,8 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
       .select(
         `
         *,
-        startups (*)
+        startups (*),
+        projects(*)
       `
       )
       .eq('username', username)
@@ -61,6 +65,7 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
 
     profile = data;
     startups = data.startups.sort((a: Startup, b: Startup) => a.index - b.index);
+    projects = data.projects.sort((a: Project, b: Project) => a.index - b.index);
     // const cached = await redis.get(`profile:${username}`);
 
     // if (cached) {
@@ -106,10 +111,10 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
     );
   }
 
-  return renderProfile(profile, startups);
+  return renderProfile(profile, startups, projects);
 }
 
-function renderProfile(profile: any, startups: any) {
+function renderProfile(profile: any, startups: any, projects: any) {
   return (
     <div className="relative flex size-full min-h-screen flex-col overflow-x-hidden">
       <div className="layout-container flex h-full grow flex-col">
@@ -233,11 +238,13 @@ function renderProfile(profile: any, startups: any) {
                         />
                         <div className="w-full flex justify-between">
                           <div className="flex items-center gap-2 relative">
-                            <img
-                              alt={company.company}
-                              className="cursor-pointer w-10 h-10 rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity border-primaryBorder flex-grow border"
-                              src={company.company_logo}
-                            />
+                            <div className='w-10 h-10 rounded-full border-primary/60 border border-dashed p-0.5'>
+                              <img
+                                alt={company.company}
+                                className="cursor-pointer w-full h-full rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity flex-grow"
+                                src={company.company_logo}
+                              />
+                            </div>
                             <p className="font-bold text-base lg:text-lg truncate">
                               {company.company}
                             </p>
@@ -404,15 +411,66 @@ function renderProfile(profile: any, startups: any) {
                           </div>
                         </div>
                         <div className="h-px w-full bg-primary/60" />
-                        <div className="text-xs font-medium">
-                          <p className="line-clamp-3">{startup.description}</p>
+                        <div className="text-sm font-medium">
+                          <span className="line-clamp-3 text-card-foreground/80">
+                            <MarkdownParser text={startup.description}/>
+                          </span>
                         </div>
                       </div>
                     );
                   })}
                 </div>
               </TabsContent>
-              <TabsContent value="projects">...</TabsContent>
+              <TabsContent value="projects">
+                {' '}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-6 pl-2 lg:pl-4">
+                  {projects.map((project: Project, index: number) => {
+                    return (
+                      <div
+                        key={index}
+                        className="min-h-34 col-span-1 w-full bg-card rounded-lg border border-primary/60 p-3 flex flex-col gap-2 items-start justify-start"
+                      >
+                        <div className="flex items-center justify-center gap-2">
+                          <div className="w-12 h-12 p-0.5 border border-primary/60 rounded-full border-dashed">
+                            <img
+                              src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
+                              className="w-full h-full rounded-full"
+                            />
+                          </div>
+                          <div className="flex flex-col items-start justify-center gap-1">
+                            <p className="text-base font-bold ml-1">{project.name}</p>
+                            <div className="flex gap-2 items-center justify-start w-full">
+                              {(() => {
+                                const currentCategory = categoryOptions.find(
+                                  (s) => s.category === project.category
+                                );
+                                return currentCategory ? (
+                                  <span
+                                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs bg-secondary`}
+                                  >
+                                    <span>{currentCategory.icon}</span>
+                                    <span>{currentCategory.text}</span>
+                                  </span>
+                                ) : (
+                                  <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs bg-secondary">
+                                    {project.category}
+                                  </span>
+                                );
+                              })()}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="h-px w-full bg-primary/60" />
+                        <div className="text-sm font-medium">
+                          <span className="line-clamp-3 text-card-foreground/80">
+                            <MarkdownParser text={project.description}/>
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </TabsContent>
             </Tabs>
             <div className="gap-2 flex flex-wrap items-center justify-center lg:justify-start p-4 mt-6">
               {profile.socials.map((social: any, index: number) => {

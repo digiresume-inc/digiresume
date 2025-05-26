@@ -15,23 +15,23 @@ import {
   SelectItem,
 } from '@lf/ui/components/base/select';
 import { Checkbox } from '@lf/ui/components/base/checkbox';
-import { startupSchema, statusOptions, categoryOptions } from '@lf/utils'; // your Zod schema
+import { startupSchema, statusOptions, categoryOptions, Project, projectSchema } from '@lf/utils'; // your Zod schema
 import { Startup } from '@lf/utils'; // your types
 import { Switch } from '@lf/ui/components/base/switch';
 import { Check, Loader2, Save } from 'lucide-react';
-import { addStartup } from '../actions/addStartup';
 import { ToastError, ToastSuccess } from '@/components/toast';
-import { updateStartup } from '../actions/updateStartup';
 import { useRouter } from 'next/navigation';
+import { addProject } from '../actions/addProject';
+import { updateProject } from '../actions/updateProject';
 
-type StartupFormData = z.infer<typeof startupSchema>;
+type ProjectFormSchema = z.infer<typeof projectSchema>;
 
-export default function StartupForm({
-  startup,
+export default function ProjectForm({
+  project,
   actionType,
   setOpen,
 }: {
-  startup: Startup | null;
+  project: Project | null;
   actionType: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
@@ -41,15 +41,15 @@ export default function StartupForm({
     setValue,
     watch,
     formState: { errors, isDirty, isSubmitting },
-  } = useForm<StartupFormData>({
-    resolver: zodResolver(startupSchema),
-    defaultValues: startup!,
+  } = useForm<ProjectFormSchema>({
+    resolver: zodResolver(projectSchema),
+    defaultValues: project!,
   });
 
   const router = useRouter();
 
-  const onSubmit = async (data: StartupFormData) => {
-    const result = actionType === 'Add' ? await addStartup(data) : await updateStartup(data);
+  const onSubmit = async (data: ProjectFormSchema) => {
+    const result = actionType === 'Add' ? await addProject(data) : await updateProject(data);
 
     if (result.success) {
       ToastSuccess({ message: result.message });
@@ -74,7 +74,7 @@ export default function StartupForm({
         <div className="relative">
           <Textarea
             {...register('description')}
-            placeholder="How crazy is your startup?"
+            placeholder="How crazy is your project?"
             className="text-sm pb-6"
             maxLength={200}
           />
@@ -94,61 +94,10 @@ export default function StartupForm({
       </div>
 
       <div>
-        <label className="block mb-1 text-sm text-foreground/70">Estimated Revenue</label>
-        <Input
-          type="number"
-          {...register('revenue', { valueAsNumber: true })}
-          placeholder="Estimated startup revenue"
-          className="text-sm"
-        />
-        {errors.revenue && (
-          <p className="text-sm text-destructive mt-0.5">{errors.revenue.message}</p>
-        )}
-      </div>
-
-      <div className="flex items-center justify-center gap-2">
-        <div className="w-[70%]">
-          <label className="block mb-1 text-sm text-foreground/70">Status</label>
-          <Select
-            value={watch('status')}
-            onValueChange={(val) => setValue('status', val as StartupFormData['status'], { shouldDirty: true })}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select status" />
-            </SelectTrigger>
-            <SelectContent>
-              {statusOptions.map((s) => (
-                <SelectItem key={s.status} value={s.status}>
-                  <div className={`flex items-center gap-2 rounded p-1 ${s.color}`}>
-                    <span>{s.icon}</span>
-                    <span>{s.text}</span>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {errors.status && (
-            <p className="text-sm text-destructive mt-0.5">{errors.status.message}</p>
-          )}
-        </div>
-        <div className="w-[30%]">
-          <label className="flex items-center gap-2 text-xs lg:text-sm text-foreground/70">
-            Show Status
-          </label>
-          <div className="flex p-3">
-            <Switch
-              checked={watch('show_status')}
-              onCheckedChange={(val) => setValue('show_status', !!val, { shouldDirty: true })}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div>
         <label className="block mb-1 text-sm text-foreground/70">Category</label>
         <Select
           value={watch('category')}
-          onValueChange={(val) => setValue('category', val as StartupFormData['category'], { shouldDirty: true })}
+          onValueChange={(val) => setValue('category', val as ProjectFormSchema['category'], { shouldDirty: true })}
         >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select category" />
@@ -187,7 +136,7 @@ export default function StartupForm({
             </>
           ) : actionType === 'Add' ? (
             <>
-              Add Startup <Check />
+              Add Project <Check />
             </>
           ) : (
             <>
