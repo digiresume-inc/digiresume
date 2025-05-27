@@ -5,12 +5,14 @@ import { FilePlus2, Loader2, Pencil } from 'lucide-react';
 import { ToastError, ToastSuccess } from '@/components/toast';
 import { createClient } from '@/supabase/client';
 import { Button } from '@lf/ui/components/base/button';
+import { useRouter } from 'next/navigation';
 
 const ResumeComponent = ({ resume_url }: { resume_url: string }) => {
   const supabase = createClient();
   const [resumeUrl, setResumeUrl] = useState(resume_url);
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleFile = async (file: File) => {
     const validTypes = [
@@ -64,6 +66,7 @@ const ResumeComponent = ({ resume_url }: { resume_url: string }) => {
         .eq('id', user?.id);
 
       setResumeUrl(data.publicUrl);
+      router.refresh();
       ToastSuccess({ message: 'Resume uploaded.' });
     } catch (error) {
       ToastError({ message: 'An unexpected error occurred.' });

@@ -5,6 +5,7 @@ import { Button } from '@lf/ui/components/base/button';
 import React, { useState } from 'react';
 import { Pencil, ImagePlus, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
   const supabase = createClient();
@@ -100,10 +101,13 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
         </div>
       ) : avatarUrl ? (
         <div className="relative">
-          <img
+          <Image
+            width={96}
+            height={96}
             src={avatarUrl}
             alt="Avatar"
             className="w-24 h-24 rounded-full object-cover border-2 border-muted/30"
+            referrerPolicy='no-referrer'
           />
           <Button
             onClick={() => {

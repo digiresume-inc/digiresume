@@ -4,12 +4,15 @@ import { createClient } from '@/supabase/client';
 import { Button } from '@lf/ui/components/base/button';
 import React, { useEffect, useState } from 'react';
 import { Pencil, ImagePlus, Loader2, GlobeLock } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const FaviconUploader = ({ favicon_url }: { favicon_url: string }) => {
   const supabase = createClient();
   const [faviconUrl, setFaviconUrl] = useState(favicon_url);
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleFile = async (file: File) => {
     if (file.size > 2 * 1024 * 1024) {
@@ -56,6 +59,7 @@ const FaviconUploader = ({ favicon_url }: { favicon_url: string }) => {
         .eq('id', user?.id);
 
       setFaviconUrl(data.publicUrl);
+      router.refresh();
       ToastSuccess({ message: 'Favicon uploaded.' });
     } catch (error) {
       ToastError({ message: 'An unexpected error occurred.' });
@@ -102,7 +106,9 @@ const FaviconUploader = ({ favicon_url }: { favicon_url: string }) => {
         </div>
       ) : faviconUrl ? (
         <div className="relative">
-          <img
+          <Image
+            width={96}
+            height={96}
             src={faviconUrl}
             alt="Favicon"
             className="w-24 h-24 rounded-full object-contain border-2 border-muted/30 bg-white"

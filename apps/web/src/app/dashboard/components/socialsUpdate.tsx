@@ -1,16 +1,10 @@
 'use client';
-
-import React from 'react';
-import { useForm, useFieldArray, useWatch } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Trash2, Link2, Plus, Save, Loader2 } from 'lucide-react';
-import { Input } from '@lf/ui/components/base/input';
 import { Button } from '@lf/ui/components/base/button';
-import { socialsSchema, SocialsSchema } from '@lf/utils'; // Import your schema
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@lf/ui/components/base/dialog';
+import { Globe, Link2, Pencil, Plus, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
+import SocialsForm from '../forms/socialsForm';
 import { iconMap } from '../utils/iconMap';
-import { updateSocials } from '../actions/updateSocials';
-import { ToastError, ToastSuccess } from '@/components/toast';
-import { useRouter } from 'next/navigation';
 
 function getPlatformIcon(url: string) {
   try {
@@ -23,103 +17,57 @@ function getPlatformIcon(url: string) {
   }
 }
 
-const SocialsUpdate = ({
-  profile,
-  setOpen,
-}: {
-  profile: any;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  const {
-    control,
-    handleSubmit,
-    register,
-    formState: { errors, isDirty, isSubmitting },
-  } = useForm<SocialsSchema>({
-    resolver: zodResolver(socialsSchema),
-    defaultValues: {
-      links: profile.socials,
-    },
-  });
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'links',
-  });
-
-  const watchedLinks = useWatch({ control, name: 'links' });
-  const router = useRouter();
-
-  const onSubmit = async (data: SocialsSchema) => {
-    const result = await updateSocials(data.links);
-    if (result.success) {
-      ToastSuccess({ message: result.message });
-      setOpen(false);
-      router.refresh();
-    } else {
-      ToastError({ message: result.message });
-      setOpen(false);
-    }
-  };
-
+const SocialsUpdate = ({ profile }: { profile: any }) => {
+  const [open, setOpen] = useState(false);
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      <div className="flex flex-col gap-3">
-        {fields.map((field, index) => {
-          const url = watchedLinks?.[index]?.url || '';
-          const Icon = getPlatformIcon(url);
+    <>
+      {profile.socials.length > 0 ? (
+        <div className="flex flex-col gap-2 px-4">
+          {profile.socials.map((social: any, index: number) => {
+            const Icon = getPlatformIcon(social.url);
+            return (
+              <div
+                className="flex items-center justify-between gap-4 bg-muted py-2 px-4 rounded-md"
+                key={index}
+              >
+                {/* Left side: Icon + URL */}
+                <div className="flex justify-center items-center gap-2">
+                  <div className="text-foreground/60">{Icon}</div>
+                  <p className="text-sm font-medium max-w-36 md:max-w-fit truncate">{social.url}</p>
+                </div>
 
-          return (
-            <div key={field.id} className="flex flex-col gap-1 w-full">
-              <div className="flex items-center gap-2 w-full">
-                <div className="w-6 h-6 text-foreground/60">{Icon}</div>
-                <Input
-                  {...register(`links.${index}.url`)}
-                  placeholder="Enter social URL"
-                  className="w-full text-sm"
-                />
-                <Button type="button" size="icon" variant="ghost" onClick={() => remove(index)}>
-                  <Trash2 size={16} />
-                </Button>
+                {/* Right side: Edit + Trash icons */}
+                <div className="flex items-center gap-2">
+                  <Button variant="ghost" size="icon" onClick={() => setOpen(true)}>
+                    <Pencil size={16} />
+                  </Button>
+                  <Button variant="destructive" size="icon" onClick={() => setOpen(true)}>
+                    <Trash2 size={16} />
+                  </Button>
+                </div>
               </div>
-              {errors.links?.[index]?.url && (
-                <p className="pl-8 text-xs text-destructive mt-1">
-                  {errors.links[index]?.url?.message}
-                </p>
-              )}
-            </div>
-          );
-        })}
-
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => append({ url: '' })}
-          className="w-full"
-        >
-          <Plus className="mr-1" /> Add More
-        </Button>
-      </div>
-
-      <Button
-        disabled={!isDirty || isSubmitting}
-        className="ml-auto"
-        variant="outline"
-        type="submit"
-      >
-        {isSubmitting ? (
-          <>
-            <Loader2 className="animate-spin" /> Saving...
-          </>
-        ) : (
-          <>
-            {' '}
-            <Save className="mr-1" /> Save Changes
-          </>
-        )}
-      </Button>
-    </form>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="flex flex-col gap-2 items-center justify-center opacity-60 h-[300px]">
+          <Globe size={64} />
+          <h1>No socials added yet</h1>
+          <Button onClick={() => setOpen(true)} variant={'outline'}>
+            <Plus />
+            Add Now
+          </Button>
+        </div>
+      )}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
+          <DialogHeader className="mb-4">
+            <DialogTitle>Add/Edit Socials</DialogTitle>
+          </DialogHeader>
+          <SocialsForm profile={profile} setOpen={setOpen} />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

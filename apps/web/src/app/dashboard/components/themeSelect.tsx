@@ -1,8 +1,8 @@
 'use client';
-import { Button } from '@lf/ui/components/base/button';
 import { NewTheme, NewThemes } from '@lf/utils';
-import { Save } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { updateTheme } from '../actions/updateTheme';
+import { ToastError, ToastSuccess } from '@/components/toast';
 
 const ThemeSelect = ({
   theme,
@@ -13,11 +13,36 @@ const ThemeSelect = ({
   localTheme: any;
   setLocalTheme: React.Dispatch<React.SetStateAction<NewTheme | null>>;
 }) => {
+  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  useEffect(() => {
+    if (theme.id === localTheme.id) return;
+
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+
+    const timer = setTimeout(async () => {
+      setIsUpdating(true);
+      const result = await updateTheme(localTheme);
+      if (result.success) {
+        ToastSuccess({ message: result.message });
+      } else {
+        ToastError({ message: result.message });
+      }
+      setIsUpdating(false);
+    }, 1000);
+
+    setDebounceTimer(timer);
+
+    return () => clearTimeout(timer);
+  }, [localTheme]);
   return (
     <div className="flex flex-col gap-4">
       {['default', 'light', 'dark'].map((type) => (
         <div key={type} className="mb-4 px-6">
-          <h3 className="text-sm font-semibold capitalize mb-2">{type} Themes</h3>
+          <h3 className="text-foreground/80 text-sm font-semibold capitalize mb-2">{type}</h3>
           <div className="flex flex-wrap gap-4">
             {NewThemes.filter((t) => t.theme_type === type).map((t: NewTheme) => (
               <div key={t.id} className="flex items-center p-2">
@@ -30,6 +55,7 @@ const ThemeSelect = ({
                   onChange={() => setLocalTheme(t)}
                   value={t.theme_type}
                   className="w-4 h-4 bg-gray-100 mr-2"
+                  disabled={isUpdating}
                 />
                 <label
                   htmlFor={`radio-${t.id}`}
@@ -57,9 +83,6 @@ const ThemeSelect = ({
           </div>
         </div>
       ))}
-      <Button disabled={theme.id === localTheme.id} className="ml-auto" variant={'outline'}>
-        Save Changes <Save />
-      </Button>
     </div>
   );
 };

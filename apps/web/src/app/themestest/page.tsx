@@ -200,30 +200,16 @@ const ThemesTest = () => {
               className="flex w-fit gap-4 lg:gap-6 px-2 lg:px-3 rounded-none"
             >
               <TabsTrigger
-                value="profile"
-                style={
-                  {
-                    '--active-text-color': theme.theme_data.foreground,
-                    '--inactive-text-color': hexToHSL(theme.theme_data.foreground, 0.7),
-                    '--active-border-color': theme.theme_data.primary,
-                    '--background-color': theme.theme_data.background,
-                  } as React.CSSProperties
-                }
-                className="border-t-0 border-r-0 border-l-0 cursor-pointer border-b-[3px] border-transparent data-[state=active]:bg-[var(----background-color)] data-[state=active]:border-[var(--active-border-color)] text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-              >
-                Profile
-              </TabsTrigger>
-              <TabsTrigger
-                style={
-                  {
-                    '--active-text-color': theme.theme_data.foreground,
-                    '--inactive-text-color': hexToHSL(theme.theme_data.foreground, 0.7),
-                    '--active-border-color': theme.theme_data.primary,
-                    '--background-color': theme.theme_data.background,
-                  } as React.CSSProperties
-                }
-                className="border-t-0 border-r-0 border-l-0 cursor-pointer border-b-[3px] border-transparent data-[state=active]:bg-[var(----background-color)] data-[state=active]:border-[var(--active-border-color)] text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                 value="experience"
+                style={
+                  {
+                    '--active-text-color': theme.theme_data.foreground,
+                    '--inactive-text-color': hexToHSL(theme.theme_data.foreground, 0.7),
+                    '--active-border-color': theme.theme_data.primary,
+                    '--background-color': theme.theme_data.background,
+                  } as React.CSSProperties
+                }
+                className="border-t-0 border-r-0 border-l-0 cursor-pointer border-b-[3px] border-transparent data-[state=active]:bg-[var(----background-color)] data-[state=active]:border-[var(--active-border-color)] text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
               >
                 Experience
               </TabsTrigger>
@@ -237,9 +223,23 @@ const ThemesTest = () => {
                   } as React.CSSProperties
                 }
                 className="border-t-0 border-r-0 border-l-0 cursor-pointer border-b-[3px] border-transparent data-[state=active]:bg-[var(----background-color)] data-[state=active]:border-[var(--active-border-color)] text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                value="socials"
+                value="startups"
               >
-                Socials
+                Startups
+              </TabsTrigger>
+              <TabsTrigger
+                style={
+                  {
+                    '--active-text-color': theme.theme_data.foreground,
+                    '--inactive-text-color': hexToHSL(theme.theme_data.foreground, 0.7),
+                    '--active-border-color': theme.theme_data.primary,
+                    '--background-color': theme.theme_data.background,
+                  } as React.CSSProperties
+                }
+                className="border-t-0 border-r-0 border-l-0 cursor-pointer border-b-[3px] border-transparent data-[state=active]:bg-[var(----background-color)] data-[state=active]:border-[var(--active-border-color)] text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                value="projects"
+              >
+                Projects
               </TabsTrigger>
             </TabsList>
           </div>

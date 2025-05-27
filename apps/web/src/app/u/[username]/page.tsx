@@ -8,6 +8,7 @@ import {
   formatMonthYear,
   getLineHeightPercent,
   getMonthsDifference,
+  hexToHSL,
   Project,
   Skill,
   Startup,
@@ -22,6 +23,8 @@ import { iconMap } from '@/app/dashboard/utils/iconMap';
 import { Button } from '@lf/ui/components/base/button';
 import ShareCard from './components/shareCard';
 import MarkdownParser from '@/components/markdownparser';
+import ResumeUrl from './components/resumeUrl';
+import ProfileUrl from './components/profileUrl';
 
 function getPlatformIcon(url: string) {
   try {
@@ -115,8 +118,14 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
 }
 
 function renderProfile(profile: any, startups: any, projects: any) {
+  const t = profile.theme.theme_data;
   return (
-    <div className="relative flex size-full min-h-screen flex-col overflow-x-hidden">
+    <div
+      style={{
+        background: t.background,
+      }}
+      className="relative flex size-full min-h-screen flex-col overflow-x-hidden"
+    >
       <div className="layout-container flex h-full grow flex-col">
         <div className="flex flex-1 justify-center py-5">
           <div className="flex flex-col max-w-[960px] flex-1 relative">
@@ -124,22 +133,45 @@ function renderProfile(profile: any, startups: any, projects: any) {
             <div className="flex p-4">
               <div className="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
                 <div className="flex gap-4 items-center justify-center lg:justify-start">
-                  <img
-                    className="rounded-full h-18 lg:h-24 w-18 lg:w-24"
-                    src={profile.avatar_url}
-                  />
+                  <div
+                    style={{
+                      borderColor: t.border,
+                    }}
+                    className="h-18 lg:h-24 w-18 lg:w-24 rounded-full p-1 border-2 border-dashed"
+                  >
+                    <img
+                      className="rounded-full h-full w-full object-cover"
+                      alt={profile.full_name}
+                      src={profile.avatar_url}
+                    />
+                  </div>
                   <div className="flex flex-col justify-center gap-1.5">
-                    <p className="text-xl lg:text-2xl font-bold leading-tight tracking-[-0.015em]">
+                    <p
+                      style={{
+                        color: t?.foreground,
+                      }}
+                      className="text-xl lg:text-2xl font-bold leading-tight tracking-[-0.015em]"
+                    >
                       {profile.full_name}
                     </p>
-                    <p className="flex items-center justify-start text-sm font-normal gap-0.5 lg:gap-1">
+                    <p
+                      style={{
+                        color: hexToHSL(t?.foreground!, 0.7),
+                      }}
+                      className="flex items-center justify-start text-sm font-normal gap-0.5 lg:gap-1"
+                    >
                       <MapPin className="w-3 lg:w-[14px] h-3 lg:h-[14px]" />{' '}
                       {profile.country.split('-')[0]}{' '}
                       <img
                         src={`https://flagsapi.com/${profile.country.split('-')[1]}/flat/64.png`}
                         className="w-4 lg:w-5 h-4 lg:h-5"
                       />
-                      <span className="w-px h-4 bg-primary/70 mx-1 lg:mx-2" />
+                      <span
+                        style={{
+                          background: hexToHSL(t?.primary!, 0.7),
+                        }}
+                        className="w-px h-4 mx-1 lg:mx-2"
+                      />
                       <span className="flex items-center gap-0.5">
                         <BiRupee className="w-4 h-4 mt-[1px]" />
                         <span className="-ml-0.5">10cr/month</span>
@@ -150,35 +182,35 @@ function renderProfile(profile: any, startups: any, projects: any) {
               </div>
             </div>
             <div className="flex flex-col items-center lg:items-start justify-center p-4">
-              <h1 className="text-base lg:text-2xl font-bold">Full Stack Web/App Developer</h1>
-              <p className="text-sm text-muted-foreground">Contributor @Dub.co · VBIT Alumni</p>
+              <h1
+                style={{
+                  color: t.foreground,
+                }}
+                className="text-base lg:text-2xl font-bold"
+              >
+                {profile.headline}
+              </h1>
+              <p
+                style={{
+                  color: hexToHSL(t.foreground, 0.7),
+                }}
+                className="text-sm text-muted-foreground font-medium"
+              >
+                at @{profile.company} · {profile.education} Alumni
+              </p>
             </div>
             <div className="flex items-center justify-center lg:justify-start lg:items-start p-4 gap-3">
-              {profile.resume_url && (
-                <a
-                  href={profile.resume_url}
-                  target="_blank"
-                  className="flex items-center gap-1 text-sm lg:text-base border-b-2 border-dashed text-foreground/80 border-primary/70 hover:border-primary hover:text-foreground transition"
-                >
-                  <File strokeWidth={1} size={16} />
-                  Resume
-                </a>
-              )}
-              {profile.profile_link?.url && profile.profile_link.text && (
-                <a
-                  href={profile.profile_link?.url}
-                  target="_blank"
-                  className="flex items-center gap-1 text-sm lg:text-base border-b-2 border-dashed text-foreground/80 border-primary/70 hover:border-primary hover:text-foreground transition"
-                >
-                  <Link2 strokeWidth={1} size={16} />
-                  {profile.profile_link.text}
-                </a>
-              )}
+              <ResumeUrl profile={profile} t={t} />
+              <ProfileUrl profile={profile} t={t} />
             </div>
             <div className="flex gap-x-2 gap-y-3 p-4 flex-wrap items-center justify-center lg:justify-start">
               {profile.skills.map((skill: Skill) => (
                 <Badge
                   key={skill.value}
+                  style={{
+                    background: t.secondary,
+                    color: t.foreground,
+                  }}
                   variant="secondary"
                   className="flex items-center gap-1 rounded-full text-xs px-3 py-1"
                 >
@@ -189,34 +221,79 @@ function renderProfile(profile: any, startups: any, projects: any) {
             </div>
             <Tabs defaultValue="experience" className="w-full mt-8 p-4">
               <div className="relative rounded-sm overflow-x-scroll h-10 no_scrollbar scrollbar-hidden">
-                <TabsList className="absolute flex flex-row justify-stretch w-full bg-background">
+                <TabsList
+                  style={{
+                    background: t.background,
+                  }}
+                  className="absolute flex flex-row justify-stretch w-full"
+                >
                   <TabsTrigger
                     value="experience"
-                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                    style={
+                      {
+                        '--active-text-color': t.foreground,
+                        '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                        '--active-border-color': t.primary,
+                        '--background-color': t.background,
+                      } as React.CSSProperties
+                    }
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                   >
                     Experience
                   </TabsTrigger>
                   <TabsTrigger
                     value="startups"
-                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                    style={
+                      {
+                        '--active-text-color': t.foreground,
+                        '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                        '--active-border-color': t.primary,
+                        '--background-color': t.background,
+                      } as React.CSSProperties
+                    }
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                   >
                     Startups
                   </TabsTrigger>
                   <TabsTrigger
                     value="projects"
-                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                    style={
+                      {
+                        '--active-text-color': t.foreground,
+                        '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                        '--active-border-color': t.primary,
+                        '--background-color': t.background,
+                      } as React.CSSProperties
+                    }
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                   >
                     Projects
                   </TabsTrigger>
                   <TabsTrigger
                     value="skills"
-                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                    style={
+                      {
+                        '--active-text-color': t.foreground,
+                        '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                        '--active-border-color': t.primary,
+                        '--background-color': t.background,
+                      } as React.CSSProperties
+                    }
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                   >
                     Skills
                   </TabsTrigger>
                   <TabsTrigger
                     value="more"
-                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                    style={
+                      {
+                        '--active-text-color': t.foreground,
+                        '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                        '--active-border-color': t.primary,
+                        '--background-color': t.background,
+                      } as React.CSSProperties
+                    }
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                   >
                     More
                   </TabsTrigger>
@@ -233,24 +310,33 @@ function renderProfile(profile: any, startups: any, projects: any) {
                         <div
                           style={{
                             height: lineHeight,
+                            background: t.primary,
                           }}
-                          className="absolute w-[1.5px] bg-primary top-[50px] left-[19px]"
+                          className="absolute w-[1.5px] top-[50px] left-[19px]"
                         />
                         <div className="w-full flex justify-between">
                           <div className="flex items-center gap-2 relative">
-                            <div className='w-10 h-10 rounded-full border-primary/60 border border-dashed p-0.5'>
+                            <div className="w-10 h-10 rounded-full border-primary/60 border border-dashed p-0.5">
                               <img
                                 alt={company.company}
                                 className="cursor-pointer w-full h-full rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity flex-grow"
                                 src={company.company_logo}
                               />
                             </div>
-                            <p className="font-bold text-base lg:text-lg truncate">
+                            <p
+                              style={{
+                                color: t?.foreground,
+                              }}
+                              className="font-bold text-base lg:text-lg truncate"
+                            >
                               {company.company}
                             </p>
                             <Popover>
                               <PopoverTrigger asChild>
                                 <Info
+                                  style={{
+                                    color: t.foreground,
+                                  }}
                                   strokeWidth={1}
                                   size={16}
                                   className="text-muted-foreground cursor-pointer"
@@ -269,7 +355,12 @@ function renderProfile(profile: any, startups: any, projects: any) {
                             className="relative w-full transition-colors duration-200 flex flex-col items-center py-4 pl-8"
                           >
                             <div className="w-full flex relative">
-                              <div className="w-4 h-3 border-l-2 border-b-2 rounded-bl-lg absolute -left-[13px] border-primary" />
+                              <div
+                                style={{
+                                  borderColor: t.primary!,
+                                }}
+                                className="w-4 h-3 border-l-2 border-b-2 rounded-bl-lg absolute -left-[13px]"
+                              />
                               <div className="w-full flex ml-3 lg:ml-4">
                                 <div className="group w-full duration-300 ease-in-out rounded-2xl outline-none transition-shadow group b-0 ">
                                   <div
@@ -283,16 +374,37 @@ function renderProfile(profile: any, startups: any, projects: any) {
                                             <div className="w-full flex flex-col gap-1">
                                               <div className="flex items-center gap-2 truncate overflow-hidden">
                                                 <span className="flex items-center justify-start gap-1 truncate overflow-hidden whitespace-nowrap">
-                                                  <p className="font-semibold text-sm truncate max-w-46 sm:max-w-fit">
+                                                  <p
+                                                    style={{
+                                                      color: t.foreground,
+                                                    }}
+                                                    className="font-semibold text-sm truncate max-w-46 sm:max-w-fit"
+                                                  >
                                                     {role.headline}
                                                   </p>
-                                                  <p>•</p>
-                                                  <span className="text-xs text-muted-foreground truncate max-w-16 lg:max-w-fit">
+                                                  <p
+                                                    style={{
+                                                      color: t.foreground,
+                                                    }}
+                                                  >
+                                                    •
+                                                  </p>
+                                                  <span
+                                                    style={{
+                                                      color: hexToHSL(t?.foreground!, 0.7),
+                                                    }}
+                                                    className="text-xs text-muted-foreground truncate max-w-16 lg:max-w-fit"
+                                                  >
                                                     {role.employment_type}
                                                   </span>
                                                 </span>
                                               </div>
-                                              <p className="text-muted-foreground font-normal text-xs truncate overflow-hidden whitespace-nowrap max-w-58 sm:max-w-fit">
+                                              <p
+                                                style={{
+                                                  color: hexToHSL(t.foreground, 0.7),
+                                                }}
+                                                className="text-muted-foreground font-normal text-xs truncate overflow-hidden whitespace-nowrap max-w-58 sm:max-w-fit"
+                                              >
                                                 <strong className="truncate overflow-hidden">
                                                   {formatMonthShortYear(role.start_date)} -{' '}
                                                   {role.end_date
@@ -308,7 +420,14 @@ function renderProfile(profile: any, startups: any, projects: any) {
                                                       )
                                                     </span>
                                                   )}
-                                                  <span className="mx-0.5">•</span>
+                                                  <span
+                                                    style={{
+                                                      color: t?.foreground,
+                                                    }}
+                                                    className="mx-0.5"
+                                                  >
+                                                    •
+                                                  </span>
                                                   <span className="font-normal">
                                                     {role.location}, {role.location_type}
                                                   </span>
@@ -413,7 +532,7 @@ function renderProfile(profile: any, startups: any, projects: any) {
                         <div className="h-px w-full bg-primary/60" />
                         <div className="text-sm font-medium">
                           <span className="line-clamp-3 text-card-foreground/80">
-                            <MarkdownParser text={startup.description}/>
+                            <MarkdownParser text={startup.description} />
                           </span>
                         </div>
                       </div>
@@ -463,7 +582,7 @@ function renderProfile(profile: any, startups: any, projects: any) {
                         <div className="h-px w-full bg-primary/60" />
                         <div className="text-sm font-medium">
                           <span className="line-clamp-3 text-card-foreground/80">
-                            <MarkdownParser text={project.description}/>
+                            <MarkdownParser text={project.description} />
                           </span>
                         </div>
                       </div>
@@ -480,7 +599,11 @@ function renderProfile(profile: any, startups: any, projects: any) {
                     target="_blank"
                     href={social.url}
                     key={index}
-                    className="w-12 h-12 border rounded-full p-2 flex items-center justify-center"
+                    style={{
+                      color: t.foreground,
+                      borderColor: hexToHSL(t.primary, 0.6),
+                    }}
+                    className="w-12 h-12 border-[1.5px] rounded-full p-2 flex items-center justify-center"
                   >
                     <>{icon}</>
                   </a>
