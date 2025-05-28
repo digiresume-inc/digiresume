@@ -1,4 +1,3 @@
-import GitHubCalendarClient from '@/components/githubcalendar';
 import { createSClient } from '@/supabase/server';
 import { redis } from '@/redis/config';
 import { Badge } from '@lf/ui/components/base/badge';
@@ -15,12 +14,11 @@ import {
   statusOptions,
 } from '@lf/utils';
 import React from 'react';
-import { Info, MapPin, File, Link2, ExternalLink } from 'lucide-react';
+import { Info, MapPin, Link2 } from 'lucide-react';
 import { BiRupee } from 'react-icons/bi';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
 import { Popover, PopoverTrigger, PopoverContent } from '@lf/ui/components/base/popover';
 import { iconMap } from '@/app/dashboard/utils/iconMap';
-import { Button } from '@lf/ui/components/base/button';
 import ShareCard from './components/shareCard';
 import MarkdownParser from '@/components/markdownparser';
 import ResumeUrl from './components/resumeUrl';
@@ -45,66 +43,44 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
   let projects;
 
   try {
-    const supabase = createSClient();
-    const { data, error } = await supabase
-      .from('profiles')
-      .select(
-        `
+    const cached = await redis.get(`profile:${username}`);
+
+    if (cached) {
+      profile = typeof cached === 'string' ? JSON.parse(cached) : cached;
+      startups = profile.startups.sort((a: Startup, b: Startup) => a.index - b.index);
+      projects = profile.projects.sort((a: Project, b: Project) => a.index - b.index);
+      console.log('Fetched from redis');
+    } else {
+      console.log('Fetched from supabase');
+      const supabase = createSClient();
+      const { data, error } = await supabase
+        .from('profiles')
+        .select(
+          `
         *,
         startups (*),
         projects(*)
       `
-      )
-      .eq('username', username)
-      .single();
+        )
+        .eq('username', username)
+        .single();
 
-    if (error || !data) {
-      return (
-        <div className="h-screen w-full flex items-center justify-center bg-destructive">
-          <h1 className="font-extrabold text-5xl">{username}</h1>
-        </div>
-      );
+      if (error || !data) {
+        return (
+          <div className="h-screen w-full flex items-center justify-center bg-destructive">
+            <h1 className="font-extrabold text-5xl">{username}</h1>
+          </div>
+        );
+      }
+
+      profile = data;
+      startups = data.startups.sort((a: Startup, b: Startup) => a.index - b.index);
+      projects = data.projects.sort((a: Project, b: Project) => a.index - b.index);
+
+      await redis.set(`profile:${username}`, JSON.stringify(profile), {
+        ex: 21600,
+      });
     }
-
-    profile = data;
-    startups = data.startups.sort((a: Startup, b: Startup) => a.index - b.index);
-    projects = data.projects.sort((a: Project, b: Project) => a.index - b.index);
-    // const cached = await redis.get(`profile:${username}`);
-
-    // if (cached) {
-    //   profile = typeof cached === 'string' ? JSON.parse(cached) : cached;
-    // } else {
-    //   const supabase = createSClient();
-    //   const { data, error } = await supabase
-    //     .from('profiles')
-    //     .select(
-    //       `
-    //     *,
-    //     startups (
-    //       id,
-    //       name,
-    //       url,
-    //       description
-    //     )
-    //   `
-    //     )
-    //     .eq('username', username)
-    //     .single();
-
-    //   if (error || !data) {
-    //     return (
-    //       <div className="h-screen w-full flex items-center justify-center bg-destructive">
-    //         <h1 className="font-extrabold text-5xl">{username}</h1>
-    //       </div>
-    //     );
-    //   }
-
-    //   profile = data;
-
-    //   await redis.set(`profile:${username}`, JSON.stringify(profile), {
-    //     ex: 21600,
-    //   });
-    // }
   } catch (err) {
     console.error('Redis or Supabase error:', err);
     return (
@@ -129,7 +105,7 @@ function renderProfile(profile: any, startups: any, projects: any) {
       <div className="layout-container flex h-full grow flex-col">
         <div className="flex flex-1 justify-center py-5">
           <div className="flex flex-col max-w-[960px] flex-1 relative">
-            <ShareCard profile={profile} />
+            <ShareCard profile={profile} t={t} />
             <div className="flex p-4">
               <div className="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
                 <div className="flex gap-4 items-center justify-center lg:justify-start">
@@ -237,7 +213,7 @@ function renderProfile(profile: any, startups: any, projects: any) {
                         '--background-color': t.background,
                       } as React.CSSProperties
                     }
-                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                   >
                     Experience
                   </TabsTrigger>
@@ -251,7 +227,7 @@ function renderProfile(profile: any, startups: any, projects: any) {
                         '--background-color': t.background,
                       } as React.CSSProperties
                     }
-                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                   >
                     Startups
                   </TabsTrigger>
@@ -265,7 +241,7 @@ function renderProfile(profile: any, startups: any, projects: any) {
                         '--background-color': t.background,
                       } as React.CSSProperties
                     }
-                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                   >
                     Projects
                   </TabsTrigger>
@@ -279,7 +255,7 @@ function renderProfile(profile: any, startups: any, projects: any) {
                         '--background-color': t.background,
                       } as React.CSSProperties
                     }
-                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                   >
                     Skills
                   </TabsTrigger>
@@ -293,7 +269,7 @@ function renderProfile(profile: any, startups: any, projects: any) {
                         '--background-color': t.background,
                       } as React.CSSProperties
                     }
-                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                    className="flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                   >
                     More
                   </TabsTrigger>
@@ -480,17 +456,31 @@ function renderProfile(profile: any, startups: any, projects: any) {
                     return (
                       <div
                         key={index}
-                        className="min-h-34 col-span-1 w-full bg-card rounded-lg border border-primary/60 p-3 flex flex-col gap-2 items-start justify-start"
+                        style={{
+                          background: t?.card,
+                          borderColor: hexToHSL(t?.primary!, 0.3),
+                        }}
+                        className="min-h-34 col-span-1 w-full bg-card rounded-lg border p-3 flex flex-col gap-2 items-start justify-start"
                       >
                         <div className="flex items-center justify-center gap-2">
-                          <div className="w-12 h-12 p-0.5 border border-primary/60 rounded-full border-dashed">
+                          <div
+                            style={{
+                              borderColor: hexToHSL(t?.primary!, 0.3),
+                            }}
+                            className="w-12 h-12 p-0.5 border rounded-full border-dashed"
+                          >
                             <img
                               src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
                               className="w-full h-full rounded-full"
                             />
                           </div>
                           <div className="flex flex-col items-start justify-center gap-1">
-                            <p className="text-base font-bold ml-1">{startup.name}</p>
+                            <p
+                              style={{ color: t?.foreground }}
+                              className="text-base font-bold ml-1"
+                            >
+                              {startup.name}
+                            </p>
                             <div className="flex gap-2 items-center justify-start w-full">
                               {(() => {
                                 const currentStatus = statusOptions.find(
@@ -498,13 +488,23 @@ function renderProfile(profile: any, startups: any, projects: any) {
                                 );
                                 return currentStatus ? (
                                   <span
-                                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs bg-secondary`}
+                                    style={{
+                                      background: t?.secondary,
+                                      color: t?.foreground,
+                                    }}
+                                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs`}
                                   >
                                     <span>{currentStatus.icon}</span>
                                     <span>{currentStatus.text}</span>
                                   </span>
                                 ) : (
-                                  <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs bg-secondary">
+                                  <span
+                                    style={{
+                                      background: t?.secondary,
+                                      color: t?.foreground,
+                                    }}
+                                    className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs"
+                                  >
                                     {startup.status}
                                   </span>
                                 );
@@ -515,13 +515,23 @@ function renderProfile(profile: any, startups: any, projects: any) {
                                 );
                                 return currentCategory ? (
                                   <span
-                                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs bg-secondary`}
+                                    style={{
+                                      background: t?.secondary,
+                                      color: t?.foreground,
+                                    }}
+                                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs`}
                                   >
                                     <span>{currentCategory.icon}</span>
                                     <span>{currentCategory.text}</span>
                                   </span>
                                 ) : (
-                                  <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs bg-secondary">
+                                  <span
+                                    style={{
+                                      background: t?.secondary,
+                                      color: t?.foreground,
+                                    }}
+                                    className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs"
+                                  >
                                     {startup.category}
                                   </span>
                                 );
@@ -529,9 +539,17 @@ function renderProfile(profile: any, startups: any, projects: any) {
                             </div>
                           </div>
                         </div>
-                        <div className="h-px w-full bg-primary/60" />
-                        <div className="text-sm font-medium">
-                          <span className="line-clamp-3 text-card-foreground/80">
+                        <div
+                          style={{ background: hexToHSL(t?.primary!, 0.6) }}
+                          className="h-px w-full"
+                        />
+                        <div
+                          style={{
+                            color: hexToHSL(t?.foreground!, 0.7),
+                          }}
+                          className="text-sm font-medium"
+                        >
+                          <span className="line-clamp-3">
                             <MarkdownParser text={startup.description} />
                           </span>
                         </div>
@@ -547,17 +565,31 @@ function renderProfile(profile: any, startups: any, projects: any) {
                     return (
                       <div
                         key={index}
-                        className="min-h-34 col-span-1 w-full bg-card rounded-lg border border-primary/60 p-3 flex flex-col gap-2 items-start justify-start"
+                        style={{
+                          background: t?.card,
+                          borderColor: hexToHSL(t?.primary!, 0.3),
+                        }}
+                        className="min-h-34 col-span-1 w-full bg-card rounded-lg border p-3 flex flex-col gap-2 items-start justify-start"
                       >
                         <div className="flex items-center justify-center gap-2">
-                          <div className="w-12 h-12 p-0.5 border border-primary/60 rounded-full border-dashed">
+                          <div
+                            style={{
+                              borderColor: hexToHSL(t?.primary!, 0.3),
+                            }}
+                            className="w-12 h-12 p-0.5 border rounded-full border-dashed"
+                          >
                             <img
                               src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
                               className="w-full h-full rounded-full"
                             />
                           </div>
                           <div className="flex flex-col items-start justify-center gap-1">
-                            <p className="text-base font-bold ml-1">{project.name}</p>
+                            <p
+                              style={{ color: t?.foreground }}
+                              className="text-base font-bold ml-1"
+                            >
+                              {project.name}
+                            </p>
                             <div className="flex gap-2 items-center justify-start w-full">
                               {(() => {
                                 const currentCategory = categoryOptions.find(
@@ -565,13 +597,23 @@ function renderProfile(profile: any, startups: any, projects: any) {
                                 );
                                 return currentCategory ? (
                                   <span
-                                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs bg-secondary`}
+                                    style={{
+                                      background: t?.secondary,
+                                      color: t?.foreground,
+                                    }}
+                                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs`}
                                   >
                                     <span>{currentCategory.icon}</span>
                                     <span>{currentCategory.text}</span>
                                   </span>
                                 ) : (
-                                  <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs bg-secondary">
+                                  <span
+                                    style={{
+                                      background: t?.secondary,
+                                      color: t?.foreground,
+                                    }}
+                                    className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs"
+                                  >
                                     {project.category}
                                   </span>
                                 );
@@ -579,9 +621,17 @@ function renderProfile(profile: any, startups: any, projects: any) {
                             </div>
                           </div>
                         </div>
-                        <div className="h-px w-full bg-primary/60" />
-                        <div className="text-sm font-medium">
-                          <span className="line-clamp-3 text-card-foreground/80">
+                        <div
+                          style={{ background: hexToHSL(t?.primary!, 0.6) }}
+                          className="h-px w-full bg-primary/60"
+                        />
+                        <div
+                          style={{
+                            color: hexToHSL(t?.foreground!, 0.7),
+                          }}
+                          className="text-sm font-medium"
+                        >
+                          <span className="line-clamp-3">
                             <MarkdownParser text={project.description} />
                           </span>
                         </div>
@@ -609,19 +659,6 @@ function renderProfile(profile: any, startups: any, projects: any) {
                   </a>
                 );
               })}
-
-              {/* <div className="flex flex-col items-center gap-2  py-2.5 text-center w-20">
-                <SiX />
-                <p className=" text-sm font-medium leading-normal">Twitter</p>
-              </div>
-              <div className="flex flex-col items-center gap-2 py-2.5 text-center w-20">
-                <SiGithub />
-                <p className=" text-sm font-medium leading-normal">GitHub</p>
-              </div>
-              <div className="flex flex-col items-center gap-2  py-2.5 text-center w-20">
-                <SiLinkedin />
-                <p className=" text-sm font-medium leading-normal">LinkedIn</p>
-              </div> */}
             </div>
           </div>
         </div>
