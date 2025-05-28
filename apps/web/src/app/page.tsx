@@ -13,7 +13,6 @@ const words = [
   'Skills ',
   'Journey ',
   'Earnings ',
-  'Blogs ',
   'Career ',
 ];
 
@@ -25,7 +24,7 @@ export default async function Home() {
 
   return (
     <div className="w-full h-[750px] lg:h-[994px] relative bg-background">
-      <Spotlight fill='var(--primary)' />
+      <Spotlight className="hidden lg:block" fill="var(--primary)" />
       <div className="absolute inset-0">
         <div
           className={cn(
@@ -53,14 +52,18 @@ export default async function Home() {
                     >
                       <span className="block cursor-pointer lg:mb-2">The Spotlight your</span>
                       <span className="block md:ml-0">
-                        <FlipWords words={words} duration={3000} className="mr-4 text-primary" />
+                        <FlipWords
+                          words={words}
+                          duration={3000}
+                          className="mr-2 lg:mr-4 text-primary"
+                        />
                         deserves
                       </span>
                     </h1>
-                    <p className="pt-2 text-sm font-semibold text-muted-foreground my-3 text-sx sm:mt-5 lg:mb-0 sm:text-base lg:px-10">
-                      Boost your web presence with Linkfolio — showcase projects, share startups,
-                      organize links, grow your network, and attract opportunities in one sleek
-                      portfolio.
+                    <p className="pt-2 text-sm sm:text-base lg:text-lg font-medium lg:font-semibold text-muted-foreground my-3 sm:mt-5 lg:mb-0 sm:px-6 lg:px-10 max-w-prose text-center">
+                      Boost your web presence with Linkfolio — showcase <strong>projects</strong>,
+                      share <strong>startups</strong>, add <strong>experience</strong>, grow your
+                      network, and attract opportunities in one sleek portfolio.
                     </p>
                   </div>
                   <UsernameCheck />

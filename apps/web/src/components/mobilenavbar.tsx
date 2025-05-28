@@ -21,7 +21,7 @@ export default function SlideInNavbar({
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 h-full w-[90%] shadow-lg z-[1000] p-4 bg-secondary"
+            className="fixed top-0 left-0 h-full w-[90%] shadow-lg z-[1000] p-4 bg-background"
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold">Navigation</h2>

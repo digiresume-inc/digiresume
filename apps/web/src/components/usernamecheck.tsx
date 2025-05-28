@@ -42,8 +42,8 @@ const UsernameCheck = () => {
 
   return (
     <div className="flex flex-col items-center justify-center w-[95%]">
-      <div className="mb-2 flex items-center w-full max-w-lg bg-secondary rounded-full border border-lightsecondary-border dark:border-secondary-border focus:border-secondary-strongerborder hover:border-secondary-strongerborder duration-200 transition-all ease-out p-0.5 lg:p-1">
-        <span className="text-lightprimary-text dark:text-primary-text pl-3 lg:pl-4 font-medium text-sm lg:text-lg">
+      <div className="mb-2 flex items-center w-full max-w-lg bg-secondary rounded-full border border-primary/20 duration-200 transition-all ease-out p-0.5 lg:p-1">
+        <span className="pl-3 lg:pl-4 font-medium text-sm lg:text-lg">
           linkfolio.page/
         </span>
         <input

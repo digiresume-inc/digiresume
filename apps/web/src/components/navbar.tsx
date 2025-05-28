@@ -167,7 +167,7 @@ const Navbar = ({ user }: { user: User | null }) => {
           ) : (
             <Link
               href={'/signin'}
-              className="bg-primary font-medium text-primary-foreground flex px-4 py-2 rounded-full items-center gap-2 text-sm cursor-pointer"
+              className="bg-primary font-medium text-primary-foreground flex px-4 py-2 rounded-full items-center gap-2 text-xs lg:text-sm cursor-pointer"
             >
               Sign in
             </Link>

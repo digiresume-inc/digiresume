@@ -33,15 +33,15 @@ function getPlatformIcon(url: string) {
 }
 
 const MobilePreview = ({
-  showOverlay,
-  setShowOverlay,
+  preview,
+  setPreview,
   profile,
   startups,
   projects,
   theme,
 }: {
-  showOverlay: boolean;
-  setShowOverlay: React.Dispatch<React.SetStateAction<boolean>>;
+  preview: boolean;
+  setPreview: React.Dispatch<React.SetStateAction<boolean>>;
   profile: any;
   startups: any;
   projects: any;
@@ -51,11 +51,11 @@ const MobilePreview = ({
   return (
     <div
       className={`${
-        showOverlay ? 'flex' : 'hidden'
+        preview ? 'flex' : 'hidden'
       } lg:flex lg:w-[40%] w-full h-screen p-4 fixed top-0 left-0 lg:static bg-background/50 backdrop-blur z-50`}
     >
       <Button
-        onClick={() => setShowOverlay(false)}
+        onClick={() => setPreview(false)}
         className="flex lg:hidden absolute top-4 right-4"
         size={'icon'}
         variant={'outline'}

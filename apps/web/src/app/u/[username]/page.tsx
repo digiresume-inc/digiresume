@@ -43,44 +43,44 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
   let projects;
 
   try {
-    const cached = await redis.get(`profile:${username}`);
+    // const cached = await redis.get(`profile:${username}`);
 
-    if (cached) {
-      profile = typeof cached === 'string' ? JSON.parse(cached) : cached;
-      startups = profile.startups.sort((a: Startup, b: Startup) => a.index - b.index);
-      projects = profile.projects.sort((a: Project, b: Project) => a.index - b.index);
-      console.log('Fetched from redis');
-    } else {
-      console.log('Fetched from supabase');
-      const supabase = createSClient();
-      const { data, error } = await supabase
-        .from('profiles')
-        .select(
-          `
+    // if (cached) {
+    //   profile = typeof cached === 'string' ? JSON.parse(cached) : cached;
+    //   startups = profile.startups.sort((a: Startup, b: Startup) => a.index - b.index);
+    //   projects = profile.projects.sort((a: Project, b: Project) => a.index - b.index);
+    //   console.log('Fetched from redis');
+    // } else {
+    // console.log('Fetched from supabase');
+    const supabase = createSClient();
+    const { data, error } = await supabase
+      .from('profiles')
+      .select(
+        `
         *,
         startups (*),
         projects(*)
       `
-        )
-        .eq('username', username)
-        .single();
+      )
+      .eq('username', username)
+      .single();
 
-      if (error || !data) {
-        return (
-          <div className="h-screen w-full flex items-center justify-center bg-destructive">
-            <h1 className="font-extrabold text-5xl">{username}</h1>
-          </div>
-        );
-      }
-
-      profile = data;
-      startups = data.startups.sort((a: Startup, b: Startup) => a.index - b.index);
-      projects = data.projects.sort((a: Project, b: Project) => a.index - b.index);
-
-      await redis.set(`profile:${username}`, JSON.stringify(profile), {
-        ex: 21600,
-      });
+    if (error || !data) {
+      return (
+        <div className="h-screen w-full flex items-center justify-center bg-destructive">
+          <h1 className="font-extrabold text-5xl">{username}</h1>
+        </div>
+      );
     }
+
+    profile = data;
+    startups = data.startups.sort((a: Startup, b: Startup) => a.index - b.index);
+    projects = data.projects.sort((a: Project, b: Project) => a.index - b.index);
+
+    // await redis.set(`profile:${username}`, JSON.stringify(profile), {
+    //   ex: 21600,
+    // });
+    // }
   } catch (err) {
     console.error('Redis or Supabase error:', err);
     return (
