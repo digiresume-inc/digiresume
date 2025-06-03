@@ -133,8 +133,8 @@ const Navbar = ({ user }: { user: User | null }) => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Documentation
+                <NavigationMenuLink href='/dashboard' className={navigationMenuTriggerStyle()}>
+                  Dashboard
                 </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>

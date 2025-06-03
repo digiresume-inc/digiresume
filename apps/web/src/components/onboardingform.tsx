@@ -6,6 +6,7 @@ import { Input } from '@lf/ui/components/base/input';
 import { redirect, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import {
+  AtSign,
   Check,
   FolderKanban,
   Globe,
@@ -34,6 +35,18 @@ import { motion } from 'motion/react';
 import { CountryCombobox } from './countryselect';
 import { onboardUser } from '@/app/onboarding/action';
 import { LoadingButton } from './loadingbutton';
+import { iconMap } from '@/app/dashboard/utils/iconMap';
+
+function getPlatformIcon(url: string) {
+  try {
+    const host = new URL(url).hostname.replace('www.', '');
+    const platform = Object.keys(iconMap).find((key) => host.includes(key.toLowerCase()));
+    const Icon = iconMap[platform || ''];
+    return Icon ? <Icon size={18} /> : <Link2 size={18} />;
+  } catch {
+    return <Link2 size={18} />;
+  }
+}
 
 const OnboardingForm = ({ username }: { username: string }) => {
   const supabase = createClient();
@@ -45,9 +58,11 @@ const OnboardingForm = ({ username }: { username: string }) => {
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
       username: '',
-      name: '',
+      full_name: '',
+      headline: '',
+      company: '',
       country: '',
-      links: [],
+      socials: [],
       skills: [],
       startups: [],
     },
@@ -56,12 +71,12 @@ const OnboardingForm = ({ username }: { username: string }) => {
   const { control, register } = form;
 
   const {
-    fields: linkFields,
+    fields: socialFields,
     append: appendLink,
     remove: removeLink,
   } = useFieldArray({
     control,
-    name: 'links',
+    name: 'socials',
   });
 
   const {
@@ -130,6 +145,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
               form.setFocus('username');
               return;
             }
+
             const result = await onboardUser(data);
             if (result?.field && !result.success) {
               form.setError(result.field as any, {
@@ -140,7 +156,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
               return;
             }
 
-            router.push('/dashboard/home');
+            router.push('/dashboard');
           })}
           className="space-y-4"
         >
@@ -230,18 +246,65 @@ const OnboardingForm = ({ username }: { username: string }) => {
                   <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
                     <User className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Profile information
                   </h1>
-                  <div className="flex flex-col gap-4 w-full max-w-74">
+                  <div className="flex flex-col gap-4 w-full max-w-98">
                     <div>
                       <Input
-                        id="name"
+                        id="full_name"
                         className="bg-secondary w-full text-sm"
                         type="text"
-                        placeholder="Enter your name"
-                        {...form.register('name')}
+                        placeholder="Enter your Name"
+                        {...form.register('full_name')}
                       />
-                      {form.formState.errors.name && (
+                      {form.formState.errors.full_name && (
                         <p className="text-xs lg:text-sm text-destructive mt-1">
-                          {form.formState.errors.name.message}
+                          {form.formState.errors.full_name.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex items-start justify-start gap-2">
+                      <div className="flex flex-col items-start justify-center">
+                        {' '}
+                        <Input
+                          id="headline"
+                          className="bg-secondary w-full text-sm"
+                          type="text"
+                          placeholder="Headline - Developer | Engineer..."
+                          {...form.register('headline')}
+                        />
+                        {form.formState.errors.headline && (
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
+                            {form.formState.errors.headline.message}
+                          </p>
+                        )}
+                      </div>
+                      <AtSign size={16} className="text-foreground/70 mt-2.5" />
+                      <div className="flex flex-col items-start justify-center">
+                        {' '}
+                        <Input
+                          id="company"
+                          className="bg-secondary w-full text-sm"
+                          type="text"
+                          placeholder="@Google, @X..."
+                          {...form.register('company')}
+                        />
+                        {form.formState.errors.company && (
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
+                            {form.formState.errors.company.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <Input
+                        id="education"
+                        className="bg-secondary w-full text-sm"
+                        type="text"
+                        placeholder="Education: IITKGP, Popat Uni..."
+                        {...form.register('education')}
+                      />
+                      {form.formState.errors.education && (
+                        <p className="text-xs lg:text-sm text-destructive mt-1">
+                          {form.formState.errors.education.message}
                         </p>
                       )}
                     </div>
@@ -257,7 +320,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                               value={field.value}
                               onChange={field.onChange}
                               ref={field.ref}
-                              className='bg-secondary max-w-74'
+                              className="bg-secondary max-w-98"
                             />
                             {form.formState.errors.country && (
                               <p className="text-xs text-destructive mt-1">
@@ -278,46 +341,49 @@ const OnboardingForm = ({ username }: { username: string }) => {
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 <div className="flex flex-col items-start justify-start px-3 py-2 gap-4 w-full">
                   <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
-                    <Link className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Any important Links
+                    <Globe className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Socials
                   </h1>
 
-                  {linkFields.map((field, index) => (
-                    <div
-                      key={field.id}
-                      className="flex flex-col items-start justify-start gap-1 w-full max-w-74"
-                    >
-                      <div className="flex items-center gap-2 w-full">
-                        <Input
-                          className="bg-secondary flex-1"
-                          type="text"
-                          placeholder="https://yourlink.com/username"
-                          {...register(`links.${index}.url`)}
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => removeLink(index)}
-                        >
-                          <X className="w-4 h-4" />
-                        </Button>
+                  {socialFields.map((field, index) => {
+                    const currentUrl = form.watch(`socials.${index}.url`) || '';
+                    return (
+                      <div
+                        key={field.id}
+                        className="flex flex-col items-start justify-start gap-1 w-full max-w-98"
+                      >
+                        <div className="flex items-center gap-2 w-full">
+                          {getPlatformIcon(currentUrl)}
+                          <Input
+                            className="bg-secondary flex-1"
+                            type="text"
+                            placeholder="https://yourlink.com/username"
+                            {...register(`socials.${index}.url`)}
+                          />
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => removeLink(index)}
+                          >
+                            <X className="w-4 h-4" />
+                          </Button>
+                        </div>
+                        {form.formState.errors.socials?.[index]?.url && (
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
+                            {form.formState.errors.socials[index]?.url?.message}
+                          </p>
+                        )}
                       </div>
-                      {form.formState.errors.links?.[index]?.url && (
-                        <p className="text-xs lg:text-sm text-destructive mt-1">
-                          {form.formState.errors.links[index]?.url?.message}
-                        </p>
-                      )}
-                    </div>
-                  ))}
+                    );
+                  })}
 
                   <Button
                     type="button"
-                    className="w-full max-w-74"
+                    className="w-full max-w-98"
                     variant="outline"
                     size="sm"
                     onClick={() =>
                       appendLink({
-                        type: '',
                         url: '',
                       })
                     }
@@ -338,7 +404,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                   <SkillsSelect
                     value={form.watch('skills') ?? []}
                     onChange={(v) => form.setValue('skills', v)}
-                    className='max-w-84'
+                    className="max-w-84"
                   />
                 </div>
               </div>

@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
-const linkSchema = z.object({
-  type: z.string(),
+const socialSchema = z.object({
   url: z.string().min(1, 'URL is required').url('Please enter valid url'),
 });
 
@@ -26,9 +25,12 @@ export const onboardingSchema = z.object({
       message:
         'Username must be 3-30 chars, lowercase letters, numbers, underscores or periods only.',
     }),
-  name: z.string().min(3, 'Name must be at least 3 characters long.'),
-  country: z.string().min(2, 'Please select a country'),
-  links: z.array(linkSchema).optional(),
+  full_name: z.string().min(3, 'Name must be at least 3 characters long.'),
+  headline: z.string().min(3, 'Headline is required.'),
+  company: z.string().min(1, 'Company is required.'),
+  country: z.string().min(2, 'Please select a country.'),
+  education: z.string().min(2, 'Education is required.'),
+  socials: z.array(socialSchema).optional(),
   skills: z.array(skillSchema).optional(),
   startups: z.array(startupSchema).optional(),
 });

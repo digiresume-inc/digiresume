@@ -223,7 +223,7 @@ export const CountryCombobox = React.forwardRef<HTMLButtonElement, CountryCombob
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 w-full max-w-74" style={{ width }}>
+        <PopoverContent className="p-0 w-full max-w-98" style={{ width }}>
           <CountryList
             height={height}
             options={options.map((option) => ({ value: option, label: option }))}

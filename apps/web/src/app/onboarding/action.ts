@@ -1,15 +1,13 @@
 'use server';
 import { z } from 'zod';
-import { onboardingSchema, skills } from '@lf/utils';
+import { onboardingSchema } from '@lf/utils';
 import { createSClient } from '@/supabase/server';
-import { processFormData } from '@lf/utils';
 
 export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
   const supabase = createSClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
 
   if (data.username) {
     const { data: existingUsers, error } = await supabase
@@ -34,17 +32,18 @@ export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
     }
   }
 
-  let newData = processFormData(data);
-
   const { error: onboardError } = await supabase
     .from('profiles')
     .update({
-      full_name: data.name,
+      full_name: data.full_name,
+      headline: data.headline,
+      company: data.company,
       country: data.country,
-      links: newData.links,
+      education: data.education,
+      socials: data.socials,
       skills: data.skills,
       onboarding: 'completed',
-      ...(data.username && { username: data.username })
+      ...(data.username && { username: data.username }),
     })
     .eq('id', user?.id);
 
@@ -55,9 +54,8 @@ export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
     };
   }
 
-
-  if (newData.startups && newData.startups.length > 0) {
-    const startupData = newData.startups.map((startup: any) => ({
+  if (data.startups && data.startups.length > 0) {
+    const startupData = data.startups.map((startup: any) => ({
       user_id: user?.id,
       name: startup.name,
       url: startup.url,

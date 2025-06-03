@@ -119,6 +119,7 @@ function renderProfile(profile: any, startups: any, projects: any) {
                       className="rounded-full h-full w-full object-cover"
                       alt={profile.full_name}
                       src={profile.avatar_url}
+                      referrerPolicy='no-referrer'
                     />
                   </div>
                   <div className="flex flex-col justify-center gap-1.5">
