@@ -63,8 +63,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-      <div className="flex flex-col items-start justify-center border p-3 lg:p-4 rounded-lg w-full mt-4">
-        <p className="text-lg font-semibold mb-4">Profile</p>
+      <div className="flex flex-col items-start justify-center p-3 lg:p-4 rounded-lg w-full mt-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           <div className="col-span-1">
             <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
@@ -256,7 +255,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
           </div>
         </div>
       </div>
-      <div className="w-full mt-8 flex flex-col items-start justify-center border p-3 lg:p-4 rounded-lg">
+      <div className="w-full mt-4 flex flex-col items-start justify-center px-3 lg:px-4 rounded-lg">
         <p className="text-lg font-semibold mb-4">Skills</p>
         <SkillsSelect
           value={form.watch('skills') ?? []}

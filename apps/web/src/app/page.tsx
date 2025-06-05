@@ -4,7 +4,6 @@ import { FlipWords } from '@/components/flipword';
 import UsernameCheck from '@/components/usernamecheck';
 import { createSClient } from '@/supabase/server';
 import Navbar from '@/components/navbar';
-import { Spotlight } from '@lf/ui/components/base/spotlight';
 
 const words = [
   'Startup ',
@@ -24,7 +23,6 @@ export default async function Home() {
 
   return (
     <div className="w-full h-[750px] lg:h-[994px] relative bg-background">
-      <Spotlight className="hidden lg:block" fill="var(--primary)" />
       <div className="absolute inset-0">
         <div
           className={cn(

@@ -50,7 +50,7 @@ const LogoutConfirmation = ({
               opacity: 0,
             }}
             transition={{ type: 'spring', bounce: 0.3, duration: 0.4 }}
-            className="relative z-50 w-full border border-foreground/10 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-[0%] data-[state=closed]:slide-out-to-top-[0%] data-[state=open]:slide-in-from-left-[0%] data-[state=open]:slide-in-from-top-[0%] rounded-lg md:w-full bg-secondary sm:align-middle sm:w-full sm:max-w-sm p-0 gap-0 pb-5 !block"
+            className="relative z-50 w-full border border-foreground/10 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-[0%] data-[state=closed]:slide-out-to-top-[0%] data-[state=open]:slide-in-from-left-[0%] data-[state=open]:slide-in-from-top-[0%] rounded-lg md:w-full bg-background sm:align-middle sm:w-full sm:max-w-sm p-0 gap-0 pb-5 !block"
             style={{ pointerEvents: 'auto' }}
           >
             <div className="flex flex-col gap-1.5 text-center sm:text-left py-4 px-5 border-b">

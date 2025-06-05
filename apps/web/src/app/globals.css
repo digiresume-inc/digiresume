@@ -34,7 +34,7 @@ body {
 .animate-slide-up {
     opacity: 0;
     transform: translateY(80px);
-    animation: slideUp 1s ease forwards;
+    animation: slideUp 0.8s ease forwards;
 }
 
 .animate-fade {
@@ -55,6 +55,11 @@ body {
 }
 
 @keyframes slideUp {
+    from {
+        opacity: 0;
+        filter: blur(8px);
+        transform: translateY(50);
+    }
     to {
         opacity: 1;
         transform: translateY(0);
@@ -62,7 +67,13 @@ body {
 }
 
 @keyframes fade {
+    from {
+        filter: blur(8px);
+        opacity: 0;
+    }
+
     to {
+        filter: blur(0px);
         opacity: 1;
     }
 }
@@ -86,63 +97,64 @@ body {
 }
 
 .tooltip {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
 }
 
 /* Tooltip text */
 .tooltip .tooltip-text {
-  visibility: hidden;
-  width: 160px;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 6px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%; /* position above the text */
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.3s;
+    visibility: hidden;
+    width: 160px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 6px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    /* position above the text */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
 /* Arrow below the tooltip */
 .tooltip .tooltip-text::after {
-  content: "";
-  position: absolute;
-  top: 100%; /* arrow at the bottom */
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #333 transparent transparent transparent;
+    content: "";
+    position: absolute;
+    top: 100%;
+    /* arrow at the bottom */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
 }
 
 /* Show tooltip on hover (desktop) or focus (keyboard) */
 .tooltip:hover .tooltip-text,
 .tooltip:focus-within .tooltip-text {
-  visibility: visible;
-  opacity: 1;
+    visibility: visible;
+    opacity: 1;
 }
 
 /* For mobile: show tooltip on tap (using :focus-within) */
 .tooltip:focus-within .tooltip-text {
-  visibility: visible;
-  opacity: 1;
-  outline: none;
+    visibility: visible;
+    opacity: 1;
+    outline: none;
 }
 
 input[type='number']::-webkit-outer-spin-button,
 input[type='number']::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Hide arrows in Firefox */
 input[type='number'] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
-
