@@ -117,7 +117,7 @@ export const NewThemes: NewTheme[] = [
       primary: '#b99f64',
       card: '#393E46',
       border: '#505762',
-      secondary: '#22252a',
+      secondary: '#393e47',
     },
     theme_type: 'dark',
   },

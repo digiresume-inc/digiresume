@@ -134,16 +134,16 @@ const MobilePreview = ({
               <div className="flex items-center justify-center gap-2">
                 <div
                   style={{
-                    borderColor: t?.primary,
+                    borderColor: t?.border,
                   }}
-                  className="w-12 h-12 p-0.5 border border-dashed rounded-full"
+                  className="w-12 h-12 p-0.5 border border-dashed rounded-md"
                 >
                   {profile.avatar_url && (
                     <Image
                       alt="Profile Image"
                       width={48}
                       height={48}
-                      className="w-full h-full rounded-full"
+                      className="w-full h-full rounded-md object-cover"
                       src={profile.avatar_url}
                     />
                   )}
@@ -157,7 +157,7 @@ const MobilePreview = ({
                   >
                     {profile.full_name}
                   </p>
-                  <p
+                  {profile.country && <p
                     style={{
                       color: hexToHSL(t?.foreground!, 0.7),
                     }}
@@ -180,7 +180,7 @@ const MobilePreview = ({
                     <span className="flex items-center">
                       <BiRupee strokeWidth={1} className="w-[12px] h-[12px]" />2 cr/m
                     </span>
-                  </p>
+                  </p>}
                 </div>
               </div>
               <div className="flex flex-col items-center justify-center p-2">
@@ -263,7 +263,7 @@ const MobilePreview = ({
                     }}
                     className="flex items-center font-medium justify-center gap-1 rounded-full px-2 py-0.5 text-tiny"
                   >
-                    <img src={skill.logo} alt={skill.label} className="h-2 w-2" />
+                    <img src={skill.logo} alt={skill.label} className="h-2 w-2 rounded-xs" />
                     {skill.label}
                   </div>
                 ))}
@@ -286,7 +286,7 @@ const MobilePreview = ({
                           '--background-color': t?.background,
                         } as React.CSSProperties
                       }
-                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                     >
                       Experience
                     </TabsTrigger>
@@ -300,7 +300,7 @@ const MobilePreview = ({
                           '--background-color': t?.background,
                         } as React.CSSProperties
                       }
-                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                     >
                       Startups
                     </TabsTrigger>
@@ -314,7 +314,7 @@ const MobilePreview = ({
                           '--background-color': t?.background,
                         } as React.CSSProperties
                       }
-                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                     >
                       Projects
                     </TabsTrigger>

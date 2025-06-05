@@ -60,7 +60,7 @@ export default async function Home() {
                         deserves
                       </span>
                     </h1>
-                    <p className="pt-2 text-sm sm:text-base lg:text-lg font-medium lg:font-semibold text-muted-foreground my-3 sm:mt-5 lg:mb-0 sm:px-6 lg:px-10 max-w-prose text-center">
+                    <p className="pt-2 text-sm sm:text-base lg:text-lg font-medium text-muted-foreground my-3 sm:mt-5 lg:mb-0 sm:px-6 lg:px-10 max-w-prose text-center">
                       Boost your web presence with Linkfolio — showcase <strong>projects</strong>,
                       share <strong>startups</strong>, add <strong>experience</strong>, grow your
                       network, and attract opportunities in one sleek portfolio.

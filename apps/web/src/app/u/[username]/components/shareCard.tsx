@@ -23,12 +23,12 @@ const ShareCard = ({ profile, t }: { profile: any; t: any }) => {
         onClick={() => setModal(true)}
         style={
           {
-            '--background': t.secondary,
             '--text-color': t.foreground,
             '--border-color': hexToHSL(t.primary, 0.6),
+            '--hover-background': t.secondary,
           } as React.CSSProperties
         }
-        className="absolute top-0 lg:top-4 right-4 lg:right-24 !bg-[var(--background)] !text-[var(--text-color)] !border-[var(--border-color)]"
+        className="absolute top-0 lg:top-4 right-4 lg:right-24 !bg-transparent hover:!bg-[var(--hover-background)] !text-[var(--text-color)] !border-[var(--border-color)]"
       >
         <ExternalLink />
       </Button>
@@ -76,7 +76,7 @@ const ShareCard = ({ profile, t }: { profile: any; t: any }) => {
               <div className="space-y-4">
                 <div
                   style={{
-                    background: t.secondary,
+                    background: 'transparent',
                     borderColor: t.border,
                   }}
                   className="rounded-md border w-full px-2 py-1 relative"
@@ -85,7 +85,7 @@ const ShareCard = ({ profile, t }: { profile: any; t: any }) => {
                     style={{
                       color: t?.foreground,
                     }}
-                    className="w-[93%] text-ellipsis truncate"
+                    className="w-[93%] text-ellipsis truncate text-sm lg:text-base"
                   >
                     {process.env.NEXT_PUBLIC_BASE_URL?.replace(/(^\w+:|^)\/\//, '')}/
                     {profile.username}
@@ -119,7 +119,7 @@ const ShareCard = ({ profile, t }: { profile: any; t: any }) => {
                 href={`whatsapp://send?text=${process.env.NEXT_PUBLIC_BASE_URL}/${profile.username}`}
                 data-action="share/whatsapp/share"
                 style={{
-                  background: t.secondary,
+                  background: 'transparent',
                   borderColor: t.border,
                   color: t.foreground,
                 }}
@@ -131,7 +131,7 @@ const ShareCard = ({ profile, t }: { profile: any; t: any }) => {
                 target="_blank"
                 href={`http://x.com/share?text=Checkout my Linkfolio page%0A&url=${process.env.NEXT_PUBLIC_BASE_URL}/${profile.username}`}
                 style={{
-                  background: t.secondary,
+                  background: 'transparent',
                   borderColor: t.border,
                   color: t.foreground,
                 }}
@@ -143,7 +143,7 @@ const ShareCard = ({ profile, t }: { profile: any; t: any }) => {
                 target="_blank"
                 href={`https://www.facebook.com/sharer/sharer.php?u=${process.env.NEXT_PUBLIC_BASE_URL}/${profile.username}`}
                 style={{
-                  background: t.secondary,
+                  background: 'transparent',
                   borderColor: t.border,
                   color: t.foreground,
                 }}
@@ -155,7 +155,7 @@ const ShareCard = ({ profile, t }: { profile: any; t: any }) => {
                 target="_blank"
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${process.env.NEXT_PUBLIC_BASE_URL}/${profile.username}&text=Checkout my Linkfolio page`}
                 style={{
-                  background: t.secondary,
+                  background: 'transparent',
                   borderColor: t.border,
                   color: t.foreground,
                 }}
@@ -167,7 +167,7 @@ const ShareCard = ({ profile, t }: { profile: any; t: any }) => {
                 target="_blank"
                 href={`https://telegram.me/share/url?url=${process.env.NEXT_PUBLIC_BASE_URL}/${profile.username}&text=Checkout my Linkfolio page`}
                 style={{
-                  background: t.secondary,
+                  background: 'transparent',
                   borderColor: t.border,
                   color: t.foreground,
                 }}

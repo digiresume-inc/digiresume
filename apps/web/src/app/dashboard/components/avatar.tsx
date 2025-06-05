@@ -106,7 +106,7 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
             height={96}
             src={avatarUrl}
             alt="Avatar"
-            className="w-24 h-24 rounded-full object-cover border-2 border-muted/30"
+            className="w-24 h-24 rounded-2xl object-cover border-2 border-muted/30"
             referrerPolicy='no-referrer'
           />
           <Button
