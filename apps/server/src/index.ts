@@ -113,11 +113,11 @@ app.post(
                  From the given resume text, extract only the following fields as a JSON object:
                  
                  full_name
-                 headline (a one-line summary from the intro or summary section)
+                 headline (headline of linkedin profile like Founder & CEO at Google)
                  skills: list of { logo, label, value, category } objects (based on top skills or mentioned tools, logo should be empty string '')
                  country (if mentioned)
                  profile_link: { url, text } — based on any portfolio or personal site link
-                 experience: array of { role, company, start, end, location, duration }
+                 experience: array of { a: index, company: company name string, company_link: company url if any, company url, contribution: breif info on contribution to company string, roles: [array as multiple roles amy be there in each company each with start_date(format(MM/YYYY), end_date(format(MM/YYYY) - only if not present company, headline: role name(ex: Frontend Dev, Sr Backend Developer,) location: job location (india, us),location_type: string "On-site | Hybrid | Remote", employment_type: string "Full-time | Part-time | Self-employed | Freelance | Internship | Trainee", currently_working: "True | False"] }
                  socials: array of { url }
                  company (current or most important one)
                  education (highest degree or most recent institution)`,

@@ -17,7 +17,7 @@ const LinkedinImport = ({
   const [loading, setLoading] = useState(false);
   const [finalOutput, setFinalOutput] = useState<any>(null);
   const [error, setError] = useState('');
-const loadingMessages = ['Processing... ', 'Analyzing...  ', 'Structuring...'];
+  const loadingMessages = ['Processing... ', 'Analyzing...  ', 'Structuring...'];
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
 
   useEffect(() => {
@@ -57,6 +57,8 @@ const loadingMessages = ['Processing... ', 'Analyzing...  ', 'Structuring...'];
       const cleaned = finalOutput.replace(/```json\s*|\s*```/g, '').trim();
       const parsed = JSON.parse(cleaned);
       setFinalOutput(parsed);
+
+      console.log(parsed);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -136,10 +138,10 @@ const loadingMessages = ['Processing... ', 'Analyzing...  ', 'Structuring...'];
                     alt="Linkedin Import Guide"
                   />
                   {loading ? (
-                    <AnimatePresence mode="wait" initial={false}>
-                      <span className="flex items-center w-full justify-center opacity-70 gap-2 bg-secondary rounded-full py-2">
-                        <Loader2 size={18} className="animate-spin" />
+                    <span className="flex items-center w-full justify-center opacity-70 gap-2 bg-secondary rounded-full py-2">
+                      <Loader2 size={18} className="animate-spin" />
 
+                      <AnimatePresence mode="wait" initial={false}>
                         <motion.span
                           key={loadingMessages[currentMessageIndex]}
                           variants={blurFade}
@@ -150,8 +152,8 @@ const loadingMessages = ['Processing... ', 'Analyzing...  ', 'Structuring...'];
                         >
                           {loadingMessages[currentMessageIndex]}
                         </motion.span>
-                      </span>
-                    </AnimatePresence>
+                      </AnimatePresence>
+                    </span>
                   ) : (
                     <span className="text-sm flex flex-col gap-2">
                       <span>Upload PDF</span>
