@@ -1,21 +1,17 @@
 'use client';
-import { ToastError, ToastSuccess } from '@/components/toast';
+import {  ToastSuccess } from '@/components/toast';
 import { createClient } from '@/supabase/client';
 import { Button } from '@lf/ui/components/base/button';
 import { Input } from '@lf/ui/components/base/input';
-import { redirect, useRouter } from 'next/navigation';
+import {  useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import {
   AtSign,
-  Check,
-  Edit,
   FolderKanban,
   Globe,
   IdCard,
-  Link,
   Link2,
   ListChecks,
-  Loader2,
   Pencil,
   Plus,
   ThumbsUp,
@@ -26,7 +22,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@lf/ui/components/base/card';
 import { Textarea } from '@lf/ui/components/base/textarea';
 import { SiLinkedin } from 'react-icons/si';
-import { BiEdit } from 'react-icons/bi';
 import { SkillsSelect } from './skillselect';
 import { blurUpFade, countries, onboardingSchema } from '@lf/utils';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
