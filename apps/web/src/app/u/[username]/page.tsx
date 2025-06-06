@@ -327,7 +327,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                               <img
                                 alt={company.company}
                                 className="cursor-pointer w-full h-full rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity flex-grow"
-                                src={company.company_logo}
+                                src={company.company_logo || '/company.png'}
                               />
                             </div>
                             <p

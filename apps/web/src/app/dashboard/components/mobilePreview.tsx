@@ -1,5 +1,15 @@
 import { Button } from '@lf/ui/components/base/button';
-import { BatteryLow, ExternalLink, MapPin, SignalMedium, X, File, Link2, Info } from 'lucide-react';
+import {
+  BatteryLow,
+  ExternalLink,
+  MapPin,
+  SignalMedium,
+  X,
+  File,
+  Link2,
+  Info,
+  CircleHelp,
+} from 'lucide-react';
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -100,7 +110,7 @@ const MobilePreview = ({
                 }}
                 className="w-full rounded-full h-6 flex items-center justify-between px-2"
               >
-                {profile.favicon_url && (
+                {profile.favicon_url ? (
                   <Image
                     width={20}
                     height={20}
@@ -109,6 +119,10 @@ const MobilePreview = ({
                     referrerPolicy="no-referrer"
                     src={profile.favicon_url}
                   />
+                ) : (
+                  <span title="No custom favicon">
+                    <CircleHelp strokeWidth={1} className="h-4 w-4" />
+                  </span>
                 )}
                 <p
                   style={{
@@ -157,30 +171,32 @@ const MobilePreview = ({
                   >
                     {profile.full_name}
                   </p>
-                  {profile.country && <p
-                    style={{
-                      color: hexToHSL(t?.foreground!, 0.7),
-                    }}
-                    className="flex items-center text-xs font-medium gap-1"
-                  >
-                    <MapPin className="w-[12px] h-[12px] mr-[-2px]" />
-                    {profile.country.split('-')[0]}
-                    <img
-                      className="w-4"
-                      alt="Flag"
-                      src={`https://flagsapi.com/${profile.country.split('-')[1]}/flat/64.png`}
-                      referrerPolicy="no-referrer"
-                    />
-                    <span
+                  {profile.country && (
+                    <p
                       style={{
-                        background: hexToHSL(t?.primary!, 0.7),
+                        color: hexToHSL(t?.foreground!, 0.7),
                       }}
-                      className="h-[15px] w-px mx-1"
-                    />
-                    <span className="flex items-center">
-                      <BiRupee strokeWidth={1} className="w-[12px] h-[12px]" />2 cr/m
-                    </span>
-                  </p>}
+                      className="flex items-center text-xs font-medium gap-1"
+                    >
+                      <MapPin className="w-[12px] h-[12px] mr-[-2px]" />
+                      {profile.country.split('-')[0]}
+                      <img
+                        className="w-4"
+                        alt="Flag"
+                        src={`https://flagsapi.com/${profile.country.split('-')[1]}/flat/64.png`}
+                        referrerPolicy="no-referrer"
+                      />
+                      <span
+                        style={{
+                          background: hexToHSL(t?.primary!, 0.7),
+                        }}
+                        className="h-[15px] w-px mx-1"
+                      />
+                      <span className="flex items-center">
+                        <BiRupee strokeWidth={1} className="w-[12px] h-[12px]" />2 cr/m
+                      </span>
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="flex flex-col items-center justify-center p-2">
@@ -263,7 +279,9 @@ const MobilePreview = ({
                     }}
                     className="flex items-center font-medium justify-center gap-1 rounded-full px-2 py-0.5 text-tiny"
                   >
-                    {skill.logo && <img src={skill.logo} alt={skill.label} className="h-2 w-2 rounded-xs" />}
+                    {skill.logo && (
+                      <img src={skill.logo} alt={skill.label} className="h-2 w-2 rounded-xs" />
+                    )}
                     {skill.label}
                   </div>
                 ))}
@@ -339,7 +357,7 @@ const MobilePreview = ({
                               <img
                                 alt={company.company}
                                 className="cursor-pointer w-8 h-8 rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity border-primaryBorder flex-grow border"
-                                src={company.company_logo}
+                                src={company.company_logo || '/company.png'}
                               />
                               <p
                                 style={{

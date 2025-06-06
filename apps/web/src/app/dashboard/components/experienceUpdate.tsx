@@ -108,7 +108,7 @@ const ExperienceUpdate = ({ profile }: { profile: any }) => {
           {profile.experience.map((exp: any, index: number) => (
             <div key={index} className="w-full mt-1 lg:px-8 py-4">
               <div className="flex items-center justify-start gap-2">
-                <img src={exp.company_logo} className="w-8 h-8 rounded-full" />
+                <img src={exp.company_logo || "/company.png"} className="w-8 h-8 rounded-full" />
                 <h3 className="text-lg font-semibold mr-2">{exp.company}</h3>
                 <Button
                   variant={'outline'}
