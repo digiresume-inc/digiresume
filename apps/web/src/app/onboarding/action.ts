@@ -1,6 +1,6 @@
 'use server';
 import { z } from 'zod';
-import { onboardingSchema } from '@lf/utils';
+import { onboardingSchema, usernameSchema } from '@lf/utils';
 import { createSClient } from '@/supabase/server';
 
 export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
@@ -8,29 +8,6 @@ export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  if (data.username) {
-    const { data: existingUsers, error } = await supabase
-      .from('profiles')
-      .select('username')
-      .eq('username', data.username);
-
-    if (error) {
-      return {
-        success: false,
-        field: 'username',
-        message: 'Failed to check username. Please try again later.',
-      };
-    }
-
-    if (existingUsers && existingUsers.length > 0) {
-      return {
-        success: false,
-        field: 'username',
-        message: 'Username is already taken.',
-      };
-    }
-  }
 
   const { error: onboardError } = await supabase
     .from('profiles')
@@ -43,7 +20,6 @@ export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
       socials: data.socials,
       skills: data.skills,
       onboarding: 'completed',
-      ...(data.username && { username: data.username }),
     })
     .eq('id', user?.id);
 
@@ -75,5 +51,69 @@ export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
   return {
     success: true,
     message: 'Form Submit Successful.',
+  };
+}
+
+export async function updateUsername(data: z.infer<typeof usernameSchema>) {
+  const supabase = createSClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data: existingUsers, error } = await supabase
+    .from('profiles')
+    .select('username')
+    .eq('username', data.username);
+
+  if (existingUsers && existingUsers.length > 0) {
+    return {
+      success: false,
+      message: 'Sorry, username already taken. 😔',
+    };
+  }
+
+  const { error: updateError } = await supabase
+    .from('profiles')
+    .update({
+      username: data.username,
+    })
+    .eq('id', user?.id);
+
+  if (updateError) {
+    return {
+      success: false,
+      message: 'Username update error.',
+    };
+  }
+  return {
+    success: true,
+    message: 'Username updated successfully.',
+  };
+}
+
+export async function updateLinkedinData(data: any) {
+  const supabase = createSClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { error: updateError } = await supabase
+    .from('profiles')
+    .update({
+      ...data,
+      onboarding: 'completed',
+    })
+    .eq('id', user?.id);
+
+  if (updateError) {
+    return {
+      success: false,
+      message: `Linkedin update error. ${updateError.message}`,
+    };
+  }
+
+  return {
+    success: true,
+    message: 'Profile updated successfully.',
   };
 }

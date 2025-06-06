@@ -17,14 +17,18 @@ const skillSchema = z.object({
   category: z.enum(['Language', 'Framework', 'Tool', 'Database', 'Design', 'Cloud', 'Custom']),
 });
 
-export const onboardingSchema = z.object({
+export const usernameSchema = z.object({
   username: z
     .string()
-    .optional()
-    .refine((val) => val === undefined || val === '' || /^[a-z0-9_.]{3,30}$/.test(val), {
-      message:
-        'Username must be 3-30 chars, lowercase letters, numbers, underscores or periods only.',
-    }),
+    .min(1, 'Username must be at least 1 character')
+    .max(30, 'Username can be maximum 30 characters long.')
+    .regex(
+      /^(?!.*[.]{2})[a-zA-Z0-9](?:[a-zA-Z0-9._]*[a-zA-Z0-9_])?$/,
+      'Only letters, numbers, underscores, and dots allowed. No ending or consecutive dots.'
+    ),
+});
+
+export const onboardingSchema = z.object({
   full_name: z.string().min(3, 'Name must be at least 3 characters long.'),
   headline: z.string().min(3, 'Headline is required.'),
   company: z.string().min(1, 'Company is required.'),

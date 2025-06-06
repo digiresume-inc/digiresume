@@ -6,6 +6,9 @@ import Image from 'next/image';
 import { blurFade, extractTextFromPDF } from '@lf/utils';
 import { FileWarning, Loader2 } from 'lucide-react';
 import { Input } from '@lf/ui/components/base/input';
+import { updateLinkedinData } from '@/app/onboarding/action';
+import { ToastSuccess } from '@/components/toast';
+import { useRouter } from 'next/navigation';
 
 const LinkedinImport = ({
   modal,
@@ -19,6 +22,7 @@ const LinkedinImport = ({
   const [error, setError] = useState('');
   const loadingMessages = ['Processing... ', 'Analyzing...  ', 'Structuring...'];
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     if (!loading) return;
@@ -58,7 +62,17 @@ const LinkedinImport = ({
       const parsed = JSON.parse(cleaned);
       setFinalOutput(parsed);
 
-      console.log(parsed);
+      const result = await updateLinkedinData(parsed)
+      if(!result.success){
+        setError(result.message)
+        return
+      }
+
+      ToastSuccess({message: 'Profile updated successfully.'})
+      setModal('none');
+      router.push('/dashboard');
+      
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {

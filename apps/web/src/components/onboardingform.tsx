@@ -1,5 +1,5 @@
 'use client';
-import { ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/toast';
 import { createClient } from '@/supabase/client';
 import { Button } from '@lf/ui/components/base/button';
 import { Input } from '@lf/ui/components/base/input';
@@ -34,6 +34,7 @@ import { onboardUser } from '@/app/onboarding/action';
 import { LoadingButton } from './loadingbutton';
 import { iconMap } from '@/app/dashboard/utils/iconMap';
 import LinkedinImport from '@/modals/linkedinimport';
+import UsernameSet from './usernameset';
 
 function getPlatformIcon(url: string) {
   try {
@@ -50,12 +51,11 @@ const OnboardingForm = ({ username }: { username: string }) => {
   const supabase = createClient();
   const router = useRouter();
   const [onboardingType, setOnboardingType] = useState('none');
-  const [linkedinLoading, setLinkedinLoading] = useState(false);
+  const [step, setStep] = useState(username ? 2 : 1);
 
   const form = useForm<z.infer<typeof onboardingSchema>>({
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
-      username: '',
       full_name: '',
       headline: '',
       company: '',
@@ -102,10 +102,6 @@ const OnboardingForm = ({ username }: { username: string }) => {
     }
   };
 
-  const showOnboarding = onboardingType === 'scratch';
-  const showFirstStep = onboardingType === 'none' || onboardingType === 'linkedin';
-  const stepStart = username ? 2 : 3;
-
   return (
     <div className="w-full h-full px-6 py-12 lg:px-52 lg:py-24">
       <LinkedinImport modal={onboardingType === 'linkedin'} setModal={setOnboardingType} />
@@ -120,7 +116,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
         <div className="flex items-center justify-between lg:justify-start gap-4 w-full">
           <h1 className="text-2xl lg:text-4xl font-bold">Onboarding</h1>
           <Button
-            disabled={linkedinLoading || form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting}
             onClick={updateOnboardStatus}
             size={'sm'}
             variant={'outline'}
@@ -142,24 +138,26 @@ const OnboardingForm = ({ username }: { username: string }) => {
           <div className="absolute w-px h-full bg-border left-5 top-4"></div>
           <div className="w-full h-8 bg-transparent"></div>
         </motion.div>
+        {step === 1 && (
+          <motion.div
+            variants={blurUpFade}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{ duration: 0.3 }}
+            className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full"
+          >
+            <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
+              1
+            </div>
+            <UsernameSet setStep={setStep} />
+          </motion.div>
+        )}
         <form
           onSubmit={form.handleSubmit(async (data) => {
-            if (!username && !data.username) {
-              form.setError('username', {
-                type: 'required',
-                message: 'username is required',
-              });
-              form.setFocus('username');
-              return;
-            }
-
             const result = await onboardUser(data);
-            if (result?.field && !result.success) {
-              form.setError(result.field as any, {
-                type: 'server',
-                message: result.message,
-              });
-              form.setFocus(result.field as any);
+            if (!result.success) {
+              ToastError({ message: result.message });
               return;
             }
 
@@ -167,7 +165,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
           })}
           className="space-y-4"
         >
-          {showFirstStep && (
+          {step === 2 && (
             <motion.div
               variants={blurUpFade}
               initial="initial"
@@ -177,32 +175,29 @@ const OnboardingForm = ({ username }: { username: string }) => {
               className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative"
             >
               <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
-                1
+                2
               </div>
-              {showOnboarding && (
-                <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
-              )}
               <div className="flex flex-col items-start justify start px-3 py-2 gap-4">
                 <h1 className="text-lg lg:text-xl font-semibold mb-2">Select onboarding type</h1>
                 <div className="relative inline-block">
-                  <LoadingButton
+                  <Button
                     onClick={() => {
                       setOnboardingType('linkedin');
                     }}
-                    pending={linkedinLoading}
-                    loadingText="Fetching..."
                     className="min-w-58 py-4"
                   >
                     Import from LinkedIn <SiLinkedin />
-                  </LoadingButton>
+                  </Button>
                   <span className="border border-primary bg-gradient-to-r from-popover via-primary/40 to-popover flex place-items-center justify-center gap-1 absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-secondary text-foreground px-2 py-0.5 rounded-full shadow-md">
                     Recommended <ThumbsUp strokeWidth={1} size={13} />
                   </span>
                 </div>
 
                 <Button
-                  disabled={linkedinLoading}
-                  onClick={() => setOnboardingType('scratch')}
+                  onClick={() => {
+                    setOnboardingType('scratch');
+                    setStep(3);
+                  }}
                   className="min-w-58"
                 >
                   Start from scratch <Pencil />
@@ -210,7 +205,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
               </div>
             </motion.div>
           )}
-          {showOnboarding && (
+          {step === 3 && (
             <motion.div
               variants={blurUpFade}
               initial="initial"
@@ -219,41 +214,10 @@ const OnboardingForm = ({ username }: { username: string }) => {
               transition={{ duration: 0.3 }}
               className="flex flex-col items-start justify-start"
             >
-              {!username && (
-                <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
-                  <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
-                    2
-                    <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
-                  </div>
-                  <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
-                    <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
-                      <IdCard className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Select Username
-                    </h1>
-                    <div className="w-full max-w-74">
-                      <div className="flex items-center justify-start border rounded-md">
-                        <span className="text-sm font-medium text-muted-foreground bg-secondary px-2 py-2 rounded-l-md border-muted border-r">
-                          linkfolio.page
-                        </span>
-                        <Input
-                          id="username"
-                          type="text"
-                          placeholder="username"
-                          {...form.register('username')}
-                          className="w-full text-sm rounded-none rounded-r-md bg-secondary"
-                        />
-                      </div>
-                      {form.formState.errors.username && (
-                        <p className="text-xs lg:text-sm text-destructive mt-1">
-                          {form.formState.errors.username.message}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
               <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
-                  {stepStart}
+                  {step}{' '}
+                  <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 </div>
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
@@ -350,7 +314,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
               </div>
               <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
-                  {stepStart + 1}
+                  {step + 1}
                 </div>
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 <div className="flex flex-col items-start justify-start px-3 py-2 gap-4 w-full">
@@ -408,7 +372,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
               </div>
               <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
-                  {stepStart + 2}
+                  {step + 2}
                 </div>
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
@@ -424,7 +388,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
               </div>
               <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
-                  {stepStart + 3}
+                  {step + 3}
                 </div>
                 <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
                   <h1 className="text-lg lg:text-xl font-semibold flex items-center justify-center gap-2">
