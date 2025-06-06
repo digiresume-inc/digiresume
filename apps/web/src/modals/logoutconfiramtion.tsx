@@ -79,10 +79,8 @@ const LogoutConfirmation = ({
                 <span className="truncate">Logout</span>
               </LoadingButton>
             </div>
-            <Button
-              variant={'ghost'}
+            <button
               disabled={logoutLoading}
-              size={'icon'}
               onClick={() => setModal(false)}
               className="cursor-pointer absolute right-4 top-4 rounded-sm opacity-50 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none  disabled:pointer-events-none "
             >
@@ -102,7 +100,7 @@ const LogoutConfirmation = ({
                 <path d="m6 6 12 12" />
               </svg>
               <span className="sr-only">Close</span>
-            </Button>
+            </button>
           </motion.div>
         </div>
       )}

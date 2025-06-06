@@ -18,7 +18,7 @@ export default function PDFTextExtractor() {
       // Load PDF.js library dynamically
       const script = document.createElement('script');
       script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-      
+
       if (!window.pdfjsLib) {
         await new Promise((resolve, reject) => {
           script.onload = resolve;
@@ -28,25 +28,24 @@ export default function PDFTextExtractor() {
       }
 
       // Set worker source
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      
+
       let fullText = '';
-      
+
       // Extract text from all pages
       for (let i = 1; i <= pdf.numPages; i++) {
         const page = await pdf.getPage(i);
         const textContent = await page.getTextContent();
-        
-        const pageText = textContent.items
-          .map((item: any) => item.str)
-          .join(' ');
-        
+
+        const pageText = textContent.items.map((item: any) => item.str).join(' ');
+
         fullText += `Page ${i}:\n${pageText}\n\n`;
       }
-      
+
       return fullText;
     } catch (err) {
       console.error('Error extracting text:', err);
@@ -69,7 +68,15 @@ export default function PDFTextExtractor() {
 
     try {
       const extractedText = await extractTextFromPDF(file);
-      setText(extractedText);
+      const apiResponse = await fetch('http://localhost:3333/api/resume', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body : JSON.stringify({
+          prompt: extractedText,
+        }),
+      });
+      const json = await apiResponse.json();
+      setText(json.data["choices"][0]["message"]["content"]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -85,11 +92,11 @@ export default function PDFTextExtractor() {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-6 text-gray-800">PDF Text Extractor</h1>
-      
+
       <div className="mb-6">
-        <input 
-          type="file" 
-          accept="application/pdf" 
+        <input
+          type="file"
+          accept="application/pdf"
           onChange={handleFileChange}
           className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
           disabled={loading}
@@ -122,16 +129,12 @@ export default function PDFTextExtractor() {
               Clear
             </button>
           </div>
-          
+
           <div className="bg-gray-50 border rounded-lg p-4 max-h-96 overflow-y-auto">
-            <pre className="whitespace-pre-wrap text-sm text-gray-700 font-mono">
-              {text}
-            </pre>
+            <pre className="whitespace-pre-wrap text-sm text-gray-700 font-mono">{text}</pre>
           </div>
-          
-          <div className="text-sm text-gray-500">
-            Character count: {text.length}
-          </div>
+
+          <div className="text-sm text-gray-500">Character count: {text.length}</div>
         </div>
       )}
     </div>

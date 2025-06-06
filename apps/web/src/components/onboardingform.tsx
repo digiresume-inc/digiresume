@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import {
   AtSign,
   Check,
+  Edit,
   FolderKanban,
   Globe,
   IdCard,
@@ -17,6 +18,7 @@ import {
   Loader2,
   Pencil,
   Plus,
+  ThumbsUp,
   User,
   Wrench,
   X,
@@ -26,7 +28,7 @@ import { Textarea } from '@lf/ui/components/base/textarea';
 import { SiLinkedin } from 'react-icons/si';
 import { BiEdit } from 'react-icons/bi';
 import { SkillsSelect } from './skillselect';
-import { countries, onboardingSchema } from '@lf/utils';
+import { blurUpFade, countries, onboardingSchema } from '@lf/utils';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -36,6 +38,7 @@ import { CountryCombobox } from './countryselect';
 import { onboardUser } from '@/app/onboarding/action';
 import { LoadingButton } from './loadingbutton';
 import { iconMap } from '@/app/dashboard/utils/iconMap';
+import LinkedinImport from '@/modals/linkedinimport';
 
 function getPlatformIcon(url: string) {
   try {
@@ -110,6 +113,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
 
   return (
     <div className="w-full h-full px-6 py-12 lg:px-52 lg:py-24">
+      <LinkedinImport modal={onboardingType === 'linkedin'} setModal={setOnboardingType} />
       <header className="mb-6">
         <div className="flex items-center justify-between lg:justify-start gap-4 w-full">
           <h1 className="text-2xl lg:text-4xl font-bold">Onboarding</h1>
@@ -126,10 +130,11 @@ const OnboardingForm = ({ username }: { username: string }) => {
       <div className="absolute top-[80px] lg:top-[140px] w-full lg:max-w-4xl lg:left-12 lg:right-12 h-36 pointer-events-none bg-gradient-to-b from-background/80 to-transparent z-10" />
       <main className="w-full max-w-2xl flex-1 overflow-y-auto h-full no_scrollbar scrollbar-hidden relative">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={blurUpFade}
+          initial="initial"
+          animate="animate"
+          exit="exit"
           transition={{ duration: 0.3 }}
-          viewport={{ once: true }}
           className="flex items-start justify-start gap-3 mb-4 h-fit relative"
         >
           <div className="absolute w-px h-full bg-border left-5 top-4"></div>
@@ -162,10 +167,11 @@ const OnboardingForm = ({ username }: { username: string }) => {
         >
           {showFirstStep && (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              variants={blurUpFade}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               transition={{ duration: 0.3 }}
-              viewport={{ once: true }}
               className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative"
             >
               <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
@@ -175,34 +181,40 @@ const OnboardingForm = ({ username }: { username: string }) => {
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
               )}
               <div className="flex flex-col items-start justify start px-3 py-2 gap-4">
-                <h1 className="text-lg lg:text-xl font-semibold">Select onboarding type</h1>
-                <LoadingButton
-                  onClick={() => {
-                    setOnboardingType('linkedin');
-                    setLinkedinLoading(true);
-                  }}
-                  pending={linkedinLoading}
-                  loadingText="Fetching..."
-                  className="min-w-58"
-                >
-                  Import from Linkedin <SiLinkedin />
-                </LoadingButton>
+                <h1 className="text-lg lg:text-xl font-semibold mb-2">Select onboarding type</h1>
+                <div className="relative inline-block">
+                  <LoadingButton
+                    onClick={() => {
+                      setOnboardingType('linkedin');
+                    }}
+                    pending={linkedinLoading}
+                    loadingText="Fetching..."
+                    className="min-w-58 pr-8" // give space for badge
+                  >
+                    Import from LinkedIn <SiLinkedin />
+                  </LoadingButton>
+                  <span className="border border-primary bg-gradient-to-r from-popover via-primary/40 to-popover flex place-items-center justify-center gap-1 absolute -top-4 left-1/2 -translate-x-1/2 text-xs bg-secondary text-foreground px-2 py-0.5 rounded-full shadow-md">
+                    Recommended <ThumbsUp strokeWidth={1} size={13} />
+                  </span>
+                </div>
+
                 <Button
                   disabled={linkedinLoading}
                   onClick={() => setOnboardingType('scratch')}
                   className="min-w-58"
                 >
-                  Start from scratch <BiEdit />
+                  Start from scratch <Pencil />
                 </Button>
               </div>
             </motion.div>
           )}
           {showOnboarding && (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              variants={blurUpFade}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               transition={{ duration: 0.3 }}
-              viewport={{ once: true }}
               className="flex flex-col items-start justify-start"
             >
               {!username && (
