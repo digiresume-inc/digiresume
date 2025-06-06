@@ -263,7 +263,7 @@ const MobilePreview = ({
                     }}
                     className="flex items-center font-medium justify-center gap-1 rounded-full px-2 py-0.5 text-tiny"
                   >
-                    <img src={skill.logo} alt={skill.label} className="h-2 w-2 rounded-xs" />
+                    {skill.logo && <img src={skill.logo} alt={skill.label} className="h-2 w-2 rounded-xs" />}
                     {skill.label}
                   </div>
                 ))}

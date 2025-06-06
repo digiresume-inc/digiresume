@@ -114,7 +114,7 @@ app.post(
                  
                  full_name
                  headline (a one-line summary from the intro or summary section)
-                 skills: list of { label, value, category } objects (based on top skills or mentioned tools)
+                 skills: list of { logo, label, value, category } objects (based on top skills or mentioned tools, logo should be empty string '')
                  country (if mentioned)
                  profile_link: { url, text } — based on any portfolio or personal site link
                  experience: array of { role, company, start, end, location, duration }

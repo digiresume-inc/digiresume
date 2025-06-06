@@ -4,7 +4,7 @@ const skillSchema = z.object({
   label: z.string(),
   value: z.string(),
   logo: z.string().url().or(z.string()),
-  category: z.enum(['Language', 'Framework', 'Tool', 'Database', 'Design', 'Cloud']),
+  category: z.enum(['Language', 'Framework', 'Tool', 'Database', 'Design', 'Cloud', 'Custom']),
 });
 
 const profileLinkSchema = z.object({

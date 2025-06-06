@@ -3,7 +3,7 @@ export type Skill = {
   label: string;
   value: string;
   logo: string; // URL or local path
-  category: 'Language' | 'Framework' | 'Tool' | 'Database' | 'Design' | 'Cloud';
+  category: 'Language' | 'Framework' | 'Tool' | 'Database' | 'Design' | 'Cloud' | 'Custom';
 };
 
 export const skills: Skill[] = [

@@ -10,8 +10,9 @@ import {
   CommandItem,
   CommandGroup,
   CommandList,
+  CommandEmpty,
 } from '@lf/ui/components/base/command';
-import { X } from 'lucide-react';
+import { CircleHelp, Search, X } from 'lucide-react';
 
 type Props = {
   value: Skill[];
@@ -41,11 +42,15 @@ export function SkillsSelect({ value, onChange, className, largeBadge }: Props) 
             variant="secondary"
             className={`flex items-center gap-1 rounded-full ${largeBadge && 'px-2 py-1'}`}
           >
-            <img
-              src={skill.logo}
-              alt={skill.label}
-              className={`${largeBadge ? 'h-4 w-4' : 'h-3 w-3'}`}
-            />
+            {skill.logo ? (
+              <img
+                src={skill.logo}
+                alt={skill.label}
+                className={`${largeBadge ? 'h-4 w-4' : 'h-3 w-3'}`}
+              />
+            ) : (
+              <CircleHelp className={`${largeBadge ? 'h-4 w-4' : 'h-3 w-3'}`} />
+            )}
             {skill.label}
             <button
               type="button"
@@ -58,7 +63,7 @@ export function SkillsSelect({ value, onChange, className, largeBadge }: Props) 
         ))}
       </div>
 
-      <Command>
+      <Command shouldFilter={false}>
         <CommandInput placeholder="Search skills…" value={search} onValueChange={setSearch} />
         {search.length > 0 && (
           <CommandList className="no_scrollbar">
@@ -75,6 +80,25 @@ export function SkillsSelect({ value, onChange, className, largeBadge }: Props) 
                 {skill.label}
               </CommandItem>
             ))}
+            <CommandEmpty>
+              <div
+                key={search}
+                onClick={() => {
+                  const newSkill: Skill = {
+                    label: search,
+                    value: search.toLowerCase().replace(/\s+/g, '-'),
+                    logo: '',
+                    category: 'Custom',
+                  };
+                  addSkill(newSkill);
+                  setSearch('');
+                }}
+                className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none hover:bg-secondary"
+              >
+                <CircleHelp className="h-4 w-4" />
+                Add `{search}`
+              </div>
+            </CommandEmpty>
           </CommandList>
         )}
       </Command>

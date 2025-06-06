@@ -221,7 +221,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                   variant="secondary"
                   className="flex items-center gap-1 rounded-full text-xs px-3 py-1"
                 >
-                  <img src={skill.logo} alt={skill.label} className="h-4 w-4 rounded-md" />
+                  {skill.logo && <img src={skill.logo} alt={skill.label} className="h-4 w-4 rounded-md" />}
                   {skill.label}
                 </Badge>
               ))}
