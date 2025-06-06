@@ -1,10 +1,8 @@
 'use client';
-import { Button } from '@lf/ui/components/base/button';
 import { AnimatePresence, motion } from 'motion/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SiLinkedin } from 'react-icons/si';
 import Image from 'next/image';
-import { ToastError } from '@/components/toast';
 import { blurFade, extractTextFromPDF } from '@lf/utils';
 import { FileWarning, Loader2 } from 'lucide-react';
 import { Input } from '@lf/ui/components/base/input';
@@ -19,6 +17,19 @@ const LinkedinImport = ({
   const [loading, setLoading] = useState(false);
   const [finalOutput, setFinalOutput] = useState<any>(null);
   const [error, setError] = useState('');
+const loadingMessages = ['Processing... ', 'Analyzing...  ', 'Structuring...'];
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+
+  useEffect(() => {
+    if (!loading) return;
+
+    const interval = setInterval(() => {
+      setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % loadingMessages.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [loading]);
+
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -125,10 +136,22 @@ const LinkedinImport = ({
                     alt="Linkedin Import Guide"
                   />
                   {loading ? (
-                    <span className="flex items-center w-full justify-center opacity-70 gap-2 bg-secondary rounded-full py-2">
-                      <Loader2 size={18} className="animate-spin" />
-                      Processing...
-                    </span>
+                    <AnimatePresence mode="wait" initial={false}>
+                      <span className="flex items-center w-full justify-center opacity-70 gap-2 bg-secondary rounded-full py-2">
+                        <Loader2 size={18} className="animate-spin" />
+
+                        <motion.span
+                          key={loadingMessages[currentMessageIndex]}
+                          variants={blurFade}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                          transition={{ duration: 0.3 }}
+                        >
+                          {loadingMessages[currentMessageIndex]}
+                        </motion.span>
+                      </span>
+                    </AnimatePresence>
                   ) : (
                     <span className="text-sm flex flex-col gap-2">
                       <span>Upload PDF</span>

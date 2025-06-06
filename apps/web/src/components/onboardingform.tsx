@@ -1,9 +1,9 @@
 'use client';
-import {  ToastSuccess } from '@/components/toast';
+import { ToastSuccess } from '@/components/toast';
 import { createClient } from '@/supabase/client';
 import { Button } from '@lf/ui/components/base/button';
 import { Input } from '@lf/ui/components/base/input';
-import {  useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import {
   AtSign,
@@ -23,7 +23,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@lf/ui/components/base
 import { Textarea } from '@lf/ui/components/base/textarea';
 import { SiLinkedin } from 'react-icons/si';
 import { SkillsSelect } from './skillselect';
-import { blurUpFade, countries, onboardingSchema } from '@lf/utils';
+import { blurFade, blurUpFade, countries, onboardingSchema } from '@lf/utils';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -109,7 +109,14 @@ const OnboardingForm = ({ username }: { username: string }) => {
   return (
     <div className="w-full h-full px-6 py-12 lg:px-52 lg:py-24">
       <LinkedinImport modal={onboardingType === 'linkedin'} setModal={setOnboardingType} />
-      <header className="mb-6">
+      <motion.header
+        variants={blurFade}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition={{ duration: 0.3 }}
+        className="mb-6"
+      >
         <div className="flex items-center justify-between lg:justify-start gap-4 w-full">
           <h1 className="text-2xl lg:text-4xl font-bold">Onboarding</h1>
           <Button
@@ -121,7 +128,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
             Skip
           </Button>
         </div>
-      </header>
+      </motion.header>
       <div className="absolute top-[80px] lg:top-[140px] w-full lg:max-w-4xl lg:left-12 lg:right-12 h-36 pointer-events-none bg-gradient-to-b from-background/80 to-transparent z-10" />
       <main className="w-full max-w-2xl flex-1 overflow-y-auto h-full no_scrollbar scrollbar-hidden relative">
         <motion.div
@@ -184,11 +191,11 @@ const OnboardingForm = ({ username }: { username: string }) => {
                     }}
                     pending={linkedinLoading}
                     loadingText="Fetching..."
-                    className="min-w-58 pr-8" // give space for badge
+                    className="min-w-58 py-4"
                   >
                     Import from LinkedIn <SiLinkedin />
                   </LoadingButton>
-                  <span className="border border-primary bg-gradient-to-r from-popover via-primary/40 to-popover flex place-items-center justify-center gap-1 absolute -top-4 left-1/2 -translate-x-1/2 text-xs bg-secondary text-foreground px-2 py-0.5 rounded-full shadow-md">
+                  <span className="border border-primary bg-gradient-to-r from-popover via-primary/40 to-popover flex place-items-center justify-center gap-1 absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-secondary text-foreground px-2 py-0.5 rounded-full shadow-md">
                     Recommended <ThumbsUp strokeWidth={1} size={13} />
                   </span>
                 </div>
@@ -411,7 +418,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                   <SkillsSelect
                     value={form.watch('skills') ?? []}
                     onChange={(v) => form.setValue('skills', v)}
-                    className="max-w-84"
+                    className="max-w-98"
                   />
                 </div>
               </div>
@@ -522,7 +529,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
         </form>
       </main>
       <footer className="onboarding-footer">
-        <p>&copy; {new Date().getFullYear()} Linkfolio</p>
+        <p>&copy; {new Date().getFullYear()} Linkfolio INC</p>
       </footer>
     </div>
   );
