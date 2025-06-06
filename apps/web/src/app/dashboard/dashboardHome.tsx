@@ -10,7 +10,6 @@ import ExperienceUpdate from './components/experienceUpdate';
 import SocialsUpdate from './components/socialsUpdate';
 import MobilePreview from './components/mobilePreview';
 import ProfileUpdate from './components/profileUpdate';
-import { Eye } from 'lucide-react';
 import PreviewButton from './components/previewButton';
 
 const DashboardHome = ({

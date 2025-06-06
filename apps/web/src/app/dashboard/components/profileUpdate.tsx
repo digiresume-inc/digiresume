@@ -23,6 +23,7 @@ import { Input } from '@lf/ui/components/base/input';
 import { CountryCombobox } from '@/components/countryselect';
 import { SkillsSelect } from '@/components/skillselect';
 import { Button } from '@lf/ui/components/base/button';
+import { extractDirty } from '../actions/extractDirty';
 
 const ProfileUpdate = ({ profile }: { profile: any }) => {
   const form = useForm<z.infer<typeof profileUpdateSchema>>({
@@ -31,28 +32,22 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
   });
 
   const {
+    handleSubmit,
     control,
+    reset,
     formState: { isDirty, isSubmitting },
   } = form;
   const onSubmit = async (data: z.infer<typeof profileUpdateSchema>) => {
     const dirtyFields = form.formState.dirtyFields;
     const changedData: Partial<typeof data> = {};
-
-    const extractDirty = (dirty: any, current: any, target: any) => {
-      for (const key in dirty) {
-        if (typeof dirty[key] === 'object' && !Array.isArray(dirty[key])) {
-          target[key] = {};
-          extractDirty(dirty[key], current[key], target[key]);
-        } else {
-          target[key] = current[key];
-        }
-      }
-    };
     extractDirty(dirtyFields, data, changedData);
-    const result = await updateProfile(data);
+
+
+    const result = await updateProfile(changedData as typeof data);
 
     if (result.success) {
       ToastSuccess({ message: result.message });
+      reset(data);
       router.refresh();
     } else {
       ToastError({ message: result.message });
@@ -62,7 +57,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
   const router = useRouter();
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div className="flex flex-col items-start justify-center p-3 lg:p-4 rounded-lg w-full mt-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           <div className="col-span-1">
@@ -268,7 +263,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
           type="submit"
           variant={'outline'}
           disabled={!isDirty || isSubmitting}
-          className="mt-6"
+          className="mt-6 min-w-38"
         >
           {isSubmitting ? (
             <>

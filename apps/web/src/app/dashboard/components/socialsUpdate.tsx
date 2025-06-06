@@ -50,12 +50,19 @@ const SocialsUpdate = ({ profile }: { profile: any }) => {
           })}
         </div>
       ) : (
-        <div className="flex flex-col gap-2 items-center justify-center opacity-60 h-[300px]">
-          <Globe size={64} />
-          <h1>No socials added yet</h1>
-          <Button onClick={() => setOpen(true)} variant={'outline'}>
-            <Plus />
-            Add Now
+        <div className="flex flex-col items-center justify-center text-center bg-muted/40 rounded-2xl p-6 shadow-sm h-[300px] border border-dashed border-border transition-colors">
+          <Globe size={64} className="text-muted-foreground mb-4 opacity-60 " />
+          <h1 className="text-lg font-semibold text-muted-foreground mb-2 opacity-60 ">No socials added yet</h1>
+          <p className="text-sm text-muted-foreground mb-4 max-w-xs opacity-60 ">
+            You haven't added any social links to your profile yet.
+          </p>
+          <Button
+            onClick={() => setOpen(true)}
+            variant="outline"
+            className="flex items-center gap-2 opacity-100"
+          >
+            <Plus className="w-4 h-4" />
+            Add Socials
           </Button>
         </div>
       )}
