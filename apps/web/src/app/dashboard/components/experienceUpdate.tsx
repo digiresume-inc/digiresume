@@ -22,7 +22,6 @@ const ExperienceUpdate = ({ profile }: { profile: any }) => {
     a: profile.experience ? profile.experience.length + 1 : 1,
     company: '',
     company_link: '',
-    company_logo: '',
     contribution: '',
     roles: [
       {
@@ -108,7 +107,14 @@ const ExperienceUpdate = ({ profile }: { profile: any }) => {
           {profile.experience.map((exp: any, index: number) => (
             <div key={index} className="w-full mt-1 lg:px-8 py-4">
               <div className="flex items-center justify-start gap-2">
-                <img src={exp.company_logo || "/company.png"} className="w-8 h-8 rounded-full" />
+                <img
+                  src={
+                    exp.company_link
+                      ? `https://www.google.com/s2/favicons?sz=128&domain_url=${exp.company_link}`
+                      : '/company.png'
+                  }
+                  className="w-8 h-8 rounded-full"
+                />
                 <h3 className="text-lg font-semibold mr-2">{exp.company}</h3>
                 <Button
                   variant={'outline'}
@@ -185,7 +191,9 @@ const ExperienceUpdate = ({ profile }: { profile: any }) => {
       ) : (
         <div className="flex flex-col items-center justify-center text-center bg-muted/40 rounded-2xl p-6 shadow-sm h-[300px] border border-dashed border-border transition-colors">
           <BriefcaseBusiness size={64} className="text-muted-foreground mb-4 opacity-60" />
-          <h1 className="text-lg font-semibold text-muted-foreground mb-2 opacity-60">No Experience added yet</h1>
+          <h1 className="text-lg font-semibold text-muted-foreground mb-2 opacity-60">
+            No Experience added yet
+          </h1>
           <p className="text-sm text-muted-foreground mb-4 max-w-xs opacity-60">
             You haven't added experience to your profile yet.
           </p>

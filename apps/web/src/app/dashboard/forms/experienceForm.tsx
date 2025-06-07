@@ -73,18 +73,6 @@ const ExperienceForm = ({
       </div>
 
       <div className="grid grid-cols-4 items-center gap-2">
-        <Label htmlFor="logo" className="text-right">
-          Logo
-        </Label>
-        <Input {...register('company_logo')} id="logo" className="col-span-3" />
-        {errors.company_logo && (
-          <p className="text-red-500 col-start-2 col-span-3 text-sm">
-            {errors.company_logo.message}
-          </p>
-        )}
-      </div>
-
-      <div className="grid grid-cols-4 items-center gap-2">
         <Label htmlFor="contribution" className="text-right">
           Contribution
         </Label>

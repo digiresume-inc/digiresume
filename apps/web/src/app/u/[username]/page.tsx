@@ -221,7 +221,9 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                   variant="secondary"
                   className="flex items-center gap-1 rounded-full text-xs px-3 py-1"
                 >
-                  {skill.logo && <img src={skill.logo} alt={skill.label} className="h-4 w-4 rounded-md" />}
+                  {skill.logo && (
+                    <img src={skill.logo} alt={skill.label} className="h-4 w-4 rounded-md" />
+                  )}
                   {skill.label}
                 </Badge>
               ))}
@@ -327,7 +329,11 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                               <img
                                 alt={company.company}
                                 className="cursor-pointer w-full h-full rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity flex-grow"
-                                src={company.company_logo || '/company.png'}
+                                src={
+                                  company.company_link
+                                    ? `https://www.google.com/s2/favicons?sz=128&domain_url=${company.company_link}`
+                                    : '/company.png'
+                                }
                               />
                             </div>
                             <p

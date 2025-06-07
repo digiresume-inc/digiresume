@@ -390,12 +390,17 @@ export const skills: Skill[] = [
     category: 'Tool',
   },
   {
-    label: "Prisma",
-    value: "prisma",
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-original.svg",
-    category: "Tool"
+    label: 'Prisma',
+    value: 'prisma',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-original.svg',
+    category: 'Tool',
   },
-  
+  {
+    label: 'Socket IO',
+    value: 'socketio',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg',
+    category: 'Tool',
+  },
 
   // DATABASES
   {

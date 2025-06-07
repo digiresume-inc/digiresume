@@ -121,7 +121,13 @@ const MobilePreview = ({
                   />
                 ) : (
                   <span title="No custom favicon">
-                    <CircleHelp strokeWidth={1} className="h-4 w-4" />
+                    <CircleHelp
+                      style={{
+                        color: t?.foreground,
+                      }}
+                      strokeWidth={1}
+                      className="h-4 w-4"
+                    />
                   </span>
                 )}
                 <p
@@ -357,7 +363,11 @@ const MobilePreview = ({
                               <img
                                 alt={company.company}
                                 className="cursor-pointer w-8 h-8 rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity border-primaryBorder flex-grow border"
-                                src={company.company_logo || '/company.png'}
+                                src={
+                                  company.company_link
+                                    ? `https://www.google.com/s2/favicons?sz=128&domain_url=${company.company_link}`
+                                    : '/company.png'
+                                }
                               />
                               <p
                                 style={{

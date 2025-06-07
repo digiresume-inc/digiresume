@@ -72,7 +72,6 @@ export const singleExperienceSchema = z.object({
   a: z.number(),
   company: z.string({ message: 'Company name is required' }),
   company_link: z.string().url({ message: 'Invalid company link URL' }),
-  company_logo: z.string().url({ message: 'Invalid logo URL' }),
   contribution: z.string().min(10, { message: 'Some contribution info is required' }),
   roles: z.array(roleSchema).min(1, { message: 'At least one role is required' }),
 });
