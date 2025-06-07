@@ -1,28 +1,25 @@
-export function processFormData(data: any) {
-  const updatedLinks = data.links.map((link: any) => {
-    if (link.type?.trim()) return link; // skip if already filled
+import { skills as importedSkills } from '@lf/utils';
 
-    try {
-      const url = new URL(link.url);
-      const hostnameParts = url.hostname.split('.');
+function findMatchingSkill(label: string) {
+  return importedSkills.find((skill) => skill.value.toLowerCase() === label.toLowerCase());
+}
 
-      // Remove 'www' if it's the first part
-      if (hostnameParts[0] === 'www' && hostnameParts.length > 1) {
-        hostnameParts.shift();
-      }
+export function processLinkedinData(data: any) {
+  let newData = data;
 
-      // Now take the first part of the remaining hostname as the type
-      const type = hostnameParts[0] || '';
-
-      return { ...link, type };
-    } catch (e) {
-      // Invalid URL, just return original link
-      return link;
-    }
+  newData.skills = data.skills.map((userSkill: any) => {
+    const match = findMatchingSkill(userSkill.label);
+    return match ? match : userSkill;
   });
 
-  return {
-    ...data,
-    links: updatedLinks,
-  };
+  newData.experience = data.experience.map((exp: any) => {
+    exp.roles = exp.roles.map((role: any) => ({
+      ...role,
+      location_type: role.location_type || 'On-site',
+      employment_type: role.employment_type || 'Full-time',
+    }));
+    return exp;
+  });
+
+  return newData;
 }

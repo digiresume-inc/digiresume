@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import React, { useEffect, useState } from 'react';
 import { SiLinkedin } from 'react-icons/si';
 import Image from 'next/image';
-import { blurFade, extractTextFromPDF } from '@lf/utils';
+import { blurFade, extractTextFromPDF, processLinkedinData } from '@lf/utils';
 import { FileWarning, Loader2 } from 'lucide-react';
 import { Input } from '@lf/ui/components/base/input';
 import { updateLinkedinData } from '@/app/onboarding/action';
@@ -49,7 +49,7 @@ const LinkedinImport = ({
 
     try {
       const extractedText = await extractTextFromPDF(file);
-      const apiResponse = await fetch('http://localhost:3333/api/resume', {
+      const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/resume`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -60,19 +60,20 @@ const LinkedinImport = ({
       const finalOutput = json.data['choices'][0]['message']['content'];
       const cleaned = finalOutput.replace(/```json\s*|\s*```/g, '').trim();
       const parsed = JSON.parse(cleaned);
-      setFinalOutput(parsed);
+      const finalData = processLinkedinData(parsed);
+      setFinalOutput(finalData);
 
-      const result = await updateLinkedinData(parsed)
-      if(!result.success){
-        setError(result.message)
-        return
+      console.log(finalData);
+
+      const result = await updateLinkedinData(finalData);
+      if (!result.success) {
+        setError(result.message);
+        return;
       }
 
-      ToastSuccess({message: 'Profile updated successfully.'})
+      ToastSuccess({ message: 'Profile updated successfully.' });
       setModal('none');
       router.push('/dashboard');
-      
-
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -97,7 +98,7 @@ const LinkedinImport = ({
               opacity: 0,
             }}
             transition={{ type: 'spring', bounce: 0.3, duration: 0.4 }}
-            className="relative z-50 w-full border border-foreground/10 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-[0%] data-[state=closed]:slide-out-to-top-[0%] data-[state=open]:slide-in-from-left-[0%] data-[state=open]:slide-in-from-top-[0%] rounded-lg md:w-full bg-background sm:align-middle sm:w-full sm:max-w-lg p-0 gap-0 pb-5 !block"
+            className="select-none relative z-50 w-full border border-foreground/10 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-[0%] data-[state=closed]:slide-out-to-top-[0%] data-[state=open]:slide-in-from-left-[0%] data-[state=open]:slide-in-from-top-[0%] rounded-lg md:w-full bg-background sm:align-middle sm:w-full sm:max-w-lg p-0 gap-0 pb-5 !block"
             style={{ pointerEvents: 'auto' }}
           >
             <div className="flex flex-col gap-1.5 text-center sm:text-left py-4 px-5 border-b">
@@ -185,8 +186,9 @@ const LinkedinImport = ({
             </motion.div>
             <div className="w-full h-px" />
             <button
+              disabled={loading}
               onClick={() => setModal('none')}
-              className="cursor-pointer absolute right-4 top-4 rounded-sm opacity-50 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none  disabled:pointer-events-none "
+              className="cursor-pointer disabled:cursor-not-allowed absolute right-4 top-4 rounded-sm opacity-50 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

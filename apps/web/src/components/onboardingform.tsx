@@ -116,7 +116,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
         <div className="flex items-center justify-between lg:justify-start gap-4 w-full">
           <h1 className="text-2xl lg:text-4xl font-bold">Onboarding</h1>
           <Button
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting || step === 1}
             onClick={updateOnboardStatus}
             size={'sm'}
             variant={'outline'}
