@@ -220,7 +220,16 @@ const MobilePreview = ({
                   }}
                   className="text-xxs text-muted-foreground"
                 >
-                  at @{profile.company} · {profile.education} Alumni
+                  at{' '}
+                  <span
+                    style={{
+                      color: hexToHSL(t?.foreground!, 0.8),
+                    }}
+                    className="font-semibold"
+                  >
+                    @{profile.company}
+                  </span>{' '}
+                  · {profile.education} Alumni
                 </p>
               </div>
               <div className="flex items-center justify-center text-xxs gap-2 mb-3">

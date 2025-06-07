@@ -24,6 +24,7 @@ import MarkdownParser from '@/components/markdownparser';
 import ResumeUrl from './components/resumeUrl';
 import ProfileUrl from './components/profileUrl';
 import Image from 'next/image';
+import ResumeDownload from './components/resumeDownload';
 
 function getPlatformIcon(url: string) {
   try {
@@ -110,6 +111,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
         <div className="flex flex-1 justify-center py-5">
           <div className="flex flex-col max-w-[960px] flex-1 relative">
             <ShareCard profile={profile} t={t} />
+            <ResumeDownload  t={t}/>
             <div className="flex p-4">
               <div className="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
                 <div className="flex gap-4 items-center justify-center lg:justify-start">
@@ -179,9 +181,18 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                 style={{
                   color: hexToHSL(t.foreground, 0.7),
                 }}
-                className="text-sm text-muted-foreground font-medium"
+                className="text-sm text-muted-foreground font-medium text-center lg:text-start"
               >
-                at @{profile.company} · {profile.education} Alumni
+                at{' '}
+                <span
+                  style={{
+                    color: hexToHSL(t.foreground, 0.8),
+                  }}
+                  className="font-bold"
+                >
+                  @{profile.company}
+                </span>{' '}
+                · {profile.education} Alumni
               </p>
             </div>
             <div className="flex items-center justify-center lg:justify-start lg:items-start p-4 gap-3">
