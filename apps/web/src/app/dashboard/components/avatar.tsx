@@ -90,12 +90,12 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
   };
 
   return (
-    <div className="col-span-2 md:col-span-1 aspect-square rounded-2xl flex flex-col items-center justify-start p-6 bg-secondary shadow-md border border-border">
-      <h3 className="text-base lg:text-lg font-semibold text-foreground mb-3">Your Avatar</h3>
+    <div className="col-span-2 md:col-span-1 lg:h-[235px] rounded-2xl flex flex-col items-center justify-start p-6 bg-secondary shadow-md border border-border">
+      <h3 className="text-sm lg:text-lg font-semibold text-foreground mb-3">Your Avatar</h3>
 
       {isLoading ? (
         <div
-          className={`transition-all w-24 aspect-square rounded-lg border-2 flex items-center justify-center border-dashed border-foreground/30 bg-muted opacity-80`}
+          className={`transition-all w-18 lg:w-24 aspect-square rounded-lg border-2 flex items-center justify-center border-dashed border-foreground/30 bg-muted opacity-80`}
         >
           <Loader2 className="w-6 h-6 text-foreground/60 animate-spin" />
         </div>
@@ -106,7 +106,7 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
             height={96}
             src={avatarUrl}
             alt="Avatar"
-            className="w-24 h-24 rounded-2xl object-cover border-2 border-muted/30"
+            className="w-18 lg:w-24 h-18 lg:h-24 rounded-2xl object-cover border-2 border-muted/30"
             referrerPolicy='no-referrer'
           />
           <Button
@@ -115,7 +115,7 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
             }}
             disabled={isLoading}
             size="icon"
-            className="absolute top-[-2px] right-[-2px] z-10 rounded-full"
+            className="absolute top-[-12px] right-[-12px] z-10 rounded-full text-primary-foreground"
           >
             <Pencil />
           </Button>
@@ -129,7 +129,7 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
           aria-disabled={isLoading}
           role="button"
           tabIndex={0}
-          className={`cursor-pointer transition-all w-24 aspect-square rounded-lg border-2 flex items-center justify-center ${
+          className={`cursor-pointer transition-all w-18 lg:w-24 aspect-square rounded-lg border-2 flex items-center justify-center ${
             isDragging
               ? 'border-primary/80 bg-primary/60 opacity-100'
               : 'border-dashed border-foreground/30 bg-muted opacity-60 hover:opacity-80'
@@ -147,8 +147,8 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
         accept="image/*"
         className="hidden"
       />
-      <p className="text-xs text-muted-foreground mt-3 text-center">Max size: 2MB</p>
-      <p className="text-xs text-muted-foreground mt-1 text-center">Accepted: jpg, png, jpeg</p>
+      <p className="text-xxs text-muted-foreground mt-3 text-center">Max size: 2 MB</p>
+      <p className="text-xxs text-muted-foreground mt-1 text-center">Accepted: jpg, png, jpeg</p>
     </div>
   );
 };

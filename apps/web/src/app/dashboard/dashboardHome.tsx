@@ -11,6 +11,7 @@ import SocialsUpdate from './components/socialsUpdate';
 import MobilePreview from './components/mobilePreview';
 import ProfileUpdate from './components/profileUpdate';
 import PreviewButton from './components/previewButton';
+import AnalyticsCard from './components/analyticsCard';
 
 const DashboardHome = ({
   profile,
@@ -31,7 +32,7 @@ const DashboardHome = ({
         <div className="w-full grid grid-cols-4 md:grid-cols-3 items-center justify-center gap-4">
           <AvatarComponent avatar_url={profile.avatar_url} />
           <FaviconComponent favicon_url={profile.favicon_url} />
-          <ResumeComponent resume_url={profile.resume_url} />
+          <AnalyticsCard />
         </div>
         <Tabs defaultValue="profile" className="w-full mt-12 mb-12">
           <div className="overflow-x-auto">

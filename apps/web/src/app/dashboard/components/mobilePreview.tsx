@@ -233,31 +233,6 @@ const MobilePreview = ({
                 </p>
               </div>
               <div className="flex items-center justify-start text-xxs gap-2 mb-3 px-2 pb-1">
-                {profile.resume_url && (
-                  <div
-                    style={{
-                      color: hexToHSL(t?.foreground!, 0.7),
-                    }}
-                  >
-                    <a
-                      href={profile.resume_url}
-                      target="_blank"
-                      style={{
-                        borderColor: hexToHSL(t?.primary!),
-                      }}
-                      className={`changeon_hover cursor-pointer w-fit flex items-center gap-0.5 border-b-2 border-dashed transition-colors`}
-                    >
-                      <File strokeWidth={1} className="w-[11px] h-[11px]" />
-                      <p>Resume</p>
-                    </a>
-                    <style jsx>{`
-                      .changeon_hover:hover {
-                        color: ${hexToHSL(t?.foreground!)};
-                        border-color: ${hexToHSL(t?.primary!)};
-                      }
-                    `}</style>
-                  </div>
-                )}
                 {profile.profile_link?.url && profile.profile_link.text && (
                   <div
                     style={{
