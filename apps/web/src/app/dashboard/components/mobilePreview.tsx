@@ -151,7 +151,7 @@ const MobilePreview = ({
               </div>
               <div className="h-1 w-full" />
 
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center justify-start gap-2">
                 <div
                   style={{
                     borderColor: t?.border,
@@ -205,7 +205,7 @@ const MobilePreview = ({
                   )}
                 </div>
               </div>
-              <div className="flex flex-col items-center justify-center p-2">
+              <div className="flex flex-col items-start justify-center px-2 py-1">
                 <h1
                   style={{
                     color: t?.foreground,
@@ -232,7 +232,7 @@ const MobilePreview = ({
                   · {profile.education} Alumni
                 </p>
               </div>
-              <div className="flex items-center justify-center text-xxs gap-2 mb-3">
+              <div className="flex items-center justify-start text-xxs gap-2 mb-3 px-2 pb-1">
                 {profile.resume_url && (
                   <div
                     style={{
@@ -284,7 +284,7 @@ const MobilePreview = ({
                   </div>
                 )}
               </div>
-              <div className="flex flex-wrap items-center justify-center gap-1">
+              <div className="flex flex-wrap items-center justify-start gap-1 px-2">
                 {profile.skills?.map((skill: Skill) => (
                   <div
                     key={skill.value}
@@ -301,7 +301,30 @@ const MobilePreview = ({
                   </div>
                 ))}
               </div>
-              <Tabs defaultValue="experience" className="w-full mt-8">
+              <div className="gap-1 flex flex-wrap items-center justify-start p-2">
+                {profile.socials.map((social: any, index: number) => {
+                  const icon = getPlatformIcon(social.url);
+                  return (
+                    <a
+                      style={
+                        {
+                          color: t?.foreground,
+                          borderColor: hexToHSL(t?.primary!, 0.5),
+                          '--hover-background': hexToHSL(t?.secondary!, 0.5),
+                          '--hover-border': hexToHSL(t?.primary!, 0.6),
+                        } as React.CSSProperties
+                      }
+                      target="_blank"
+                      href={social.url}
+                      key={index}
+                      className="w-8 h-8 border transition-colors duration-200 rounded-md px-2 flex items-center justify-center hover:bg-[var(--hover-background)] hover:border-[var(--hover-border)]"
+                    >
+                      <>{icon}</>
+                    </a>
+                  );
+                })}
+              </div>
+              <Tabs defaultValue="experience" className="w-full mt-4">
                 <div className="relative rounded-sm overflow-x-scroll h-10 no_scrollbar scrollbar-hidden">
                   <TabsList
                     style={{
@@ -651,25 +674,6 @@ const MobilePreview = ({
                   </div>
                 </TabsContent>
               </Tabs>
-              <div className="gap-1 flex flex-wrap items-center justify-center p-2 mt-6">
-                {profile.socials.map((social: any, index: number) => {
-                  const icon = getPlatformIcon(social.url);
-                  return (
-                    <a
-                      style={{
-                        color: t?.foreground,
-                        borderColor: hexToHSL(t?.primary!, 0.3),
-                      }}
-                      target="_blank"
-                      href={social.url}
-                      key={index}
-                      className="w-10 h-10 border rounded-full p-2 flex items-center justify-center"
-                    >
-                      <>{icon}</>
-                    </a>
-                  );
-                })}
-              </div>
             </div>
           </div>
         </div>

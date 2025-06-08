@@ -9,7 +9,9 @@ const ResumeDownload = ({ t }: { t: any }) => {
     <Button
       variant={'outline'}
       size={'icon'}
-      onClick={() => {}}
+      onClick={() => {
+        window.print();
+      }}
       style={
         {
           '--text-color': t.foreground,

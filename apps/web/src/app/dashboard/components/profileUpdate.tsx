@@ -24,6 +24,7 @@ import { CountryCombobox } from '@/components/countryselect';
 import { SkillsSelect } from '@/components/skillselect';
 import { Button } from '@lf/ui/components/base/button';
 import { extractDirty } from '../actions/extractDirty';
+import { Textarea } from '@lf/ui/components/base/textarea';
 
 const ProfileUpdate = ({ profile }: { profile: any }) => {
   const form = useForm<z.infer<typeof profileUpdateSchema>>({
@@ -41,7 +42,6 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
     const dirtyFields = form.formState.dirtyFields;
     const changedData: Partial<typeof data> = {};
     extractDirty(dirtyFields, data, changedData);
-
 
     const result = await updateProfile(changedData as typeof data);
 
@@ -186,6 +186,26 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
           </div>
           <div className="col-span-1 lg:col-span-2">
             <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+              Short bio
+            </label>
+            <div className="relative">
+              <Textarea
+                id="shortbio"
+                rows={2}
+                placeholder="Passionate about building meaningful digital experiences..."
+                autoComplete="off"
+                {...form.register('shortbio')}
+                className="py-2 text-sm"
+              />
+            </div>
+            {form.formState.errors.shortbio && (
+              <p className="text-xs lg:text-sm text-destructive mt-1">
+                {form.formState.errors.shortbio.message}
+              </p>
+            )}
+          </div>
+          <div className="col-span-1 lg:col-span-2">
+            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
               Education
             </label>
             <div className="relative">
@@ -224,6 +244,11 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
                 className="pl-9 py-2 text-sm"
               />
             </div>
+            {form.formState.errors.profile_link?.text && (
+              <p className="text-xs lg:text-sm text-destructive mt-1">
+                {form.formState.errors.profile_link.text.message}
+              </p>
+            )}
           </div>
           <div className="col-span-1">
             <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
@@ -241,12 +266,12 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
                 {...form.register('profile_link.url')}
                 className="pl-9 py-2 text-sm"
               />
-              {form.formState.errors.profile_link && (
-                <p className="text-xs lg:text-sm text-destructive mt-1">
-                  {form.formState.errors.profile_link.message}
-                </p>
-              )}
             </div>
+            {form.formState.errors.profile_link?.url && (
+              <p className="text-xs lg:text-sm text-destructive mt-1">
+                {form.formState.errors.profile_link.url.message}
+              </p>
+            )}
           </div>
         </div>
       </div>

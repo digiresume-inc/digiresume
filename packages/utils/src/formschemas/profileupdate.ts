@@ -31,5 +31,9 @@ export const profileUpdateSchema = z.object({
     .string()
     .min(3, 'Headline must be at least 3 characters')
     .max(100, 'Headline must be at most 100 characters'),
+  shortbio: z
+    .string()
+    .min(3, 'Headline must be at least 3 characters')
+    .max(250, 'Headline must be at most 100 characters'),
   profile_link: profileLinkSchema.optional(),
 });

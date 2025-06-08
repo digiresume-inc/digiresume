@@ -113,7 +113,8 @@ app.post(
                  From the given resume text, extract only the following fields as a JSON object:
                  
                  full_name
-                 headline (headline of linkedin profile like Founder & CEO at Google)
+                 headline: (headline of linkedin profile like Founder & CEO at Google)
+                 shortbio: (give a short consize form of the summary in pdf if there or generate a short bio based on profile like 30-40 words)
                  skills: list of { logo, label, value, category } objects (based on top skills or mentioned tools, logo should be empty string '')
                  country: (if mentioned) also get country two digit code and format lets say if country is India then final  value should be India-IN more examples: Bangladesh-BD, Brazil-BR
                  profile_link: { url, text } — based on any portfolio or personal site link
