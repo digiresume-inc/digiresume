@@ -1,5 +1,36 @@
 import { z } from 'zod';
 
+
+const dateRegex = /^(0[1-9]|1[0-2])\/\d{4}$/;
+
+const educationSchema = z
+  .object({
+    university: z.string().min(1, 'University is required'),
+    branch: z.string().min(1, 'Branch is required'),
+    start_date: z
+      .string()
+      .min(1, 'Start date is required')
+      .regex(dateRegex, 'Start date must be in MM/YYYY format'),
+    end_date: z
+      .string()
+      .min(1, 'End date is required')
+      .regex(dateRegex, 'End date must be in MM/YYYY format'),
+  })
+  .refine(
+    (data) => {
+      const [startMonth, startYear] = data.start_date.split('/').map(Number);
+      const [endMonth, endYear] = data.end_date.split('/').map(Number);
+
+      const start = new Date(startYear!, startMonth! - 1);
+      const end = new Date(endYear!, endMonth! - 1);
+
+      return start <= end;
+    },
+    {
+      message: 'Start date must not be after end date',
+      path: ['start_date'], // Show error under start_date field
+    }
+  );
 const socialSchema = z.object({
   url: z.string().min(1, 'URL is required').url('Please enter valid url'),
 });
@@ -29,11 +60,11 @@ export const usernameSchema = z.object({
 });
 
 export const onboardingSchema = z.object({
-  full_name: z.string().min(3, 'Name must be at least 3 characters long.'),
-  headline: z.string().min(3, 'Headline is required.'),
+  full_name: z.string().min(1, 'Name must be at least 3 characters long.'),
+  headline: z.string().min(1, 'Headline is required.'),
   company: z.string().min(1, 'Company is required.'),
-  country: z.string().min(2, 'Please select a country.'),
-  education: z.string().min(2, 'Education is required.'),
+  country: z.string().min(1, 'Please select your country.'),
+  education: educationSchema,
   socials: z.array(socialSchema).optional(),
   skills: z.array(skillSchema).optional(),
   startups: z.array(startupSchema).optional(),

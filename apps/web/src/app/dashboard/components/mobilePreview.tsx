@@ -229,7 +229,7 @@ const MobilePreview = ({
                   >
                     @{profile.company}
                   </span>{' '}
-                  · {profile.education} Alumni
+                  · {profile.education.university} Alumni
                 </p>
               </div>
               <div className="flex items-center justify-start text-xxs gap-2 mb-3 px-2 pb-1">
@@ -276,7 +276,7 @@ const MobilePreview = ({
                   </div>
                 ))}
               </div>
-              <div className="gap-1 flex flex-wrap items-center justify-start p-2">
+              {profile.socials.length>0 && <div className="gap-1 flex flex-wrap items-center justify-start p-2">
                 {profile.socials.map((social: any, index: number) => {
                   const icon = getPlatformIcon(social.url);
                   return (
@@ -298,7 +298,7 @@ const MobilePreview = ({
                     </a>
                   );
                 })}
-              </div>
+              </div>}
               <Tabs defaultValue="experience" className="w-full mt-4">
                 <div className="relative rounded-sm overflow-x-scroll h-10 no_scrollbar scrollbar-hidden">
                   <TabsList

@@ -9,6 +9,8 @@ import { ToastError, ToastSuccess } from '@/components/toast';
 import { useRouter } from 'next/navigation';
 import {
   Building2,
+  Calendar,
+  GraduationCap,
   IdCard,
   Link2,
   Loader2,
@@ -42,6 +44,8 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
     const dirtyFields = form.formState.dirtyFields;
     const changedData: Partial<typeof data> = {};
     extractDirty(dirtyFields, data, changedData);
+    console.log('Changed Data:', changedData);
+    console.log('Data:', data);
 
     const result = await updateProfile(changedData as typeof data);
 
@@ -57,7 +61,10 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
   const router = useRouter();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full"
+    >
       <div className="flex flex-col items-start justify-center p-3 lg:p-4 rounded-lg w-full mt-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           <div className="col-span-1">
@@ -141,6 +148,11 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
                 </div>
               )}
             />
+            {form.formState.errors.country && (
+              <p className="text-xs lg:text-sm text-destructive mt-1">
+                {form.formState.errors.country.message}
+              </p>
+            )}
           </div>
           <div className="col-span-1">
             <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
@@ -204,7 +216,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
               </p>
             )}
           </div>
-          <div className="col-span-1 lg:col-span-2">
+          <div className="col-span-1">
             <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
               Education
             </label>
@@ -213,17 +225,82 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
                 <University strokeWidth={1} size={18} />
               </span>
               <Input
-                id="education"
+                id="education.university"
                 type="text"
                 placeholder="Jethalal Uni | IITkgp ..."
-                autoComplete="off"
-                {...form.register('education')}
+                {...form.register('education.university')}
                 className="pl-9 py-2 text-sm"
               />
             </div>
-            {form.formState.errors.education && (
+            {form.formState.errors.education?.university && (
               <p className="text-xs lg:text-sm text-destructive mt-1">
-                {form.formState.errors.education.message}
+                {form.formState.errors.education?.university.message}
+              </p>
+            )}
+          </div>
+          <div className="col-span-1">
+            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+              Branch
+            </label>
+            <div className="relative">
+              <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                <GraduationCap strokeWidth={1} size={18} />
+              </span>
+              <Input
+                id="education.branch"
+                type="text"
+                placeholder="CS, AI, ECE, Math..."
+                {...form.register('education.branch')}
+                className="pl-9 py-2 text-sm"
+              />
+            </div>
+            {form.formState.errors.education?.branch && (
+              <p className="text-xs lg:text-sm text-destructive mt-1">
+                {form.formState.errors.education?.branch.message}
+              </p>
+            )}
+          </div>
+          <div className="col-span-1">
+            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+              Start
+            </label>
+            <div className="relative">
+              <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                <Calendar strokeWidth={1} size={18} />
+              </span>
+              <Input
+                id="education.start_date"
+                type="text"
+                placeholder="MM/20YY..."
+                {...form.register('education.start_date')}
+                className="pl-9 py-2 text-sm"
+              />
+            </div>
+            {form.formState.errors.education?.start_date && (
+              <p className="text-xs lg:text-sm text-destructive mt-1">
+                {form.formState.errors.education?.start_date.message}
+              </p>
+            )}
+          </div>
+          <div className="col-span-1">
+            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+              End
+            </label>
+            <div className="relative">
+              <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                <Calendar strokeWidth={1} size={18} />
+              </span>
+              <Input
+                id="education.end_date"
+                type="text"
+                placeholder="MM/20YY..."
+                {...form.register('education.end_date')}
+                className="pl-9 py-2 text-sm"
+              />
+            </div>
+            {form.formState.errors.education?.end_date && (
+              <p className="text-xs lg:text-sm text-destructive mt-1">
+                {form.formState.errors.education?.end_date.message}
               </p>
             )}
           </div>

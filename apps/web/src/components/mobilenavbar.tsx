@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
+import { blurFade } from '@lf/utils';
 
 export default function SlideInNavbar({
   isOpen,
@@ -12,36 +13,29 @@ export default function SlideInNavbar({
 }) {
   return (
     <div>
-
       {/* Sidebar */}
       <AnimatePresence>
         {isOpen && (
-          <motion.aside
-            initial={{ x: '-100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
+          <motion.nav
+            variants={blurFade}
+            initial="initial"
+            animate="animate"
+            exit="exit"
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 h-full w-[90%] shadow-lg z-[1000] p-4 bg-background"
+            className="fixed top-0 left-0 h-full w-full z-[1000] pt-20 pb-4 bg-background pl-12 pr-8"
           >
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold">Navigation</h2>
-              <button onClick={() => setIsOpen(false)}>
-                <X />
-              </button>
-            </div>
-
-            <nav className="flex flex-col space-y-4">
-              <a href="/" className="">
+            <nav className="flex flex-col divide-y-2 divide-muted font-medium">
+              <a href="/" className="py-3">
                 Home
               </a>
-              <a href="/about" className="">
+              <a href="/about" className="py-3">
                 About
               </a>
-              <a href="/contact" className="">
+              <a href="/contact" className="py-3">
                 Contact
               </a>
             </nav>
-          </motion.aside>
+          </motion.nav>
         )}
       </AnimatePresence>
 

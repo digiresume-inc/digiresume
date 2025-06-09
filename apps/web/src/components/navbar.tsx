@@ -14,7 +14,7 @@ import {
 import { Button } from '@lf/ui/components/base/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@lf/ui/components/base/popover';
 import { Avatar, AvatarFallback, AvatarImage } from '@lf/ui/components/base/avatar';
-import { LogOut, Menu } from 'lucide-react';
+import { LogOut, Menu, X } from 'lucide-react';
 import { cn } from '@lf/ui/lib/utils';
 import LogoutConfirmation from '@/modals/logoutconfiramtion';
 import SlideInNavbar from './mobilenavbar';
@@ -76,11 +76,19 @@ const Navbar = ({ user }: { user: User | null }) => {
     <>
       <LogoutConfirmation modal={logoutModal} setModal={setLogoutModal} />
       <SlideInNavbar isOpen={isOpen} setIsOpen={setIsOpen} />
-      <header className="fixed top-0 left-0 z-[900] w-full pt-5 px-5 lg:px-0">
-        <div className="max-w-5xl w-full relative mx-auto flex items-center justify-between rounded-full bg-secondary/10 p-2 lg:p-3 pl-5 bg-clip-padding backdrop-filter backdrop-blur-sm border">
+      <nav className="fixed top-0 left-0 z-[1000] w-full pt-5 px-5 lg:px-0">
+        <div
+          className={cn(
+            'max-w-5xl w-full relative mx-auto flex items-center justify-between rounded-full p-2 lg:p-3 pl-5',
+            {
+              'bg-clip-padding backdrop-filter backdrop-blur-sm border bg-secondary/10': !isOpen,
+              'bg-background': isOpen,
+            }
+          )}
+        >
           <div className="block lg:hidden">
-            <Button onClick={() => setIsOpen(true)} size={'icon'} variant="ghost">
-              <Menu />
+            <Button onClick={() => setIsOpen(!isOpen)} size={'lg'} variant="ghost">
+              {isOpen ? <X /> : <Menu />}
             </Button>
           </div>
           <div className="flex items-center justify-center gap-2">
@@ -133,7 +141,7 @@ const Navbar = ({ user }: { user: User | null }) => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuLink href='/dashboard' className={navigationMenuTriggerStyle()}>
+                <NavigationMenuLink href="/dashboard" className={navigationMenuTriggerStyle()}>
                   Dashboard
                 </NavigationMenuLink>
               </NavigationMenuItem>
@@ -173,7 +181,7 @@ const Navbar = ({ user }: { user: User | null }) => {
             </Link>
           )}
         </div>
-      </header>
+      </nav>
     </>
   );
 };

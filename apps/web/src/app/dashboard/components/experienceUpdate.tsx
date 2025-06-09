@@ -172,21 +172,6 @@ const ExperienceUpdate = ({ profile }: { profile: any }) => {
               Add Experience <Plus />
             </Button>
           </div>
-
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
-              <DialogHeader className="mb-4">
-                <DialogTitle>{actionType} Experience</DialogTitle>
-              </DialogHeader>
-              {selectedExperience && (
-                <ExperienceForm
-                  selectedExperience={selectedExperience}
-                  onSubmit={handleUpdate}
-                  actionType={actionType}
-                />
-              )}
-            </DialogContent>
-          </Dialog>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center text-center bg-muted/40 rounded-2xl p-6 shadow-sm h-[300px] border border-dashed border-border transition-colors">
@@ -198,7 +183,7 @@ const ExperienceUpdate = ({ profile }: { profile: any }) => {
             You haven't added experience to your profile yet.
           </p>
           <Button
-            onClick={() => setOpen(true)}
+            onClick={() => handleNewExperience(emptyExperience)}
             variant="outline"
             className="flex items-center gap-2 opacity-100"
           >
@@ -207,6 +192,20 @@ const ExperienceUpdate = ({ profile }: { profile: any }) => {
           </Button>
         </div>
       )}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
+          <DialogHeader className="mb-4">
+            <DialogTitle>{actionType} Experience</DialogTitle>
+          </DialogHeader>
+          {selectedExperience && (
+            <ExperienceForm
+              selectedExperience={selectedExperience}
+              onSubmit={handleUpdate}
+              actionType={actionType}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

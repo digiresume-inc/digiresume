@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,6 +21,11 @@ import GoogleSignin from './googlesignin';
 import { ToastError, ToastSuccess } from '@/components/toast';
 
 const LoginForm = ({ username }: { username: string | string[] }) => {
+  useEffect(() => {
+    if (username) {
+      localStorage.setItem('username', username as string);
+    }
+  }, [username]);
   const [serverError, setServerError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();

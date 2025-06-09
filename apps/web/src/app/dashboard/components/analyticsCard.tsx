@@ -104,7 +104,7 @@ const ChartAreaDefault = ({ activeChart }: { activeChart: keyof typeof chartConf
         }}
       >
         <CartesianGrid vertical={false} />
-        {/* <YAxis domain={['auto', (dataMax: number) => dataMax + 30]} hide /> */}
+        {/* <YAxis domain={['auto', (dataMax: number) => dataMax + 10]} hide /> */}
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
         <Line
           dataKey={activeChart}

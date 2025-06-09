@@ -15,6 +15,7 @@ import {
   Pencil,
   Plus,
   ThumbsUp,
+  University,
   User,
   Wrench,
   X,
@@ -60,6 +61,12 @@ const OnboardingForm = ({ username }: { username: string }) => {
       headline: '',
       company: '',
       country: '',
+      education: {
+        university: '',
+        branch: '',
+        start_date: '',
+        end_date: '',
+      },
       socials: [],
       skills: [],
       startups: [],
@@ -273,20 +280,6 @@ const OnboardingForm = ({ username }: { username: string }) => {
                       </div>
                     </div>
                     <div>
-                      <Input
-                        id="education"
-                        className="bg-secondary w-full text-sm"
-                        type="text"
-                        placeholder="Education: IITKGP, Popat Uni..."
-                        {...form.register('education')}
-                      />
-                      {form.formState.errors.education && (
-                        <p className="text-xs lg:text-sm text-destructive mt-1">
-                          {form.formState.errors.education.message}
-                        </p>
-                      )}
-                    </div>
-                    <div>
                       <Controller
                         name="country"
                         control={control}
@@ -315,6 +308,83 @@ const OnboardingForm = ({ username }: { username: string }) => {
               <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
                   {step + 1}
+                </div>
+                <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
+                <div className="flex flex-col items-start justify-start px-3 py-2 gap-4 w-full">
+                  <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
+                    <University className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Education
+                  </h1>
+                  <div className="flex flex-col gap-2 w-full max-w-98">
+                    <div>
+                      <label className="text-sm font-medium text-foreground/70" htmlFor='education.university'>University</label>
+                      <Input
+                        id="education.university"
+                        className="bg-secondary w-full text-sm"
+                        type="text"
+                        placeholder="Education: IITKGP, Popat Uni..."
+                        {...form.register('education.university')}
+                      />
+                      {form.formState.errors.education?.university && (
+                        <p className="text-xs lg:text-sm text-destructive mt-1">
+                          {form.formState.errors.education?.university.message}
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-foreground/70" htmlFor='education.branch'>Branch</label>
+                      <Input
+                        id="education.branch"
+                        className="bg-secondary w-full text-sm"
+                        type="text"
+                        placeholder="CS, AI, ECE, Math..."
+                        {...form.register('education.branch')}
+                      />
+                      {form.formState.errors.education?.branch && (
+                        <p className="text-xs lg:text-sm text-destructive mt-1">
+                          {form.formState.errors.education?.branch.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex items-start justify-start gap-2">
+                      <div className="flex flex-col items-start justify-center">
+                        {' '}
+                        <label className="text-sm font-medium text-foreground/70" htmlFor='education.start_date'>Start</label>
+                        <Input
+                          id="education.start_date"
+                          className="bg-secondary w-full text-sm"
+                          type="text"
+                          placeholder="MM/20YY..."
+                          {...form.register('education.start_date')}
+                        />
+                        {form.formState.errors.education?.start_date && (
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
+                            {form.formState.errors.education?.start_date.message}
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex flex-col items-start justify-center">
+                        {' '}
+                        <label className="text-sm font-medium text-foreground/70" htmlFor='education.end_date'>End</label>
+                        <Input
+                          id="education.end_date"
+                          className="bg-secondary w-full text-sm"
+                          type="text"
+                          placeholder="MM/20YY..."
+                          {...form.register('education.end_date')}
+                        />
+                        {form.formState.errors.education?.end_date && (
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
+                            {form.formState.errors.education?.end_date.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
+                <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
+                  {step + 2}
                 </div>
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 <div className="flex flex-col items-start justify-start px-3 py-2 gap-4 w-full">
@@ -372,7 +442,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
               </div>
               <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
-                  {step + 2}
+                  {step + 3}
                 </div>
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">

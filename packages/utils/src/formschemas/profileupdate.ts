@@ -21,19 +21,50 @@ const profileLinkSchema = z.object({
     .optional(),
 });
 
+const dateRegex = /^(0[1-9]|1[0-2])\/\d{4}$/;
+
+const educationSchema = z
+  .object({
+    university: z.string().min(1, 'University is required'),
+    branch: z.string().min(1, 'Branch is required'),
+    start_date: z
+      .string()
+      .min(1, 'Start date is required')
+      .regex(dateRegex, 'Start date must be in MM/YYYY format'),
+    end_date: z
+      .string()
+      .min(1, 'End date is required')
+      .regex(dateRegex, 'End date must be in MM/YYYY format'),
+  })
+  .refine(
+    (data) => {
+      const [startMonth, startYear] = data.start_date.split('/').map(Number);
+      const [endMonth, endYear] = data.end_date.split('/').map(Number);
+
+      const start = new Date(startYear!, startMonth! - 1);
+      const end = new Date(endYear!, endMonth! - 1);
+
+      return start <= end;
+    },
+    {
+      message: 'Start date must not be after end date',
+      path: ['start_date'],
+    }
+  );
+
 export const profileUpdateSchema = z.object({
-  full_name: z.string().min(3, 'Full name must be at least 3 characters'),
-  country: z.string().min(3, 'Country must be at least 3 characters'),
+  full_name: z.string().min(1, 'Full name must be at least 3 characters'),
+  country: z.string().min(1, 'Please select your country'),
   skills: z.array(skillSchema),
   company: z.string().min(1, 'Please enter your company name'),
-  education: z.string().min(1, 'Please enter your education details'),
+  education: educationSchema,
   headline: z
     .string()
-    .min(3, 'Headline must be at least 3 characters')
+    .min(1, 'Headline must be at least 3 characters')
     .max(100, 'Headline must be at most 100 characters'),
   shortbio: z
     .string()
-    .min(3, 'Headline must be at least 3 characters')
+    .min(1, 'Headline must be at least 3 characters')
     .max(250, 'Headline must be at most 100 characters'),
   profile_link: profileLinkSchema.optional(),
 });

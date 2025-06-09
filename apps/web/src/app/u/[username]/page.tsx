@@ -192,7 +192,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                 >
                   @{profile.company}
                 </span>{' '}
-                · {profile.education} Alumni
+                · {profile.education.university} Alumni
               </p>
             </div>
             <div className="flex items-center justify-start lg:items-start p-4 gap-3">

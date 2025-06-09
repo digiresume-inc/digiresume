@@ -1,25 +1,31 @@
 'use client';
-import { createClient } from '@/supabase/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@lf/ui/components/base/button';
 import { Input } from '@lf/ui/components/base/input';
 import { blurFade, usernameSchema } from '@lf/utils';
 import { IdCard, Loader2 } from 'lucide-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import {  ToastSuccess } from './toast';
+import { ToastSuccess } from './toast';
 import { updateUsername } from '@/app/onboarding/action';
 import { motion } from 'motion/react';
 
 const UsernameSet = ({ setStep }: { setStep: React.Dispatch<React.SetStateAction<number>> }) => {
-  const supabase = createClient();
   const form = useForm<z.infer<typeof usernameSchema>>({
     resolver: zodResolver(usernameSchema),
     defaultValues: {
       username: '',
     },
   });
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      form.setValue('username', storedUsername, { shouldDirty: true });
+      form.setFocus('username');
+    }
+  }, []);
 
   const {
     register,
@@ -85,7 +91,13 @@ const UsernameSet = ({ setStep }: { setStep: React.Dispatch<React.SetStateAction
           disabled={!isDirty || isSubmitting}
           variant={'outline'}
         >
-          {isSubmitting ? <><Loader2 className='animate-spin'/> Updating...</> : <>Update Username</>}
+          {isSubmitting ? (
+            <>
+              <Loader2 className="animate-spin" /> Updating...
+            </>
+          ) : (
+            <>Update Username</>
+          )}
         </Button>
       </form>
     </div>
