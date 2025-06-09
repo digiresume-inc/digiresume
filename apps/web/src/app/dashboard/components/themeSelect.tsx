@@ -5,39 +5,26 @@ import { updateTheme } from '../actions/updateTheme';
 import { ToastError, ToastSuccess } from '@/components/toast';
 
 const ThemeSelect = ({
-  theme,
   localTheme,
   setLocalTheme,
 }: {
-  theme: any;
   localTheme: any;
   setLocalTheme: React.Dispatch<React.SetStateAction<NewTheme | null>>;
 }) => {
-  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
-  const [isUpdating, setIsUpdating] = useState(false);
+  const [updating, setUpdating] = useState(false);
 
-  useEffect(() => {
-    if (theme.id === localTheme.id) return;
-
-    if (debounceTimer) {
-      clearTimeout(debounceTimer);
+  async function handleThemeChange(localTheme: any) {
+    setUpdating(true);
+    const result = await updateTheme(localTheme);
+    if (result.success) {
+      setLocalTheme(localTheme);
+      ToastSuccess({ message: result.message });
+    } else {
+      ToastError({ message: result.message });
     }
+    setUpdating(false);
+  }
 
-    const timer = setTimeout(async () => {
-      setIsUpdating(true);
-      const result = await updateTheme(localTheme);
-      if (result.success) {
-        ToastSuccess({ message: result.message });
-      } else {
-        ToastError({ message: result.message });
-      }
-      setIsUpdating(false);
-    }, 1000);
-
-    setDebounceTimer(timer);
-
-    return () => clearTimeout(timer);
-  }, [localTheme]);
   return (
     <div className="flex flex-col gap-4">
       {['default', 'light', 'dark'].map((type) => (
@@ -52,10 +39,10 @@ const ThemeSelect = ({
                   type="radio"
                   name="colorPalette"
                   checked={localTheme.id === Number(t.id)}
-                  onChange={() => setLocalTheme(t)}
+                  onChange={() => handleThemeChange(t)}
                   value={t.theme_type}
                   className="w-4 h-4 bg-gray-100 mr-2"
-                  disabled={isUpdating}
+                  disabled={updating}
                 />
                 <label
                   htmlFor={`radio-${t.id}`}

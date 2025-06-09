@@ -74,7 +74,6 @@ const DashboardHome = ({
           </TabsContent>
           <TabsContent value="themes" className="mt-4">
             <ThemeSelect
-              theme={profile.theme}
               localTheme={localTheme}
               setLocalTheme={setLocalTheme}
             />

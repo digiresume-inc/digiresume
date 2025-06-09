@@ -30,6 +30,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
 import MarkdownParser from '@/components/markdownparser';
 import { iconMap } from '../utils/iconMap';
+import { cn } from '@lf/ui/lib/utils';
 
 function getPlatformIcon(url: string) {
   try {
@@ -60,9 +61,13 @@ const MobilePreview = ({
   const t = theme?.theme_data;
   return (
     <div
-      className={`${
-        preview ? 'flex' : 'hidden'
-      } lg:flex lg:w-[40%] w-full h-screen p-4 fixed top-0 left-0 lg:static bg-background/50 backdrop-blur z-50`}
+      className={cn(
+        'lg:flex lg:w-[40%] w-full h-screen p-4 fixed top-0 left-0 lg:static bg-background/50 backdrop-blur z-50',
+        {
+          'flex': preview,
+          'hidden': !preview,
+        }
+      )}
     >
       <Button
         onClick={() => setPreview(false)}
@@ -72,10 +77,11 @@ const MobilePreview = ({
       >
         <X />
       </Button>
-      <div className="flex flex-col w-full items-center justify-center gap-4">
+      <div className="flex flex-col w-full items-center justify-center gap-4 scale-90 lg:scale-100">
         <h2 className="text-lg lg:text-2xl font-bold">Preview</h2>
         <div className="relative w-[300px] h-[620px] rounded-[50px] bg-black shadow-2xl border-[14px] border-black flex items-center justify-center">
-          {/* Dynamic Island (move out of overflow-hidden) */}
+
+          {/* Dynamic Island */}
           <div className="absolute top-[-5px] left-1/2 -translate-x-1/2 bg-black rounded-t-2xl rounded-b-4xl w-[130px] h-[25px] z-20"></div>
 
           {/* Status Icons (Top Right) */}
@@ -100,7 +106,6 @@ const MobilePreview = ({
             }}
             className="w-[270px] h-[590px] rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar"
           >
-            {/* URL Bar */}
 
             {/* Content */}
             <div className="p-4 space-y-2">
@@ -276,29 +281,31 @@ const MobilePreview = ({
                   </div>
                 ))}
               </div>
-              {profile.socials.length>0 && <div className="gap-1 flex flex-wrap items-center justify-start p-2">
-                {profile.socials.map((social: any, index: number) => {
-                  const icon = getPlatformIcon(social.url);
-                  return (
-                    <a
-                      style={
-                        {
-                          color: t?.foreground,
-                          borderColor: hexToHSL(t?.primary!, 0.5),
-                          '--hover-background': hexToHSL(t?.secondary!, 0.5),
-                          '--hover-border': hexToHSL(t?.primary!, 0.6),
-                        } as React.CSSProperties
-                      }
-                      target="_blank"
-                      href={social.url}
-                      key={index}
-                      className="w-8 h-8 border transition-colors duration-200 rounded-md px-2 flex items-center justify-center hover:bg-[var(--hover-background)] hover:border-[var(--hover-border)]"
-                    >
-                      <>{icon}</>
-                    </a>
-                  );
-                })}
-              </div>}
+              {profile.socials.length > 0 && (
+                <div className="gap-1 flex flex-wrap items-center justify-start p-2">
+                  {profile.socials.map((social: any, index: number) => {
+                    const icon = getPlatformIcon(social.url);
+                    return (
+                      <a
+                        style={
+                          {
+                            color: t?.foreground,
+                            borderColor: hexToHSL(t?.primary!, 0.5),
+                            '--hover-background': hexToHSL(t?.secondary!, 0.5),
+                            '--hover-border': hexToHSL(t?.primary!, 0.6),
+                          } as React.CSSProperties
+                        }
+                        target="_blank"
+                        href={social.url}
+                        key={index}
+                        className="w-8 h-8 border transition-colors duration-200 rounded-md px-2 flex items-center justify-center hover:bg-[var(--hover-background)] hover:border-[var(--hover-border)]"
+                      >
+                        <>{icon}</>
+                      </a>
+                    );
+                  })}
+                </div>
+              )}
               <Tabs defaultValue="experience" className="w-full mt-4">
                 <div className="relative rounded-sm overflow-x-scroll h-10 no_scrollbar scrollbar-hidden">
                   <TabsList
