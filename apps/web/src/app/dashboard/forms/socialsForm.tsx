@@ -78,7 +78,7 @@ const SocialsForm = ({
                   placeholder="Enter social URL"
                   className="w-full text-sm"
                 />
-                <Button type="button" size="icon" variant="ghost" onClick={() => remove(index)}>
+                <Button type="button" size="icon" variant="destructive" onClick={() => remove(index)}>
                   <Trash2 size={16} />
                 </Button>
               </div>

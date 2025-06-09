@@ -18,6 +18,7 @@ import {
 import { Switch } from '@lf/ui/components/base/switch';
 import { Check, Loader2, Save, X } from 'lucide-react';
 import { Textarea } from '@lf/ui/components/base/textarea';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
 
 type SingleExperience = z.infer<typeof singleExperienceSchema>;
 
@@ -73,8 +74,42 @@ const ExperienceForm = ({
       </div>
 
       <div className="grid grid-cols-4 items-center gap-2">
-        <Label htmlFor="contribution" className="text-right">
-          Contribution
+        <Label
+          htmlFor="contribution"
+          className="text-right flex flex-col items-start justify-center"
+        >
+          <span>Contribution</span>
+          <HoverCard openDelay={250}>
+            <HoverCardTrigger>
+              <span className="text-xs underline text-primary font-medium cursor-pointer">
+                Markdown Guide *
+              </span>
+            </HoverCardTrigger>
+            <HoverCardContent className="bg-secondary border-foreground/20 rounded-md z-50">
+              <div className="flex flex-col p-2">
+                <p className="text-sm font-semibold text-lightprimary-text/80 dark:text-primary-text/80">
+                  Markdown guide
+                </p>
+                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80 mt-2">
+                  <span className="text-lightaccent-text dark:text-accent-text">**text**</span> →{' '}
+                  <span className="font-bold">text</span>
+                </p>
+                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
+                  <span className="text-lightaccent-text dark:text-accent-text">*text*</span> →{' '}
+                  <span className="italic">text</span>
+                </p>
+                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
+                  <span className="text-lightaccent-text dark:text-accent-text">
+                    [link](https://feature.com)
+                  </span>{' '}
+                  →{' '}
+                  <a href="https://feature.com" target="_blank" className="font-medium underline">
+                    link
+                  </a>
+                </p>
+              </div>
+            </HoverCardContent>
+          </HoverCard>
         </Label>
         <Textarea
           rows={2}
@@ -106,8 +141,14 @@ const ExperienceForm = ({
                     {errors.roles[index]?.start_date?.message}
                   </p>
                 )}
-                <Label className="text-right">Headline</Label>
-                <Input {...register(`roles.${index}.headline`)} className="col-span-3" />
+                <Label htmlFor={`roles.${index}.headline`} className="text-right">
+                  Headline
+                </Label>
+                <Input
+                  id={`roles.${index}.headline`}
+                  {...register(`roles.${index}.headline`)}
+                  className="col-span-3"
+                />
                 {errors.roles?.[index]?.headline && (
                   <p className="text-red-500 col-start-2 col-span-3 text-sm">
                     {errors.roles[index]?.headline?.message}
@@ -116,8 +157,14 @@ const ExperienceForm = ({
               </div>
 
               <div className="grid grid-cols-4 items-center gap-2">
-                <Label className="text-right">Location</Label>
-                <Input {...register(`roles.${index}.location`)} className="col-span-3" />
+                <Label htmlFor={`roles.${index}.location`} className="text-right">
+                  Location
+                </Label>
+                <Input
+                  id={`roles.${index}.location`}
+                  {...register(`roles.${index}.location`)}
+                  className="col-span-3"
+                />
                 {errors.roles?.[index]?.location && (
                   <p className="text-red-500 col-start-2 col-span-3 text-sm">
                     {errors.roles[index]?.location?.message}
@@ -183,8 +230,14 @@ const ExperienceForm = ({
               </div>
 
               <div className="grid grid-cols-4 items-center gap-2">
-                <Label className="text-right">Start</Label>
-                <Input {...register(`roles.${index}.start_date`)} className="col-span-3" />
+                <Label htmlFor={`roles.${index}.start_date`} className="text-right">
+                  Start
+                </Label>
+                <Input
+                  id={`roles.${index}.start_date`}
+                  {...register(`roles.${index}.start_date`)}
+                  className="col-span-3"
+                />
                 {errors.roles?.[index]?.start_date && (
                   <p className="text-red-500 col-start-2 col-span-3 text-sm">
                     {errors.roles[index]?.start_date?.message}
@@ -194,8 +247,14 @@ const ExperienceForm = ({
 
               {!currently_working && (
                 <div className="grid grid-cols-4 items-center gap-2">
-                  <Label className="text-right">End</Label>
-                  <Input {...register(`roles.${index}.end_date`)} className="col-span-3" />
+                  <Label htmlFor={`roles.${index}.end_date`} className="text-right">
+                    End
+                  </Label>
+                  <Input
+                    id={`roles.${index}.end_date`}
+                    {...register(`roles.${index}.end_date`)}
+                    className="col-span-3"
+                  />
                   {errors.roles?.[index]?.end_date && (
                     <p className="text-red-500 col-start-2 col-span-3 text-sm">
                       {errors.roles[index]?.end_date?.message}

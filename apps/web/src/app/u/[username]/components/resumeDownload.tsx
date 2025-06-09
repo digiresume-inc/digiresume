@@ -19,7 +19,7 @@ const ResumeDownload = ({ t }: { t: any }) => {
           '--hover-background': t.secondary,
         } as React.CSSProperties
       }
-      className="absolute top-0 lg:top-4 right-12 lg:right-36 !bg-transparent hover:!bg-[var(--hover-background)] !text-[var(--text-color)] !border-[var(--border-color)]"
+      className="absolute top-0 lg:top-4 right-16 lg:right-36 !bg-transparent hover:!bg-[var(--hover-background)] !text-[var(--text-color)] !border-[var(--border-color)]"
     >
       <Download />
     </Button>

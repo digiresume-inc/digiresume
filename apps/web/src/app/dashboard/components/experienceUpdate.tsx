@@ -174,7 +174,7 @@ const ExperienceUpdate = ({ profile }: { profile: any }) => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center text-center bg-muted/40 rounded-2xl p-6 shadow-sm h-[300px] border border-dashed border-border transition-colors">
+        <div className="flex flex-col items-center justify-center text-center bg-muted/40 rounded-2xl p-6 shadow-sm h-[300px] border-2 border-dashed border-foreground/10 transition-colors">
           <BriefcaseBusiness size={64} className="text-muted-foreground mb-4 opacity-60" />
           <h1 className="text-lg font-semibold text-muted-foreground mb-2 opacity-60">
             No Experience added yet

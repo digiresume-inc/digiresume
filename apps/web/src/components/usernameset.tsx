@@ -34,6 +34,7 @@ const UsernameSet = ({ setStep }: { setStep: React.Dispatch<React.SetStateAction
     setError,
     formState: { isSubmitting, isDirty },
   } = form;
+
   return (
     <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
       <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
@@ -54,6 +55,7 @@ const UsernameSet = ({ setStep }: { setStep: React.Dispatch<React.SetStateAction
           }
 
           ToastSuccess({ message: result.message });
+          localStorage.removeItem('username');
           setStep(2);
         })}
       >

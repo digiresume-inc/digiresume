@@ -21,7 +21,7 @@ const SocialsUpdate = ({ profile }: { profile: any }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      {profile.socials.length > 0 ? (
+      {profile.socials.length < 0 ? (
         <div className="flex flex-col gap-2 px-4">
           {profile.socials.map((social: any, index: number) => {
             const Icon = getPlatformIcon(social.url);
@@ -36,15 +36,9 @@ const SocialsUpdate = ({ profile }: { profile: any }) => {
                   <p className="text-sm font-medium max-w-36 md:max-w-fit truncate">{social.url}</p>
                 </div>
 
-                {/* Right side: Edit + Trash icons */}
-                <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="icon" onClick={() => setOpen(true)}>
-                    <Pencil size={16} />
-                  </Button>
-                  <Button variant="destructive" size="icon" onClick={() => setOpen(true)}>
-                    <Trash2 size={16} />
-                  </Button>
-                </div>
+                <Button variant="ghost" size="icon" onClick={() => setOpen(true)}>
+                  <Pencil size={16} />
+                </Button>
               </div>
             );
           })}
@@ -53,7 +47,7 @@ const SocialsUpdate = ({ profile }: { profile: any }) => {
           </Button>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center text-center bg-muted/40 rounded-2xl p-6 shadow-sm h-[300px] border border-dashed border-border transition-colors">
+        <div className="flex flex-col items-center justify-center text-center bg-muted/40 rounded-2xl p-6 shadow-sm h-[300px] border-2 border-dashed border-foreground/10 transition-colors">
           <Globe size={64} className="text-muted-foreground mb-4 opacity-60 " />
           <h1 className="text-lg font-semibold text-muted-foreground mb-2 opacity-60 ">
             No socials added yet

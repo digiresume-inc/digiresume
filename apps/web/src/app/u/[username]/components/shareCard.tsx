@@ -182,7 +182,7 @@ const ShareCard = ({ profile, t }: { profile: any; t: any }) => {
               style={{
                 color: t.foreground,
               }}
-              className="absolute right-4 top-4 rounded-sm opacity-50 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none  disabled:pointer-events-none "
+              className="cursor-pointer absolute right-4 top-4 rounded-sm opacity-50 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none  disabled:pointer-events-none "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

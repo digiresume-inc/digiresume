@@ -68,7 +68,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
       <div className="flex flex-col items-start justify-center p-3 lg:p-4 rounded-lg w-full mt-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           <div className="col-span-1">
-            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+            <label htmlFor='username' className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
               Username
             </label>
             <div className="relative">
@@ -87,7 +87,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
             </div>
           </div>
           <div className="col-span-1">
-            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+            <label htmlFor='email' className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
               Email
             </label>
             <div className="relative">
@@ -106,7 +106,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
             </div>
           </div>
           <div className="col-span-1">
-            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+            <label htmlFor='full_name' className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
               Full Name
             </label>
             <div className="relative">
@@ -155,7 +155,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
             )}
           </div>
           <div className="col-span-1">
-            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+            <label htmlFor='headline' className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
               Headline
             </label>
             <div className="relative">
@@ -176,7 +176,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
             )}
           </div>
           <div className="col-span-1">
-            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+            <label htmlFor='company' className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
               Current Company
             </label>
             <div className="relative">
@@ -217,7 +217,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
             )}
           </div>
           <div className="col-span-1">
-            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+            <label htmlFor='education.university' className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
               Education
             </label>
             <div className="relative">
@@ -239,7 +239,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
             )}
           </div>
           <div className="col-span-1">
-            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+            <label htmlFor='education.branch' className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
               Branch
             </label>
             <div className="relative">
@@ -261,7 +261,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
             )}
           </div>
           <div className="col-span-1">
-            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+            <label htmlFor='education.start_date' className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
               Start
             </label>
             <div className="relative">
@@ -283,7 +283,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
             )}
           </div>
           <div className="col-span-1">
-            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+            <label htmlFor='education.end_date' className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
               End
             </label>
             <div className="relative">
@@ -305,7 +305,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
             )}
           </div>
           <div className="col-span-1">
-            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+            <label htmlFor='profile_link.text' className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
               Profile Link Text
             </label>
             <div className="relative">
@@ -313,7 +313,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
                 <Type strokeWidth={1} size={18} />
               </span>
               <Input
-                id="profile_link_text"
+                id="profile_link.text"
                 type="text"
                 placeholder="My profile | My Webiste"
                 autoComplete="off"
@@ -328,7 +328,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
             )}
           </div>
           <div className="col-span-1">
-            <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+            <label htmlFor='profile_link.url' className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
               Profile Link
             </label>
             <div className="relative">

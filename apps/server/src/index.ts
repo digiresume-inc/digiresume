@@ -121,7 +121,7 @@ app.post(
                  experience: array of { a: index, company: company name string, company_link: company url if any, company url, contribution: breif info on contribution to company string, roles: [array as multiple roles amy be there in each company each with start_date(format(MM/YYYY), end_date(format(MM/YYYY) - end_date should be "" empty string is currently_working is true, headline: role name(ex: Frontend Dev, Sr Backend Developer,) location: job location (india, us),location_type: string "On-site | Hybrid | Remote", employment_type: string "Full-time | Part-time | Self-employed | Freelance | Internship | Trainee", currently_working: "true | false" - boolean] } -- for empty values use empty string like ''
                  socials: array of { url } all urls should be formatted with https:// at start if not present
                  company (current or most important one)
-                 education: (highest degree or most recent institution) only get institution name string`,
+                 education: (highest degree or most recent institution format data as object {university: (name of university) string, branch: (the branch major like computer science MBA, etc) string, start_date: (format MM/YYYY) string, end_date: (format MM/YYYY) string}`,
             },
             {
               role: 'user',

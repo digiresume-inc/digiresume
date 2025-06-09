@@ -109,7 +109,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
     >
       <div className="layout-container flex h-full grow flex-col">
         <div className="flex flex-1 justify-center py-5">
-          <div className="flex flex-col max-w-[960px] flex-1 relative">
+          <div className="flex flex-col max-w-[960px] flex-1 relative py-6 lg:py-0">
             <ShareCard profile={profile} t={t} />
             <ResumeDownload t={t} />
             <div className="flex p-4">
@@ -289,34 +289,6 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                   >
                     Projects
                   </TabsTrigger>
-                  <TabsTrigger
-                    value="skills"
-                    style={
-                      {
-                        '--active-text-color': t.foreground,
-                        '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
-                        '--active-border-color': t.primary,
-                        '--background-color': t.background,
-                      } as React.CSSProperties
-                    }
-                    className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                  >
-                    Skills
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="more"
-                    style={
-                      {
-                        '--active-text-color': t.foreground,
-                        '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
-                        '--active-border-color': t.primary,
-                        '--background-color': t.background,
-                      } as React.CSSProperties
-                    }
-                    className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                  >
-                    More
-                  </TabsTrigger>
                 </TabsList>
               </div>
               <TabsContent value="experience">
@@ -379,7 +351,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                                 }}
                                 className="w-80 text-xs font-medium mt-4 relative border"
                               >
-                                {company.contribution}
+                                <MarkdownParser text={company.contribution} />
                               </PopoverContent>
                             </Popover>
                           </div>
