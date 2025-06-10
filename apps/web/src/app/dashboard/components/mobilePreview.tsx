@@ -187,7 +187,7 @@ const MobilePreview = ({
                       style={{
                         color: hexToHSL(t?.foreground!, 0.7),
                       }}
-                      className="flex items-center text-xs font-medium gap-1"
+                      className="flex flex-wrap items-center text-xs font-medium gap-1"
                     >
                       <MapPin className="w-[12px] h-[12px] mr-[-2px]" />
                       {profile.country.split('-')[0]}
@@ -197,15 +197,6 @@ const MobilePreview = ({
                         src={`https://flagsapi.com/${profile.country.split('-')[1]}/flat/64.png`}
                         referrerPolicy="no-referrer"
                       />
-                      <span
-                        style={{
-                          background: hexToHSL(t?.primary!, 0.7),
-                        }}
-                        className="h-[15px] w-px mx-1"
-                      />
-                      <span className="flex items-center">
-                        <BiRupee strokeWidth={1} className="w-[12px] h-[12px]" />2 cr/m
-                      </span>
                     </p>
                   )}
                 </div>

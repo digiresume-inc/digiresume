@@ -30,8 +30,13 @@ body {
     font-family: var(--font-bricolage);
 }
 
-.mono{
-    font-family: var(--font-mono);
+.jetbrains{
+    font-family: var(--font-jetbrains);
+}
+
+
+.merriweather {
+    font-family: var(--font-merriweather);
 }
 
 

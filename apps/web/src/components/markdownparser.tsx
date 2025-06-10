@@ -1,5 +1,6 @@
-import ReactMarkdown from "react-markdown";
-import type { Components } from "react-markdown";
+import ReactMarkdown from 'react-markdown';
+import type { Components } from 'react-markdown';
+import { remarkMark } from './remarkMark';
 
 const MarkdownParser = ({
   text,
@@ -17,20 +18,18 @@ const MarkdownParser = ({
       dontRenderLinks || !href ? (
         <>{children}</>
       ) : (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline"
-        >
+        <a href={href} target="_blank" rel="noopener noreferrer" className="underline">
           {children}
         </a>
       ),
+    mark: ({ children }) => <mark className="bg-yellow-200/70 rounded px-0.5 shadow-[inset_0_-0.15em_0_rgba(253,224,71,0.6)]">{children}</mark>,
   };
 
   return (
-    <span className={`markdown_content ${className || ""}`} style={style}>
-      <ReactMarkdown components={components}>{text}</ReactMarkdown>
+    <span className={`markdown_content ${className || ''}`} style={style}>
+      <ReactMarkdown remarkPlugins={[remarkMark]} components={components}>
+        {text}
+      </ReactMarkdown>
     </span>
   );
 };

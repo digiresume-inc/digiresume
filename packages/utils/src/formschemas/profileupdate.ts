@@ -7,6 +7,11 @@ const skillSchema = z.object({
   category: z.enum(['Language', 'Framework', 'Tool', 'Database', 'Design', 'Cloud', 'Custom']),
 });
 
+const geographicalInfo = z.object({
+  state: z.string().min(1, 'State is required'),
+  city: z.string().min(1, 'City is required'),
+})
+
 const profileLinkSchema = z.object({
   url: z.union([z.string().url({ message: 'Invalid URL' }), z.literal('')]).optional(),
 
@@ -55,6 +60,7 @@ const educationSchema = z
 export const profileUpdateSchema = z.object({
   full_name: z.string().min(1, 'Full name must be at least 3 characters'),
   country: z.string().min(1, 'Please select your country'),
+  geo_info: geographicalInfo,
   skills: z.array(skillSchema),
   company: z.string().min(1, 'Please enter your company name'),
   education: educationSchema,

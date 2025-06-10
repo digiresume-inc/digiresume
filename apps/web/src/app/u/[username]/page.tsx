@@ -153,16 +153,6 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                         src={`https://flagsapi.com/${profile.country.split('-')[1]}/flat/64.png`}
                         className="w-4 lg:w-5 h-4 lg:h-5"
                       />
-                      <span
-                        style={{
-                          background: hexToHSL(t?.primary!, 0.7),
-                        }}
-                        className="w-px h-4 mx-2"
-                      />
-                      <span className="flex items-center gap-0.5">
-                        <BiRupee className="w-4 h-4 mt-[1px]" />
-                        <span className="-ml-0.5">10cr/month</span>
-                      </span>
                     </p>
                   </div>
                 </div>
