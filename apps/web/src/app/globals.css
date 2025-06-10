@@ -30,6 +30,10 @@ body {
     font-family: var(--font-bricolage);
 }
 
+.mono{
+    font-family: var(--font-mono);
+}
+
 
 .animate-slide-up {
     opacity: 0;

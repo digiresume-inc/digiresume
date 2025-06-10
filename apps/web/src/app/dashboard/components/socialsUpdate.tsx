@@ -21,7 +21,7 @@ const SocialsUpdate = ({ profile }: { profile: any }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      {profile.socials.length < 0 ? (
+      {profile.socials.length > 0 ? (
         <div className="flex flex-col gap-2 px-4">
           {profile.socials.map((social: any, index: number) => {
             const Icon = getPlatformIcon(social.url);
