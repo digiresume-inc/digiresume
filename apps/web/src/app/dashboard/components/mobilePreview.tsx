@@ -57,6 +57,10 @@ const MobilePreview = ({
   theme: Theme;
 }) => {
   const t = theme?.theme_data;
+  const showExp = profile.experience.length > 0;
+  const showStartups = startups.length > 0;
+  const showProjects = projects.length > 0;
+  const defaultValue = showExp ? 'experience' : showStartups ? 'startups' : 'projects';
   return (
     <div
       className={cn(
@@ -299,7 +303,7 @@ const MobilePreview = ({
                   })}
                 </div>
               )}
-              <Tabs defaultValue="experience" className="w-full mt-4">
+              <Tabs defaultValue={defaultValue} className="w-full mt-4">
                 <div className="relative rounded-sm overflow-x-scroll h-10 no_scrollbar scrollbar-hidden">
                   <TabsList
                     style={{
@@ -307,176 +311,184 @@ const MobilePreview = ({
                     }}
                     className="absolute flex flex-row justify-stretch w-full"
                   >
-                    <TabsTrigger
-                      value="experience"
-                      style={
-                        {
-                          '--active-text-color': t.foreground,
-                          '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
-                          '--active-border-color': t.primary,
-                          '--background-color': t.background,
-                        } as React.CSSProperties
-                      }
-                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                    >
-                      Experience
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="startups"
-                      style={
-                        {
-                          '--active-text-color': t.foreground,
-                          '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
-                          '--active-border-color': t.primary,
-                          '--background-color': t.background,
-                        } as React.CSSProperties
-                      }
-                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                    >
-                      Startups
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="projects"
-                      style={
-                        {
-                          '--active-text-color': t.foreground,
-                          '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
-                          '--active-border-color': t.primary,
-                          '--background-color': t.background,
-                        } as React.CSSProperties
-                      }
-                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                    >
-                      Projects
-                    </TabsTrigger>
+                    {showExp && (
+                      <TabsTrigger
+                        value="experience"
+                        style={
+                          {
+                            '--active-text-color': t.foreground,
+                            '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                            '--active-border-color': t.primary,
+                            '--background-color': t.background,
+                          } as React.CSSProperties
+                        }
+                        className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                      >
+                        Experience
+                      </TabsTrigger>
+                    )}
+                    {showStartups && (
+                      <TabsTrigger
+                        value="startups"
+                        style={
+                          {
+                            '--active-text-color': t.foreground,
+                            '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                            '--active-border-color': t.primary,
+                            '--background-color': t.background,
+                          } as React.CSSProperties
+                        }
+                        className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                      >
+                        Startups
+                      </TabsTrigger>
+                    )}
+                    {showStartups && (
+                      <TabsTrigger
+                        value="projects"
+                        style={
+                          {
+                            '--active-text-color': t.foreground,
+                            '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                            '--active-border-color': t.primary,
+                            '--background-color': t.background,
+                          } as React.CSSProperties
+                        }
+                        className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                      >
+                        Projects
+                      </TabsTrigger>
+                    )}
                   </TabsList>
                 </div>
-                <TabsContent value="experience">
-                  <div className="mt-2">
-                    {profile.experience.map((company: Experience, companyIndex: number) => {
-                      const lineHeight = getLineHeightPercent(company.roles.length);
+                {showExp && (
+                  <TabsContent value="experience">
+                    <div className="mt-2">
+                      {profile.experience.map((company: Experience, companyIndex: number) => {
+                        const lineHeight = getLineHeightPercent(company.roles.length);
 
-                      return (
-                        <div className="group relative mb-4" key={companyIndex}>
-                          <div
-                            style={{
-                              height: lineHeight,
-                              background: t.primary,
-                            }}
-                            className="absolute w-[1.5px] top-[34px] left-[15px]"
-                          />
-                          <div className="w-full flex justify-between">
-                            <div className="flex items-center gap-1 relative">
-                              <img
-                                alt={company.company}
-                                className="cursor-pointer w-8 h-8 rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity border-primaryBorder flex-grow border"
-                                src={
-                                  company.company_link
-                                    ? `https://www.google.com/s2/favicons?sz=128&domain_url=${company.company_link}`
-                                    : '/company.png'
-                                }
-                              />
-                              <p
-                                style={{
-                                  color: t.foreground,
-                                }}
-                                className="font-bold text-xs truncate"
-                              >
-                                {company.company}
-                              </p>
-                              <Info
-                                style={{
-                                  color: t.foreground,
-                                }}
-                                strokeWidth={1}
-                                size={10}
-                                className="cursor-pointer"
-                              />
-                            </div>
-                          </div>
-
-                          {company.roles.map((role: any, roleIndex: any) => (
+                        return (
+                          <div className="group relative mb-4" key={companyIndex}>
                             <div
-                              key={roleIndex}
-                              className="relative w-full transition-colors duration-200 flex flex-col items-center py-2 pl-7"
-                            >
-                              <div className="w-full flex relative">
-                                <div
-                                  style={{
-                                    borderColor: t.primary!,
-                                  }}
-                                  className="w-4 h-3 border-l-2 border-b-2 rounded-bl-lg absolute -left-[13px]"
+                              style={{
+                                height: lineHeight,
+                                background: t.primary,
+                              }}
+                              className="absolute w-[1.5px] top-[34px] left-[15px]"
+                            />
+                            <div className="w-full flex justify-between">
+                              <div className="flex items-center gap-1 relative">
+                                <img
+                                  alt={company.company}
+                                  className="cursor-pointer w-8 h-8 rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity border-primaryBorder flex-grow border"
+                                  src={
+                                    company.company_link
+                                      ? `https://www.google.com/s2/favicons?sz=128&domain_url=${company.company_link}`
+                                      : '/company.png'
+                                  }
                                 />
-                                <div className="w-full flex ml-2">
-                                  <div className="group w-full duration-300 ease-in-out rounded-2xl outline-none transition-shadow group b-0 ">
-                                    <div
-                                      className="w-full group flex items-center relative text-left cursor-default p-0"
-                                      role="none"
-                                    >
-                                      <div className="w-full flex flex-col gap-2">
-                                        <div className="flex items-center justify-between w-full">
-                                          <div className="w-full flex flex-col">
-                                            <div className="flex items-center gap-2 truncate overflow-hidden">
-                                              <span className="flex items-center justify-start gap-1 truncate overflow-hidden whitespace-nowrap">
-                                                <p
-                                                  style={{
-                                                    color: t.foreground,
-                                                  }}
-                                                  className="font-semibold text-xxs truncate max-w-46 sm:max-w-fit"
-                                                >
-                                                  {role.headline}
-                                                </p>
-                                                <p
-                                                  style={{
-                                                    color: t.foreground,
-                                                  }}
-                                                >
-                                                  •
-                                                </p>
-                                                <span
-                                                  style={{
-                                                    color: hexToHSL(t.foreground!, 0.7),
-                                                  }}
-                                                  className="text-tiny truncate max-w-16 lg:max-w-fit"
-                                                >
-                                                  {role.employment_type}
-                                                </span>
-                                              </span>
-                                            </div>
-                                            <p
-                                              style={{
-                                                color: hexToHSL(t.foreground!, 0.7),
-                                              }}
-                                              className="font-normal text-tiny truncate overflow-hidden whitespace-nowrap max-w-58 sm:max-w-fit"
-                                            >
-                                              <strong className="truncate overflow-hidden">
-                                                {formatMonthShortYear(role.start_date)} -{' '}
-                                                {role.end_date
-                                                  ? formatMonthShortYear(role.end_date)
-                                                  : 'Present'}
-                                                {role.end_date && (
-                                                  <span className="ml-0.5">
-                                                    (
-                                                    {getMonthsDifference(
-                                                      role.start_date,
-                                                      role.end_date
-                                                    )}
-                                                    )
+                                <p
+                                  style={{
+                                    color: t.foreground,
+                                  }}
+                                  className="font-bold text-xs truncate"
+                                >
+                                  {company.company}
+                                </p>
+                                <Info
+                                  style={{
+                                    color: t.foreground,
+                                  }}
+                                  strokeWidth={1}
+                                  size={10}
+                                  className="cursor-pointer"
+                                />
+                              </div>
+                            </div>
+
+                            {company.roles.map((role: any, roleIndex: any) => (
+                              <div
+                                key={roleIndex}
+                                className="relative w-full transition-colors duration-200 flex flex-col items-center py-2 pl-7"
+                              >
+                                <div className="w-full flex relative">
+                                  <div
+                                    style={{
+                                      borderColor: t.primary!,
+                                    }}
+                                    className="w-4 h-3 border-l-2 border-b-2 rounded-bl-lg absolute -left-[13px]"
+                                  />
+                                  <div className="w-full flex ml-2">
+                                    <div className="group w-full duration-300 ease-in-out rounded-2xl outline-none transition-shadow group b-0 ">
+                                      <div
+                                        className="w-full group flex items-center relative text-left cursor-default p-0"
+                                        role="none"
+                                      >
+                                        <div className="w-full flex flex-col gap-2">
+                                          <div className="flex items-center justify-between w-full">
+                                            <div className="w-full flex flex-col">
+                                              <div className="flex items-center gap-2 truncate overflow-hidden">
+                                                <span className="flex items-center justify-start gap-1 truncate overflow-hidden whitespace-nowrap">
+                                                  <p
+                                                    style={{
+                                                      color: t.foreground,
+                                                    }}
+                                                    className="font-semibold text-xxs truncate max-w-46 sm:max-w-fit"
+                                                  >
+                                                    {role.headline}
+                                                  </p>
+                                                  <p
+                                                    style={{
+                                                      color: t.foreground,
+                                                    }}
+                                                  >
+                                                    •
+                                                  </p>
+                                                  <span
+                                                    style={{
+                                                      color: hexToHSL(t.foreground!, 0.7),
+                                                    }}
+                                                    className="text-tiny truncate max-w-16 lg:max-w-fit"
+                                                  >
+                                                    {role.employment_type}
                                                   </span>
-                                                )}
-                                                <span
-                                                  style={{
-                                                    color: t.foreground,
-                                                  }}
-                                                  className="mx-0.5"
-                                                >
-                                                  •
                                                 </span>
-                                                <span className="font-normal">
-                                                  {role.location}, {role.location_type}
-                                                </span>
-                                              </strong>
-                                            </p>
+                                              </div>
+                                              <p
+                                                style={{
+                                                  color: hexToHSL(t.foreground!, 0.7),
+                                                }}
+                                                className="font-normal text-tiny truncate overflow-hidden whitespace-nowrap max-w-58 sm:max-w-fit"
+                                              >
+                                                <strong className="truncate overflow-hidden">
+                                                  {formatMonthShortYear(role.start_date)} -{' '}
+                                                  {role.end_date
+                                                    ? formatMonthShortYear(role.end_date)
+                                                    : 'Present'}
+                                                  {role.end_date && (
+                                                    <span className="ml-0.5">
+                                                      (
+                                                      {getMonthsDifference(
+                                                        role.start_date,
+                                                        role.end_date
+                                                      )}
+                                                      )
+                                                    </span>
+                                                  )}
+                                                  <span
+                                                    style={{
+                                                      color: t.foreground,
+                                                    }}
+                                                    className="mx-0.5"
+                                                  >
+                                                    •
+                                                  </span>
+                                                  <span className="font-normal">
+                                                    {role.location}, {role.location_type}
+                                                  </span>
+                                                </strong>
+                                              </p>
+                                            </div>
                                           </div>
                                         </div>
                                       </div>
@@ -484,170 +496,174 @@ const MobilePreview = ({
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          ))}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </TabsContent>
-                <TabsContent value="startups">
-                  <div className="space-y-2">
-                    {startups.map((startup: Startup, index: number) => (
-                      <div
-                        key={index}
-                        style={{
-                          background: t.card,
-                          borderColor: hexToHSL(t.primary!, 0.3),
-                        }}
-                        className="w-full rounded-lg border border-primary/60 h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
-                      >
-                        <div className="flex items-center justify-center gap-2">
-                          <img
-                            src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
-                            className="w-8 h-8 rounded-full"
-                          />
-                          <div className="flex flex-col items-start justify-center gap-1">
-                            <p style={{ color: t.foreground }} className="text-xs font-semibold">
-                              {startup.name}
-                            </p>
-                            <div className="flex gap-2 items-center justify-start w-full">
-                              {(() => {
-                                const currentStatus = statusOptions.find(
-                                  (s) => s.status === startup.status
-                                );
-                                return currentStatus ? (
-                                  <span
-                                    style={{
-                                      background: t.secondary,
-                                      color: t.foreground,
-                                    }}
-                                    className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
-                                  >
-                                    <span>{currentStatus.icon}</span>
-                                    <span>{currentStatus.text}</span>
-                                  </span>
-                                ) : (
-                                  <span
-                                    style={{
-                                      background: t.secondary,
-                                      color: t.foreground,
-                                    }}
-                                    className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
-                                  >
-                                    {startup.status}
-                                  </span>
-                                );
-                              })()}
-                              {(() => {
-                                const currentCategory = categoryOptions.find(
-                                  (s) => s.category === startup.category
-                                );
-                                return currentCategory ? (
-                                  <span
-                                    style={{
-                                      background: t.secondary,
-                                      color: t.foreground,
-                                    }}
-                                    className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
-                                  >
-                                    <span>{currentCategory.icon}</span>
-                                    <span>{currentCategory.text}</span>
-                                  </span>
-                                ) : (
-                                  <span
-                                    style={{
-                                      background: t.secondary,
-                                      color: t.foreground,
-                                    }}
-                                    className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
-                                  >
-                                    {startup.category}
-                                  </span>
-                                );
-                              })()}
+                            ))}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </TabsContent>
+                )}
+                {showStartups && (
+                  <TabsContent value="startups">
+                    <div className="space-y-2">
+                      {startups.map((startup: Startup, index: number) => (
+                        <div
+                          key={index}
+                          style={{
+                            background: t.card,
+                            borderColor: hexToHSL(t.primary!, 0.3),
+                          }}
+                          className="w-full rounded-lg border border-primary/60 h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
+                        >
+                          <div className="flex items-center justify-center gap-2">
+                            <img
+                              src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
+                              className="w-8 h-8 rounded-full"
+                            />
+                            <div className="flex flex-col items-start justify-center gap-1">
+                              <p style={{ color: t.foreground }} className="text-xs font-semibold">
+                                {startup.name}
+                              </p>
+                              <div className="flex gap-2 items-center justify-start w-full">
+                                {(() => {
+                                  const currentStatus = statusOptions.find(
+                                    (s) => s.status === startup.status
+                                  );
+                                  return currentStatus ? (
+                                    <span
+                                      style={{
+                                        background: t.secondary,
+                                        color: t.foreground,
+                                      }}
+                                      className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
+                                    >
+                                      <span>{currentStatus.icon}</span>
+                                      <span>{currentStatus.text}</span>
+                                    </span>
+                                  ) : (
+                                    <span
+                                      style={{
+                                        background: t.secondary,
+                                        color: t.foreground,
+                                      }}
+                                      className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
+                                    >
+                                      {startup.status}
+                                    </span>
+                                  );
+                                })()}
+                                {(() => {
+                                  const currentCategory = categoryOptions.find(
+                                    (s) => s.category === startup.category
+                                  );
+                                  return currentCategory ? (
+                                    <span
+                                      style={{
+                                        background: t.secondary,
+                                        color: t.foreground,
+                                      }}
+                                      className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
+                                    >
+                                      <span>{currentCategory.icon}</span>
+                                      <span>{currentCategory.text}</span>
+                                    </span>
+                                  ) : (
+                                    <span
+                                      style={{
+                                        background: t.secondary,
+                                        color: t.foreground,
+                                      }}
+                                      className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
+                                    >
+                                      {startup.category}
+                                    </span>
+                                  );
+                                })()}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div
-                          style={{
-                            color: hexToHSL(t.foreground!, 0.7),
-                          }}
-                          className="text-xxs font-medium"
-                        >
-                          <span className="line-clamp-3">
-                            <MarkdownParser text={startup.description} />{' '}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </TabsContent>
-                <TabsContent value="projects">
-                  <div className="space-y-2">
-                    {projects.map((project: Project, index: number) => (
-                      <div
-                        key={index}
-                        style={{
-                          background: t.card,
-                          borderColor: hexToHSL(t.primary!, 0.3),
-                        }}
-                        className="w-full rounded-lg border h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
-                      >
-                        <div className="flex items-center justify-center gap-2">
-                          <img
-                            src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
-                            className="w-8 h-8 rounded-full"
-                          />
-                          <div className="flex flex-col items-start justify-center gap-1">
-                            <p style={{ color: t.foreground }} className="text-xs font-semibold">
-                              {project.name}
-                            </p>
-                            <div className="flex gap-2 items-center justify-start w-full">
-                              {(() => {
-                                const currentCategory = categoryOptions.find(
-                                  (s) => s.category === project.category
-                                );
-                                return currentCategory ? (
-                                  <span
-                                    style={{
-                                      background: t.secondary,
-                                      color: t.foreground,
-                                    }}
-                                    className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
-                                  >
-                                    <span>{currentCategory.icon}</span>
-                                    <span>{currentCategory.text}</span>
-                                  </span>
-                                ) : (
-                                  <span
-                                    style={{
-                                      background: t.secondary,
-                                      color: t.foreground,
-                                    }}
-                                    className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
-                                  >
-                                    {project.category}
-                                  </span>
-                                );
-                              })()}
-                            </div>
+                          <div
+                            style={{
+                              color: hexToHSL(t.foreground!, 0.7),
+                            }}
+                            className="text-xxs font-medium"
+                          >
+                            <span className="line-clamp-3">
+                              <MarkdownParser text={startup.description} />{' '}
+                            </span>
                           </div>
                         </div>
+                      ))}
+                    </div>
+                  </TabsContent>
+                )}
+                {showProjects && (
+                  <TabsContent value="projects">
+                    <div className="space-y-2">
+                      {projects.map((project: Project, index: number) => (
                         <div
+                          key={index}
                           style={{
-                            color: hexToHSL(t.foreground!, 0.7),
+                            background: t.card,
+                            borderColor: hexToHSL(t.primary!, 0.3),
                           }}
-                          className="text-xxs font-medium"
+                          className="w-full rounded-lg border h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
                         >
-                          <span className="line-clamp-3">
-                            <MarkdownParser text={project.description} />{' '}
-                          </span>
+                          <div className="flex items-center justify-center gap-2">
+                            <img
+                              src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
+                              className="w-8 h-8 rounded-full"
+                            />
+                            <div className="flex flex-col items-start justify-center gap-1">
+                              <p style={{ color: t.foreground }} className="text-xs font-semibold">
+                                {project.name}
+                              </p>
+                              <div className="flex gap-2 items-center justify-start w-full">
+                                {(() => {
+                                  const currentCategory = categoryOptions.find(
+                                    (s) => s.category === project.category
+                                  );
+                                  return currentCategory ? (
+                                    <span
+                                      style={{
+                                        background: t.secondary,
+                                        color: t.foreground,
+                                      }}
+                                      className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
+                                    >
+                                      <span>{currentCategory.icon}</span>
+                                      <span>{currentCategory.text}</span>
+                                    </span>
+                                  ) : (
+                                    <span
+                                      style={{
+                                        background: t.secondary,
+                                        color: t.foreground,
+                                      }}
+                                      className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
+                                    >
+                                      {project.category}
+                                    </span>
+                                  );
+                                })()}
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            style={{
+                              color: hexToHSL(t.foreground!, 0.7),
+                            }}
+                            className="text-xxs font-medium"
+                          >
+                            <span className="line-clamp-3">
+                              <MarkdownParser text={project.description} />{' '}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                </TabsContent>
+                      ))}
+                    </div>
+                  </TabsContent>
+                )}
               </Tabs>
             </div>
           </div>

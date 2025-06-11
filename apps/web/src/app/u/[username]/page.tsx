@@ -17,7 +17,7 @@ import React from 'react';
 import { Info, MapPin, Link2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
 import { Popover, PopoverTrigger, PopoverContent } from '@lf/ui/components/base/popover';
-import {socialIconMap} from '@/lib/utils/iconMap';
+import { socialIconMap } from '@/lib/utils/iconMap';
 import ShareCard from './components/shareCard';
 import MarkdownParser from '@/components/general/markdownparser';
 import ProfileUrl from './components/profileUrl';
@@ -95,6 +95,10 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
 
 async function renderProfile(profile: any, startups: any, projects: any) {
   const t = profile.theme.theme_data;
+  const showExp = profile.experience.length > 0;
+  const showStartups = startups.length > 0;
+  const showProjects = projects.length > 0;
+  const defaultValue = showExp ? 'experience' : showStartups ? 'startups' : 'projects' ;
   return (
     <div
       style={{
@@ -221,7 +225,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                 </Badge>
               ))}
             </div>
-            <Tabs defaultValue="experience" className="w-full mt-4 p-4">
+            <Tabs defaultValue={defaultValue} className="w-full mt-4 p-4">
               <div className="relative rounded-sm overflow-x-scroll h-10 no_scrollbar scrollbar-hidden">
                 <TabsList
                   style={{
@@ -229,179 +233,221 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                   }}
                   className="absolute flex flex-row justify-stretch w-full"
                 >
-                  <TabsTrigger
-                    value="experience"
-                    style={
-                      {
-                        '--active-text-color': t.foreground,
-                        '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
-                        '--active-border-color': t.primary,
-                        '--background-color': t.background,
-                      } as React.CSSProperties
-                    }
-                    className="cursor-pointer flex flex-col items-center justify-center  border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                  >
-                    Experience
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="startups"
-                    style={
-                      {
-                        '--active-text-color': t.foreground,
-                        '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
-                        '--active-border-color': t.primary,
-                        '--background-color': t.background,
-                      } as React.CSSProperties
-                    }
-                    className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                  >
-                    Startups
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="projects"
-                    style={
-                      {
-                        '--active-text-color': t.foreground,
-                        '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
-                        '--active-border-color': t.primary,
-                        '--background-color': t.background,
-                      } as React.CSSProperties
-                    }
-                    className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                  >
-                    Projects
-                  </TabsTrigger>
+                  {showExp && (
+                    <TabsTrigger
+                      value="experience"
+                      style={
+                        {
+                          '--active-text-color': t.foreground,
+                          '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                          '--active-border-color': t.primary,
+                          '--background-color': t.background,
+                        } as React.CSSProperties
+                      }
+                      className="cursor-pointer flex flex-col items-center justify-center  border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                    >
+                      Experience
+                    </TabsTrigger>
+                  )}
+                  {showStartups && (
+                    <TabsTrigger
+                      value="startups"
+                      style={
+                        {
+                          '--active-text-color': t.foreground,
+                          '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                          '--active-border-color': t.primary,
+                          '--background-color': t.background,
+                        } as React.CSSProperties
+                      }
+                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                    >
+                      Startups
+                    </TabsTrigger>
+                  )}
+                  {showProjects && (
+                    <TabsTrigger
+                      value="projects"
+                      style={
+                        {
+                          '--active-text-color': t.foreground,
+                          '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                          '--active-border-color': t.primary,
+                          '--background-color': t.background,
+                        } as React.CSSProperties
+                      }
+                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                    >
+                      Projects
+                    </TabsTrigger>
+                  )}
                 </TabsList>
               </div>
-              <TabsContent value="experience">
-                {' '}
-                <div className="mt-6 pl-2 lg:pl-4">
-                  {profile.experience.map((company: any, companyIndex: any) => {
-                    const lineHeight = getLineHeightPercent(company.roles.length);
+              {showExp && (
+                <TabsContent value="experience">
+                  {' '}
+                  <div className="mt-6 pl-2 lg:pl-4">
+                    {profile.experience.map((company: any, companyIndex: any) => {
+                      const lineHeight = getLineHeightPercent(company.roles.length);
 
-                    return (
-                      <div className="group relative mb-4" key={companyIndex}>
-                        <div
-                          style={{
-                            height: lineHeight,
-                            background: t.primary,
-                          }}
-                          className="absolute w-[1.5px] top-[50px] left-[19px]"
-                        />
-                        <div className="w-full flex justify-between">
-                          <div className="flex items-center gap-2 relative">
-                            <div
-                              style={{
-                                borderColor: t.border,
-                              }}
-                              className="w-10 h-10 rounded-full border border-dashed p-0.5"
-                            >
-                              <img
-                                alt={company.company}
-                                className="cursor-pointer w-full h-full rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity flex-grow"
-                                src={
-                                  company.company_link
-                                    ? `https://www.google.com/s2/favicons?sz=128&domain_url=${company.company_link}`
-                                    : '/company.png'
-                                }
-                              />
-                            </div>
-                            <p
-                              style={{
-                                color: t?.foreground,
-                              }}
-                              className="font-bold text-base lg:text-lg truncate"
-                            >
-                              {company.company}
-                            </p>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <Info
-                                  style={{
-                                    color: t.foreground,
-                                  }}
-                                  strokeWidth={1}
-                                  size={16}
-                                  className="text-muted-foreground cursor-pointer"
-                                />
-                              </PopoverTrigger>
-                              <PopoverContent
-                                style={{
-                                  background: t.background,
-                                  color: t.foreground,
-                                  borderColor: t.border,
-                                }}
-                                className="w-80 text-xs font-medium mt-4 relative border"
-                              >
-                                <MarkdownParser text={company.contribution} />
-                              </PopoverContent>
-                            </Popover>
-                          </div>
-                        </div>
-
-                        {company.roles.map((role: any, roleIndex: any) => (
+                      return (
+                        <div className="group relative mb-4" key={companyIndex}>
                           <div
-                            key={roleIndex}
-                            className="relative w-full transition-colors duration-200 flex flex-col items-center py-4 pl-8"
-                          >
-                            <div className="w-full flex relative">
+                            style={{
+                              height: lineHeight,
+                              background: t.primary,
+                            }}
+                            className="absolute w-[1.5px] top-[50px] left-[19px]"
+                          />
+                          <div className="w-full flex justify-between">
+                            <div className="flex items-center gap-2 relative">
                               <div
                                 style={{
-                                  borderColor: t.primary!,
+                                  borderColor: t.border,
                                 }}
-                                className="w-4 h-3 border-l-2 border-b-2 rounded-bl-lg absolute -left-[13px]"
-                              />
-                              <div className="w-full flex ml-3 lg:ml-4">
-                                <div className="group w-full duration-300 ease-in-out rounded-2xl outline-none transition-shadow group b-0 ">
-                                  <div
-                                    className="w-full group flex items-center relative text-left cursor-default p-0"
-                                    role="none"
-                                  >
-                                    <div className="w-full flex flex-col gap-2">
-                                      <div className="flex items-center justify-between w-full">
-                                        <Popover>
-                                          <PopoverTrigger asChild>
-                                            <div className="w-full flex flex-col gap-1">
-                                              <div className="flex items-center gap-2 truncate overflow-hidden">
-                                                <span className="flex items-center justify-start gap-1 truncate overflow-hidden whitespace-nowrap">
-                                                  <p
-                                                    style={{
-                                                      color: t.foreground,
-                                                    }}
-                                                    className="font-semibold text-sm truncate max-w-46 sm:max-w-fit"
-                                                  >
-                                                    {role.headline}
-                                                  </p>
-                                                  <p
-                                                    style={{
-                                                      color: t.foreground,
-                                                    }}
-                                                  >
-                                                    •
-                                                  </p>
-                                                  <span
-                                                    style={{
-                                                      color: hexToHSL(t?.foreground!, 0.7),
-                                                    }}
-                                                    className="text-xs text-muted-foreground truncate max-w-16 lg:max-w-fit"
-                                                  >
-                                                    {role.employment_type}
+                                className="w-10 h-10 rounded-full border border-dashed p-0.5"
+                              >
+                                <img
+                                  alt={company.company}
+                                  className="cursor-pointer w-full h-full rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity flex-grow"
+                                  src={
+                                    company.company_link
+                                      ? `https://www.google.com/s2/favicons?sz=128&domain_url=${company.company_link}`
+                                      : '/company.png'
+                                  }
+                                />
+                              </div>
+                              <p
+                                style={{
+                                  color: t?.foreground,
+                                }}
+                                className="font-bold text-base lg:text-lg truncate"
+                              >
+                                {company.company}
+                              </p>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Info
+                                    style={{
+                                      color: t.foreground,
+                                    }}
+                                    strokeWidth={1}
+                                    size={16}
+                                    className="text-muted-foreground cursor-pointer"
+                                  />
+                                </PopoverTrigger>
+                                <PopoverContent
+                                  style={{
+                                    background: t.background,
+                                    color: t.foreground,
+                                    borderColor: t.border,
+                                  }}
+                                  className="w-80 text-xs font-medium mt-4 relative border"
+                                >
+                                  <MarkdownParser text={company.contribution} />
+                                </PopoverContent>
+                              </Popover>
+                            </div>
+                          </div>
+
+                          {company.roles.map((role: any, roleIndex: any) => (
+                            <div
+                              key={roleIndex}
+                              className="relative w-full transition-colors duration-200 flex flex-col items-center py-4 pl-8"
+                            >
+                              <div className="w-full flex relative">
+                                <div
+                                  style={{
+                                    borderColor: t.primary!,
+                                  }}
+                                  className="w-4 h-3 border-l-2 border-b-2 rounded-bl-lg absolute -left-[13px]"
+                                />
+                                <div className="w-full flex ml-3 lg:ml-4">
+                                  <div className="group w-full duration-300 ease-in-out rounded-2xl outline-none transition-shadow group b-0 ">
+                                    <div
+                                      className="w-full group flex items-center relative text-left cursor-default p-0"
+                                      role="none"
+                                    >
+                                      <div className="w-full flex flex-col gap-2">
+                                        <div className="flex items-center justify-between w-full">
+                                          <Popover>
+                                            <PopoverTrigger asChild>
+                                              <div className="w-full flex flex-col gap-1">
+                                                <div className="flex items-center gap-2 truncate overflow-hidden">
+                                                  <span className="flex items-center justify-start gap-1 truncate overflow-hidden whitespace-nowrap">
+                                                    <p
+                                                      style={{
+                                                        color: t.foreground,
+                                                      }}
+                                                      className="font-semibold text-sm truncate max-w-46 sm:max-w-fit"
+                                                    >
+                                                      {role.headline}
+                                                    </p>
+                                                    <p
+                                                      style={{
+                                                        color: t.foreground,
+                                                      }}
+                                                    >
+                                                      •
+                                                    </p>
+                                                    <span
+                                                      style={{
+                                                        color: hexToHSL(t?.foreground!, 0.7),
+                                                      }}
+                                                      className="text-xs text-muted-foreground truncate max-w-16 lg:max-w-fit"
+                                                    >
+                                                      {role.employment_type}
+                                                    </span>
                                                   </span>
-                                                </span>
+                                                </div>
+                                                <p
+                                                  style={{
+                                                    color: hexToHSL(t.foreground, 0.7),
+                                                  }}
+                                                  className="text-muted-foreground font-normal text-xs truncate overflow-hidden whitespace-nowrap max-w-58 sm:max-w-fit"
+                                                >
+                                                  <strong className="truncate overflow-hidden">
+                                                    {formatMonthShortYear(role.start_date)} -{' '}
+                                                    {role.end_date
+                                                      ? formatMonthShortYear(role.end_date)
+                                                      : 'Present'}
+                                                    {role.end_date && (
+                                                      <span className="ml-0.5">
+                                                        (
+                                                        {getMonthsDifference(
+                                                          role.start_date,
+                                                          role.end_date
+                                                        )}
+                                                        )
+                                                      </span>
+                                                    )}
+                                                    <span
+                                                      style={{
+                                                        color: t?.foreground,
+                                                      }}
+                                                      className="mx-0.5"
+                                                    >
+                                                      •
+                                                    </span>
+                                                    <span className="font-normal">
+                                                      {role.location}, {role.location_type}
+                                                    </span>
+                                                  </strong>
+                                                </p>
                                               </div>
-                                              <p
-                                                style={{
-                                                  color: hexToHSL(t.foreground, 0.7),
-                                                }}
-                                                className="text-muted-foreground font-normal text-xs truncate overflow-hidden whitespace-nowrap max-w-58 sm:max-w-fit"
-                                              >
-                                                <strong className="truncate overflow-hidden">
-                                                  {formatMonthShortYear(role.start_date)} -{' '}
+                                            </PopoverTrigger>
+                                            <PopoverContent className="text-sm font-medium block sm:hidden">
+                                              <ul className="list-disc pl-4 space-y-1">
+                                                <li>{role.headline}</li>
+                                                <li>{role.employment_type}</li>
+                                                <li>
+                                                  {formatMonthYear(role.start_date)}
+                                                  <span className="mx-1">-</span>
                                                   {role.end_date
-                                                    ? formatMonthShortYear(role.end_date)
+                                                    ? formatMonthYear(role.end_date)
                                                     : 'Present'}
                                                   {role.end_date && (
-                                                    <span className="ml-0.5">
+                                                    <span className="mx-1">
                                                       (
                                                       {getMonthsDifference(
                                                         role.start_date,
@@ -410,250 +456,220 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                                                       )
                                                     </span>
                                                   )}
-                                                  <span
-                                                    style={{
-                                                      color: t?.foreground,
-                                                    }}
-                                                    className="mx-0.5"
-                                                  >
-                                                    •
-                                                  </span>
-                                                  <span className="font-normal">
-                                                    {role.location}, {role.location_type}
-                                                  </span>
-                                                </strong>
-                                              </p>
-                                            </div>
-                                          </PopoverTrigger>
-                                          <PopoverContent className="text-sm font-medium block sm:hidden">
-                                            <ul className="list-disc pl-4 space-y-1">
-                                              <li>{role.headline}</li>
-                                              <li>{role.employment_type}</li>
-                                              <li>
-                                                {formatMonthYear(role.start_date)}
-                                                <span className="mx-1">-</span>
-                                                {role.end_date
-                                                  ? formatMonthYear(role.end_date)
-                                                  : 'Present'}
-                                                {role.end_date && (
-                                                  <span className="mx-1">
-                                                    (
-                                                    {getMonthsDifference(
-                                                      role.start_date,
-                                                      role.end_date
-                                                    )}
-                                                    )
-                                                  </span>
-                                                )}
-                                              </li>
-                                              <li>{role.location}</li>
-                                              <li>{role.location_type}</li>
-                                            </ul>
-                                          </PopoverContent>
-                                        </Popover>
+                                                </li>
+                                                <li>{role.location}</li>
+                                                <li>{role.location_type}</li>
+                                              </ul>
+                                            </PopoverContent>
+                                          </Popover>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
-                      </div>
-                    );
-                  })}
-                </div>
-              </TabsContent>
-              <TabsContent value="startups">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-6 pl-2 lg:pl-4">
-                  {startups.map((startup: Startup, index: number) => {
-                    return (
-                      <div
-                        key={index}
-                        style={{
-                          background: t?.card,
-                          borderColor: hexToHSL(t?.primary!, 0.3),
-                        }}
-                        className="min-h-34 col-span-1 w-full bg-card rounded-lg border p-3 flex flex-col gap-2 items-start justify-start"
-                      >
-                        <div className="flex items-center justify-center gap-2">
-                          <div
-                            style={{
-                              borderColor: hexToHSL(t?.primary!, 0.3),
-                            }}
-                            className="w-12 h-12 p-0.5 border rounded-full border-dashed"
-                          >
-                            <img
-                              src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
-                              className="w-full h-full rounded-full"
-                            />
-                          </div>
-                          <div className="flex flex-col items-start justify-center gap-1">
-                            <p
-                              style={{ color: t?.foreground }}
-                              className="text-base font-bold ml-1"
+                          ))}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </TabsContent>
+              )}
+              {showStartups && (
+                <TabsContent value="startups">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-6 pl-2 lg:pl-4">
+                    {startups.map((startup: Startup, index: number) => {
+                      return (
+                        <div
+                          key={index}
+                          style={{
+                            background: t?.card,
+                            borderColor: hexToHSL(t?.primary!, 0.3),
+                          }}
+                          className="min-h-34 col-span-1 w-full bg-card rounded-lg border p-3 flex flex-col gap-2 items-start justify-start"
+                        >
+                          <div className="flex items-center justify-center gap-2">
+                            <div
+                              style={{
+                                borderColor: hexToHSL(t?.primary!, 0.3),
+                              }}
+                              className="w-12 h-12 p-0.5 border rounded-full border-dashed"
                             >
-                              {startup.name}
-                            </p>
-                            <div className="flex gap-2 items-center justify-start w-full">
-                              {(() => {
-                                const currentStatus = statusOptions.find(
-                                  (s) => s.status === startup.status
-                                );
-                                return currentStatus ? (
-                                  <span
-                                    style={{
-                                      background: t?.secondary,
-                                      color: t?.foreground,
-                                    }}
-                                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs`}
-                                  >
-                                    <span>{currentStatus.icon}</span>
-                                    <span>{currentStatus.text}</span>
-                                  </span>
-                                ) : (
-                                  <span
-                                    style={{
-                                      background: t?.secondary,
-                                      color: t?.foreground,
-                                    }}
-                                    className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs"
-                                  >
-                                    {startup.status}
-                                  </span>
-                                );
-                              })()}
-                              {(() => {
-                                const currentCategory = categoryOptions.find(
-                                  (s) => s.category === startup.category
-                                );
-                                return currentCategory ? (
-                                  <span
-                                    style={{
-                                      background: t?.secondary,
-                                      color: t?.foreground,
-                                    }}
-                                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs`}
-                                  >
-                                    <span>{currentCategory.icon}</span>
-                                    <span>{currentCategory.text}</span>
-                                  </span>
-                                ) : (
-                                  <span
-                                    style={{
-                                      background: t?.secondary,
-                                      color: t?.foreground,
-                                    }}
-                                    className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs"
-                                  >
-                                    {startup.category}
-                                  </span>
-                                );
-                              })()}
+                              <img
+                                src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
+                                className="w-full h-full rounded-full"
+                              />
+                            </div>
+                            <div className="flex flex-col items-start justify-center gap-1">
+                              <p
+                                style={{ color: t?.foreground }}
+                                className="text-base font-bold ml-1"
+                              >
+                                {startup.name}
+                              </p>
+                              <div className="flex gap-2 items-center justify-start w-full">
+                                {(() => {
+                                  const currentStatus = statusOptions.find(
+                                    (s) => s.status === startup.status
+                                  );
+                                  return currentStatus ? (
+                                    <span
+                                      style={{
+                                        background: t?.secondary,
+                                        color: t?.foreground,
+                                      }}
+                                      className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs`}
+                                    >
+                                      <span>{currentStatus.icon}</span>
+                                      <span>{currentStatus.text}</span>
+                                    </span>
+                                  ) : (
+                                    <span
+                                      style={{
+                                        background: t?.secondary,
+                                        color: t?.foreground,
+                                      }}
+                                      className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs"
+                                    >
+                                      {startup.status}
+                                    </span>
+                                  );
+                                })()}
+                                {(() => {
+                                  const currentCategory = categoryOptions.find(
+                                    (s) => s.category === startup.category
+                                  );
+                                  return currentCategory ? (
+                                    <span
+                                      style={{
+                                        background: t?.secondary,
+                                        color: t?.foreground,
+                                      }}
+                                      className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs`}
+                                    >
+                                      <span>{currentCategory.icon}</span>
+                                      <span>{currentCategory.text}</span>
+                                    </span>
+                                  ) : (
+                                    <span
+                                      style={{
+                                        background: t?.secondary,
+                                        color: t?.foreground,
+                                      }}
+                                      className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs"
+                                    >
+                                      {startup.category}
+                                    </span>
+                                  );
+                                })()}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div
-                          style={{ background: hexToHSL(t?.primary!, 0.6) }}
-                          className="h-px w-full"
-                        />
-                        <div
-                          style={{
-                            color: hexToHSL(t?.foreground!, 0.7),
-                          }}
-                          className="text-sm font-medium"
-                        >
-                          <span className="line-clamp-3">
-                            <MarkdownParser text={startup.description} />
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </TabsContent>
-              <TabsContent value="projects">
-                {' '}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-6 pl-2 lg:pl-4">
-                  {projects.map((project: Project, index: number) => {
-                    return (
-                      <div
-                        key={index}
-                        style={{
-                          background: t?.card,
-                          borderColor: hexToHSL(t?.primary!, 0.3),
-                        }}
-                        className="min-h-34 col-span-1 w-full bg-card rounded-lg border p-3 flex flex-col gap-2 items-start justify-start"
-                      >
-                        <div className="flex items-center justify-center gap-2">
+                          <div
+                            style={{ background: hexToHSL(t?.primary!, 0.6) }}
+                            className="h-px w-full"
+                          />
                           <div
                             style={{
-                              borderColor: hexToHSL(t?.primary!, 0.3),
+                              color: hexToHSL(t?.foreground!, 0.7),
                             }}
-                            className="w-12 h-12 p-0.5 border rounded-full border-dashed"
+                            className="text-sm font-medium"
                           >
-                            <img
-                              src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
-                              className="w-full h-full rounded-full"
-                            />
+                            <span className="line-clamp-3">
+                              <MarkdownParser text={startup.description} />
+                            </span>
                           </div>
-                          <div className="flex flex-col items-start justify-center gap-1">
-                            <p
-                              style={{ color: t?.foreground }}
-                              className="text-base font-bold ml-1"
+                        </div>
+                      );
+                    })}
+                  </div>
+                </TabsContent>
+              )}
+              {showProjects && (
+                <TabsContent value="projects">
+                  {' '}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-6 pl-2 lg:pl-4">
+                    {projects.map((project: Project, index: number) => {
+                      return (
+                        <div
+                          key={index}
+                          style={{
+                            background: t?.card,
+                            borderColor: hexToHSL(t?.primary!, 0.3),
+                          }}
+                          className="min-h-34 col-span-1 w-full bg-card rounded-lg border p-3 flex flex-col gap-2 items-start justify-start"
+                        >
+                          <div className="flex items-center justify-center gap-2">
+                            <div
+                              style={{
+                                borderColor: hexToHSL(t?.primary!, 0.3),
+                              }}
+                              className="w-12 h-12 p-0.5 border rounded-full border-dashed"
                             >
-                              {project.name}
-                            </p>
-                            <div className="flex gap-2 items-center justify-start w-full">
-                              {(() => {
-                                const currentCategory = categoryOptions.find(
-                                  (s) => s.category === project.category
-                                );
-                                return currentCategory ? (
-                                  <span
-                                    style={{
-                                      background: t?.secondary,
-                                      color: t?.foreground,
-                                    }}
-                                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs`}
-                                  >
-                                    <span>{currentCategory.icon}</span>
-                                    <span>{currentCategory.text}</span>
-                                  </span>
-                                ) : (
-                                  <span
-                                    style={{
-                                      background: t?.secondary,
-                                      color: t?.foreground,
-                                    }}
-                                    className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs"
-                                  >
-                                    {project.category}
-                                  </span>
-                                );
-                              })()}
+                              <img
+                                src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
+                                className="w-full h-full rounded-full"
+                              />
+                            </div>
+                            <div className="flex flex-col items-start justify-center gap-1">
+                              <p
+                                style={{ color: t?.foreground }}
+                                className="text-base font-bold ml-1"
+                              >
+                                {project.name}
+                              </p>
+                              <div className="flex gap-2 items-center justify-start w-full">
+                                {(() => {
+                                  const currentCategory = categoryOptions.find(
+                                    (s) => s.category === project.category
+                                  );
+                                  return currentCategory ? (
+                                    <span
+                                      style={{
+                                        background: t?.secondary,
+                                        color: t?.foreground,
+                                      }}
+                                      className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs`}
+                                    >
+                                      <span>{currentCategory.icon}</span>
+                                      <span>{currentCategory.text}</span>
+                                    </span>
+                                  ) : (
+                                    <span
+                                      style={{
+                                        background: t?.secondary,
+                                        color: t?.foreground,
+                                      }}
+                                      className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs"
+                                    >
+                                      {project.category}
+                                    </span>
+                                  );
+                                })()}
+                              </div>
                             </div>
                           </div>
+                          <div
+                            style={{ background: hexToHSL(t?.primary!, 0.6) }}
+                            className="h-px w-full bg-primary/60"
+                          />
+                          <div
+                            style={{
+                              color: hexToHSL(t?.foreground!, 0.7),
+                            }}
+                            className="text-sm font-medium"
+                          >
+                            <span className="line-clamp-3">
+                              <MarkdownParser text={project.description} />
+                            </span>
+                          </div>
                         </div>
-                        <div
-                          style={{ background: hexToHSL(t?.primary!, 0.6) }}
-                          className="h-px w-full bg-primary/60"
-                        />
-                        <div
-                          style={{
-                            color: hexToHSL(t?.foreground!, 0.7),
-                          }}
-                          className="text-sm font-medium"
-                        >
-                          <span className="line-clamp-3">
-                            <MarkdownParser text={project.description} />
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </TabsContent>
+                      );
+                    })}
+                  </div>
+                </TabsContent>
+              )}
             </Tabs>
           </div>
         </div>
