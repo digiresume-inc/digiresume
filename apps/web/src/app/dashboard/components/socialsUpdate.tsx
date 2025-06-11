@@ -1,16 +1,16 @@
 'use client';
 import { Button } from '@lf/ui/components/base/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@lf/ui/components/base/dialog';
-import { Globe, Link2, Pencil, Plus, Trash2 } from 'lucide-react';
+import { Globe, Link2, Pencil, Plus } from 'lucide-react';
 import React, { useState } from 'react';
 import SocialsForm from '../forms/socialsForm';
-import { iconMap } from '../utils/iconMap';
+import { socialIconMap } from '@/lib/utils/iconMap';
 
 function getPlatformIcon(url: string) {
   try {
     const host = new URL(url).hostname.replace('www.', '');
-    const platform = Object.keys(iconMap).find((key) => host.includes(key.toLowerCase()));
-    const Icon = iconMap[platform || ''];
+    const platform = Object.keys(socialIconMap).find((key) => host.includes(key.toLowerCase()));
+    const Icon = socialIconMap[platform || ''];
     return Icon ? <Icon size={18} /> : <Link2 size={18} />;
   } catch {
     return <Link2 size={18} />;

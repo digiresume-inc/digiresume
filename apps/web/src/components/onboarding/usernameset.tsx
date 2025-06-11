@@ -7,7 +7,7 @@ import { IdCard, Loader2 } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { ToastSuccess } from './toast';
+import { ToastSuccess } from '@/components/general/toast';
 import { updateUsername } from '@/app/onboarding/action';
 import { motion } from 'motion/react';
 

@@ -16,10 +16,10 @@ import {
   SelectValue,
 } from '@lf/ui/components/base/select';
 import { Switch } from '@lf/ui/components/base/switch';
-import { Check, Loader2, Save, X } from 'lucide-react';
+import { Check, Loader2, Save } from 'lucide-react';
 import { Textarea } from '@lf/ui/components/base/textarea';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
-import { SkillsSelect } from '@/components/skillselect';
+import { SkillsSelect } from '@/components/dashboard/skillselect';
 
 type SingleExperience = z.infer<typeof singleExperienceSchema>;
 

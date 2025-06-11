@@ -3,7 +3,7 @@ import { formatMonthYear, singleExperienceSchema } from '@lf/utils';
 import React, { useState } from 'react';
 import { z } from 'zod';
 import { updateExperience } from '../actions/updateExperience';
-import { ToastError, ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { Button } from '@lf/ui/components/base/button';
 import { BriefcaseBusiness, CornerDownRight, Loader2, Pencil, Plus, Trash } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@lf/ui/components/base/dialog';
@@ -23,6 +23,7 @@ const ExperienceUpdate = ({ profile }: { profile: any }) => {
     company: '',
     company_link: '',
     contribution: '',
+    skills_used: [],
     roles: [
       {
         headline: '',

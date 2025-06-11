@@ -1,10 +1,9 @@
-import { FlipWords } from '@/components/flipword';
+import { FlipWords } from '@/components/homepage/flipword';
 import { cn } from '@lf/ui/lib/utils';
 import { redirect } from 'next/navigation';
 import React from 'react';
-import OnboardingForm from '@/components/onboardingform';
+import OnboardingForm from '@/components/onboarding/onboardingform';
 import { createSClient } from '@/supabase/server';
-import type { Database } from '@/lib/types/supabasetypes';
 
 const words = [
   'Startup ',

@@ -3,7 +3,6 @@ import { NewTheme } from '@lf/utils';
 import React, { useState } from 'react';
 import AvatarComponent from './components/avatar';
 import FaviconComponent from './components/favicon';
-import ResumeComponent from './components/resume';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
 import ThemeSelect from './components/themeSelect';
 import ExperienceUpdate from './components/experienceUpdate';

@@ -1,11 +1,11 @@
 'use client';
 import { Button } from '@lf/ui/components/base/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@lf/ui/components/base/dialog';
-import { Project, Startup, categoryOptions, statusOptions } from '@lf/utils';
+import { Project, Startup, categoryOptions } from '@lf/utils';
 import { Edit, GripVertical, Plus, Trash } from 'lucide-react';
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { ToastError, ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { createClient } from '@/supabase/client';
 import { useRouter } from 'next/navigation';
 import ProjectForm from './projectForm';

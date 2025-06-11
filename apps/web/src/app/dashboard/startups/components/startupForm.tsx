@@ -15,12 +15,12 @@ import {
   SelectItem,
 } from '@lf/ui/components/base/select';
 import { Checkbox } from '@lf/ui/components/base/checkbox';
-import { startupSchema, statusOptions, categoryOptions } from '@lf/utils'; // your Zod schema
-import { Startup } from '@lf/utils'; // your types
+import { startupSchema, statusOptions, categoryOptions } from '@lf/utils';
+import { Startup } from '@lf/utils';
 import { Switch } from '@lf/ui/components/base/switch';
 import { Check, Loader2, Save } from 'lucide-react';
 import { addStartup } from '../actions/addStartup';
-import { ToastError, ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { updateStartup } from '../actions/updateStartup';
 import { useRouter } from 'next/navigation';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';

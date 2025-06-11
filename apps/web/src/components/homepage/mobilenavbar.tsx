@@ -1,7 +1,6 @@
 'use client';
 
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X } from 'lucide-react';
 import { blurFade } from '@lf/utils';
 
 export default function SlideInNavbar({

@@ -28,7 +28,7 @@ import {
 
 import { IconType } from 'react-icons';
 
-export const iconMap: Record<string, IconType> = {
+export const socialIconMap: Record<string, IconType> = {
   github: SiGithub,
   linkedin: SiLinkedin,
   x: SiX,

@@ -1,9 +1,9 @@
 'use client';
-import { ToastError, ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { createClient } from '@/supabase/client';
 import { Button } from '@lf/ui/components/base/button';
-import React, { useEffect, useState } from 'react';
-import { Pencil, ImagePlus, Loader2, GlobeLock } from 'lucide-react';
+import React, { useState } from 'react';
+import { Pencil, Loader2, GlobeLock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
@@ -152,7 +152,9 @@ const FaviconUploader = ({ favicon_url }: { favicon_url: string }) => {
         className="hidden"
       />
       <p className="text-xxs text-muted-foreground mt-3 text-center">Max size: 1 MB</p>
-      <p className="text-xxs text-muted-foreground mt-1 text-center">Only .ico files are accepted</p>
+      <p className="text-xxs text-muted-foreground mt-1 text-center">
+        Only .ico files are accepted
+      </p>
     </div>
   );
 };

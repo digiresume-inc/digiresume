@@ -1,8 +1,8 @@
 'use client';
 import { NewTheme, NewThemes } from '@lf/utils';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { updateTheme } from '../actions/updateTheme';
-import { ToastError, ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/general/toast';
 
 const ThemeSelect = ({
   localTheme,

@@ -15,23 +15,20 @@ import {
 } from '@lf/utils';
 import React from 'react';
 import { Info, MapPin, Link2 } from 'lucide-react';
-import { BiRupee } from 'react-icons/bi';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
 import { Popover, PopoverTrigger, PopoverContent } from '@lf/ui/components/base/popover';
-import { iconMap } from '@/app/dashboard/utils/iconMap';
+import {socialIconMap} from '@/lib/utils/iconMap';
 import ShareCard from './components/shareCard';
-import MarkdownParser from '@/components/markdownparser';
+import MarkdownParser from '@/components/general/markdownparser';
 import ProfileUrl from './components/profileUrl';
-import Image from 'next/image';
 import ResumeDownload from './components/resumeDownload';
-import ResumePrint from './components/resumePrint';
-import DynamicImage from '@/components/dynamicImage';
+import DynamicImage from '@/components/general/dynamicImage';
 
 function getPlatformIcon(url: string) {
   try {
     const host = new URL(url).hostname.replace('www.', '');
-    const platform = Object.keys(iconMap).find((key) => host.includes(key.toLowerCase()));
-    const Icon = iconMap[platform || ''];
+    const platform = Object.keys(socialIconMap).find((key) => host.includes(key.toLowerCase()));
+    const Icon = socialIconMap[platform || ''];
     return Icon ? <Icon size={18} /> : <Link2 size={18} />;
   } catch {
     return <Link2 size={18} />;

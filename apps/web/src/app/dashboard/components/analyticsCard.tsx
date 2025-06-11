@@ -2,7 +2,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
 import { ExternalLink } from 'lucide-react';
 import React from 'react';
-import { Area, AreaChart, CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart } from 'recharts';
 import {
   ChartConfig,
   ChartContainer,

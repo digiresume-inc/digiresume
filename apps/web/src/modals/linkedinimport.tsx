@@ -7,7 +7,7 @@ import { blurFade, extractTextFromPDF, processLinkedinData } from '@lf/utils';
 import { FileWarning, Loader2 } from 'lucide-react';
 import { Input } from '@lf/ui/components/base/input';
 import { updateLinkedinData } from '@/app/onboarding/action';
-import { ToastSuccess } from '@/components/toast';
+import { ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
 
 const LinkedinImport = ({

@@ -1,6 +1,4 @@
 import { createSClient } from '@/supabase/server';
-import { Button } from '@lf/ui/components/base/button';
-import { Plus } from 'lucide-react';
 import React from 'react';
 import StartupsDisplay from './components/startupsDisplay';
 import StartupsPreviewComponent from './components/startupsPreviewComponent';

@@ -5,7 +5,6 @@ import {
   MapPin,
   SignalMedium,
   X,
-  File,
   Link2,
   Info,
   CircleHelp,
@@ -13,7 +12,6 @@ import {
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { BiRupee } from 'react-icons/bi';
 import {
   categoryOptions,
   formatMonthShortYear,
@@ -21,22 +19,21 @@ import {
   getMonthsDifference,
   hexToHSL,
   NewTheme,
-  NewThemes,
   Project,
   Skill,
   Startup,
   statusOptions,
 } from '@lf/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
-import MarkdownParser from '@/components/markdownparser';
-import { iconMap } from '../utils/iconMap';
+import MarkdownParser from '@/components/general/markdownparser';
+import { socialIconMap } from '@/lib/utils/iconMap';
 import { cn } from '@lf/ui/lib/utils';
 
 function getPlatformIcon(url: string) {
   try {
     const host = new URL(url).hostname.replace('www.', '');
-    const platform = Object.keys(iconMap).find((key) => host.includes(key.toLowerCase()));
-    const Icon = iconMap[platform || ''];
+    const platform = Object.keys(socialIconMap).find((key) => host.includes(key.toLowerCase()));
+    const Icon = socialIconMap[platform || ''];
     return Icon ? <Icon size={15} /> : <Link2 size={15} />;
   } catch {
     return <Link2 size={15} />;

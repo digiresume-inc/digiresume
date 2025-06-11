@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { createClient } from '@/supabase/client';
-import { LoadingButton } from '@/components/loadingbutton';
+import { LoadingButton } from '@/components/general/loadingbutton';
 
 export default function GoogleSignin() {
   const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);

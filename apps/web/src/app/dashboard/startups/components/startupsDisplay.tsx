@@ -6,7 +6,7 @@ import { Edit, GripVertical, Plus, Trash } from 'lucide-react';
 import React, { useState } from 'react';
 import StartupForm from './startupForm';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { ToastError, ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { createClient } from '@/supabase/client';
 import { useRouter } from 'next/navigation';
 

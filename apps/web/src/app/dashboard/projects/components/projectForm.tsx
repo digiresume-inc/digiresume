@@ -15,11 +15,9 @@ import {
   SelectItem,
 } from '@lf/ui/components/base/select';
 import { Checkbox } from '@lf/ui/components/base/checkbox';
-import { startupSchema, statusOptions, categoryOptions, Project, projectSchema } from '@lf/utils'; // your Zod schema
-import { Startup } from '@lf/utils'; // your types
-import { Switch } from '@lf/ui/components/base/switch';
+import {  categoryOptions, Project, projectSchema } from '@lf/utils';
 import { Check, Loader2, Save } from 'lucide-react';
-import { ToastError, ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
 import { addProject } from '../actions/addProject';
 import { updateProject } from '../actions/updateProject';

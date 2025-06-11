@@ -5,7 +5,7 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { updateProfile } from '../actions/updateProfile';
-import { ToastError, ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
 import {
   Building2,
@@ -22,8 +22,8 @@ import {
   User,
 } from 'lucide-react';
 import { Input } from '@lf/ui/components/base/input';
-import { CountryCombobox } from '@/components/countryselect';
-import { SkillsSelect } from '@/components/skillselect';
+import { CountryCombobox } from '@/components/dashboard/countryselect';
+import { SkillsSelect } from '@/components/dashboard/skillselect';
 import { Button } from '@lf/ui/components/base/button';
 import { extractDirty } from '../actions/extractDirty';
 import { Textarea } from '@lf/ui/components/base/textarea';

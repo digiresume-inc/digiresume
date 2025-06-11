@@ -1,5 +1,5 @@
 'use client';
-import { ToastError, ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { createClient } from '@/supabase/client';
 import { Button } from '@lf/ui/components/base/button';
 import React, { useState } from 'react';

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Loader, MoveRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import supabase from '@/supabase/supabase';

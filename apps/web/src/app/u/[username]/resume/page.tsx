@@ -1,12 +1,11 @@
 import React from 'react';
 import { JetBrains_Mono, Merriweather } from 'next/font/google';
 import { CornerDownRight, Link2, Mail, MapPin, Phone } from 'lucide-react';
-import { iconMap } from '@/app/dashboard/utils/iconMap';
-import MarkdownParser from '@/components/markdownparser';
+import { socialIconMap } from '@/lib/utils/iconMap';
+import MarkdownParser from '@/components/general/markdownparser';
 import { formatMonthShortYear, getMonthsDifference, Project, Startup } from '@lf/utils';
 import { createSClient } from '@/supabase/server';
-import Image from 'next/image';
-import DynamicImage from '@/components/dynamicImage';
+import DynamicImage from '@/components/general/dynamicImage';
 
 const jetbrains = JetBrains_Mono({
   variable: '--font-jetbrains',
@@ -22,8 +21,8 @@ const merriweather = Merriweather({
 function getPlatformIcon(url: string) {
   try {
     const host = new URL(url).hostname.replace('www.', '');
-    const platform = Object.keys(iconMap).find((key) => host.includes(key.toLowerCase()));
-    const Icon = iconMap[platform || ''];
+    const platform = Object.keys(socialIconMap).find((key) => host.includes(key.toLowerCase()));
+    const Icon = socialIconMap[platform || ''];
     return Icon ? (
       <Icon className="w-4 h-4 lg:w-4.5 lg:h-4.5" />
     ) : (

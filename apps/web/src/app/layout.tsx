@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Montserrat, Bricolage_Grotesque } from 'next/font/google';
-import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
 import HolyLoader from "holy-loader";
 

@@ -8,11 +8,10 @@ import {
   Command,
   CommandInput,
   CommandItem,
-  CommandGroup,
   CommandList,
   CommandEmpty,
 } from '@lf/ui/components/base/command';
-import { CircleHelp, Search, X } from 'lucide-react';
+import { CircleHelp, X } from 'lucide-react';
 
 type Props = {
   value: Skill[];

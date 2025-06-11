@@ -1,5 +1,5 @@
 'use client';
-import { ToastError, ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { createClient } from '@/supabase/client';
 import { Button } from '@lf/ui/components/base/button';
 import { Input } from '@lf/ui/components/base/input';
@@ -23,25 +23,24 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@lf/ui/components/base/card';
 import { Textarea } from '@lf/ui/components/base/textarea';
 import { SiLinkedin } from 'react-icons/si';
-import { SkillsSelect } from './skillselect';
+import { SkillsSelect } from '@/components/dashboard/skillselect';
 import { blurFade, blurUpFade, countries, onboardingSchema } from '@lf/utils';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitButton } from './submitbutton';
+import { SubmitButton } from '@/components/general/submitbutton';
 import { motion } from 'motion/react';
-import { CountryCombobox } from './countryselect';
+import { CountryCombobox } from '@/components/dashboard/countryselect';
 import { onboardUser } from '@/app/onboarding/action';
-import { LoadingButton } from './loadingbutton';
-import { iconMap } from '@/app/dashboard/utils/iconMap';
+import { socialIconMap } from '@/lib/utils/iconMap';
 import LinkedinImport from '@/modals/linkedinimport';
-import UsernameSet from './usernameset';
+import UsernameSet from '@/components/onboarding/usernameset';
 
 function getPlatformIcon(url: string) {
   try {
     const host = new URL(url).hostname.replace('www.', '');
-    const platform = Object.keys(iconMap).find((key) => host.includes(key.toLowerCase()));
-    const Icon = iconMap[platform || ''];
+    const platform = Object.keys(socialIconMap).find((key) => host.includes(key.toLowerCase()));
+    const Icon = socialIconMap[platform || ''];
     return Icon ? <Icon size={18} /> : <Link2 size={18} />;
   } catch {
     return <Link2 size={18} />;

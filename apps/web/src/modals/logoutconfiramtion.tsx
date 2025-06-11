@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import { logout } from '../actions/logout';
 import { Button } from '@lf/ui/components/base/button';
-import { LoadingButton } from '@/components/loadingbutton';
+import { LoadingButton } from '@/components/general/loadingbutton';
 
 const LogoutConfirmation = ({
   modal,

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { cn } from '@lf/ui/lib/utils';
-import { FlipWords } from '@/components/flipword';
-import UsernameCheck from '@/components/usernamecheck';
+import { FlipWords } from '@/components/homepage/flipword';
+import UsernameCheck from '@/components/homepage/usernamecheck';
 import { createSClient } from '@/supabase/server';
-import Navbar from '@/components/navbar';
+import Navbar from '@/components/homepage/navbar';
 
 const words = [
   'Startup ',

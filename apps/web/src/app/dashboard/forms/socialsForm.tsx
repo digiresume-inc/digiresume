@@ -6,17 +6,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Trash2, Link2, Plus, Save, Loader2 } from 'lucide-react';
 import { Input } from '@lf/ui/components/base/input';
 import { Button } from '@lf/ui/components/base/button';
-import { socialsSchema, SocialsSchema } from '@lf/utils'; // Import your schema
-import { iconMap } from '../utils/iconMap';
+import { socialsSchema, SocialsSchema } from '@lf/utils';
+import { socialIconMap } from '@/lib/utils/iconMap';
 import { updateSocials } from '../actions/updateSocials';
-import { ToastError, ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
 
 function getPlatformIcon(url: string) {
   try {
     const host = new URL(url).hostname.replace('www.', '');
-    const platform = Object.keys(iconMap).find((key) => host.includes(key.toLowerCase()));
-    const Icon = iconMap[platform || ''];
+    const platform = Object.keys(socialIconMap).find((key) => host.includes(key.toLowerCase()));
+    const Icon = socialIconMap[platform || ''];
     return Icon ? <Icon size={18} /> : <Link2 size={18} />;
   } catch {
     return <Link2 size={18} />;

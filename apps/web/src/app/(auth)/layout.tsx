@@ -1,4 +1,4 @@
-import { FlipWords } from '@/components/flipword';
+import { FlipWords } from '@/components/homepage/flipword';
 import { cn } from '@lf/ui/lib/utils';
 import React from 'react';
 

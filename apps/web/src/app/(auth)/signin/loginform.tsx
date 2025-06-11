@@ -10,15 +10,13 @@ import { loginUser } from './action';
 import {
   Card,
   CardHeader,
-  CardTitle,
-  CardDescription,
   CardContent,
 } from '@lf/ui/components/base/card';
 import { Label } from '@lf/ui/components/base/label';
 import { Input } from '@lf/ui/components/base/input';
-import { SubmitButton } from '@/components/submitbutton';
+import { SubmitButton } from '@/components/general/submitbutton';
 import GoogleSignin from './googlesignin';
-import { ToastError, ToastSuccess } from '@/components/toast';
+import { ToastError, ToastSuccess } from '@/components/general/toast';
 
 const LoginForm = ({ username }: { username: string | string[] }) => {
   useEffect(() => {
