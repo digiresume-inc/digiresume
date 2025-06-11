@@ -3,7 +3,7 @@ export type Skill = {
   label: string;
   value: string;
   logo: string; // URL or local path
-  category: 'Language' | 'Framework' | 'Tool' | 'Database' | 'Design' | 'Cloud' | 'Custom';
+  category: string;
 };
 
 export const skills: Skill[] = [
@@ -128,6 +128,12 @@ export const skills: Skill[] = [
     logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg',
     category: 'Language',
   },
+  {
+    label: 'GraphQL',
+    value: 'graphql',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg',
+    category: 'Language',
+  },
 
   // FRAMEWORKS
   {
@@ -190,6 +196,12 @@ export const skills: Skill[] = [
     label: 'Ionic',
     value: 'ionic',
     logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ionic/ionic-original.svg',
+    category: 'Framework',
+  },
+  {
+    label: 'Tailwind CSS',
+    value: 'tailwindcss',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/deviCon/icons/tailwindcss/tailwindcss-original.svg',
     category: 'Framework',
   },
 
@@ -494,5 +506,92 @@ export const skills: Skill[] = [
     value: 'canva',
     logo: 'https://cdn.worldvectorlogo.com/logos/canva-1.svg',
     category: 'Design',
+  },
+
+  // cybersecurity
+
+  {
+    label: 'Metasploit',
+    value: 'metasploit',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Logo_metasploit.png',
+    category: 'Cybersecurity',
+  },
+  {
+    label: 'Wireshark',
+    value: 'wireshark',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c6/Wireshark_icon_new.png',
+    category: 'Cybersecurity',
+  },
+  {
+    label: 'Nmap',
+    value: 'nmap',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/7/73/Logo_nmap.png',
+    category: 'Cybersecurity',
+  },
+  {
+    label: 'Burp Suite',
+    value: 'burpsuite',
+    logo: 'https://www.kali.org/tools/burpsuite/images/burpsuite-logo.svg',
+    category: 'Cybersecurity',
+  },
+  {
+    label: 'OWASP ZAP',
+    value: 'owasp-zap',
+    logo: 'https://logos.bugcrowdusercontent.com/logos/2376/fdfa/651b17be/051e0245d787d1f71246d515e88a8564_zap256x256-oversize.png',
+    category: 'Cybersecurity',
+  },
+  {
+    label: 'Kali Linux',
+    value: 'kali-linux',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/2/2b/Kali-dragon-icon.svg',
+    category: 'Cybersecurity',
+  },
+  {
+    label: 'Snort',
+    value: 'snort',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/b/b7/Logo_snort.jpg',
+    category: 'Cybersecurity',
+  },
+  {
+    label: 'Suricata',
+    value: 'suricata',
+    logo: 'https://suricata.io/wp-content/uploads/2021/01/cropped-favicon.png',
+    category: 'Cybersecurity',
+  },
+  {
+    label: 'OpenVAS',
+    value: 'openvas',
+    logo: 'https://forum.greenbone.net/uploads/default/original/1X/45982934a730d1824bc403f78875b77a8dfc1ae0.png',
+    category: 'Cybersecurity',
+  },
+  {
+    label: 'Maltego',
+    value: 'maltego',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Maltego-Logo.jpg',
+    category: 'Cybersecurity',
+  },
+  {
+    label: 'Autopsy',
+    value: 'autopsy',
+    logo: 'https://avatars.githubusercontent.com/u/866922?v=4',
+    category: 'Cybersecurity',
+  },
+  {
+    label: 'Hashcat',
+    value: 'hashcat',
+    logo: 'https://www.kali.org/tools/hashcat/images/hashcat-logo.svg',
+    category: 'Cybersecurity',
+  },
+  {
+    label: 'Aircrack-ng',
+    value: 'aircrack-ng',
+    logo: 'https://cdn.prod.website-files.com/64c2362fbaf5db5f0fbefd68/655758f4a0cc090fa19e5847_aircrack-ng-logo.svg',
+    category: 'Cybersecurity',
+  },
+  {
+    label: 'ClamAV',
+    value: 'clamav',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f2/ClamAV_Logo.png',
+    category: 'Cybersecurity',
   },
 ];

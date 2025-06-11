@@ -219,19 +219,18 @@ export default async function Resume({ params }: { params: Promise<{ username: s
                             return (
                               <span
                                 key={idx}
-                                className="flex flex-col lg:flex-row items-start justify-center lg:justify-between text-black/90"
-                                aria-label={`Employment period: ${role.start_date + 'to' + role.end_date || 'Present'}`}
+                                className="flex flex-col lg:flex-row lg:items-center lg:justify-between text-black/90 gap-y-1"
                               >
-                                <h4
-                                  key={idx}
-                                  className="jetbrains text-xs lg:text-sm font-semibold leading-none print:text-[12px] flex items-center gap-2"
-                                >
-                                  <CornerDownRight strokeWidth={1} size={16} /> {role.headline}{' '}
+                                <h4 className="jetbrains text-xs lg:text-sm font-semibold leading-none print:text-[12px] flex items-center gap-1 flex-wrap">
+                                  <CornerDownRight strokeWidth={1} size={16} />
+                                  <span className="flex-1 min-w-0">
+                                    {role.headline || 'No role specified.'}
+                                  </span>
                                   <span className="inline-flex items-center rounded-lg border px-1 lg:px-2 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent cursor-default bg-gray-300/70 text-black hover:bg-gray-300/50 align-middle text-xxs lg:text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
                                     {role.location_type}
                                   </span>
                                 </h4>
-                                <p className="mt-1 lg:mt-0 pl-6 lg:pl-0 jetbrains text-black/70 text-xs font-medium tracking-tight lg:tracking-normal leading-none print:text-[10px]">
+                                <p className="mt-1 lg:mt-0 pl-6 lg:pl-0 jetbrains text-black/70 text-xs font-medium tracking-tight lg:tracking-normal leading-none print:text-[10px] flex-shrink-0">
                                   {formatMonthShortYear(role.start_date)} -{' '}
                                   {role.end_date ? formatMonthShortYear(role.end_date) : 'Present'}
                                   {role.end_date && (
@@ -249,29 +248,31 @@ export default async function Resume({ params }: { params: Promise<{ username: s
                         <div className="mt-4 text-xs text-black/80 print:mt-1 print:text-[10px] text-pretty">
                           <MarkdownParser text={exp.contribution} />
                         </div>
-                        <div className="mt-2">
-                          <ul
-                            className="inline-flex list-none pl-0.5 lg:pl-2 flex-wrap gap-1"
-                            aria-label="Technologies used"
-                          >
-                            {exp.skills_used.map((skill: any, index: number) => {
-                              return (
-                                <li key={index} aria-label={`Skill: ${skill.label}`}>
-                                  <div className="cursor-default flex items-center rounded-md border px-1.5 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 align-middle text-xxs lg:text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                                    {skill.logo && (
-                                      <img
-                                        src={skill.logo}
-                                        alt={`${skill.label} logo`}
-                                        className="mr-0.5 h-3 w-3 rounded grayscale"
-                                      />
-                                    )}
-                                    {skill.label}
-                                  </div>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
+                        {exp.skills_used.length > 0 && (
+                          <div className="mt-2">
+                            <ul
+                              className="inline-flex list-none pl-0.5 lg:pl-2 flex-wrap gap-1"
+                              aria-label="Technologies used"
+                            >
+                              {exp.skills_used.map((skill: any, index: number) => {
+                                return (
+                                  <li key={index} aria-label={`Skill: ${skill.label}`}>
+                                    <div className="cursor-default flex items-center rounded-md border px-1.5 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 align-middle text-xxs lg:text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                      {skill.logo && (
+                                        <img
+                                          src={skill.logo}
+                                          alt={`${skill.label} logo`}
+                                          className="mr-0.5 h-3 w-3 rounded grayscale"
+                                        />
+                                      )}
+                                      {skill.label}
+                                    </div>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </article>
@@ -308,7 +309,7 @@ export default async function Resume({ params }: { params: Promise<{ username: s
                             : 'Present'}
                         </p>
                       </div>
-                      <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-2 justify-between">
                         <div
                           className="text-pretty jetbrains text-xs lg:text-sm text-black/80 print:text-[12px] flex-1 min-w-0"
                           aria-labelledby={`education-${profile.education.university.replace(/\s+/g, '-').toLowerCase()}`}

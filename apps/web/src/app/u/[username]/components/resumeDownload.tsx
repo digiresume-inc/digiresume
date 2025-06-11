@@ -2,15 +2,18 @@
 import { Button } from '@lf/ui/components/base/button';
 import { hexToHSL } from '@lf/utils';
 import { Download } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
 import React from 'react';
 
 const ResumeDownload = ({ t }: { t: any }) => {
+  const router = useRouter();
+  const pathname = usePathname();
   return (
     <Button
       variant={'outline'}
       size={'icon'}
       onClick={() => {
-        window.print();
+        router.push(`${pathname}/resume`);
       }}
       style={
         {

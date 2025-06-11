@@ -45,7 +45,7 @@ const skillSchema = z.object({
   label: z.string(),
   value: z.string(),
   logo: z.string().url().or(z.string()),
-  category: z.enum(['Language', 'Framework', 'Tool', 'Database', 'Design', 'Cloud', 'Custom']),
+  category:   z.string().min(1, { message: 'Skill category is required' }),
 });
 
 export const usernameSchema = z.object({
