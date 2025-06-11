@@ -1,5 +1,4 @@
 'use client';
-import { NewTheme } from '@lf/utils';
 import React, { useState } from 'react';
 import AvatarComponent from './components/avatar';
 import FaviconComponent from './components/favicon';
@@ -14,19 +13,24 @@ import AnalyticsCard from './components/analyticsCard';
 import { Button } from '@lf/ui/components/base/button';
 import { LogOut } from 'lucide-react';
 import LogoutConfirmation from '@/modals/logoutconfiramtion';
+import type { Database, Theme } from '@/lib/types/supabasetypes';
+
+type Profile = Database['public']['Tables']['profiles']['Row'];
+type Startup = Database['public']['Tables']['startups']['Row'];
+type Project = Database['public']['Tables']['projects']['Row'];
 
 const DashboardHome = ({
   profile,
   startups,
   projects,
 }: {
-  profile: any;
-  startups: any;
-  projects: any;
+  profile: Profile;
+  startups: Startup[];
+  projects: Project[];
 }) => {
   const [preview, setPreview] = useState(false);
-  const [localTheme, setLocalTheme] = useState<NewTheme | null>(profile.theme);
-    const [logoutModal, setLogoutModal] = useState(false);
+  const [localTheme, setLocalTheme] = useState<Theme>(profile.theme);
+  const [logoutModal, setLogoutModal] = useState(false);
 
   return (
     <>

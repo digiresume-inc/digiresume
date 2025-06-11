@@ -8,6 +8,10 @@ export default async function Startups() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  if(!user){
+    return <div>no user found</div>
+  }
   const { data: startups, error } = await supabase
     .from('startups')
     .select('*')

@@ -14,6 +14,7 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
   const supabase = createClient();
   const [startupDraggingItemId, setStartupDraggingItemId] = useState<string | null>(null);
   const emptyStartup: Startup = {
+    id: '',
     index: startups.length + 1,
     name: '',
     description: '',

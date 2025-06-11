@@ -31,6 +31,10 @@ const FaviconUploader = ({ favicon_url }: { favicon_url: string }) => {
         data: { user },
       } = await supabase.auth.getUser();
 
+      if(!user) {
+        return;
+      }
+
       if (favicon_url) {
         const oldFilePath = favicon_url.split(
           `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/userfavicons/`

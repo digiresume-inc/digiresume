@@ -28,8 +28,12 @@ import { Button } from '@lf/ui/components/base/button';
 import { extractDirty } from '../actions/extractDirty';
 import { Textarea } from '@lf/ui/components/base/textarea';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
+import type { Database } from '@/lib/types/supabasetypes';
 
-const ProfileUpdate = ({ profile }: { profile: any }) => {
+type Profile = Database['public']['Tables']['profiles']['Row'];
+
+
+const ProfileUpdate = ({ profile }: { profile: Profile }) => {
   const form = useForm<z.infer<typeof profileUpdateSchema>>({
     resolver: zodResolver(profileUpdateSchema),
     defaultValues: profile,
@@ -41,6 +45,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
     reset,
     formState: { isDirty, isSubmitting },
   } = form;
+
   const onSubmit = async (data: z.infer<typeof profileUpdateSchema>) => {
     const dirtyFields = form.formState.dirtyFields;
     const changedData: Partial<typeof data> = {};
@@ -170,12 +175,17 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
 
               <div className="flex flex-col gap-2 lg:flex-row lg:items-start">
                 <div className="w-full lg:w-1/3">
-                  <span className="flex items-center gap-2 text-sm p-2 rounded-md border">
+                  <span className="flex items-center gap-2 text-sm p-2 rounded-md border min-h-9">
                     {form.watch('country')}
-                    <img className="w-4" src={`https://flagsapi.com/${form.watch('country').split('-')[1]}/flat/64.png`} />
+                    {form.watch('country') && (
+                      <img
+                        className="w-4"
+                        src={`https://flagsapi.com/${form.watch('country').split('-')[1]}/flat/64.png`}
+                      />
+                    )}
                   </span>
                 </div>
-                <div className='my-auto font-bold hidden lg:block'>/</div>
+                <div className="my-auto font-bold hidden lg:block">/</div>
                 <div className="w-full lg:w-1/3">
                   <Input
                     type="text"
@@ -189,7 +199,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
                     </p>
                   )}
                 </div>
-                <div className='my-auto font-bold hidden lg:block'>/</div>
+                <div className="my-auto font-bold hidden lg:block">/</div>
                 <div className="w-full lg:w-1/3">
                   <Input
                     type="text"

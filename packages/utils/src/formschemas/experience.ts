@@ -4,7 +4,7 @@ const skillSchema = z.object({
   label: z.string(),
   value: z.string(),
   logo: z.string().url().or(z.string()),
-  category:   z.string().min(1, { message: 'Skill category is required' }),
+  category: z.string().min(1, { message: 'Skill category is required' }),
 });
 
 // Custom date regex: MM/YYYY (e.g. 08/2023)
@@ -29,15 +29,12 @@ const roleSchema = z
     start_date: z
       .string()
       .regex(monthYearRegex, { message: 'Start date must be in MM/YYYY format' }),
-    end_date: z
-      .string()
-      .optional()
-      .refine((val) => !val || monthYearRegex.test(val), {
-        message: 'End date must be in MM/YYYY format',
-      }),
+    end_date: z.string().refine((val) => !val || monthYearRegex.test(val), {
+      message: 'End date must be in MM/YYYY format',
+    }),
     location: z.string().min(1, 'Location is required'),
     location_type: locationTypeEnum,
-    currently_working: z.boolean().optional(),
+    currently_working: z.boolean(),
   })
   .refine((data) => data.currently_working || !!data.end_date, {
     message: 'End date is required if not currently working',

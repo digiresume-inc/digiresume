@@ -17,7 +17,7 @@ const categoryValues = z.enum([
 ]);
 
 export const projectSchema = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   index: z.number().nonnegative(),
   name: z.string().min(1, { message: 'Project Name is required' }),
   description: z

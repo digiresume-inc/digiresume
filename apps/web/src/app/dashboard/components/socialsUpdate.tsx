@@ -5,6 +5,9 @@ import { Globe, Link2, Pencil, Plus } from 'lucide-react';
 import React, { useState } from 'react';
 import SocialsForm from '../forms/socialsForm';
 import { socialIconMap } from '@/lib/utils/iconMap';
+import type { Database, Social } from '@/lib/types/supabasetypes';
+
+type Profile = Database['public']['Tables']['profiles']['Row'];
 
 function getPlatformIcon(url: string) {
   try {
@@ -17,13 +20,13 @@ function getPlatformIcon(url: string) {
   }
 }
 
-const SocialsUpdate = ({ profile }: { profile: any }) => {
+const SocialsUpdate = ({ profile }: { profile: Profile }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
       {profile.socials.length > 0 ? (
         <div className="flex flex-col gap-2 px-4">
-          {profile.socials.map((social: any, index: number) => {
+          {profile.socials.map((social: Social, index: number) => {
             const Icon = getPlatformIcon(social.url);
             return (
               <div

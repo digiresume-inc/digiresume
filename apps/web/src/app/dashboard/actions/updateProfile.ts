@@ -11,20 +11,26 @@ export async function updateProfile(data: z.infer<typeof profileUpdateSchema>) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const {error: updateError} = await supabase
-  .from('profiles')
-  .update({
-    ...data
-  })
-  .eq('id', user?.id);
+  if (!user) {
+    return {
+      success: false,
+      message: `Authentication error. User not found.`,
+    };
+  }
 
-  if(updateError) {
+  const { error: updateError } = await supabase
+    .from('profiles')
+    .update({
+      ...data,
+    })
+    .eq('id', user?.id);
+
+  if (updateError) {
     return {
       success: false,
       message: `Profile Update error. ${updateError.message}`,
-    }
+    };
   }
-
 
   return {
     success: true,

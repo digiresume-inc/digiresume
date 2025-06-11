@@ -1,13 +1,20 @@
 'use server';
 
+import { Theme } from '@/lib/types/supabasetypes';
 import { createSClient } from '@/supabase/server';
-import { Theme } from '@lf/utils';
 
 export async function updateTheme(data: Theme) {
   const supabase = createSClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      success: false,
+      message: `Authentication error. User not found.`,
+    };
+  }
 
   const { error: updateError } = await supabase
     .from('profiles')

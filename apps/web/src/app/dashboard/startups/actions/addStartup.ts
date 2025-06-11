@@ -9,9 +9,18 @@ export async function addStartup(data: Startup) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    return {
+      success: false,
+      message: `Authentication error. User not found.`,
+    };
+  }
+
+  const {id, ...restData} = data
+
   const { error: addError } = await supabase.from('startups').insert({
     user_id: user?.id,
-    ...data,
+    ...restData,
   });
 
   if (addError) {

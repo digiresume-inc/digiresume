@@ -1,13 +1,13 @@
 'use client';
 import { Button } from '@lf/ui/components/base/button';
 import { Tabs, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
-import { NewTheme, NewThemes } from '@lf/utils';
+import { Theme, Themes } from '@lf/utils';
 import { ArrowDown, ArrowUp, Smile } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 const ThemesTest = () => {
   const [counter, setCounter] = useState(0);
-  const [theme, setTheme] = useState<NewTheme>(NewThemes[counter] as NewTheme);
+  const [theme, setTheme] = useState<Theme>(Themes[counter] as Theme);
 
   function hexToHSL(hex: string, alpha = 1): string {
     hex = hex.replace('#', '');
@@ -43,7 +43,7 @@ const ThemesTest = () => {
   }
 
   useEffect(() => {
-    setTheme(NewThemes[counter] as NewTheme);
+    setTheme(Themes[counter] as Theme);
   }, [counter]);
 
   return (
@@ -66,9 +66,9 @@ const ThemesTest = () => {
               color: theme.theme_data.foreground,
               border: hexToHSL(theme.theme_data.primary, 0.3),
             }}
-            disabled={counter === NewThemes.length - 1}
+            disabled={counter === Themes.length - 1}
             onClick={() => {
-              if (counter < NewThemes.length - 1) {
+              if (counter < Themes.length - 1) {
                 setCounter(counter + 1);
               }
             }}

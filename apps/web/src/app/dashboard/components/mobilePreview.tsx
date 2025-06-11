@@ -18,9 +18,7 @@ import {
   getLineHeightPercent,
   getMonthsDifference,
   hexToHSL,
-  NewTheme,
   Project,
-  Skill,
   Startup,
   statusOptions,
 } from '@lf/utils';
@@ -28,6 +26,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base
 import MarkdownParser from '@/components/general/markdownparser';
 import { socialIconMap } from '@/lib/utils/iconMap';
 import { cn } from '@lf/ui/lib/utils';
+import type { Database, Experience, Skill, Social, Theme } from '@/lib/types/supabasetypes';
+
+type Profile = Database['public']['Tables']['profiles']['Row'];
 
 function getPlatformIcon(url: string) {
   try {
@@ -50,10 +51,10 @@ const MobilePreview = ({
 }: {
   preview: boolean;
   setPreview: React.Dispatch<React.SetStateAction<boolean>>;
-  profile: any;
+  profile: Profile;
   startups: any;
   projects: any;
-  theme: NewTheme | null;
+  theme: Theme;
 }) => {
   const t = theme?.theme_data;
   return (
@@ -98,7 +99,7 @@ const MobilePreview = ({
           {/* iPhone Screen */}
           <div
             style={{
-              background: t?.background,
+              background: t.background,
             }}
             className="w-[270px] h-[590px] rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar"
           >
@@ -106,7 +107,7 @@ const MobilePreview = ({
             <div className="p-4 space-y-2">
               <div
                 style={{
-                  background: hexToHSL(t?.secondary!, 0.5),
+                  background: hexToHSL(t.secondary!, 0.5),
                 }}
                 className="w-full rounded-full h-6 flex items-center justify-between px-2"
               >
@@ -123,7 +124,7 @@ const MobilePreview = ({
                   <span title="No custom favicon">
                     <CircleHelp
                       style={{
-                        color: t?.foreground,
+                        color: t.foreground,
                       }}
                       strokeWidth={1}
                       className="h-4 w-4"
@@ -132,7 +133,7 @@ const MobilePreview = ({
                 )}
                 <p
                   style={{
-                    color: t?.foreground,
+                    color: t.foreground,
                   }}
                   className="text-xs"
                 >
@@ -141,7 +142,7 @@ const MobilePreview = ({
                 <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/u/${profile.username}`}>
                   <ExternalLink
                     style={{
-                      color: t?.foreground,
+                      color: t.foreground,
                     }}
                     strokeWidth={1.5}
                     size={14}
@@ -152,13 +153,13 @@ const MobilePreview = ({
               <div className="h-1 w-full" />
 
               <div className="flex items-center justify-start gap-2">
-                <div
-                  style={{
-                    borderColor: t?.border,
-                  }}
-                  className="w-12 h-12 p-0.5 border border-dashed rounded-md"
-                >
-                  {profile.avatar_url && (
+                {profile.avatar_url && (
+                  <div
+                    style={{
+                      borderColor: t.border,
+                    }}
+                    className="w-12 h-12 p-0.5 border border-dashed rounded-md"
+                  >
                     <Image
                       alt="Profile Image"
                       width={48}
@@ -166,12 +167,12 @@ const MobilePreview = ({
                       className="w-full h-full rounded-md object-cover"
                       src={profile.avatar_url}
                     />
-                  )}
-                </div>
+                  </div>
+                )}
                 <div className="flex flex-col items-start justify-center gap-1">
                   <p
                     style={{
-                      color: t?.foreground,
+                      color: t.foreground,
                     }}
                     className="text-sm font-semibold"
                   >
@@ -180,7 +181,7 @@ const MobilePreview = ({
                   {profile.country && (
                     <p
                       style={{
-                        color: hexToHSL(t?.foreground!, 0.7),
+                        color: hexToHSL(t.foreground!, 0.7),
                       }}
                       className="flex flex-wrap items-center text-xs font-medium gap-0.5"
                     >
@@ -192,51 +193,55 @@ const MobilePreview = ({
                         src={`https://flagsapi.com/${profile.country.split('-')[1]}/flat/64.png`}
                         referrerPolicy="no-referrer"
                       />
-                      <span className='font-medium mx-1'>/</span>
+                      <span className="font-medium mx-1">/</span>
                       {profile.geo_info.city}
                     </p>
                   )}
                 </div>
               </div>
               <div className="flex flex-col items-start justify-center px-2 py-1">
-                <h1
-                  style={{
-                    color: t?.foreground,
-                  }}
-                  className="text-xs font-bold"
-                >
-                  {profile.headline}
-                </h1>
-                <p
-                  style={{
-                    color: hexToHSL(t?.foreground!, 0.7),
-                  }}
-                  className="text-xxs text-muted-foreground"
-                >
-                  at{' '}
-                  <span
+                {profile.headline && (
+                  <h1
                     style={{
-                      color: hexToHSL(t?.foreground!, 0.8),
+                      color: t.foreground,
                     }}
-                    className="font-semibold"
+                    className="text-xs font-bold"
                   >
-                    @{profile.company}
-                  </span>{' '}
-                  · {profile.education.university} Alumni
-                </p>
+                    {profile.headline}
+                  </h1>
+                )}
+                {profile.company && profile.education.university && (
+                  <p
+                    style={{
+                      color: hexToHSL(t.foreground!, 0.7),
+                    }}
+                    className="text-xxs text-muted-foreground"
+                  >
+                    at{' '}
+                    <span
+                      style={{
+                        color: hexToHSL(t.foreground!, 0.8),
+                      }}
+                      className="font-semibold"
+                    >
+                      @{profile.company}
+                    </span>{' '}
+                    · {profile.education.university} Alumni
+                  </p>
+                )}
               </div>
               <div className="flex items-center justify-start text-xxs gap-2 mb-3 px-2 pb-1">
-                {profile.profile_link?.url && profile.profile_link.text && (
+                {profile.profile_link.url && profile.profile_link.text && (
                   <div
                     style={{
-                      color: hexToHSL(t?.foreground!, 0.7),
+                      color: hexToHSL(t.foreground!, 0.7),
                     }}
                   >
                     <a
                       target="_blank"
                       href={profile.profile_link.url}
                       style={{
-                        borderColor: hexToHSL(t?.primary!),
+                        borderColor: hexToHSL(t.primary!),
                       }}
                       className={`changeon_hover cursor-pointer w-fit flex items-center gap-0.5 border-b-2 border-dashed transition-colors`}
                     >
@@ -245,20 +250,20 @@ const MobilePreview = ({
                     </a>
                     <style jsx>{`
                       .changeon_hover:hover {
-                        color: ${hexToHSL(t?.foreground!)};
-                        border-color: ${hexToHSL(t?.primary!)};
+                        color: ${hexToHSL(t.foreground!)};
+                        border-color: ${hexToHSL(t.primary!)};
                       }
                     `}</style>
                   </div>
                 )}
               </div>
               <div className="flex flex-wrap items-center justify-start gap-1 px-2">
-                {profile.skills?.map((skill: Skill) => (
+                {profile.skills.map((skill: Skill, index: number) => (
                   <div
-                    key={skill.value}
+                    key={index}
                     style={{
-                      background: t?.secondary,
-                      color: t?.foreground,
+                      background: t.secondary,
+                      color: t.foreground,
                     }}
                     className="flex items-center font-medium justify-center gap-1 rounded-full px-2 py-0.5 text-tiny"
                   >
@@ -271,16 +276,16 @@ const MobilePreview = ({
               </div>
               {profile.socials.length > 0 && (
                 <div className="gap-1 flex flex-wrap items-center justify-start p-2">
-                  {profile.socials.map((social: any, index: number) => {
+                  {profile.socials.map((social: Social, index: number) => {
                     const icon = getPlatformIcon(social.url);
                     return (
                       <a
                         style={
                           {
-                            color: t?.foreground,
-                            borderColor: hexToHSL(t?.primary!, 0.5),
-                            '--hover-background': hexToHSL(t?.secondary!, 0.5),
-                            '--hover-border': hexToHSL(t?.primary!, 0.6),
+                            color: t.foreground,
+                            borderColor: hexToHSL(t.primary!, 0.5),
+                            '--hover-background': hexToHSL(t.secondary!, 0.5),
+                            '--hover-border': hexToHSL(t.primary!, 0.6),
                           } as React.CSSProperties
                         }
                         target="_blank"
@@ -298,7 +303,7 @@ const MobilePreview = ({
                 <div className="relative rounded-sm overflow-x-scroll h-10 no_scrollbar scrollbar-hidden">
                   <TabsList
                     style={{
-                      background: t?.background,
+                      background: t.background,
                     }}
                     className="absolute flex flex-row justify-stretch w-full"
                   >
@@ -306,10 +311,10 @@ const MobilePreview = ({
                       value="experience"
                       style={
                         {
-                          '--active-text-color': t?.foreground,
-                          '--inactive-text-color': hexToHSL(t?.foreground!, 0.7),
-                          '--active-border-color': t?.primary,
-                          '--background-color': t?.background,
+                          '--active-text-color': t.foreground,
+                          '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                          '--active-border-color': t.primary,
+                          '--background-color': t.background,
                         } as React.CSSProperties
                       }
                       className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
@@ -320,10 +325,10 @@ const MobilePreview = ({
                       value="startups"
                       style={
                         {
-                          '--active-text-color': t?.foreground,
-                          '--inactive-text-color': hexToHSL(t?.foreground!, 0.7),
-                          '--active-border-color': t?.primary,
-                          '--background-color': t?.background,
+                          '--active-text-color': t.foreground,
+                          '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                          '--active-border-color': t.primary,
+                          '--background-color': t.background,
                         } as React.CSSProperties
                       }
                       className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
@@ -334,10 +339,10 @@ const MobilePreview = ({
                       value="projects"
                       style={
                         {
-                          '--active-text-color': t?.foreground,
-                          '--inactive-text-color': hexToHSL(t?.foreground!, 0.7),
-                          '--active-border-color': t?.primary,
-                          '--background-color': t?.background,
+                          '--active-text-color': t.foreground,
+                          '--inactive-text-color': hexToHSL(t.foreground!, 0.7),
+                          '--active-border-color': t.primary,
+                          '--background-color': t.background,
                         } as React.CSSProperties
                       }
                       className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[2.5px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[5px] pt-2 text-xxs font-semibold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
@@ -348,7 +353,7 @@ const MobilePreview = ({
                 </div>
                 <TabsContent value="experience">
                   <div className="mt-2">
-                    {profile.experience.map((company: any, companyIndex: any) => {
+                    {profile.experience.map((company: Experience, companyIndex: number) => {
                       const lineHeight = getLineHeightPercent(company.roles.length);
 
                       return (
@@ -356,7 +361,7 @@ const MobilePreview = ({
                           <div
                             style={{
                               height: lineHeight,
-                              background: t?.primary,
+                              background: t.primary,
                             }}
                             className="absolute w-[1.5px] top-[34px] left-[15px]"
                           />
@@ -373,7 +378,7 @@ const MobilePreview = ({
                               />
                               <p
                                 style={{
-                                  color: t?.foreground,
+                                  color: t.foreground,
                                 }}
                                 className="font-bold text-xs truncate"
                               >
@@ -381,7 +386,7 @@ const MobilePreview = ({
                               </p>
                               <Info
                                 style={{
-                                  color: t?.foreground,
+                                  color: t.foreground,
                                 }}
                                 strokeWidth={1}
                                 size={10}
@@ -398,7 +403,7 @@ const MobilePreview = ({
                               <div className="w-full flex relative">
                                 <div
                                   style={{
-                                    borderColor: t?.primary!,
+                                    borderColor: t.primary!,
                                   }}
                                   className="w-4 h-3 border-l-2 border-b-2 rounded-bl-lg absolute -left-[13px]"
                                 />
@@ -415,7 +420,7 @@ const MobilePreview = ({
                                               <span className="flex items-center justify-start gap-1 truncate overflow-hidden whitespace-nowrap">
                                                 <p
                                                   style={{
-                                                    color: t?.foreground,
+                                                    color: t.foreground,
                                                   }}
                                                   className="font-semibold text-xxs truncate max-w-46 sm:max-w-fit"
                                                 >
@@ -423,14 +428,14 @@ const MobilePreview = ({
                                                 </p>
                                                 <p
                                                   style={{
-                                                    color: t?.foreground,
+                                                    color: t.foreground,
                                                   }}
                                                 >
                                                   •
                                                 </p>
                                                 <span
                                                   style={{
-                                                    color: hexToHSL(t?.foreground!, 0.7),
+                                                    color: hexToHSL(t.foreground!, 0.7),
                                                   }}
                                                   className="text-tiny truncate max-w-16 lg:max-w-fit"
                                                 >
@@ -440,7 +445,7 @@ const MobilePreview = ({
                                             </div>
                                             <p
                                               style={{
-                                                color: hexToHSL(t?.foreground!, 0.7),
+                                                color: hexToHSL(t.foreground!, 0.7),
                                               }}
                                               className="font-normal text-tiny truncate overflow-hidden whitespace-nowrap max-w-58 sm:max-w-fit"
                                             >
@@ -461,7 +466,7 @@ const MobilePreview = ({
                                                 )}
                                                 <span
                                                   style={{
-                                                    color: t?.foreground,
+                                                    color: t.foreground,
                                                   }}
                                                   className="mx-0.5"
                                                 >
@@ -492,8 +497,8 @@ const MobilePreview = ({
                       <div
                         key={index}
                         style={{
-                          background: t?.card,
-                          borderColor: hexToHSL(t?.primary!, 0.3),
+                          background: t.card,
+                          borderColor: hexToHSL(t.primary!, 0.3),
                         }}
                         className="w-full rounded-lg border border-primary/60 h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
                       >
@@ -503,7 +508,7 @@ const MobilePreview = ({
                             className="w-8 h-8 rounded-full"
                           />
                           <div className="flex flex-col items-start justify-center gap-1">
-                            <p style={{ color: t?.foreground }} className="text-xs font-semibold">
+                            <p style={{ color: t.foreground }} className="text-xs font-semibold">
                               {startup.name}
                             </p>
                             <div className="flex gap-2 items-center justify-start w-full">
@@ -514,8 +519,8 @@ const MobilePreview = ({
                                 return currentStatus ? (
                                   <span
                                     style={{
-                                      background: t?.secondary,
-                                      color: t?.foreground,
+                                      background: t.secondary,
+                                      color: t.foreground,
                                     }}
                                     className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
                                   >
@@ -525,8 +530,8 @@ const MobilePreview = ({
                                 ) : (
                                   <span
                                     style={{
-                                      background: t?.secondary,
-                                      color: t?.foreground,
+                                      background: t.secondary,
+                                      color: t.foreground,
                                     }}
                                     className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
                                   >
@@ -541,8 +546,8 @@ const MobilePreview = ({
                                 return currentCategory ? (
                                   <span
                                     style={{
-                                      background: t?.secondary,
-                                      color: t?.foreground,
+                                      background: t.secondary,
+                                      color: t.foreground,
                                     }}
                                     className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
                                   >
@@ -552,8 +557,8 @@ const MobilePreview = ({
                                 ) : (
                                   <span
                                     style={{
-                                      background: t?.secondary,
-                                      color: t?.foreground,
+                                      background: t.secondary,
+                                      color: t.foreground,
                                     }}
                                     className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
                                   >
@@ -566,7 +571,7 @@ const MobilePreview = ({
                         </div>
                         <div
                           style={{
-                            color: hexToHSL(t?.foreground!, 0.7),
+                            color: hexToHSL(t.foreground!, 0.7),
                           }}
                           className="text-xxs font-medium"
                         >
@@ -584,8 +589,8 @@ const MobilePreview = ({
                       <div
                         key={index}
                         style={{
-                          background: t?.card,
-                          borderColor: hexToHSL(t?.primary!, 0.3),
+                          background: t.card,
+                          borderColor: hexToHSL(t.primary!, 0.3),
                         }}
                         className="w-full rounded-lg border h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
                       >
@@ -595,7 +600,7 @@ const MobilePreview = ({
                             className="w-8 h-8 rounded-full"
                           />
                           <div className="flex flex-col items-start justify-center gap-1">
-                            <p style={{ color: t?.foreground }} className="text-xs font-semibold">
+                            <p style={{ color: t.foreground }} className="text-xs font-semibold">
                               {project.name}
                             </p>
                             <div className="flex gap-2 items-center justify-start w-full">
@@ -606,8 +611,8 @@ const MobilePreview = ({
                                 return currentCategory ? (
                                   <span
                                     style={{
-                                      background: t?.secondary,
-                                      color: t?.foreground,
+                                      background: t.secondary,
+                                      color: t.foreground,
                                     }}
                                     className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
                                   >
@@ -617,8 +622,8 @@ const MobilePreview = ({
                                 ) : (
                                   <span
                                     style={{
-                                      background: t?.secondary,
-                                      color: t?.foreground,
+                                      background: t.secondary,
+                                      color: t.foreground,
                                     }}
                                     className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
                                   >
@@ -631,7 +636,7 @@ const MobilePreview = ({
                         </div>
                         <div
                           style={{
-                            color: hexToHSL(t?.foreground!, 0.7),
+                            color: hexToHSL(t.foreground!, 0.7),
                           }}
                           className="text-xxs font-medium"
                         >

@@ -9,16 +9,18 @@ import { BriefcaseBusiness, CornerDownRight, Loader2, Pencil, Plus, Trash } from
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@lf/ui/components/base/dialog';
 import ExperienceForm from '../forms/experienceForm';
 import { useRouter } from 'next/navigation';
+import type { Database, Experience } from '@/lib/types/supabasetypes';
 
-type SingleExperience = z.infer<typeof singleExperienceSchema>;
 
-const ExperienceUpdate = ({ profile }: { profile: any }) => {
-  const [selectedExperience, setSelectedExperience] = useState<SingleExperience | null>(null);
+type Profile = Database['public']['Tables']['profiles']['Row'];
+
+const ExperienceUpdate = ({ profile }: { profile: Profile }) => {
+  const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
   const [deletingA, setDeletingA] = useState<number | null>(null);
   const [actionType, setActionType] = useState('Add');
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const emptyExperience: SingleExperience = {
+  const emptyExperience: Experience = {
     a: profile.experience ? profile.experience.length + 1 : 1,
     company: '',
     company_link: '',
@@ -37,23 +39,23 @@ const ExperienceUpdate = ({ profile }: { profile: any }) => {
     ],
   };
 
-  const handleEdit = (exp: SingleExperience) => {
+  const handleEdit = (exp: Experience) => {
     setActionType('Edit');
     setSelectedExperience(exp);
     setOpen(true);
   };
 
-  const handleNewExperience = (exp: SingleExperience) => {
+  const handleNewExperience = (exp: Experience) => {
     setActionType('Add');
     setSelectedExperience(exp);
     setOpen(true);
   };
 
-  const handleDelete = async (expToDelete: SingleExperience) => {
+  const handleDelete = async (expToDelete: Experience) => {
     setDeletingA(expToDelete.a);
 
     const updatedExperienceList = profile.experience.filter(
-      (exp: SingleExperience) => exp.a !== expToDelete.a
+      (exp: Experience) => exp.a !== expToDelete.a
     );
 
     const result = await updateExperience(updatedExperienceList);
@@ -69,13 +71,13 @@ const ExperienceUpdate = ({ profile }: { profile: any }) => {
     setDeletingA(null);
   };
 
-  const handleUpdate = async (updatedExp: SingleExperience) => {
-    const isUpdate = profile.experience.some((exp: SingleExperience) => exp.a === updatedExp.a);
+  const handleUpdate = async (updatedExp: Experience) => {
+    const isUpdate = profile.experience.some((exp: Experience) => exp.a === updatedExp.a);
 
     // Check for duplicate company_link if it's a new addition
     if (!isUpdate) {
       const isDuplicateCompany = profile.experience.some(
-        (exp: SingleExperience) => exp.company_link === updatedExp.company_link
+        (exp: Experience) => exp.company_link === updatedExp.company_link
       );
 
       if (isDuplicateCompany) {
@@ -85,7 +87,7 @@ const ExperienceUpdate = ({ profile }: { profile: any }) => {
     }
 
     const updatedExperienceList = isUpdate
-      ? profile.experience.map((exp: SingleExperience) =>
+      ? profile.experience.map((exp: Experience) =>
           exp.a === updatedExp.a ? { ...updatedExp } : exp
         )
       : [...profile.experience, updatedExp];

@@ -9,6 +9,13 @@ export async function updateStartup(data: Startup) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    return {
+      success: false,
+      message: `Authentication error. User not found.`,
+    };
+  }
+
   const { error: updateError } = await supabase
     .from('startups')
     .update({

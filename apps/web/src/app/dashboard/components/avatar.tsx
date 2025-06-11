@@ -25,6 +25,9 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+      if (!user) {
+        return;
+      }
 
       if (avatar_url) {
         const oldFilePath = avatar_url.split(
@@ -51,7 +54,7 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
         .update({
           avatar_url: data.publicUrl,
         })
-        .eq('id', user?.id);
+        .eq('id', user.id);
 
       setAvatarUrl(data.publicUrl);
       router.refresh();
@@ -107,7 +110,7 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
             src={avatarUrl}
             alt="Avatar"
             className="w-18 lg:w-24 h-18 lg:h-24 rounded-2xl object-cover border-2 border-muted/30"
-            referrerPolicy='no-referrer'
+            referrerPolicy="no-referrer"
           />
           <Button
             onClick={() => {

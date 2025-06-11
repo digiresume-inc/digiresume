@@ -14,6 +14,7 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
   const supabase = createClient();
   const [projectDraggingItemId, setProjectDraggingItemId] = useState<string | null>(null);
   const emptyProject: Project = {
+    id: '',
     index: projects.length + 1,
     name: '',
     description: '',

@@ -1,19 +1,20 @@
 'use client';
-import { NewTheme, NewThemes } from '@lf/utils';
+import { Themes } from '@lf/utils';
 import React, { useState } from 'react';
 import { updateTheme } from '../actions/updateTheme';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
+import type { Theme } from '@/lib/types/supabasetypes';
 
 const ThemeSelect = ({
   localTheme,
   setLocalTheme,
 }: {
-  localTheme: any;
-  setLocalTheme: React.Dispatch<React.SetStateAction<NewTheme | null>>;
+  localTheme: Theme;
+  setLocalTheme: React.Dispatch<React.SetStateAction<Theme>>;
 }) => {
   const [updating, setUpdating] = useState(false);
 
-  async function handleThemeChange(localTheme: any) {
+  async function handleThemeChange(localTheme: Theme) {
     setUpdating(true);
     const result = await updateTheme(localTheme);
     if (result.success) {
@@ -31,7 +32,7 @@ const ThemeSelect = ({
         <div key={type} className="mb-4 px-6">
           <h3 className="text-foreground/80 text-sm font-semibold capitalize mb-2">{type}</h3>
           <div className="flex flex-wrap gap-4">
-            {NewThemes.filter((t) => t.theme_type === type).map((t: NewTheme) => (
+            {Themes.filter((t) => t.theme_type === type).map((t: Theme) => (
               <div key={t.id} className="flex items-center p-2">
                 <input
                   id={`radio-${t.id}`}

@@ -1,14 +1,20 @@
 'use server';
+import type { Experience } from '@/lib/types/supabasetypes';
 import { createSClient } from '@/supabase/server';
-import { experienceSchema } from '@lf/utils';
-import { z } from 'zod';
 
-export async function updateExperience(data: z.infer<typeof experienceSchema>) {
+export async function updateExperience(data: Experience[]) {
   'use server';
   const supabase = createSClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  if(!user){
+    return {
+      success: false,
+      message: `Authentication error. User not found.`,
+    };
+  }
 
   const { error: updateError } = await supabase
     .from('profiles')

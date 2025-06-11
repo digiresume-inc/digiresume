@@ -1,7 +1,12 @@
 import { createSClient } from '@/supabase/server';
 import React from 'react';
-import { Project, Startup } from '@lf/utils';
+// import { Project, Startup } from '@lf/utils';
 import DashboardHome from './dashboardHome';
+import type { Database } from '@/lib/types/supabasetypes';
+
+
+type Startup = Database['public']['Tables']['startups']['Row'];
+type Project = Database['public']['Tables']['projects']['Row'];
 
 
 export default async function Dashboard() {
@@ -9,6 +14,12 @@ export default async function Dashboard() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  
+  if (!user?.id) {
+    return <div>User not found</div>;
+  }
+
   const { data, error } = await supabase
     .from('profiles')
     .select(
@@ -18,7 +29,7 @@ export default async function Dashboard() {
     projects ( * )
   `
     )
-    .eq('id', user?.id)
+    .eq('id', user.id)
     .single();
 
   if (error) {

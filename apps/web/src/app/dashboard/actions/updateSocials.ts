@@ -1,14 +1,19 @@
 'use server';
-
+import { Social } from '@/lib/types/supabasetypes';
 import { createSClient } from '@/supabase/server';
-import { SocialsSchema } from '@lf/utils';
 
-type links = SocialsSchema['links'];
-export async function updateSocials(data: links) {
+export async function updateSocials(data: Social[]) {
   const supabase = createSClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      success: false,
+      message: `Authentication error. User not found.`,
+    };
+  }
 
   const { error: updateError } = await supabase
     .from('profiles')

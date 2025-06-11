@@ -155,7 +155,7 @@ const categoryValues = z.enum([
 ]);
 
 export const startupSchema = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   index: z.number().nonnegative(),
   name: z.string().min(1, { message: 'Startup Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }).max(200,{ message: 'Max length exceeded' } ),

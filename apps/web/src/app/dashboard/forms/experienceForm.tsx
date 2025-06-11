@@ -20,6 +20,7 @@ import { Check, Loader2, Save } from 'lucide-react';
 import { Textarea } from '@lf/ui/components/base/textarea';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
 import { SkillsSelect } from '@/components/dashboard/skillselect';
+import { Experience } from '@/lib/types/supabasetypes';
 
 type SingleExperience = z.infer<typeof singleExperienceSchema>;
 
@@ -28,8 +29,8 @@ const ExperienceForm = ({
   onSubmit,
   actionType,
 }: {
-  selectedExperience: SingleExperience;
-  onSubmit: (data: SingleExperience) => void;
+  selectedExperience: Experience;
+  onSubmit: (data: Experience) => void;
   actionType: String;
 }) => {
   const form = useForm<SingleExperience>({

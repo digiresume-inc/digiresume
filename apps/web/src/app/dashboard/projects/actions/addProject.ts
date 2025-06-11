@@ -9,9 +9,18 @@ export async function addProject(data: Project) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    return {
+      success: false,
+      message: `Authentication error. User not found.`,
+    };
+  }
+
+  const { id, ...restData } = data;
+
   const { error: addError } = await supabase.from('projects').insert({
-    user_id: user?.id,
-    ...data,
+    user_id: user.id,
+    ...restData,
   });
 
   if (addError) {

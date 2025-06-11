@@ -9,6 +9,13 @@ export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    return {
+      success: false,
+      message: `Authentication error. User not found.`,
+    };
+  }
+
   const { error: onboardError } = await supabase
     .from('profiles')
     .update({

@@ -9,6 +9,12 @@ export async function updateProject(data: Project) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    return {
+      success: false,
+      message: `Authentication error. User not found.`,
+    };
+  }
   const { error: updateError } = await supabase
     .from('projects')
     .update({
