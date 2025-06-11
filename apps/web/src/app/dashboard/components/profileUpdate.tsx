@@ -169,15 +169,13 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
               </label>
 
               <div className="flex flex-col gap-2 lg:flex-row lg:items-start">
-                {/* Country (readonly) */}
                 <div className="w-full lg:w-1/3">
                   <span className="flex items-center gap-2 text-sm p-2 rounded-md border">
                     {form.watch('country')}
                     <img className="w-4" src={`https://flagsapi.com/${form.watch('country').split('-')[1]}/flat/64.png`} />
                   </span>
                 </div>
-
-                {/* State */}
+                <div className='my-auto font-bold hidden lg:block'>/</div>
                 <div className="w-full lg:w-1/3">
                   <Input
                     type="text"
@@ -191,8 +189,7 @@ const ProfileUpdate = ({ profile }: { profile: any }) => {
                     </p>
                   )}
                 </div>
-
-                {/* City */}
+                <div className='my-auto font-bold hidden lg:block'>/</div>
                 <div className="w-full lg:w-1/3">
                   <Input
                     type="text"

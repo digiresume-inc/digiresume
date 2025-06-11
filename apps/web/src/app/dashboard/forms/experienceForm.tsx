@@ -19,6 +19,7 @@ import { Switch } from '@lf/ui/components/base/switch';
 import { Check, Loader2, Save, X } from 'lucide-react';
 import { Textarea } from '@lf/ui/components/base/textarea';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
+import { SkillsSelect } from '@/components/skillselect';
 
 type SingleExperience = z.infer<typeof singleExperienceSchema>;
 
@@ -55,7 +56,7 @@ const ExperienceForm = ({
         <Label htmlFor="company" className="text-right">
           Company
         </Label>
-        <Input {...register('company')} id="company" className="col-span-3" />
+        <Input {...register('company')} id="company" className="col-span-3 " />
         {errors.company && (
           <p className="text-red-500 col-start-2 col-span-3 text-sm">{errors.company.message}</p>
         )}
@@ -107,6 +108,12 @@ const ExperienceForm = ({
                     link
                   </a>
                 </p>
+                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
+                  <span className="text-lightaccent-text dark:text-accent-text">==text==</span> →{' '}
+                  <mark className="bg-yellow-200/70 rounded px-0.5 shadow-[inset_0_-0.15em_0_rgba(253,224,71,0.6)]">
+                    text
+                  </mark>
+                </p>
               </div>
             </HoverCardContent>
           </HoverCard>
@@ -121,6 +128,22 @@ const ExperienceForm = ({
         {errors.contribution && (
           <p className="text-red-500 col-start-2 col-span-3 text-sm">
             {errors.contribution.message}
+          </p>
+        )}
+      </div>
+
+      <div className="grid grid-cols-4 items-center gap-2">
+        <Label htmlFor="company_link">Skills used</Label>
+        <div className="col-span-4">
+          <SkillsSelect
+            value={form.watch('skills_used') ?? []}
+            onChange={(v) => form.setValue('skills_used', v, { shouldDirty: true })}
+            largeBadge
+          />
+        </div>
+        {errors.skills_used && (
+          <p className="text-red-500 col-start-2 col-span-3 text-sm">
+            {errors.skills_used.message}
           </p>
         )}
       </div>

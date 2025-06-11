@@ -1,5 +1,12 @@
 import { z } from 'zod';
 
+const skillSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+  logo: z.string().url().or(z.string()),
+  category: z.enum(['Language', 'Framework', 'Tool', 'Database', 'Design', 'Cloud', 'Custom']),
+});
+
 // Custom date regex: MM/YYYY (e.g. 08/2023)
 const monthYearRegex = /^(0[1-9]|1[0-2])\/\d{4}$/;
 
@@ -12,11 +19,7 @@ export const employmentTypeEnum = z.enum([
   'Trainee',
 ]);
 
-export const locationTypeEnum =  z.enum([
-  'On-site',
-  'Hybrid',
-  'Remote',
-])
+export const locationTypeEnum = z.enum(['On-site', 'Hybrid', 'Remote']);
 
 // Role schema with conditional logic
 const roleSchema = z
@@ -52,7 +55,6 @@ const roleSchema = z
       const endMonth = Number(endMonthStr);
       const endYear = Number(endYearStr);
 
-
       if (isNaN(startMonth) || isNaN(startYear) || isNaN(endMonth) || isNaN(endYear)) {
         return false;
       }
@@ -73,6 +75,7 @@ export const singleExperienceSchema = z.object({
   company: z.string({ message: 'Company name is required' }),
   company_link: z.string().url({ message: 'Invalid company link URL' }),
   contribution: z.string().min(10, { message: 'Some contribution info is required' }),
+  skills_used: z.array(skillSchema),
   roles: z.array(roleSchema).min(1, { message: 'At least one role is required' }),
 });
 

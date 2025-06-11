@@ -5,6 +5,8 @@ import { iconMap } from '@/app/dashboard/utils/iconMap';
 import MarkdownParser from '@/components/markdownparser';
 import { formatMonthShortYear, getMonthsDifference, Project, Startup } from '@lf/utils';
 import { createSClient } from '@/supabase/server';
+import Image from 'next/image';
+import DynamicImage from '@/components/dynamicImage';
 
 const jetbrains = JetBrains_Mono({
   variable: '--font-jetbrains',
@@ -22,9 +24,13 @@ function getPlatformIcon(url: string) {
     const host = new URL(url).hostname.replace('www.', '');
     const platform = Object.keys(iconMap).find((key) => host.includes(key.toLowerCase()));
     const Icon = iconMap[platform || ''];
-    return Icon ? <Icon size={18} /> : <Link2 size={18} />;
+    return Icon ? (
+      <Icon className="w-4 h-4 lg:w-4.5 lg:h-4.5" />
+    ) : (
+      <Link2 className="w-4 h-4 lg:w-4.5 lg:h-4.5" />
+    );
   } catch {
-    return <Link2 size={18} />;
+    return <Link2 className="w-4 h-4 lg:w-4.5 lg:h-4.5" />;
   }
 }
 
@@ -88,17 +94,17 @@ export default async function Resume({ params }: { params: Promise<{ username: s
             <p className="max-w-md items-center text-pretty jetbrains text-xs text-black">
               <a
                 className="flex flex-wrap items-center gap-x-0.5 lg:gap-x-1.5 leading-none hover:underline"
-                href="https://www.google.com/maps/place/India"
+                href={`https://www.google.com/maps/place/${profile.geo_info.city}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Location: Wrocław, Poland, CET"
+                aria-label={`Location: ${profile.country.split('-')[0]}, ${profile.geo_info.state}, ${profile.geo_info.city}`}
               >
                 <MapPin className="w-3 lg:w-3.5 h-3 lg:h-3.5" strokeWidth={1} />
                 <span>{profile.country.split('-')[0]}</span>
                 <span>/</span>
-                <span>Telangana</span>
+                <span>{profile.geo_info.state}</span>
                 <span>/</span>
-                <span>Hyderabad</span>
+                <span>{profile.geo_info.city}</span>
               </a>
             </p>
             <div
@@ -127,16 +133,17 @@ export default async function Resume({ params }: { params: Promise<{ username: s
             className="relative flex shrink-0 overflow-hidden rounded-xl size-22 lg:size-28"
             aria-hidden="true"
           >
-            <img
+            <DynamicImage
+              height={112}
+              width={112}
               className="aspect-square h-full w-full object-cover grayscale"
-              alt="Bartosz Jarocki's profile picture"
-              src={profile.avatar_url}
-              referrerPolicy="no-referrer"
+              alt={`${profile.full_name}'s profile picture`}
+              url={profile.avatar_url}
             />
           </span>
         </header>
         <div className="space-y-8 print:space-y-4">
-          <section className="flex flex-wrap min-h-0 gap-x-3 gap-y-2 print:gap-x-1 jetbrains">
+          <section className="flex min-h-0 gap-x-3 gap-y-2 print:gap-x-1 jetbrains">
             <a
               href={`mailto:${profile.email}`}
               className="flex gap-1 items-center justify-start text-xs border-b border-black lg:border-black/80 hover:border-black text-black lg:text-black/80 hover:text-black transition-colors duration-200"
@@ -147,7 +154,10 @@ export default async function Resume({ params }: { params: Promise<{ username: s
               href={`tel:+918074414860`}
               className="flex gap-1 items-center justify-start text-xs border-b border-black lg:border-black/80 hover:border-black text-black lg:text-black/80 hover:text-black transition-colors duration-200"
             >
-              <Phone strokeWidth={1.3} size={16} /> +91-8074414860
+              <Phone strokeWidth={1.3} size={16} />
+              <span className="truncate max-w-[120px] sm:max-w-[160px] lg:max-w-none">
+                +91-8074414860
+              </span>
             </a>
             <a
               href={profile.profile_link.url}
@@ -155,12 +165,14 @@ export default async function Resume({ params }: { params: Promise<{ username: s
               className="flex gap-1 items-center justify-start text-xs border-b border-black lg:border-black/80 hover:border-black text-black lg:text-black/80 hover:text-black transition-colors duration-200"
             >
               <Link2 strokeWidth={1.3} size={16} />{' '}
-              <span className="">{profile.profile_link.text}</span>
+              <span className="truncate max-w-[80px] sm:max-w-[120px] lg:max-w-none">
+                {profile.profile_link.text}
+              </span>
             </a>
           </section>
           <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
             <h2
-              className="text-base lg:text-xl font-bold text-black merriweather"
+              className="text-base lg:text-xl font-bold text-black/80 merriweather"
               id="about-section"
             >
               About
@@ -174,7 +186,7 @@ export default async function Resume({ params }: { params: Promise<{ username: s
           </section>
           <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
             <h2
-              className="text-base lg:text-xl font-bold text-black merriweather"
+              className="text-base lg:text-xl font-bold text-black/80 merriweather"
               id="work-experience"
             >
               Work Experience
@@ -237,38 +249,29 @@ export default async function Resume({ params }: { params: Promise<{ username: s
                         <div className="mt-4 text-xs text-black/80 print:mt-1 print:text-[10px] text-pretty">
                           <MarkdownParser text={exp.contribution} />
                         </div>
-                        {/* <div className="mt-2">
+                        <div className="mt-2">
                           <ul
-                            className="inline-flex list-none p-0 -mx-2 flex-wrap gap-1 sm:hidden"
+                            className="inline-flex list-none pl-0.5 lg:pl-2 flex-wrap gap-1"
                             aria-label="Technologies used"
                           >
-                            <li>
-                              <div className="inline-flex items-center rounded-md border px-2 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/60 align-middle text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                                Remote
-                              </div>
-                            </li>
-                            <li>
-                              <div className="inline-flex items-center rounded-md border px-2 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/60 align-middle text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                                React
-                              </div>
-                            </li>
-                            <li>
-                              <div className="inline-flex items-center rounded-md border px-2 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/60 align-middle text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                                Next.js
-                              </div>
-                            </li>
-                            <li>
-                              <div className="inline-flex items-center rounded-md border px-2 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/60 align-middle text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                                TypeScript
-                              </div>
-                            </li>
-                            <li>
-                              <div className="inline-flex items-center rounded-md border px-2 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/60 align-middle text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                                Node.js
-                              </div>
-                            </li>
+                            {exp.skills_used.map((skill: any, index: number) => {
+                              return (
+                                <li key={index} aria-label={`Skill: ${skill.label}`}>
+                                  <div className="cursor-default flex items-center rounded-md border px-1.5 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 align-middle text-xxs lg:text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                    {skill.logo && (
+                                      <img
+                                        src={skill.logo}
+                                        alt={`${skill.label} logo`}
+                                        className="mr-0.5 h-3 w-3 rounded grayscale"
+                                      />
+                                    )}
+                                    {skill.label}
+                                  </div>
+                                </li>
+                              );
+                            })}
                           </ul>
-                        </div> */}
+                        </div>
                       </div>
                     </div>
                   </article>
@@ -279,7 +282,7 @@ export default async function Resume({ params }: { params: Promise<{ username: s
           {!isEducationEmpty && (
             <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
               <h2
-                className="text-base lg:text-xl font-bold text-black merriweather"
+                className="text-base lg:text-xl font-bold text-black/80 merriweather"
                 id="education-section"
               >
                 Education
@@ -324,7 +327,7 @@ export default async function Resume({ params }: { params: Promise<{ username: s
           )}
           <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
             <h2
-              className="text-base lg:text-xl font-bold text-black merriweather"
+              className="text-base lg:text-xl font-bold text-black/80 merriweather"
               id="skills-section"
             >
               Skills
@@ -334,14 +337,14 @@ export default async function Resume({ params }: { params: Promise<{ username: s
                 return (
                   <li key={index}>
                     <div
-                      className="cursor-default flex gap-1 items-center justify-center rounded-md border px-2 py-0.5 text-xs font-semibold jetbrains transition-colors text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-200/60 print:text-[10px]"
+                      className="cursor-default flex gap-1 items-center justify-center rounded-md border px-2 py-0.5 text-xs font-semibold jetbrains transition-colors text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 print:text-[10px]"
                       aria-label={`Skill: ${skill.label}`}
                     >
                       {skill.logo && (
                         <img
                           src={skill.logo}
                           alt={`${skill.label} logo`}
-                          className="mr-1 h-4 w-4 rounded"
+                          className="mr-1 h-4 w-4 rounded grayscale"
                         />
                       )}
                       {skill.label}

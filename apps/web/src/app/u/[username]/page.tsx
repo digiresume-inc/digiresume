@@ -25,6 +25,7 @@ import ProfileUrl from './components/profileUrl';
 import Image from 'next/image';
 import ResumeDownload from './components/resumeDownload';
 import ResumePrint from './components/resumePrint';
+import DynamicImage from '@/components/dynamicImage';
 
 function getPlatformIcon(url: string) {
   try {
@@ -97,9 +98,6 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
 
 async function renderProfile(profile: any, startups: any, projects: any) {
   const t = profile.theme.theme_data;
-  const imageBlur = await fetch(profile.avatar_url).then(async (res) => {
-    return Buffer.from(await res.arrayBuffer()).toString('base64');
-  });
   return (
     <div
       style={{
@@ -121,15 +119,12 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                     }}
                     className="h-18 lg:h-24 w-18 lg:w-24 rounded-2xl p-1 border-2 border-dashed"
                   >
-                    <Image
+                    <DynamicImage
                       width={96}
                       height={96}
                       className="rounded-2xl h-full w-full object-cover"
                       alt={profile.full_name}
-                      src={profile.avatar_url}
-                      placeholder="blur"
-                      blurDataURL={imageBlur}
-                      referrerPolicy="no-referrer"
+                      url={profile.avatar_url}
                     />
                   </div>
                   <div className="flex flex-col justify-center gap-1.5">

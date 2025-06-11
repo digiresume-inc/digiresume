@@ -64,8 +64,8 @@ const MobilePreview = ({
       className={cn(
         'lg:flex lg:w-[40%] w-full h-screen p-4 fixed top-0 left-0 lg:static bg-background/50 backdrop-blur z-50',
         {
-          'flex': preview,
-          'hidden': !preview,
+          flex: preview,
+          hidden: !preview,
         }
       )}
     >
@@ -80,7 +80,6 @@ const MobilePreview = ({
       <div className="flex flex-col w-full items-center justify-center gap-4 scale-90 lg:scale-100">
         <h2 className="text-lg lg:text-2xl font-bold">Preview</h2>
         <div className="relative w-[300px] h-[620px] rounded-[50px] bg-black shadow-2xl border-[14px] border-black flex items-center justify-center">
-
           {/* Dynamic Island */}
           <div className="absolute top-[-5px] left-1/2 -translate-x-1/2 bg-black rounded-t-2xl rounded-b-4xl w-[130px] h-[25px] z-20"></div>
 
@@ -106,7 +105,6 @@ const MobilePreview = ({
             }}
             className="w-[270px] h-[590px] rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar"
           >
-
             {/* Content */}
             <div className="p-4 space-y-2">
               <div
@@ -178,7 +176,7 @@ const MobilePreview = ({
                     style={{
                       color: t?.foreground,
                     }}
-                    className="text-sm font-semibold ml-1"
+                    className="text-sm font-semibold"
                   >
                     {profile.full_name}
                   </p>
@@ -187,9 +185,9 @@ const MobilePreview = ({
                       style={{
                         color: hexToHSL(t?.foreground!, 0.7),
                       }}
-                      className="flex flex-wrap items-center text-xs font-medium gap-1"
+                      className="flex flex-wrap items-center text-xs font-medium gap-0.5"
                     >
-                      <MapPin className="w-[12px] h-[12px] mr-[-2px]" />
+                      <MapPin className="w-3 h-3" strokeWidth={1} />
                       {profile.country.split('-')[0]}
                       <img
                         className="w-4"
@@ -197,6 +195,8 @@ const MobilePreview = ({
                         src={`https://flagsapi.com/${profile.country.split('-')[1]}/flat/64.png`}
                         referrerPolicy="no-referrer"
                       />
+                      <span className='font-medium mx-1'>/</span>
+                      {profile.geo_info.city}
                     </p>
                   )}
                 </div>
