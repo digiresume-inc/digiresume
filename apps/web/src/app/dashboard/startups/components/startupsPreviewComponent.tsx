@@ -12,7 +12,7 @@ const StartupsPreviewComponent = ({ startups }: { startups: any }) => {
     <div
       className={`${
         showOverlay ? 'flex' : 'hidden'
-      } lg:flex lg:w-[40%] w-full h-screen p-4 fixed top-0 left-0 lg:static bg-background/50 backdrop-blur z-50`}
+      } lg:flex lg:w-[40%] w-full h-screen p-4 fixed top-0 left-0 lg:static bg-background backdrop-blur z-50`}
     >
       <Button
         onClick={() => setShowOverlay(false)}
@@ -44,7 +44,7 @@ const StartupsPreviewComponent = ({ startups }: { startups: any }) => {
           <div className="absolute right-[-16px] top-[130px] w-[4px] h-[60px] rounded-full bg-black z-20"></div>
 
           {/* iPhone Screen */}
-          <div className="w-[270px] h-[590px] bg-secondary rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
+          <div className="w-[270px] h-[590px] bg-background rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
             <div className="p-4 space-y-2">
               {startups.map((startup: Startup, index: number) => (
                 <div

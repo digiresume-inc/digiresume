@@ -35,6 +35,7 @@ import { onboardUser } from '@/app/onboarding/action';
 import { socialIconMap } from '@/lib/utils/iconMap';
 import LinkedinImport from '@/modals/linkedinimport';
 import UsernameSet from '@/components/onboarding/usernameset';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
 
 function getPlatformIcon(url: string) {
   try {
@@ -58,8 +59,13 @@ const OnboardingForm = ({ username }: { username: string }) => {
     defaultValues: {
       full_name: '',
       headline: '',
+      shortbio: '',
       company: '',
       country: '',
+      geo_info: {
+        state: '',
+        city: '',
+      },
       education: {
         university: '',
         branch: '',
@@ -230,7 +236,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                   <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
                     <User className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Profile information
                   </h1>
-                  <div className="flex flex-col gap-4 w-full max-w-98">
+                  <div className="flex flex-col gap-4 w-full max-w-112">
                     <div>
                       <Input
                         id="full_name"
@@ -240,13 +246,13 @@ const OnboardingForm = ({ username }: { username: string }) => {
                         {...form.register('full_name')}
                       />
                       {form.formState.errors.full_name && (
-                        <p className="text-xs lg:text-sm text-destructive mt-1">
+                        <p className="text-xs lg:text-sm text-red-500 mt-1">
                           {form.formState.errors.full_name.message}
                         </p>
                       )}
                     </div>
-                    <div className="flex items-start justify-start gap-2">
-                      <div className="flex flex-col items-start justify-center">
+                    <div className="flex items-start justify-start gap-2 w-full">
+                      <div className="flex flex-col items-start justify-center w-full lg:w-[50%]">
                         {' '}
                         <Input
                           id="headline"
@@ -256,13 +262,13 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           {...form.register('headline')}
                         />
                         {form.formState.errors.headline && (
-                          <p className="text-xs lg:text-sm text-destructive mt-1">
+                          <p className="text-xs lg:text-sm text-red-500 mt-1">
                             {form.formState.errors.headline.message}
                           </p>
                         )}
                       </div>
                       <AtSign size={16} className="text-foreground/70 mt-2.5" />
-                      <div className="flex flex-col items-start justify-center">
+                      <div className="flex flex-col items-start justify-center w-full lg:w-[50%]">
                         {' '}
                         <Input
                           id="company"
@@ -272,34 +278,128 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           {...form.register('company')}
                         />
                         {form.formState.errors.company && (
-                          <p className="text-xs lg:text-sm text-destructive mt-1">
+                          <p className="text-xs lg:text-sm text-red-500 mt-1">
                             {form.formState.errors.company.message}
                           </p>
                         )}
                       </div>
                     </div>
-                    <div>
-                      <Controller
-                        name="country"
-                        control={control}
-                        rules={{ required: 'Country is required' }}
-                        render={({ field }) => (
-                          <div>
-                            <CountryCombobox
-                              options={countries}
-                              value={field.value}
-                              onChange={field.onChange}
-                              ref={field.ref}
-                              className="bg-secondary max-w-98"
-                            />
-                            {form.formState.errors.country && (
-                              <p className="text-xs text-destructive mt-1">
-                                {form.formState.errors.country.message}
-                              </p>
-                            )}
-                          </div>
+                    <div className="flex flex-col lg:flex-row gap-2 w-full items-start">
+                      <div className="w-full lg:w-2/5">
+                        <Controller
+                          name="country"
+                          control={control}
+                          rules={{ required: 'Country is required' }}
+                          render={({ field }) => (
+                            <div>
+                              <CountryCombobox
+                                options={countries}
+                                value={field.value}
+                                onChange={field.onChange}
+                                ref={field.ref}
+                                className="bg-secondary max-w-98"
+                              />
+                              {form.formState.errors.country && (
+                                <p className="text-xs lg:text-sm text-red-500 mt-1">
+                                  {form.formState.errors.country.message}
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        />
+                      </div>
+                      <div className="flex flex-col items-start justify-center w-full lg:w-[30%]">
+                        {' '}
+                        <Input
+                          id="state"
+                          className="bg-secondary w-full text-sm"
+                          type="text"
+                          placeholder="State"
+                          {...form.register('geo_info.state')}
+                        />
+                        {form.formState.errors.geo_info?.state && (
+                          <p className="text-xs lg:text-sm text-red-500 mt-1">
+                            {form.formState.errors.geo_info?.state.message}
+                          </p>
                         )}
+                      </div>
+                      <div className="flex flex-col items-start justify-center w-full lg:w-[30%]">
+                        {' '}
+                        <Input
+                          id="city"
+                          className="bg-secondary w-full text-sm"
+                          type="text"
+                          placeholder="City"
+                          {...form.register('geo_info.city')}
+                        />
+                        {form.formState.errors.geo_info?.city && (
+                          <p className="text-xs lg:text-sm text-red-500 mt-1">
+                            {form.formState.errors.geo_info?.city.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <HoverCard openDelay={250}>
+                        <HoverCardTrigger>
+                          <span className="text-xs underline text-foreground/80 font-medium cursor-pointer pl-1">
+                            Markdown Guide *
+                          </span>
+                        </HoverCardTrigger>
+                        <HoverCardContent className="bg-secondary border-foreground/20 rounded-md z-50">
+                          <div className="flex flex-col p-2">
+                            <p className="text-sm font-semibold text-lightprimary-text/80 dark:text-primary-text/80">
+                              Markdown guide
+                            </p>
+                            <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80 mt-2">
+                              <span className="text-lightaccent-text dark:text-accent-text">
+                                **text**
+                              </span>{' '}
+                              → <span className="font-bold">text</span>
+                            </p>
+                            <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
+                              <span className="text-lightaccent-text dark:text-accent-text">
+                                *text*
+                              </span>{' '}
+                              → <span className="italic">text</span>
+                            </p>
+                            <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
+                              <span className="text-lightaccent-text dark:text-accent-text">
+                                [link](https://feature.com)
+                              </span>{' '}
+                              →{' '}
+                              <a
+                                href="https://feature.com"
+                                target="_blank"
+                                className="font-medium underline"
+                              >
+                                link
+                              </a>
+                            </p>
+                            <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
+                              <span className="text-lightaccent-text dark:text-accent-text">
+                                ==text==
+                              </span>{' '}
+                              →{' '}
+                              <mark className="bg-yellow-200/70 rounded px-0.5 shadow-[inset_0_-0.15em_0_rgba(253,224,71,0.6)]">
+                                text
+                              </mark>
+                            </p>
+                          </div>
+                        </HoverCardContent>
+                      </HoverCard>
+                      <Textarea
+                        id="shortbio"
+                        className="bg-secondary w-full text-sm"
+                        rows={2}
+                        placeholder="Enter your bio"
+                        {...form.register('shortbio')}
                       />
+                      {form.formState.errors.shortbio && (
+                        <p className="text-xs lg:text-sm text-red-500 mt-1">
+                          {form.formState.errors.shortbio.message}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -315,7 +415,12 @@ const OnboardingForm = ({ username }: { username: string }) => {
                   </h1>
                   <div className="flex flex-col gap-2 w-full max-w-98">
                     <div>
-                      <label className="text-sm font-medium text-foreground/70" htmlFor='education.university'>University</label>
+                      <label
+                        className="text-sm font-medium text-foreground/70"
+                        htmlFor="education.university"
+                      >
+                        University
+                      </label>
                       <Input
                         id="education.university"
                         className="bg-secondary w-full text-sm"
@@ -324,13 +429,18 @@ const OnboardingForm = ({ username }: { username: string }) => {
                         {...form.register('education.university')}
                       />
                       {form.formState.errors.education?.university && (
-                        <p className="text-xs lg:text-sm text-destructive mt-1">
+                        <p className="text-xs lg:text-sm text-red-500 mt-1">
                           {form.formState.errors.education?.university.message}
                         </p>
                       )}
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-foreground/70" htmlFor='education.branch'>Branch</label>
+                      <label
+                        className="text-sm font-medium text-foreground/70"
+                        htmlFor="education.branch"
+                      >
+                        Branch
+                      </label>
                       <Input
                         id="education.branch"
                         className="bg-secondary w-full text-sm"
@@ -339,7 +449,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                         {...form.register('education.branch')}
                       />
                       {form.formState.errors.education?.branch && (
-                        <p className="text-xs lg:text-sm text-destructive mt-1">
+                        <p className="text-xs lg:text-sm text-red-500 mt-1">
                           {form.formState.errors.education?.branch.message}
                         </p>
                       )}
@@ -347,7 +457,12 @@ const OnboardingForm = ({ username }: { username: string }) => {
                     <div className="flex items-start justify-start gap-2">
                       <div className="flex flex-col items-start justify-center">
                         {' '}
-                        <label className="text-sm font-medium text-foreground/70" htmlFor='education.start_date'>Start</label>
+                        <label
+                          className="text-sm font-medium text-foreground/70"
+                          htmlFor="education.start_date"
+                        >
+                          Start
+                        </label>
                         <Input
                           id="education.start_date"
                           className="bg-secondary w-full text-sm"
@@ -356,14 +471,19 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           {...form.register('education.start_date')}
                         />
                         {form.formState.errors.education?.start_date && (
-                          <p className="text-xs lg:text-sm text-destructive mt-1">
+                          <p className="text-xs lg:text-sm text-red-500 mt-1">
                             {form.formState.errors.education?.start_date.message}
                           </p>
                         )}
                       </div>
                       <div className="flex flex-col items-start justify-center">
                         {' '}
-                        <label className="text-sm font-medium text-foreground/70" htmlFor='education.end_date'>End</label>
+                        <label
+                          className="text-sm font-medium text-foreground/70"
+                          htmlFor="education.end_date"
+                        >
+                          End
+                        </label>
                         <Input
                           id="education.end_date"
                           className="bg-secondary w-full text-sm"
@@ -372,7 +492,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           {...form.register('education.end_date')}
                         />
                         {form.formState.errors.education?.end_date && (
-                          <p className="text-xs lg:text-sm text-destructive mt-1">
+                          <p className="text-xs lg:text-sm text-red-500 mt-1">
                             {form.formState.errors.education?.end_date.message}
                           </p>
                         )}
@@ -408,7 +528,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           />
                           <Button
                             type="button"
-                            variant="ghost"
+                            variant="destructive"
                             size="icon"
                             onClick={() => removeLink(index)}
                           >
@@ -416,7 +536,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           </Button>
                         </div>
                         {form.formState.errors.socials?.[index]?.url && (
-                          <p className="text-xs lg:text-sm text-destructive mt-1">
+                          <p className="text-xs lg:text-sm text-red-500 mt-1">
                             {form.formState.errors.socials[index]?.url?.message}
                           </p>
                         )}

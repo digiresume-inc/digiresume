@@ -35,6 +35,11 @@ const socialSchema = z.object({
   url: z.string().min(1, 'URL is required').url('Please enter valid url'),
 });
 
+const geoInfoSchema = z.object({
+  state: z.string().min(1, 'Please select your State.'),
+  city: z.string().min(1, 'Please select your City.'),
+})
+
 const startupSchema = z.object({
   name: z.string(),
   url: z.string().url(),
@@ -62,8 +67,10 @@ export const usernameSchema = z.object({
 export const onboardingSchema = z.object({
   full_name: z.string().min(1, 'Name must be at least 3 characters long.'),
   headline: z.string().min(1, 'Headline is required.'),
+  shortbio: z.string().min(1, 'Short bio is required.'),
   company: z.string().min(1, 'Company is required.'),
   country: z.string().min(1, 'Please select your country.'),
+  geo_info: geoInfoSchema,
   education: educationSchema,
   socials: z.array(socialSchema).optional(),
   skills: z.array(skillSchema).optional(),

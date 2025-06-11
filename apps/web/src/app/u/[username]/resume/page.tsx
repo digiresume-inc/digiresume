@@ -229,7 +229,7 @@ export default async function Resume({ params }: { params: Promise<{ username: s
                                     {role.location_type}
                                   </span>
                                 </h4>
-                                <p className="mt-1 lg:mt-0 pl-6 lg:pl-0 jetbrains text-black/70 text-xs font-medium tracking-tight lg:tracking-normal leading-none print:text-[10px] flex-shrink-0">
+                                <p className="pl-6 lg:pl-0 jetbrains text-black/70 text-xs font-medium tracking-tight lg:tracking-normal leading-none print:text-[10px] flex-shrink-0">
                                   {formatMonthShortYear(role.start_date)} -{' '}
                                   {role.end_date ? formatMonthShortYear(role.end_date) : 'Present'}
                                   {role.end_date && (
@@ -361,6 +361,89 @@ export default async function Resume({ params }: { params: Promise<{ username: s
                 </div>
               </li> */}
             </ul>
+          </section>
+          <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
+            <h2
+              className="text-base lg:text-xl font-bold text-black/80 merriweather"
+              id="skills-section"
+            >
+              Projects
+            </h2>
+            <div
+              className="grid grid-cols-1 gap-3 print:grid-cols-3 print:gap-2 md:grid-cols-2 lg:grid-cols-3"
+              role="feed"
+              aria-labelledby="projects"
+            >
+              {projects.map((project: any, index: number) => {
+                return (
+                  <article key={index} className="h-full">
+                    <div
+                      className="rounded-lg bg-white text-black flex h-full flex-col overflow-hidden border border-gray-300 p-3"
+                      role="article"
+                    >
+                      <div className="flex flex-col space-y-1.5">
+                        <div className="space-y-1">
+                          <h3 className="font-semibold tracking-tight text-base">
+                            <a
+                              href={project.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 hover:underline merriweather"
+                              aria-label={`${project.Name} project (opens in new tab)`}
+                            >
+                              {project.name}
+                              <span
+                                className="size-1 rounded-full bg-green-500"
+                                aria-label="Active project indicator"
+                              />
+                            </a>
+                            <div
+                              className="hidden jetbrains text-xs underline print:visible"
+                              aria-hidden="true"
+                            >
+                              {project.name}
+                            </div>
+                          </h3>
+                          <span
+                            className="text-black/80 text-pretty jetbrains text-xs print:text-[10px]"
+                            aria-label="Project description"
+                          >
+                            <MarkdownParser text={project.description}/>
+                          </span>
+                        </div>
+                      </div>
+                      <div className="text-pretty jetbrains text-sm text-black/80 mt-auto flex">
+                        <ul
+                          className="mt-2 flex list-none flex-wrap gap-1 p-0"
+                          aria-label="Technologies used"
+                        >
+                          <li>
+                            <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                              TypeScript
+                            </div>
+                          </li>
+                          <li>
+                            <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                              Next.js
+                            </div>
+                          </li>
+                          <li>
+                            <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                              Browser Extension
+                            </div>
+                          </li>
+                          <li>
+                            <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                              PostgreSQL
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
           </section>
         </div>
       </section>

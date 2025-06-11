@@ -12,14 +12,9 @@
     "format": "prettier --write ."
   },
   "keywords": [
-    "express",
-    "ai",
-    "api",
-    "huggingface",
-    "cohere",
-    "groq",
-    "together-ai",
-    "node.js"
+    "router ai",
+    "pdf parsing",
+    "structuring"
   ],
   "author": "Your Name",
   "license": "MIT",

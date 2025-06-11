@@ -16,21 +16,18 @@ export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
     };
   }
 
+  const {startups, ...rest} = data
+
   const { error: onboardError } = await supabase
     .from('profiles')
     .update({
-      full_name: data.full_name,
-      headline: data.headline,
-      company: data.company,
-      country: data.country,
-      education: data.education,
-      socials: data.socials,
-      skills: data.skills,
+      ...rest,
       onboarding: 'completed',
     })
     .eq('id', user?.id);
 
   if (onboardError) {
+    console.log(onboardError);
     return {
       success: false,
       message: 'Profile Update error.',
