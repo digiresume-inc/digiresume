@@ -54,7 +54,6 @@ const components: { title: string; href: string; description: string }[] = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>

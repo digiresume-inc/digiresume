@@ -12,7 +12,7 @@ import PreviewButton from './components/previewButton';
 import AnalyticsCard from './components/analyticsCard';
 import { Button } from '@lf/ui/components/base/button';
 import { LogOut } from 'lucide-react';
-import LogoutConfirmation from '@/modals/logoutconfiramtion';
+import LogoutConfirmation from '@/modals/logoutconfirmation';
 import type { Database, Theme } from '@/lib/types/supabasetypes';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
