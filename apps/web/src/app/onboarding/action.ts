@@ -1,6 +1,6 @@
 'use server';
 import { z } from 'zod';
-import { onboardingSchema, usernameSchema } from '@lf/utils';
+import { onboardingSchema, usernameSchema } from '@lf/schemas';
 import { createSClient } from '@/supabase/server';
 
 export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
@@ -16,12 +16,11 @@ export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
     };
   }
 
-  const {startups, ...rest} = data
 
   const { error: onboardError } = await supabase
     .from('profiles')
     .update({
-      ...rest,
+      ...data,
       onboarding: 'completed',
     })
     .eq('id', user?.id);
@@ -34,27 +33,9 @@ export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
     };
   }
 
-  if (data.startups && data.startups.length > 0) {
-    const startupData = data.startups.map((startup: any) => ({
-      user_id: user?.id,
-      name: startup.name,
-      url: startup.url,
-      description: startup.description,
-    }));
-
-    const { error: startupInsertError } = await supabase.from('startups').insert(startupData);
-
-    if (startupInsertError) {
-      return {
-        success: false,
-        message: 'Failed to save startup details.',
-      };
-    }
-  }
-
   return {
     success: true,
-    message: 'Form Submit Successful.',
+    message: 'Onboarding Completed.',
   };
 }
 
@@ -64,6 +45,12 @@ export async function updateUsername(data: z.infer<typeof usernameSchema>) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if(!user){
+    return {
+      success: false,
+      message: `Authentication error. User not found.`,
+    };
+  }
   const { data: existingUsers, error } = await supabase
     .from('profiles')
     .select('username')
@@ -100,6 +87,13 @@ export async function updateLinkedinData(data: any) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+    if(!user){
+    return {
+      success: false,
+      message: `Authentication error. User not found.`,
+    };
+  }
 
   const { error: updateError } = await supabase
     .from('profiles')

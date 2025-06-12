@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { updateTheme } from '../actions/updateTheme';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import type { Theme } from '@/lib/types/supabasetypes';
+import { useRouter } from 'next/navigation';
 
 const ThemeSelect = ({
   localTheme,

@@ -13,15 +13,12 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  categoryOptions,
   formatMonthShortYear,
   getLineHeightPercent,
   getMonthsDifference,
   hexToHSL,
-  Project,
-  Startup,
-  statusOptions,
 } from '@lf/utils';
+import { Startup, Project, statusOptions, categoryOptions } from '@lf/schemas';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
 import MarkdownParser from '@/components/general/markdownparser';
 import { socialIconMap } from '@/lib/utils/iconMap';
@@ -309,7 +306,7 @@ const MobilePreview = ({
                     style={{
                       background: t.background,
                     }}
-                    className="absolute flex flex-row justify-stretch w-full"
+                    className="absolute flex flex-row justify-stretch w-auto"
                   >
                     {showExp && (
                       <TabsTrigger

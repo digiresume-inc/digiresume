@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@lf/ui/components/base/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@lf/ui/components/base/dialog';
-import { Startup, categoryOptions, statusOptions } from '@lf/utils';
+import { Startup, categoryOptions, statusOptions } from '@lf/schemas';
 import { Edit, GripVertical, Plus, Trash } from 'lucide-react';
 import React, { useState } from 'react';
 import StartupForm from './startupForm';

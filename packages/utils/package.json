@@ -1,5 +1,6 @@
 {
     "name": "@lf/utils",
+    "version": "1.0.0",
     "description": "Utilities for the Linkfolio",
     "exports": {
         ".": "./src/index.ts"
@@ -9,5 +10,14 @@
     },
     "dependencies": {
         "zod": "^3.24.4"
-    }
+    },
+    "keywords": [
+        "Utils",
+        "Functions",
+        "Constants",
+        "Portfolio",
+        "Resume"
+    ],
+    "author": "Sai Prasad <prasadreddymar6@gmail.com>",
+    "license": "MIT"
 }

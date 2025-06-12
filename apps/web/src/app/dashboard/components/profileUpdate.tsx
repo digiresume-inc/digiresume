@@ -1,6 +1,7 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { countries, profileUpdateSchema } from '@lf/utils';
+import { countries } from '@lf/utils';
+import {  profileUpdateSchema } from '@lf/schemas';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -15,6 +16,7 @@ import {
   Link2,
   Loader2,
   Mail,
+  Medal,
   Newspaper,
   Save,
   Type,
@@ -31,7 +33,6 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components
 import type { Database } from '@/lib/types/supabasetypes';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
-
 
 const ProfileUpdate = ({ profile }: { profile: Profile }) => {
   const form = useForm<z.infer<typeof profileUpdateSchema>>({
@@ -71,7 +72,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
           <h3 className="text-lg font-semibold text-primary mb-4 pb-2 border-b">
             Personal Information
           </h3>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4 w-full">
             <div className="col-span-1">
               <label
                 htmlFor="username"
@@ -288,7 +289,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
           <h3 className="text-lg font-semibold text-primary mb-4 pb-2 border-b">
             Professional Information
           </h3>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4 w-full">
             <div className="col-span-1">
               <label
                 htmlFor="headline"
@@ -343,7 +344,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
           <h3 className="text-lg font-semibold text-primary mb-4 pb-2 border-b">
             Education Information
           </h3>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4 w-full">
             <div className="col-span-1">
               <label
                 htmlFor="education.university"
@@ -394,61 +395,88 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                 </p>
               )}
             </div>
-            <div className="col-span-1">
-              <label
-                htmlFor="education.start_date"
-                className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
-              >
-                Start
-              </label>
-              <div className="relative">
-                <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
-                  <Calendar strokeWidth={1} size={18} />
-                </span>
-                <Input
-                  id="education.start_date"
-                  type="text"
-                  placeholder="MM/20YY..."
-                  {...form.register('education.start_date')}
-                  className="pl-9 py-2 text-sm"
-                />
+            <div className="flex flex-col lg:flex-row col-span-1 lg:col-span-2 gap-1">
+              <div className="lg:w-2/5 w-full">
+                <label
+                  htmlFor="education.start_date"
+                  className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                >
+                  Start
+                </label>
+                <div className="relative">
+                  <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                    <Calendar strokeWidth={1} size={18} />
+                  </span>
+                  <Input
+                    id="education.start_date"
+                    type="text"
+                    placeholder="MM/20YY..."
+                    {...form.register('education.start_date')}
+                    className="pl-9 py-2 text-sm"
+                  />
+                </div>
+                {form.formState.errors.education?.start_date && (
+                  <p className="text-xs lg:text-sm text-destructive mt-1">
+                    {form.formState.errors.education?.start_date.message}
+                  </p>
+                )}
               </div>
-              {form.formState.errors.education?.start_date && (
-                <p className="text-xs lg:text-sm text-destructive mt-1">
-                  {form.formState.errors.education?.start_date.message}
-                </p>
-              )}
-            </div>
-            <div className="col-span-1">
-              <label
-                htmlFor="education.end_date"
-                className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
-              >
-                End
-              </label>
-              <div className="relative">
-                <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
-                  <Calendar strokeWidth={1} size={18} />
-                </span>
-                <Input
-                  id="education.end_date"
-                  type="text"
-                  placeholder="MM/20YY..."
-                  {...form.register('education.end_date')}
-                  className="pl-9 py-2 text-sm"
-                />
+              <div className="lg:w-2/5 w-full">
+                <label
+                  htmlFor="education.end_date"
+                  className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                >
+                  End
+                </label>
+                <div className="relative">
+                  <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                    <Calendar strokeWidth={1} size={18} />
+                  </span>
+                  <Input
+                    id="education.end_date"
+                    type="text"
+                    placeholder="MM/20YY..."
+                    {...form.register('education.end_date')}
+                    className="pl-9 py-2 text-sm"
+                  />
+                </div>
+                {form.formState.errors.education?.end_date && (
+                  <p className="text-xs lg:text-sm text-destructive mt-1">
+                    {form.formState.errors.education?.end_date.message}
+                  </p>
+                )}
               </div>
-              {form.formState.errors.education?.end_date && (
-                <p className="text-xs lg:text-sm text-destructive mt-1">
-                  {form.formState.errors.education?.end_date.message}
-                </p>
-              )}
+              <div className="lg:w-1/5 w-full">
+                <label
+                  htmlFor="education.grade"
+                  className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                >
+                  Grade
+                </label>
+                <div className="relative">
+                  <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                    <Medal strokeWidth={1} size={18} />
+                  </span>
+                  <Input
+                    id="education.grade"
+                    type="text"
+                    placeholder="A, 8.4.."
+                    {...form.register('education.grade')}
+                    className="pl-9 py-2 text-sm"
+                  />
+                </div>
+                {form.formState.errors.education?.grade && (
+                  <p className="text-xs lg:text-sm text-destructive mt-1">
+                    {form.formState.errors.education?.grade.message}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
         <div className="border rounded-lg p-4 w-full">
           <h3 className="text-lg font-semibold text-primary mb-4 pb-2 border-b">Link</h3>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4 w-full">
             <div className="col-span-1">
               <label
                 htmlFor="profile_link.text"

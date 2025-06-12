@@ -1,13 +1,11 @@
 import { createSClient } from '@/supabase/server';
 import React from 'react';
-// import { Project, Startup } from '@lf/utils';
 import DashboardHome from './dashboardHome';
 import type { Database } from '@/lib/types/supabasetypes';
-
+import { redirect } from 'next/navigation';
 
 type Startup = Database['public']['Tables']['startups']['Row'];
 type Project = Database['public']['Tables']['projects']['Row'];
-
 
 export default async function Dashboard() {
   const supabase = createSClient();
@@ -15,9 +13,8 @@ export default async function Dashboard() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  
-  if (!user?.id) {
-    return <div>User not found</div>;
+  if (!user) {
+    redirect('/signin');
   }
 
   const { data, error } = await supabase

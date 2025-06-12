@@ -180,3 +180,4 @@ export const startupSchema = z.object({
 });
 
 export type Startup = z.infer<typeof startupSchema>;
+

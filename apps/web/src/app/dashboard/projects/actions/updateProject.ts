@@ -1,7 +1,7 @@
 'use server';
 
 import { createSClient } from '@/supabase/server';
-import { Project } from '@lf/utils';
+import { Project } from '@lf/schemas';
 
 export async function updateProject(data: Project) {
   const supabase = await createSClient();

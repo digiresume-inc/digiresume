@@ -13,7 +13,9 @@ export async function GET(request: Request) {
       data: { user },
       error,
     } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error) {
+
+
+    if (!error && user) {
       const forwardedHost = request.headers.get('x-forwarded-host');
       const isLocalEnv = process.env.NODE_ENV === 'development';
       const { data: profile, error } = await supabase
@@ -21,6 +23,8 @@ export async function GET(request: Request) {
         .select('*')
         .eq('id', user?.id)
         .single();
+
+      
 
       if (profile?.onboarding === 'pending') {
         if (isLocalEnv) {

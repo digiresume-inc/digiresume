@@ -1,0 +1,23 @@
+{
+  "name": "@lf/schemas",
+  "version": "1.0.0",
+  "description": "Form schemas for Linkfolio",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*"
+  },
+  "dependencies": {
+    "zod": "^3.24.4"
+  },
+  "keywords": [
+    "Form Schemas",
+    "use-form",
+    "zod",
+    "Portfolio",
+    "Resume"
+  ],
+  "author": "Sai Prasad <prasadreddymar6@gmail.com>",
+  "license": "MIT"
+}

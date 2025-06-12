@@ -2,7 +2,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@lf/ui/components/base/button';
 import { Input } from '@lf/ui/components/base/input';
-import { blurFade, usernameSchema } from '@lf/utils';
+import { blurFade } from '@lf/utils';
+import { usernameSchema } from '@lf/schemas';
 import { IdCard, Loader2 } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';

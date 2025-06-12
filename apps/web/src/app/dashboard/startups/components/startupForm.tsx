@@ -15,8 +15,7 @@ import {
   SelectItem,
 } from '@lf/ui/components/base/select';
 import { Checkbox } from '@lf/ui/components/base/checkbox';
-import { startupSchema, statusOptions, categoryOptions } from '@lf/utils';
-import { Startup } from '@lf/utils';
+import { startupSchema, statusOptions, categoryOptions,Startup } from '@lf/schemas';
 import { Switch } from '@lf/ui/components/base/switch';
 import { Check, Loader2, Save } from 'lucide-react';
 import { addStartup } from '../actions/addStartup';

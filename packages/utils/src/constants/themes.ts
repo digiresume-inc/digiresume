@@ -1,4 +1,3 @@
-
 export type Theme = {
   id: number;
   theme_data: {
@@ -52,12 +51,12 @@ export const Themes: Theme[] = [
   {
     id: 3,
     theme_data: {
-      foreground: '#ff4d4d',
-      background: '#FFF5E4',
-      primary: '#ff8080',
-      card: '#FFE3E1',
-      border: '#ffb8b3',
-      secondary: '#ffb8b3',
+      foreground: '#0a0a0a',
+      background: '#ffffff',
+      primary: '#737373',
+      card: '#e6e6e6',
+      border: '#a6a6a6',
+      secondary: '#d9d9d9',
     },
     theme_type: 'light',
   },
@@ -124,24 +123,24 @@ export const Themes: Theme[] = [
   {
     id: 9,
     theme_data: {
-      foreground: '#FAF0E6',
-      background: '#352F44',
-      primary: '#B9B4C7',
-      card: '#5C5470',
-      border: '#6c6383',
-      secondary: '#484257',
+      foreground: '#e0ddef',
+      background: '#1a1823',
+      primary: '#a995c9',
+      card: '#232030',
+      border: '#302c40',
+      secondary: '#5a5370',
     },
     theme_type: 'dark',
   },
   {
     id: 10,
     theme_data: {
-      foreground: '#F6B17A',
-      background: '#2D3250',
-      primary: '#7077A1',
-      card: '#424769',
-      border: '#585f8d',
-      secondary: '#4f557d',
+      foreground: '#ffffff',
+      background: '#000000',
+      primary: '#ffffff',
+      card: '#090909',
+      border: '#242424',
+      secondary: '#222222',
     },
     theme_type: 'dark',
   },

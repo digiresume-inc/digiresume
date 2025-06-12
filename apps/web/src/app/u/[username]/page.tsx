@@ -1,18 +1,14 @@
 import { createSClient } from '@/supabase/server';
-import { redis } from '@/redis/config';
 import { Badge } from '@lf/ui/components/base/badge';
 import {
-  categoryOptions,
   formatMonthShortYear,
   formatMonthYear,
   getLineHeightPercent,
   getMonthsDifference,
   hexToHSL,
-  Project,
   Skill,
-  Startup,
-  statusOptions,
 } from '@lf/utils';
+import { statusOptions, categoryOptions } from '@lf/schemas';
 import React from 'react';
 import { Info, MapPin, Link2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
@@ -23,6 +19,11 @@ import MarkdownParser from '@/components/general/markdownparser';
 import ProfileUrl from './components/profileUrl';
 import ResumeDownload from './components/resumeDownload';
 import DynamicImage from '@/components/general/dynamicImage';
+import type { Database } from '@/lib/types/supabasetypes';
+
+type Profile = Database['public']['Tables']['profiles']['Row'];
+type Startup = Database['public']['Tables']['startups']['Row'];
+type Project = Database['public']['Tables']['projects']['Row'];
 
 function getPlatformIcon(url: string) {
   try {
@@ -37,68 +38,39 @@ function getPlatformIcon(url: string) {
 
 export default async function UsernamePage({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
-
-  let profile;
-  let startups;
-  let projects;
-
-  try {
-    // const cached = await redis.get(`profile:${username}`);
-
-    // if (cached) {
-    //   profile = typeof cached === 'string' ? JSON.parse(cached) : cached;
-    //   startups = profile.startups.sort((a: Startup, b: Startup) => a.index - b.index);
-    //   projects = profile.projects.sort((a: Project, b: Project) => a.index - b.index);
-    //   console.log('Fetched from redis');
-    // } else {
-    // console.log('Fetched from supabase');
-    const supabase = createSClient();
-    const { data, error } = await supabase
-      .from('profiles')
-      .select(
-        `
+  const supabase = createSClient();
+  const { data, error } = await supabase
+    .from('profiles')
+    .select(
+      `
         *,
         startups (*),
         projects(*)
       `
-      )
-      .eq('username', username)
-      .single();
-
-    if (error || !data) {
-      return (
-        <div className="h-screen w-full flex items-center justify-center bg-destructive">
-          <h1 className="font-extrabold text-5xl">{username}</h1>
-        </div>
-      );
-    }
-
-    profile = data;
-    startups = data.startups.sort((a: Startup, b: Startup) => a.index - b.index);
-    projects = data.projects.sort((a: Project, b: Project) => a.index - b.index);
-
-    // await redis.set(`profile:${username}`, JSON.stringify(profile), {
-    //   ex: 21600,
-    // });
-    // }
-  } catch (err) {
-    console.error('Redis or Supabase error:', err);
+    )
+    .eq('username', username)
+    .single();
+  if (error || !data) {
     return (
       <div className="h-screen w-full flex items-center justify-center bg-destructive">
-        <h1 className="font-extrabold text-5xl">Error loading {username}</h1>
+        <h1 className="font-extrabold text-5xl">{username}</h1>
       </div>
     );
   }
 
+  let { startups, projects, ...profile } = data;
+  startups.sort((a: Startup, b: Startup) => a.index - b.index);
+  projects.sort((a: Project, b: Project) => a.index - b.index);
+
   return renderProfile(profile, startups, projects);
 }
 
-async function renderProfile(profile: any, startups: any, projects: any) {
+async function renderProfile(profile: Profile, startups: Startup[], projects: Project[]) {
   const t = profile.theme.theme_data;
   const showExp = profile.experience.length > 0;
   const showStartups = startups.length > 0;
   const showProjects = projects.length > 0;
-  const defaultValue = showExp ? 'experience' : showStartups ? 'startups' : 'projects' ;
+  const defaultValue = showExp ? 'experience' : showStartups ? 'startups' : 'projects';
   return (
     <div
       style={{
@@ -131,7 +103,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                   <div className="flex flex-col justify-center gap-1.5">
                     <p
                       style={{
-                        color: t?.foreground,
+                        color: t.foreground,
                       }}
                       className="text-lg md:text-xl lg:text-2xl font-bold leading-tight tracking-[-0.015em]"
                     >
@@ -139,7 +111,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                     </p>
                     <p
                       style={{
-                        color: hexToHSL(t?.foreground!, 0.7),
+                        color: hexToHSL(t.foreground!, 0.7),
                       }}
                       className="flex items-center justify-start text-sm font-normal lg:font-medium gap-0.5 lg:gap-1 px-1"
                     >
@@ -231,7 +203,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                   style={{
                     background: t.background,
                   }}
-                  className="absolute flex flex-row justify-stretch w-full"
+                  className="absolute flex flex-row justify-stretch w-auto"
                 >
                   {showExp && (
                     <TabsTrigger
@@ -244,7 +216,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                           '--background-color': t.background,
                         } as React.CSSProperties
                       }
-                      className="cursor-pointer flex flex-col items-center justify-center  border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                      className="cursor-pointer flex flex-col items-center justify-center  border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[10px] lg:pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                     >
                       Experience
                     </TabsTrigger>
@@ -260,7 +232,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                           '--background-color': t.background,
                         } as React.CSSProperties
                       }
-                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[10px] lg:pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                     >
                       Startups
                     </TabsTrigger>
@@ -276,7 +248,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                           '--background-color': t.background,
                         } as React.CSSProperties
                       }
-                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
+                      className="cursor-pointer flex flex-col items-center justify-center border-t-0 border-r-0 border-l-0 border-b-[3px] data-[state=active]:shadow-none border-transparent data-[state=active]:bg-[var(--background-color)] data-[state=active]:border-[var(--active-border-color)] !text-[var(--inactive-text-color)] data-[state=active]:!text-[var(--active-text-color)] pb-[10px] lg:pb-[20px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
                     >
                       Projects
                     </TabsTrigger>
@@ -319,7 +291,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                               </div>
                               <p
                                 style={{
-                                  color: t?.foreground,
+                                  color: t.foreground,
                                 }}
                                 className="font-bold text-base lg:text-lg truncate"
                               >
@@ -392,7 +364,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                                                     </p>
                                                     <span
                                                       style={{
-                                                        color: hexToHSL(t?.foreground!, 0.7),
+                                                        color: hexToHSL(t.foreground!, 0.7),
                                                       }}
                                                       className="text-xs text-muted-foreground truncate max-w-16 lg:max-w-fit"
                                                     >
@@ -423,7 +395,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                                                     )}
                                                     <span
                                                       style={{
-                                                        color: t?.foreground,
+                                                        color: t.foreground,
                                                       }}
                                                       className="mx-0.5"
                                                     >
@@ -484,15 +456,15 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                         <div
                           key={index}
                           style={{
-                            background: t?.card,
-                            borderColor: hexToHSL(t?.primary!, 0.3),
+                            background: t.card,
+                            borderColor: hexToHSL(t.primary!, 0.3),
                           }}
                           className="min-h-34 col-span-1 w-full bg-card rounded-lg border p-3 flex flex-col gap-2 items-start justify-start"
                         >
                           <div className="flex items-center justify-center gap-2">
                             <div
                               style={{
-                                borderColor: hexToHSL(t?.primary!, 0.3),
+                                borderColor: hexToHSL(t.primary!, 0.3),
                               }}
                               className="w-12 h-12 p-0.5 border rounded-full border-dashed"
                             >
@@ -503,7 +475,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                             </div>
                             <div className="flex flex-col items-start justify-center gap-1">
                               <p
-                                style={{ color: t?.foreground }}
+                                style={{ color: t.foreground }}
                                 className="text-base font-bold ml-1"
                               >
                                 {startup.name}
@@ -516,8 +488,8 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                                   return currentStatus ? (
                                     <span
                                       style={{
-                                        background: t?.secondary,
-                                        color: t?.foreground,
+                                        background: t.secondary,
+                                        color: t.foreground,
                                       }}
                                       className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs`}
                                     >
@@ -527,8 +499,8 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                                   ) : (
                                     <span
                                       style={{
-                                        background: t?.secondary,
-                                        color: t?.foreground,
+                                        background: t.secondary,
+                                        color: t.foreground,
                                       }}
                                       className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs"
                                     >
@@ -543,8 +515,8 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                                   return currentCategory ? (
                                     <span
                                       style={{
-                                        background: t?.secondary,
-                                        color: t?.foreground,
+                                        background: t.secondary,
+                                        color: t.foreground,
                                       }}
                                       className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs`}
                                     >
@@ -554,8 +526,8 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                                   ) : (
                                     <span
                                       style={{
-                                        background: t?.secondary,
-                                        color: t?.foreground,
+                                        background: t.secondary,
+                                        color: t.foreground,
                                       }}
                                       className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs"
                                     >
@@ -567,17 +539,19 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                             </div>
                           </div>
                           <div
-                            style={{ background: hexToHSL(t?.primary!, 0.6) }}
+                            style={{ background: hexToHSL(t.primary!, 0.6) }}
                             className="h-px w-full"
                           />
                           <div
                             style={{
-                              color: hexToHSL(t?.foreground!, 0.7),
+                              color: hexToHSL(t.foreground!, 0.7),
                             }}
                             className="text-sm font-medium"
                           >
                             <span className="line-clamp-3">
-                              <MarkdownParser text={startup.description} />
+                              <MarkdownParser
+                                text={startup.description || 'No Description Found.'}
+                              />
                             </span>
                           </div>
                         </div>
@@ -595,15 +569,15 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                         <div
                           key={index}
                           style={{
-                            background: t?.card,
-                            borderColor: hexToHSL(t?.primary!, 0.3),
+                            background: t.card,
+                            borderColor: hexToHSL(t.primary!, 0.3),
                           }}
                           className="min-h-34 col-span-1 w-full bg-card rounded-lg border p-3 flex flex-col gap-2 items-start justify-start"
                         >
                           <div className="flex items-center justify-center gap-2">
                             <div
                               style={{
-                                borderColor: hexToHSL(t?.primary!, 0.3),
+                                borderColor: hexToHSL(t.primary!, 0.3),
                               }}
                               className="w-12 h-12 p-0.5 border rounded-full border-dashed"
                             >
@@ -614,7 +588,7 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                             </div>
                             <div className="flex flex-col items-start justify-center gap-1">
                               <p
-                                style={{ color: t?.foreground }}
+                                style={{ color: t.foreground }}
                                 className="text-base font-bold ml-1"
                               >
                                 {project.name}
@@ -627,8 +601,8 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                                   return currentCategory ? (
                                     <span
                                       style={{
-                                        background: t?.secondary,
-                                        color: t?.foreground,
+                                        background: t.secondary,
+                                        color: t.foreground,
                                       }}
                                       className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs`}
                                     >
@@ -638,8 +612,8 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                                   ) : (
                                     <span
                                       style={{
-                                        background: t?.secondary,
-                                        color: t?.foreground,
+                                        background: t.secondary,
+                                        color: t.foreground,
                                       }}
                                       className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs"
                                     >
@@ -651,12 +625,12 @@ async function renderProfile(profile: any, startups: any, projects: any) {
                             </div>
                           </div>
                           <div
-                            style={{ background: hexToHSL(t?.primary!, 0.6) }}
+                            style={{ background: hexToHSL(t.primary!, 0.6) }}
                             className="h-px w-full bg-primary/60"
                           />
                           <div
                             style={{
-                              color: hexToHSL(t?.foreground!, 0.7),
+                              color: hexToHSL(t.foreground!, 0.7),
                             }}
                             className="text-sm font-medium"
                           >

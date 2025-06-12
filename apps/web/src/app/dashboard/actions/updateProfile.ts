@@ -1,7 +1,7 @@
 'use server';
 
 import { createSClient } from '@/supabase/server';
-import { profileUpdateSchema } from '@lf/utils';
+import { profileUpdateSchema } from '@lf/schemas';
 import { z } from 'zod';
 
 export async function updateProfile(data: z.infer<typeof profileUpdateSchema>) {

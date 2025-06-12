@@ -1,7 +1,7 @@
 // ExperienceUpdate.tsx
 'use client';
 import React from 'react';
-import { singleExperienceSchema } from '@lf/utils';
+import { singleExperienceSchema } from '@lf/schemas';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';

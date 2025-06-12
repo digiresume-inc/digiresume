@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { loginSchema } from '@lf/utils';
+import { loginSchema } from '@lf/schemas';
 import { loginUser } from './action';
 
 import {
@@ -90,8 +90,6 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
             Login
           </SubmitButton>
         </form>
-        <span onClick={() => ToastSuccess({ message: 'Success' })}>toast</span>
-        <span onClick={() => ToastError({ message: 'Error' })}>error</span>
       </CardContent>
     </Card>
   );

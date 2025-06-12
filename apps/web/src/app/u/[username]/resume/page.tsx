@@ -1,11 +1,12 @@
 import React from 'react';
 import { JetBrains_Mono, Merriweather } from 'next/font/google';
-import { CornerDownRight, Link2, Mail, MapPin, Phone } from 'lucide-react';
+import { CornerDownRight, Link2, Mail, MapPin, Phone, Verified } from 'lucide-react';
 import { socialIconMap } from '@/lib/utils/iconMap';
 import MarkdownParser from '@/components/general/markdownparser';
-import { formatMonthShortYear, getMonthsDifference, Project, Startup } from '@lf/utils';
+import { formatMonthShortYear, getMonthsDifference } from '@lf/utils';
 import { createSClient } from '@/supabase/server';
 import DynamicImage from '@/components/general/dynamicImage';
+import type { Database } from '@/lib/types/supabasetypes';
 
 const jetbrains = JetBrains_Mono({
   variable: '--font-jetbrains',
@@ -33,11 +34,11 @@ function getPlatformIcon(url: string) {
   }
 }
 
+type Startup = Database['public']['Tables']['startups']['Row'];
+type Project = Database['public']['Tables']['projects']['Row'];
+
 export default async function Resume({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
-  let profile;
-  let startups;
-  let projects;
   const supabase = createSClient();
   const { data, error } = await supabase
     .from('profiles')
@@ -58,15 +59,9 @@ export default async function Resume({ params }: { params: Promise<{ username: s
     );
   }
 
-  profile = data;
-  startups = data.startups.sort((a: Startup, b: Startup) => a.index - b.index);
-  projects = data.projects.sort((a: Project, b: Project) => a.index - b.index);
-
-  profile = {
-    ...data,
-    startups: startups,
-    projects: projects,
-  };
+  let { startups, projects, ...profile } = data;
+  startups.sort((a: Startup, b: Startup) => a.index - b.index);
+  projects.sort((a: Project, b: Project) => a.index - b.index);
 
   const isEducationEmpty = Object.values(profile.education).every(
     (val) => typeof val === 'string' && val.trim() === ''
@@ -79,8 +74,11 @@ export default async function Resume({ params }: { params: Promise<{ username: s
       <section className="mx-auto w-full max-w-2xl space-y-8 bg-white print:space-y-4">
         <header className="flex items-start justify-between">
           <div className="flex-1 space-y-1.5">
-            <h1 className="text-lg lg:text-2xl font-bold text-black merriweather" id="resume-name">
-              {profile.full_name}
+            <h1
+              className="text-lg lg:text-2xl font-bold text-black merriweather flex flex-wrap items-center gap-1"
+              id="resume-name"
+            >
+              {profile.full_name} <Verified />
             </h1>
             <p
               className={`ml-0.5 max-w-md text-pretty jetbrains text-xs lg:text-sm text-black/80 print:text-[12px]`}
@@ -135,7 +133,7 @@ export default async function Resume({ params }: { params: Promise<{ username: s
             <DynamicImage
               height={112}
               width={112}
-              className="aspect-square h-full w-full object-cover grayscale"
+              className="aspect-square h-full w-full object-cover grayscale border border-gray-200 lg:border-gray-300 rounded-xl"
               alt={`${profile.full_name}'s profile picture`}
               url={profile.avatar_url}
             />
@@ -169,116 +167,122 @@ export default async function Resume({ params }: { params: Promise<{ username: s
               </span>
             </a>
           </section>
-          <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
-            <h2
-              className="text-base lg:text-xl font-bold text-black/80 merriweather"
-              id="about-section"
-            >
-              About
-            </h2>
-            <div
-              className="text-pretty jetbrains text-xs lg:text-sm text-black/80 print:text-[12px]"
-              aria-labelledby="about-section"
-            >
-              <MarkdownParser text={profile.shortbio || 'No bio available.'} />
-            </div>
-          </section>
-          <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
-            <h2
-              className="text-base lg:text-xl font-bold text-black/80 merriweather"
-              id="work-experience"
-            >
-              Work Experience
-            </h2>
-            <div
-              className="space-y-4 print:space-y-0"
-              role="feed"
-              aria-labelledby="work-experience"
-            >
-              {profile.experience.map((exp: any, index: any) => {
-                return (
-                  <article key={index} role="article">
-                    <div className="rounded-lg bg-white text-black py-1 print:py-0">
-                      <div className="flex flex-col space-y-1.5 print:space-y-1">
-                        <div className="flex items-center justify-between gap-x-2 text-base">
-                          <h3 className="text-sm lg:text-base inline-flex items-center justify-center gap-x-1 font-semibold leading-none print:text-sm">
-                            <a
-                              className="hover:underline merriweather"
-                              href={exp.company_link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label={`${exp.company} company website`}
-                            >
-                              {exp.company}
-                            </a>
-                          </h3>
-                        </div>
-                        <div className="space-y-1 mt-2 pl-2">
-                          {exp.roles.map((role: any, idx: any) => {
-                            return (
-                              <span
-                                key={idx}
-                                className="flex flex-col lg:flex-row lg:items-center lg:justify-between text-black/90 gap-y-1"
+          {profile.shortbio && (
+            <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
+              <h2
+                className="text-base lg:text-xl font-bold text-black/80 merriweather"
+                id="about-section"
+              >
+                About
+              </h2>
+              <div
+                className="text-pretty jetbrains text-xs lg:text-sm text-black/80 print:text-[12px]"
+                aria-labelledby="about-section"
+              >
+                <MarkdownParser text={profile.shortbio} />
+              </div>
+            </section>
+          )}
+          {profile.experience.length > 0 && (
+            <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
+              <h2
+                className="text-base lg:text-xl font-bold text-black/80 merriweather"
+                id="work-experience"
+              >
+                Work Experience
+              </h2>
+              <div
+                className="space-y-4 print:space-y-0"
+                role="feed"
+                aria-labelledby="work-experience"
+              >
+                {profile.experience.map((exp: any, index: any) => {
+                  return (
+                    <article key={index} role="article">
+                      <div className="rounded-lg bg-white text-black py-1 print:py-0">
+                        <div className="flex flex-col space-y-1.5 print:space-y-1">
+                          <div className="flex items-center justify-between gap-x-2 text-base">
+                            <h3 className="text-sm lg:text-base inline-flex items-center justify-center gap-x-1 font-semibold leading-none print:text-sm">
+                              <a
+                                className="hover:underline merriweather"
+                                href={exp.company_link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={`${exp.company} company website`}
                               >
-                                <h4 className="jetbrains text-xs lg:text-sm font-semibold leading-none print:text-[12px] flex items-center gap-1 flex-wrap">
-                                  <CornerDownRight strokeWidth={1} size={16} />
-                                  <span className="flex-1 min-w-0">
-                                    {role.headline || 'No role specified.'}
-                                  </span>
-                                  <span className="inline-flex items-center rounded-lg border px-1 lg:px-2 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent cursor-default bg-gray-300/70 text-black hover:bg-gray-300/50 align-middle text-xxs lg:text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                                    {role.location_type}
-                                  </span>
-                                </h4>
-                                <p className="pl-6 lg:pl-0 jetbrains text-black/70 text-xs font-medium tracking-tight lg:tracking-normal leading-none print:text-[10px] flex-shrink-0">
-                                  {formatMonthShortYear(role.start_date)} -{' '}
-                                  {role.end_date ? formatMonthShortYear(role.end_date) : 'Present'}
-                                  {role.end_date && (
-                                    <span className="ml-0.5">
-                                      ({getMonthsDifference(role.start_date, role.end_date)})
-                                    </span>
-                                  )}
-                                </p>
-                              </span>
-                            );
-                          })}
-                        </div>
-                      </div>
-                      <div className="text-pretty jetbrains text-sm text-muted-foreground pl-2">
-                        <div className="mt-4 text-xs text-black/80 print:mt-1 print:text-[10px] text-pretty">
-                          <MarkdownParser text={exp.contribution} />
-                        </div>
-                        {exp.skills_used.length > 0 && (
-                          <div className="mt-2">
-                            <ul
-                              className="inline-flex list-none pl-0.5 lg:pl-2 flex-wrap gap-1"
-                              aria-label="Technologies used"
-                            >
-                              {exp.skills_used.map((skill: any, index: number) => {
-                                return (
-                                  <li key={index} aria-label={`Skill: ${skill.label}`}>
-                                    <div className="cursor-default flex items-center rounded-md border px-1.5 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 align-middle text-xxs lg:text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                                      {skill.logo && (
-                                        <img
-                                          src={skill.logo}
-                                          alt={`${skill.label} logo`}
-                                          className="mr-0.5 h-3 w-3 rounded grayscale"
-                                        />
-                                      )}
-                                      {skill.label}
-                                    </div>
-                                  </li>
-                                );
-                              })}
-                            </ul>
+                                {exp.company}
+                              </a>
+                            </h3>
                           </div>
-                        )}
+                          <div className="space-y-1 mt-2 pl-2">
+                            {exp.roles.map((role: any, idx: any) => {
+                              return (
+                                <span
+                                  key={idx}
+                                  className="flex flex-col lg:flex-row lg:items-center lg:justify-between text-black/90 gap-y-1"
+                                >
+                                  <h4 className="jetbrains text-xs lg:text-sm font-semibold leading-none print:text-[12px] flex items-center gap-1 flex-wrap">
+                                    <CornerDownRight strokeWidth={1} size={16} />
+                                    <span className="flex-1 min-w-0">
+                                      {role.headline || 'No role specified.'}
+                                    </span>
+                                    <span className="inline-flex items-center rounded-lg border px-1 lg:px-2 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent cursor-default bg-gray-300/70 text-black hover:bg-gray-300/50 align-middle text-xxs lg:text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                      {role.location_type}
+                                    </span>
+                                  </h4>
+                                  <p className="pl-6 lg:pl-0 jetbrains text-black/70 text-xs font-medium tracking-tight lg:tracking-normal leading-none print:text-[10px] flex-shrink-0">
+                                    {formatMonthShortYear(role.start_date)} -{' '}
+                                    {role.end_date
+                                      ? formatMonthShortYear(role.end_date)
+                                      : 'Present'}
+                                    {role.end_date && (
+                                      <span className="ml-0.5">
+                                        ({getMonthsDifference(role.start_date, role.end_date)})
+                                      </span>
+                                    )}
+                                  </p>
+                                </span>
+                              );
+                            })}
+                          </div>
+                        </div>
+                        <div className="text-pretty jetbrains text-sm text-muted-foreground pl-2">
+                          <div className="mt-4 text-xs text-black/80 print:mt-1 print:text-[10px] text-pretty">
+                            <MarkdownParser text={exp.contribution} />
+                          </div>
+                          {exp.skills_used.length > 0 && (
+                            <div className="mt-2">
+                              <ul
+                                className="inline-flex list-none pl-0.5 lg:pl-2 flex-wrap gap-1"
+                                aria-label="Technologies used"
+                              >
+                                {exp.skills_used.map((skill: any, index: number) => {
+                                  return (
+                                    <li key={index} aria-label={`Skill: ${skill.label}`}>
+                                      <div className="cursor-default flex items-center rounded-md border px-1.5 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 align-middle text-xxs lg:text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                        {skill.logo && (
+                                          <img
+                                            src={skill.logo}
+                                            alt={`${skill.label} logo`}
+                                            className="mr-0.5 h-3 w-3 rounded grayscale"
+                                          />
+                                        )}
+                                        {skill.label}
+                                      </div>
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </section>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          )}
           {!isEducationEmpty && (
             <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
               <h2
@@ -316,7 +320,7 @@ export default async function Resume({ params }: { params: Promise<{ username: s
                           {profile.education.branch || 'No branch specified.'}
                         </div>
                         <p className="jetbrains text-xs lg:text-sm font-extrabold leading-none text-black/80 whitespace-nowrap flex-shrink-0">
-                          Grade: 8.4
+                          {profile.education.grade}
                         </p>
                       </div>
                     </div>
@@ -325,126 +329,207 @@ export default async function Resume({ params }: { params: Promise<{ username: s
               </div>
             </section>
           )}
-          <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
-            <h2
-              className="text-base lg:text-xl font-bold text-black/80 merriweather"
-              id="skills-section"
-            >
-              Skills
-            </h2>
-            <ul className="flex list-none flex-wrap gap-1 p-0" aria-label="List of skills">
-              {profile.skills.map((skill: any, index: any) => {
-                return (
-                  <li key={index}>
-                    <div
-                      className="cursor-default flex gap-1 items-center justify-center rounded-md border px-2 py-0.5 text-xs font-semibold jetbrains transition-colors text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 print:text-[10px]"
-                      aria-label={`Skill: ${skill.label}`}
-                    >
-                      {skill.logo && (
-                        <img
-                          src={skill.logo}
-                          alt={`${skill.label} logo`}
-                          className="mr-1 h-4 w-4 rounded grayscale"
-                        />
-                      )}
-                      {skill.label}
-                    </div>
-                  </li>
-                );
-              })}
-              {/* <li>
-                <div
-                  className="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-semibold jetbrains transition-colors text-nowrap border-transparent bg-gray-300/80 text-black hover:bg-gray-300/60 print:text-[10px]"
-                  aria-label="Skill: React/Next.js/Remix"
-                >
-                  React/Next.js/Remix
-                </div>
-              </li> */}
-            </ul>
-          </section>
-          <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
-            <h2
-              className="text-base lg:text-xl font-bold text-black/80 merriweather"
-              id="skills-section"
-            >
-              Projects
-            </h2>
-            <div
-              className="grid grid-cols-1 gap-3 print:grid-cols-3 print:gap-2 md:grid-cols-2 lg:grid-cols-3"
-              role="feed"
-              aria-labelledby="projects"
-            >
-              {projects.map((project: any, index: number) => {
-                return (
-                  <article key={index} className="h-full">
-                    <div
-                      className="rounded-lg bg-white text-black flex h-full flex-col overflow-hidden border border-gray-300 p-3"
-                      role="article"
-                    >
-                      <div className="flex flex-col space-y-1.5">
-                        <div className="space-y-1">
-                          <h3 className="font-semibold tracking-tight text-base">
-                            <a
-                              href={project.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 hover:underline merriweather"
-                              aria-label={`${project.Name} project (opens in new tab)`}
+          {profile.skills.length > 0 && (
+            <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
+              <h2
+                className="text-base lg:text-xl font-bold text-black/80 merriweather"
+                id="skills-section"
+              >
+                Skills
+              </h2>
+              <ul className="flex list-none flex-wrap gap-1 p-0" aria-label="List of skills">
+                {profile.skills.map((skill: any, index: any) => {
+                  return (
+                    <li key={index}>
+                      <div
+                        className="cursor-default flex gap-1 items-center justify-center rounded-md border px-2 py-0.5 text-xs font-semibold jetbrains transition-colors text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 print:text-[10px]"
+                        aria-label={`Skill: ${skill.label}`}
+                      >
+                        {skill.logo && (
+                          <img
+                            src={skill.logo}
+                            alt={`${skill.label} logo`}
+                            className="mr-1 h-4 w-4 rounded grayscale"
+                          />
+                        )}
+                        {skill.label}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          )}
+          {projects.length > 0 && (
+            <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
+              <h2
+                className="text-base lg:text-xl font-bold text-black/80 merriweather"
+                id="skills-section"
+              >
+                Projects
+              </h2>
+              <div
+                className="grid grid-cols-1 gap-3 print:grid-cols-3 print:gap-2 md:grid-cols-2 lg:grid-cols-3"
+                role="feed"
+                aria-labelledby="projects"
+              >
+                {projects.map((project: any, index: number) => {
+                  return (
+                    <article key={index} className="h-full">
+                      <div
+                        className="rounded-lg bg-white text-black flex h-full flex-col overflow-hidden border border-gray-200 lg:border-gray-300 p-3"
+                        role="article"
+                      >
+                        <div className="flex flex-col space-y-1.5">
+                          <div className="space-y-1">
+                            <h3 className="font-semibold tracking-tight text-base">
+                              <a
+                                href={project.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 hover:underline merriweather relative"
+                                aria-label={`${project.Name} project (opens in new tab)`}
+                              >
+                                {project.name}
+                                <span className="absolute top-1/2 -translate-y-1/2 -right-4 w-1.5 h-1.5 flex items-center justify-center">
+                                  <span className="absolute w-full h-full bg-green-600 dark:bg-green-500 rounded-full"></span>
+                                  <span className="absolute w-full h-full bg-green-600 dark:bg-green-500 rounded-full opacity-75 animate-ping"></span>
+                                </span>
+                              </a>
+                              <div
+                                className="hidden jetbrains text-xs underline print:visible"
+                                aria-hidden="true"
+                              >
+                                {project.name}
+                              </div>
+                            </h3>
+                            <span
+                              className="text-black/80 text-pretty jetbrains text-xs print:text-[10px]"
+                              aria-label="Project description"
                             >
-                              {project.name}
-                              <span
-                                className="size-1 rounded-full bg-green-500"
-                                aria-label="Active project indicator"
-                              />
-                            </a>
-                            <div
-                              className="hidden jetbrains text-xs underline print:visible"
-                              aria-hidden="true"
-                            >
-                              {project.name}
-                            </div>
-                          </h3>
-                          <span
-                            className="text-black/80 text-pretty jetbrains text-xs print:text-[10px]"
-                            aria-label="Project description"
+                              <MarkdownParser text={project.description} />
+                            </span>
+                          </div>
+                        </div>
+                        <div className="text-pretty jetbrains text-sm text-black/80 mt-auto flex">
+                          <ul
+                            className="mt-2 flex list-none flex-wrap gap-1 p-0"
+                            aria-label="Technologies used"
                           >
-                            <MarkdownParser text={project.description}/>
-                          </span>
+                            <li>
+                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                TypeScript
+                              </div>
+                            </li>
+                            <li>
+                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                Next.js
+                              </div>
+                            </li>
+                            <li>
+                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                Browser Extension
+                              </div>
+                            </li>
+                            <li>
+                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                PostgreSQL
+                              </div>
+                            </li>
+                          </ul>
                         </div>
                       </div>
-                      <div className="text-pretty jetbrains text-sm text-black/80 mt-auto flex">
-                        <ul
-                          className="mt-2 flex list-none flex-wrap gap-1 p-0"
-                          aria-label="Technologies used"
-                        >
-                          <li>
-                            <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                              TypeScript
-                            </div>
-                          </li>
-                          <li>
-                            <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                              Next.js
-                            </div>
-                          </li>
-                          <li>
-                            <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                              Browser Extension
-                            </div>
-                          </li>
-                          <li>
-                            <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                              PostgreSQL
-                            </div>
-                          </li>
-                        </ul>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+          {startups.length > 0 && (
+            <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
+              <h2
+                className="text-base lg:text-xl font-bold text-black/80 merriweather"
+                id="skills-section"
+              >
+                Shipped
+              </h2>
+              <div
+                className="grid grid-cols-1 gap-3 print:grid-cols-3 print:gap-2 md:grid-cols-2 lg:grid-cols-3"
+                role="feed"
+                aria-labelledby="startups"
+              >
+                {startups.map((startup: any, index: number) => {
+                  return (
+                    <article key={index} className="h-full">
+                      <div
+                        className="rounded-lg bg-white text-black flex h-full flex-col overflow-hidden border border-gray-200 lg:border-gray-300 p-3"
+                        role="article"
+                      >
+                        <div className="flex flex-col space-y-1.5">
+                          <div className="space-y-1">
+                            <h3 className="font-semibold tracking-tight text-base">
+                              <a
+                                href={startup.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 hover:underline merriweather relative"
+                                aria-label={`${startup.Name} startup (opens in new tab)`}
+                              >
+                                {startup.name}
+                                <span className="absolute top-1/2 -translate-y-1/2 -right-4 w-1.5 h-1.5 flex items-center justify-center">
+                                  <span className="absolute w-full h-full bg-green-600 dark:bg-green-500 rounded-full"></span>
+                                  <span className="absolute w-full h-full bg-green-600 dark:bg-green-500 rounded-full opacity-75 animate-ping"></span>
+                                </span>
+                              </a>
+                              <div
+                                className="hidden jetbrains text-xs underline print:visible"
+                                aria-hidden="true"
+                              >
+                                {startup.name}
+                              </div>
+                            </h3>
+                            <span
+                              className="text-black/80 text-pretty jetbrains text-xs print:text-[10px]"
+                              aria-label="Project description"
+                            >
+                              <MarkdownParser text={startup.description} />
+                            </span>
+                          </div>
+                        </div>
+                        <div className="text-pretty jetbrains text-sm text-black/80 mt-auto flex">
+                          <ul
+                            className="mt-2 flex list-none flex-wrap gap-1 p-0"
+                            aria-label="Technologies used"
+                          >
+                            <li>
+                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                TypeScript
+                              </div>
+                            </li>
+                            <li>
+                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                Next.js
+                              </div>
+                            </li>
+                            <li>
+                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                Browser Extension
+                              </div>
+                            </li>
+                            <li>
+                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                PostgreSQL
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </section>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          )}
         </div>
       </section>
     </div>

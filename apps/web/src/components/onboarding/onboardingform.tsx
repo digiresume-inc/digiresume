@@ -3,7 +3,7 @@ import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { createClient } from '@/supabase/client';
 import { Button } from '@lf/ui/components/base/button';
 import { Input } from '@lf/ui/components/base/input';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import {
   AtSign,
@@ -24,7 +24,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@lf/ui/components/base
 import { Textarea } from '@lf/ui/components/base/textarea';
 import { SiLinkedin } from 'react-icons/si';
 import { SkillsSelect } from '@/components/dashboard/skillselect';
-import { blurFade, blurUpFade, countries, onboardingSchema } from '@lf/utils';
+import { blurFade, blurUpFade, countries } from '@lf/utils';
+import {onboardingSchema} from "@lf/schemas"
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -71,10 +72,10 @@ const OnboardingForm = ({ username }: { username: string }) => {
         branch: '',
         start_date: '',
         end_date: '',
+        grade: '',
       },
       socials: [],
       skills: [],
-      startups: [],
     },
   });
 
@@ -89,19 +90,15 @@ const OnboardingForm = ({ username }: { username: string }) => {
     name: 'socials',
   });
 
-  const {
-    fields: startupFields,
-    append: appendStartup,
-    remove: removeStartup,
-  } = useFieldArray({
-    control,
-    name: 'startups',
-  });
 
   const updateOnboardStatus = async () => {
     const {
       data: { user },
     } = await supabase.auth.getUser();
+
+    if (!user) {
+      redirect('/signin');
+    }
     const { error } = await supabase
       .from('profiles')
       .update({
@@ -497,6 +494,27 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           </p>
                         )}
                       </div>
+                      <div className="flex flex-col items-start justify-center">
+                        {' '}
+                        <label
+                          className="text-sm font-medium text-foreground/70"
+                          htmlFor="education.grade"
+                        >
+                          Grade
+                        </label>
+                        <Input
+                          id="education.grade"
+                          className="bg-secondary w-full text-sm"
+                          type="text"
+                          placeholder="MM/20YY..."
+                          {...form.register('education.grade')}
+                        />
+                        {form.formState.errors.education?.grade && (
+                          <p className="text-xs lg:text-sm text-red-500 mt-1">
+                            {form.formState.errors.education?.grade.message}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -573,98 +591,6 @@ const OnboardingForm = ({ username }: { username: string }) => {
                     onChange={(v) => form.setValue('skills', v)}
                     className="max-w-98"
                   />
-                </div>
-              </div>
-              <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
-                <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
-                  {step + 3}
-                </div>
-                <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
-                  <h1 className="text-lg lg:text-xl font-semibold flex items-center justify-center gap-2">
-                    <FolderKanban className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} />{' '}
-                    Startups/Projects
-                  </h1>
-                  {startupFields.map((field, index) => (
-                    <Card
-                      key={field.id}
-                      className="w-full max-w-md shadow-md border-muted bg-muted"
-                    >
-                      <CardHeader>
-                        <CardTitle className="flex items-center justify-between">
-                          <div className="flex items-center gap-2 text-base lg:text-lg font-semibold">
-                            <Pencil className="h-4 w-4 text-muted-foreground" />
-                            Entry {index + 1}
-                          </div>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => removeStartup(index)}
-                          >
-                            <X className="w-4 h-4" />
-                          </Button>
-                        </CardTitle>
-                      </CardHeader>
-
-                      <CardContent className="flex flex-col gap-4 px-4 lg:px-6">
-                        {/* Startup Name */}
-                        <div className="flex flex-col gap-1">
-                          <label className="text-xs lg:text-sm flex items-center gap-1">
-                            <IdCard className="h-4 w-4 text-muted-foreground" />
-                            Startup Name
-                          </label>
-                          <Input
-                            {...register(`startups.${index}.name`)}
-                            placeholder="e.g., Popat Match"
-                            className="bg-secondary text-sm"
-                          />
-                        </div>
-
-                        {/* Website */}
-                        <div className="flex flex-col gap-1">
-                          <label className="text-xs lg:text-sm flex items-center gap-1">
-                            <Globe className="h-4 w-4 text-muted-foreground" />
-                            Website
-                          </label>
-                          <Input
-                            {...register(`startups.${index}.url`)}
-                            placeholder="https://yourstartup.com"
-                            className="bg-secondary text-sm"
-                            type="url"
-                          />
-                        </div>
-
-                        {/* Description */}
-                        <div className="flex flex-col gap-1">
-                          <label className="text-smtext-xs lg:text-sm flex items-center gap-1">
-                            <Link2 className="h-4 w-4 text-muted-foreground" />
-                            Description
-                          </label>
-                          <Textarea
-                            {...register(`startups.${index}.description`)}
-                            rows={3}
-                            placeholder="Tell us about your startup idea…"
-                            className="bg-secondary text-sm"
-                          />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                  <Button
-                    type="button"
-                    className="w-full max-w-md"
-                    variant="outline"
-                    size="sm"
-                    onClick={() =>
-                      appendStartup({
-                        name: '',
-                        url: '',
-                        description: '',
-                      })
-                    }
-                  >
-                    Add <Plus />
-                  </Button>
                 </div>
               </div>
               <div className="w-full max-w-md flex mb-15">

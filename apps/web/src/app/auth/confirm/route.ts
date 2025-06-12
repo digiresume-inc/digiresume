@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       token_hash,
     });
 
-    if (!error) {
+    if (!error && user) {
       const { data: profile, error } = await supabase
         .from('profiles')
         .select('*')

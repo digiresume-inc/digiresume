@@ -21,13 +21,16 @@ export default async function Onboarding() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  if (!user) {
+    redirect('/signin');
+  }
   const { data, error } = await supabase
     .from('profiles')
     .select('onboarding,username')
     .eq('id', user?.id)
     .single();
 
-  if (!user || data?.onboarding !== 'pending') {
+  if (data?.onboarding !== 'pending') {
     redirect('/');
   }
 

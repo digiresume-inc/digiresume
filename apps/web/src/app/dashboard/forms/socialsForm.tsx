@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Trash2, Link2, Plus, Save, Loader2 } from 'lucide-react';
 import { Input } from '@lf/ui/components/base/input';
 import { Button } from '@lf/ui/components/base/button';
-import { socialsSchema, SocialsSchema } from '@lf/utils';
+import { socialsSchema, SocialsSchema } from '@lf/schemas';
 import { socialIconMap } from '@/lib/utils/iconMap';
 import { updateSocials } from '../actions/updateSocials';
 import { ToastError, ToastSuccess } from '@/components/general/toast';

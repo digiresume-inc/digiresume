@@ -1,16 +1,7 @@
 import { z } from 'zod';
+import { monthYearRegex, skillSchema } from './general';
 
-const skillSchema = z.object({
-  label: z.string(),
-  value: z.string(),
-  logo: z.string().url().or(z.string()),
-  category: z.string().min(1, { message: 'Skill category is required' }),
-});
-
-// Custom date regex: MM/YYYY (e.g. 08/2023)
-const monthYearRegex = /^(0[1-9]|1[0-2])\/\d{4}$/;
-
-export const employmentTypeEnum = z.enum([
+const employmentTypeEnum = z.enum([
   'Full-time',
   'Part-time',
   'Self-employed',
@@ -19,9 +10,8 @@ export const employmentTypeEnum = z.enum([
   'Trainee',
 ]);
 
-export const locationTypeEnum = z.enum(['On-site', 'Hybrid', 'Remote']);
+const locationTypeEnum = z.enum(['On-site', 'Hybrid', 'Remote']);
 
-// Role schema with conditional logic
 const roleSchema = z
   .object({
     headline: z.string().min(1, 'Headline is required'),
