@@ -1,5 +1,4 @@
 import React from 'react';
-import { JetBrains_Mono, Merriweather } from 'next/font/google';
 import { CornerDownRight, Link2, Mail, MapPin, Phone, Verified } from 'lucide-react';
 import { socialIconMap } from '@/lib/utils/iconMap';
 import MarkdownParser from '@/components/general/markdownparser';
@@ -8,16 +7,6 @@ import { createSClient } from '@/supabase/server';
 import DynamicImage from '@/components/general/dynamicImage';
 import type { Database } from '@/lib/types/supabasetypes';
 
-const jetbrains = JetBrains_Mono({
-  variable: '--font-jetbrains',
-  subsets: ['latin'],
-});
-
-const merriweather = Merriweather({
-  variable: '--font-merriweather',
-  subsets: ['latin'],
-  weight: ['300', '400', '700', '900'],
-});
 
 function getPlatformIcon(url: string) {
   try {
@@ -37,7 +26,7 @@ function getPlatformIcon(url: string) {
 type Startup = Database['public']['Tables']['startups']['Row'];
 type Project = Database['public']['Tables']['projects']['Row'];
 
-export default async function Resume({ params }: { params: Promise<{ username: string }> }) {
+export default async function ResumePage({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
   const supabase = createSClient();
   const { data, error } = await supabase
@@ -69,7 +58,7 @@ export default async function Resume({ params }: { params: Promise<{ username: s
 
   return (
     <div
-      className={`${jetbrains.variable} ${merriweather.variable} container relative mx-auto scroll-my-12 overflow-auto px-4 py-8 print:p-0 md:px-16 md:py-16 bg-white`}
+      className="container relative mx-auto scroll-my-12 overflow-auto px-4 py-8 print:p-0 md:px-16 md:py-16 bg-white"
     >
       <section className="mx-auto w-full max-w-2xl space-y-8 bg-white print:space-y-4">
         <header className="flex items-start justify-between">

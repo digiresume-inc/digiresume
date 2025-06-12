@@ -6,10 +6,14 @@ import { cn } from '@lf/ui/lib/utils';
 interface FlipWordsProps {
   duration?: number;
   className?: string;
-  words: string[];
+  words?: string[];
 }
 
-export const FlipWords: React.FC<FlipWordsProps> = ({ duration = 3000, className, words }) => {
+export const FlipWords: React.FC<FlipWordsProps> = ({
+  duration = 3000,
+  className,
+  words = ['Startup ', 'Project ', 'Creation ', 'Skills ', 'Journey ', 'Earnings ', 'Career '],
+}) => {
   const [currentWord, setCurrentWord] = useState(words[0]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);

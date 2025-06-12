@@ -20,7 +20,6 @@ import {
   Wrench,
   X,
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@lf/ui/components/base/card';
 import { Textarea } from '@lf/ui/components/base/textarea';
 import { SiLinkedin } from 'react-icons/si';
 import { SkillsSelect } from '@/components/dashboard/skillselect';
@@ -35,7 +34,7 @@ import { CountryCombobox } from '@/components/dashboard/countryselect';
 import { onboardUser } from '@/app/onboarding/action';
 import { socialIconMap } from '@/lib/utils/iconMap';
 import LinkedinImport from '@/modals/linkedinimport';
-import UsernameSet from '@/components/onboarding/usernameset';
+import UsernameSet from '@/app/onboarding/components/usernameset';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
 
 function getPlatformIcon(url: string) {

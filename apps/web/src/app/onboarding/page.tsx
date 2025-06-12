@@ -2,7 +2,7 @@ import { FlipWords } from '@/components/homepage/flipword';
 import { cn } from '@lf/ui/lib/utils';
 import { redirect } from 'next/navigation';
 import React from 'react';
-import OnboardingForm from '@/components/onboarding/onboardingform';
+import OnboardingForm from './components/onboardingform';
 import { createSClient } from '@/supabase/server';
 
 const words = [

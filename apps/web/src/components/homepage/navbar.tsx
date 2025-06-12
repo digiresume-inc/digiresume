@@ -1,6 +1,5 @@
 'use client';
-import { User } from '@supabase/supabase-js';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   NavigationMenu,
@@ -12,11 +11,8 @@ import {
   navigationMenuTriggerStyle,
 } from '@lf/ui/components/base/navigation-menu';
 import { Button } from '@lf/ui/components/base/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@lf/ui/components/base/popover';
-import { Avatar, AvatarFallback, AvatarImage } from '@lf/ui/components/base/avatar';
-import { LogOut, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { cn } from '@lf/ui/lib/utils';
-import LogoutConfirmation from '@/modals/logoutconfiramtion';
 import SlideInNavbar from './mobilenavbar';
 
 const components: { title: string; href: string; description: string }[] = [
@@ -56,25 +52,12 @@ const components: { title: string; href: string; description: string }[] = [
   },
 ];
 
-const Navbar = ({ user }: { user: User | null }) => {
-  const [logoutModal, setLogoutModal] = useState(false);
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  useEffect(() => {
-    if (isOpen || logoutModal) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen, logoutModal]);
-
   return (
     <>
-      <LogoutConfirmation modal={logoutModal} setModal={setLogoutModal} />
       <SlideInNavbar isOpen={isOpen} setIsOpen={setIsOpen} />
       <nav className="fixed top-0 left-0 z-[1000] w-full pt-5 px-5 lg:px-0">
         <div
@@ -147,39 +130,12 @@ const Navbar = ({ user }: { user: User | null }) => {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-          {user ? (
-            <Popover open={menuOpen} onOpenChange={setMenuOpen}>
-              <PopoverTrigger asChild>
-                <Avatar className="cursor-pointer">
-                  <AvatarImage referrerPolicy="no-referrer" src={user?.user_metadata.avatar_url} />
-                  <AvatarFallback>LF</AvatarFallback>
-                </Avatar>
-              </PopoverTrigger>
-              <PopoverContent className="w-fit h-fit max-w-60 mr-1 lg:mr-15 mt-4 relative z-[1000] flex flex-col gap-3">
-                <div className="absolute z-0 -top-2 left-[83%] lg:left-[63%] -translate-x-1/2 w-4 h-4 rotate-45 border-t border-l bg-popover" />
-                <div className="flex text-sm gap-1 items-center">
-                  <span className="truncate max-w-[95%]">Signed in as: {user.email}</span>
-                </div>
-                <Button
-                  onClick={() => {
-                    setLogoutModal(true);
-                    setMenuOpen(false);
-                  }}
-                  variant={'destructive'}
-                  className="w-full cursor-pointer"
-                >
-                  Logout <LogOut />
-                </Button>
-              </PopoverContent>
-            </Popover>
-          ) : (
-            <Link
-              href={'/signin'}
-              className="bg-primary font-medium text-primary-foreground flex px-4 py-2 rounded-full items-center gap-2 text-xs lg:text-sm cursor-pointer"
-            >
-              Sign in
-            </Link>
-          )}
+          <Link
+            href={'/signin'}
+            className="bg-primary font-medium text-primary-foreground flex px-4 py-2 rounded-full items-center gap-2 text-xs lg:text-sm cursor-pointer"
+          >
+            Sign in
+          </Link>
         </div>
       </nav>
     </>
