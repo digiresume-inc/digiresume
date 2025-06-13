@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@dr/ui/compone
 import ExperienceForm from '../forms/experienceForm';
 import { useRouter } from 'next/navigation';
 import type { Database, Experience } from '@/lib/types/supabasetypes';
+import Image from 'next/image';
 
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
@@ -116,6 +117,7 @@ const ExperienceUpdate = ({ profile }: { profile: Profile }) => {
                       : '/company.png'
                   }
                   className="w-8 h-8 rounded-full"
+                  alt={`${exp.company} Logo`}
                 />
                 <h3 className="text-lg font-semibold mr-2">{exp.company}</h3>
                 <Button

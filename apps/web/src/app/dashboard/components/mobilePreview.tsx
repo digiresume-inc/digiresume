@@ -190,7 +190,7 @@ const MobilePreview = ({
                       {profile.country.split('-')[0]}
                       <img
                         className="w-4"
-                        alt="Flag"
+                        alt={`${profile.country.split('-')[1]} Flag`}
                         src={`https://flagsapi.com/${profile.country.split('-')[1]}/flat/64.png`}
                         referrerPolicy="no-referrer"
                       />
@@ -376,7 +376,7 @@ const MobilePreview = ({
                             <div className="w-full flex justify-between">
                               <div className="flex items-center gap-1 relative">
                                 <img
-                                  alt={company.company}
+                                  alt={`${company.company} Logo`}
                                   className="cursor-pointer w-8 h-8 rounded-full flex justify-center items-center object-cover hover:opacity-90 transition-opacity border-primaryBorder flex-grow border"
                                   src={
                                     company.company_link
@@ -516,6 +516,7 @@ const MobilePreview = ({
                             <img
                               src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
                               className="w-8 h-8 rounded-full"
+                              alt={`${startup.name} Icon`}
                             />
                             <div className="flex flex-col items-start justify-center gap-1">
                               <p style={{ color: t.foreground }} className="text-xs font-semibold">
@@ -616,6 +617,7 @@ const MobilePreview = ({
                             <img
                               src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
                               className="w-8 h-8 rounded-full"
+                              alt={`${project.name} Icon`}
                             />
                             <div className="flex flex-col items-start justify-center gap-1">
                               <p style={{ color: t.foreground }} className="text-xs font-semibold">

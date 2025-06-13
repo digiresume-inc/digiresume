@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 import OnboardingForm from './components/onboardingform';
 import { createSClient } from '@/supabase/server';
+import Image from 'next/image';
 
 const words = [
   'Startup ',
@@ -55,9 +56,12 @@ export default async function Onboarding() {
             duration={2000}
           />
         </div>
-        <img
-          className="absolute opacity-70 bottom-[-100px] right-0 hidden lg:block"
+        <Image
+          width={600}
+          height={600}
+          alt="Onboarding background banner"
           src="/test/linkfolio_vertical_login.png"
+          className="absolute opacity-70 bottom-[-100px] right-0 hidden lg:block"
         />
       </div>
       <OnboardingForm username={data.username} />
