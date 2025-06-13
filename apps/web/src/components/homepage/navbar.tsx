@@ -11,7 +11,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@lf/ui/components/base/navigation-menu';
 import { Button } from '@lf/ui/components/base/button';
-import { Menu, X } from 'lucide-react';
+import { FileText, Menu, X } from 'lucide-react';
 import { cn } from '@lf/ui/lib/utils';
 import SlideInNavbar from './mobilenavbar';
 
@@ -73,10 +73,10 @@ const Navbar = () => {
               {isOpen ? <X /> : <Menu />}
             </Button>
           </div>
-          <div className="flex items-center justify-center gap-2">
-            <div className="w-4 lg:w-6 h-4 lg:h-6 bg-primary rounded-md"></div>
-            <h1 className="text-xl lg:text-2xl font-extrabold">Linkfolio</h1>
-          </div>
+
+          <h1 className="text-xl lg:text-2xl font-extrabold pl-2">
+            digiresu.<span className="text-primary">me</span>
+          </h1>
           <NavigationMenu className="hidden lg:block">
             <NavigationMenuList>
               <NavigationMenuItem>

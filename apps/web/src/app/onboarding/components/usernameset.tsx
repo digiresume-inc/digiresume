@@ -63,7 +63,7 @@ const UsernameSet = ({ setStep }: { setStep: React.Dispatch<React.SetStateAction
         <div className="w-full max-w-82">
           <div className="flex items-center justify-start border rounded-md">
             <span className="text-sm font-medium text-muted-foreground bg-secondary px-2 py-2 rounded-l-md border-muted border-r">
-              linkfolio.page/u/
+              digiresu.me/u/
             </span>
             <Input
               id="username"

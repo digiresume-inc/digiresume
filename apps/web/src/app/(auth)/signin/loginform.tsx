@@ -7,11 +7,7 @@ import { useRouter } from 'next/navigation';
 import { loginSchema } from '@lf/schemas';
 import { loginUser } from './action';
 
-import {
-  Card,
-  CardHeader,
-  CardContent,
-} from '@lf/ui/components/base/card';
+import { Card, CardHeader, CardContent } from '@lf/ui/components/base/card';
 import { Label } from '@lf/ui/components/base/label';
 import { Input } from '@lf/ui/components/base/input';
 import { SubmitButton } from '@/components/general/submitbutton';
@@ -56,10 +52,9 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
   return (
     <Card className="max-w-sm w-full">
       <CardHeader className="space-y-1">
-        <div className="flex items-center justify-center gap-2">
-          <div className="w-4 lg:w-6 h-4 lg:h-6 bg-primary rounded-md"></div>
-          <h1 className="text-xl lg:text-2xl font-extrabold">Linkfolio</h1>
-        </div>
+        <h1 className="text-xl lg:text-2xl font-extrabold text-center">
+          digiresu.<span className="text-primary">me</span>
+        </h1>
       </CardHeader>
       <CardContent>
         <GoogleSignin />

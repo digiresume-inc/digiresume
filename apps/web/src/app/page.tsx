@@ -6,7 +6,6 @@ import DotGradient from '@/components/homepage/dotGradient';
 import HeroImage from '@/components/homepage/heroImage';
 
 export default async function Home() {
-
   return (
     <div className="w-full h-[750px] lg:h-[994px] relative bg-background">
       <DotGradient />
@@ -23,17 +22,14 @@ export default async function Home() {
                     >
                       <span className="block cursor-pointer lg:mb-2">The Spotlight your</span>
                       <span className="block md:ml-0">
-                        <FlipWords
-                          duration={3000}
-                          className="mr-2 lg:mr-4 text-primary"
-                        />
+                        <FlipWords duration={3000} className="mr-2 lg:mr-4 text-primary" />
                         deserves
                       </span>
                     </h1>
                     <p className="pt-2 text-sm sm:text-base lg:text-lg font-medium text-muted-foreground my-3 sm:mt-5 lg:mb-0 sm:px-6 lg:px-10 max-w-prose text-center">
-                      Boost your web presence with Linkfolio — showcase <strong>projects</strong>,
-                      share <strong>startups</strong>, add <strong>experience</strong>, grow your
-                      network, and attract opportunities in one sleek portfolio.
+                      Create a stunning, paper-like digital resume with <strong>Digiresu.me</strong>
+                      . Highlight your startups, showcase projects, map your journey, and get
+                      verified — all in one sleek, shareable profile.
                     </p>
                   </div>
                   <UsernameCheck />

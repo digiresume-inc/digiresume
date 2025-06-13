@@ -1,13 +1,13 @@
 import { createSClient } from '@/supabase/server';
 import React from 'react';
-import DashboardHome from './dashboardHome';
+import Dashboard from './dashboard';
 import type { Database } from '@/lib/types/supabasetypes';
 import { redirect } from 'next/navigation';
 
 type Startup = Database['public']['Tables']['startups']['Row'];
 type Project = Database['public']['Tables']['projects']['Row'];
 
-export default async function Dashboard() {
+export default async function DashboardPage() {
   const supabase = createSClient();
   const {
     data: { user },
@@ -38,7 +38,7 @@ export default async function Dashboard() {
 
   return (
     <div className="w-full h-full">
-      <DashboardHome profile={data} startups={startups} projects={projects} />
+      <Dashboard user={user} profile={data} startups={startups} projects={projects} />
     </div>
   );
 }

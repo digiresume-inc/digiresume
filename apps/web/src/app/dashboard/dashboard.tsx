@@ -13,17 +13,22 @@ import AnalyticsCard from './components/analyticsCard';
 import { Button } from '@lf/ui/components/base/button';
 import { LogOut } from 'lucide-react';
 import LogoutConfirmation from '@/modals/logoutconfirmation';
+
 import type { Database, Theme } from '@/lib/types/supabasetypes';
+import type { User } from '@supabase/supabase-js';
+import Navbar from './components/navbar';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 type Startup = Database['public']['Tables']['startups']['Row'];
 type Project = Database['public']['Tables']['projects']['Row'];
 
-const DashboardHome = ({
+const Dashboard = ({
+  user,
   profile,
   startups,
   projects,
 }: {
+  user: User;
   profile: Profile;
   startups: Startup[];
   projects: Project[];
@@ -37,21 +42,13 @@ const DashboardHome = ({
       <LogoutConfirmation modal={logoutModal} setModal={setLogoutModal} />
       <div className="relative flex flex-col lg:flex-row h-screen w-full max-w-7xl mx-auto gap-4">
         <div className="lg:w-[60%] w-full h-screen overflow-y-auto px-4 py-6 no_scrollbar scrollbar-hidden relative">
+          <Navbar user={user} setLogoutModel={setLogoutModal} />
           <PreviewButton setPreview={setPreview} />
-          <div className="w-full grid grid-cols-4 md:grid-cols-3 items-center justify-center gap-4">
+          <div className="w-full grid grid-cols-4 md:grid-cols-3 items-center justify-center gap-4 mt-4 px-4">
             <AvatarComponent avatar_url={profile.avatar_url} />
             <FaviconComponent favicon_url={profile.favicon_url} />
             <AnalyticsCard />
           </div>
-          <Button
-            onClick={() => {
-              setLogoutModal(true);
-            }}
-            variant={'destructive'}
-            className="w-64 cursor-pointer mt-4"
-          >
-            Logout <LogOut />
-          </Button>
           <Tabs defaultValue="profile" className="w-full mt-12 mb-12">
             <div className="overflow-x-auto">
               <TabsList className="flex w-fit gap-4 lg:gap-6 px-2 lg:px-3 bg-background rounded-none">
@@ -108,4 +105,4 @@ const DashboardHome = ({
   );
 };
 
-export default DashboardHome;
+export default Dashboard;
