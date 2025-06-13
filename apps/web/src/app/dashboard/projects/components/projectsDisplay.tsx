@@ -70,7 +70,7 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
             setSelectedProject(emptyProject);
             setOpen(true);
           }}
-          variant={'default'}
+          variant={'outline'}
           className="w-full sticky top-0 left-0"
         >
           <Plus /> Add New

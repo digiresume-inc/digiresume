@@ -7,10 +7,9 @@ const DotGradient = () => {
       <div className="absolute inset-0">
         <div
           className={cn(
-            'absolute inset-x-0 bottom-0 h-[400px] lg:h-[600px]',
+            'absolute inset-x-0 bottom-0 h-[400px] lg:h-[800px]',
             '[background-size:20px_20px]',
-            '[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]',
-            'dark:[background-image:radial-gradient(#09090b_1px,transparent_1px)]',
+            '[background-image:radial-gradient(#ffffff_1.1px,transparent_1.1px)]',
             '[mask-image:linear-gradient(to_top,black,transparent)]',
             'dark:[mask-image:linear-gradient(to_top,black,transparent)]',
             'mask-image-[linear-gradient(to_top,black,transparent)]'

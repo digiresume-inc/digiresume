@@ -1,11 +1,19 @@
 import React from 'react';
+import Image from 'next/image';
 
 const HeroImage = () => {
   return (
     <>
       <div className="relative flex lg:hidden">
         <div className="absolute bottom-0 left-0 w-full h-36 pointer-events-none bg-gradient-to-t from-background/80 to-transparent z-10" />
-        <img className="animate-slide-up" src="/test/linkfolio_vertical.png" />
+        <Image
+          width={600}
+          height={600}
+          alt="Home page hero banner"
+          className="animate-slide-up"
+          src="/test/linkfolio_vertical.png"
+          priority
+        />
       </div>
       <div className="relative hidden lg:flex min-h-[554px] rounded-md">
         <div className="absolute bottom-0 left-0 w-full h-48 pointer-events-none bg-gradient-to-t from-background/80 to-transparent z-10" />

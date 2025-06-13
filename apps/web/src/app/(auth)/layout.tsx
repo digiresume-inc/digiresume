@@ -1,6 +1,7 @@
 import { FlipWords } from '@/components/homepage/flipword';
 import { cn } from '@dr/ui/lib/utils';
 import React from 'react';
+import Image from 'next/image';
 
 const words = [
   'Build ',
@@ -37,9 +38,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             duration={2000}
           />
         </div>
-        <img
-          className="absolute opacity-70 bottom-[-100px] right-0 hidden lg:block"
+        <Image
+          width={600}
+          height={600}
+          alt="Login background banner"
           src="/test/linkfolio_vertical_login.png"
+          className="absolute opacity-70 bottom-[-100px] right-0 hidden lg:block"
         />
       </div>
       {children}

@@ -4,25 +4,37 @@ import { Button } from '@dr/ui/components/base/button';
 import { Startup, statusOptions, categoryOptions } from '@dr/schemas';
 import { BatteryLow, SignalMedium, X } from 'lucide-react';
 import React, { useState } from 'react';
+import { cn } from '@dr/ui/lib/utils';
 
-const StartupsPreviewComponent = ({ startups }: { startups: any }) => {
-  const [showOverlay, setShowOverlay] = useState(false);
+const StartupsPreviewComponent = ({
+  startups,
+  preview,
+  setPreview,
+}: {
+  startups: any;
+  preview: boolean;
+  setPreview: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
 
   return (
     <div
-      className={`${
-        showOverlay ? 'flex' : 'hidden'
-      } lg:flex lg:w-[40%] w-full h-screen p-4 fixed top-0 left-0 lg:static bg-background backdrop-blur z-50`}
+      className={cn(
+        'lg:flex lg:w-[40%] w-full h-screen p-4 fixed top-0 left-0 lg:static bg-background backdrop-blur z-50',
+        {
+          flex: preview,
+          hidden: !preview,
+        }
+      )}
     >
       <Button
-        onClick={() => setShowOverlay(false)}
+        onClick={() => setPreview(false)}
         className="flex lg:hidden absolute top-4 right-4"
         size={'icon'}
         variant={'outline'}
       >
         <X />
       </Button>
-      <div className="flex flex-col w-full items-center justify-center gap-4">
+      <div className="flex flex-col w-full items-center justify-center gap-4 scale-90 lg:scale-100">
         <h2 className="text-lg lg:text-2xl font-bold">Preview</h2>
         <div className="relative w-[300px] h-[620px] rounded-[50px] bg-black shadow-2xl border-[14px] border-black flex items-center justify-center">
           {/* Dynamic Island (move out of overflow-hidden) */}
@@ -49,7 +61,7 @@ const StartupsPreviewComponent = ({ startups }: { startups: any }) => {
               {startups.map((startup: Startup, index: number) => (
                 <div
                   key={index}
-                  className="w-full bg-card rounded-lg border border-primary/60 h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
+                  className="w-full bg-card rounded-lg border border-primary/30 h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
                 >
                   <div className="flex items-center justify-center gap-2">
                     <img
@@ -96,6 +108,7 @@ const StartupsPreviewComponent = ({ startups }: { startups: any }) => {
                       </div>
                     </div>
                   </div>
+                  <div className="w-full h-px bg-primary/30" />
                   <div className="text-xxs font-medium">
                     <span className="line-clamp-3">
                       {' '}

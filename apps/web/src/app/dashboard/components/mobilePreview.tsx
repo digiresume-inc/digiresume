@@ -581,6 +581,12 @@ const MobilePreview = ({
                           </div>
                           <div
                             style={{
+                              background: hexToHSL(t.primary, 0.3),
+                            }}
+                            className="w-full h-px"
+                          />
+                          <div
+                            style={{
                               color: hexToHSL(t.foreground!, 0.7),
                             }}
                             className="text-xxs font-medium"
@@ -602,7 +608,7 @@ const MobilePreview = ({
                           key={index}
                           style={{
                             background: t.card,
-                            borderColor: hexToHSL(t.primary!, 0.3),
+                            borderColor: hexToHSL(t.primary, 0.3),
                           }}
                           className="w-full rounded-lg border h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
                         >
@@ -646,6 +652,12 @@ const MobilePreview = ({
                               </div>
                             </div>
                           </div>
+                          <div
+                            style={{
+                              background: hexToHSL(t.primary, 0.3),
+                            }}
+                            className="w-full h-px"
+                          />
                           <div
                             style={{
                               color: hexToHSL(t.foreground!, 0.7),

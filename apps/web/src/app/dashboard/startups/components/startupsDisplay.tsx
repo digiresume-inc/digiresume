@@ -74,7 +74,7 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
             setSelectedStartup(emptyStartup);
             setOpen(true);
           }}
-          variant={'default'}
+          variant={'outline'}
           className="w-full sticky top-0 left-0"
         >
           <Plus /> Add New
@@ -103,14 +103,14 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
                               : 'opacity-100 border border-primary/40'
                         }`}
                       >
-                        <div key={index} className="bg-card w-full min-h-36 rounded-lg p-2 lg:p-4">
+                        <div key={index} className="bg-card w-full min-h-36 rounded-lg p-2 lg:p-4 relative">
                           <div className="flex items-center justify-center w-full gap-2">
                             <div className="w-[5%] h-full">
                               {' '}
                               <GripVertical className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1.2} />
                             </div>
                             <div className="flex flex-col items-center justify-center w-[95%] gap-2">
-                              <div className="flex items-center justify-center w-full gap-2">
+                              <div className="flex items-center justify-start w-full gap-2">
                                 <div className="w-8 lg:w-12 h-8 lg:h-12 flex items-center justify-center">
                                   <img
                                     src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
@@ -122,7 +122,7 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
                                     <p className="font-semibold text-sm lg:text-base">
                                       {startup.name}
                                     </p>
-                                    <div className="flex items-center justify-center gap-2">
+                                    <div className="absolute top-2 right-4 flex items-center justify-center gap-2">
                                       <Button
                                         onClick={() => {
                                           setActionType('Edit');

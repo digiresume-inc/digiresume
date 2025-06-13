@@ -42,7 +42,7 @@ const UsernameCheck = () => {
 
   return (
     <div className="flex flex-col items-center justify-center w-[95%]">
-      <div className="mb-2 flex items-center w-full max-w-lg bg-secondary/50 rounded-full border border-primary/20 duration-200 transition-all ease-out p-0.5 lg:p-1">
+      <div className="mb-2 flex items-center w-full max-w-lg bg-muted rounded-full border border-primary/20 duration-200 transition-all ease-out p-0.5 lg:p-1">
         <span className="pl-3 lg:pl-4 font-medium text-sm lg:text-lg">
           digiresu.me<span className='mx-1'>/</span>
         </span>
