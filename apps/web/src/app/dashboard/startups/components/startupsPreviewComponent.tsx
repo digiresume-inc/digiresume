@@ -1,7 +1,7 @@
 'use client';
 import MarkdownParser from '@/components/general/markdownparser';
-import { Button } from '@lf/ui/components/base/button';
-import { Startup, statusOptions, categoryOptions } from '@lf/schemas';
+import { Button } from '@dr/ui/components/base/button';
+import { Startup, statusOptions, categoryOptions } from '@dr/schemas';
 import { BatteryLow, SignalMedium, X } from 'lucide-react';
 import React, { useState } from 'react';
 

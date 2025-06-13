@@ -5,8 +5,8 @@ import { Toaster } from 'sonner';
 import HolyLoader from "holy-loader";
 
 export const metadata: Metadata = {
-  title: 'Linkfolio',
-  description: 'Your portfolio on web light and powerful',
+  title: 'Digiresume',
+  description: 'Build sleek online resumes and portfolio pages easily.',
 };
 
 const montserrat = Montserrat({

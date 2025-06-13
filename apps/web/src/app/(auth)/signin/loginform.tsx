@@ -4,12 +4,12 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { loginSchema } from '@lf/schemas';
+import { loginSchema } from '@dr/schemas';
 import { loginUser } from './action';
 
-import { Card, CardHeader, CardContent } from '@lf/ui/components/base/card';
-import { Label } from '@lf/ui/components/base/label';
-import { Input } from '@lf/ui/components/base/input';
+import { Card, CardHeader, CardContent } from '@dr/ui/components/base/card';
+import { Label } from '@dr/ui/components/base/label';
+import { Input } from '@dr/ui/components/base/input';
 import { SubmitButton } from '@/components/general/submitbutton';
 import GoogleSignin from './googlesignin';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
@@ -57,7 +57,7 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
         </h1>
       </CardHeader>
       <CardContent>
-        <GoogleSignin />
+        <GoogleSignin isMagicLoading={isLoading} />
 
         <div className="flex items-center space-x-2 mt-4 mb-4">
           <hr className="flex-grow border-t border-lightsecondary-border dark:border-secondary-border" />

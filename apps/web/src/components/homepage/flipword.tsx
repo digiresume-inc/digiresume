@@ -1,7 +1,7 @@
 'use client';
 import React, { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { cn } from '@lf/ui/lib/utils';
+import { cn } from '@dr/ui/lib/utils';
 
 interface FlipWordsProps {
   duration?: number;

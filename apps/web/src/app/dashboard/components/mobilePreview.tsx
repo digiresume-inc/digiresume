@@ -1,4 +1,4 @@
-import { Button } from '@lf/ui/components/base/button';
+import { Button } from '@dr/ui/components/base/button';
 import {
   BatteryLow,
   ExternalLink,
@@ -17,12 +17,12 @@ import {
   getLineHeightPercent,
   getMonthsDifference,
   hexToHSL,
-} from '@lf/utils';
-import { Startup, Project, statusOptions, categoryOptions } from '@lf/schemas';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
+} from '@dr/utils';
+import { Startup, Project, statusOptions, categoryOptions } from '@dr/schemas';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@dr/ui/components/base/tabs';
 import MarkdownParser from '@/components/general/markdownparser';
 import { socialIconMap } from '@/lib/utils/iconMap';
-import { cn } from '@lf/ui/lib/utils';
+import { cn } from '@dr/ui/lib/utils';
 import type { Database, Experience, Skill, Social, Theme } from '@/lib/types/supabasetypes';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];

@@ -2,7 +2,7 @@ import React from 'react';
 import { CornerDownRight, Link2, Mail, MapPin, Phone, Verified } from 'lucide-react';
 import { socialIconMap } from '@/lib/utils/iconMap';
 import MarkdownParser from '@/components/general/markdownparser';
-import { formatMonthShortYear, getMonthsDifference } from '@lf/utils';
+import { formatMonthShortYear, getMonthsDifference } from '@dr/utils';
 import { createSClient } from '@/supabase/server';
 import DynamicImage from '@/components/general/dynamicImage';
 import type { Database } from '@/lib/types/supabasetypes';

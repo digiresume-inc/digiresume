@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { Link2 } from 'lucide-react';
-import { hexToHSL } from '@lf/utils';
+import { hexToHSL } from '@dr/utils';
 
 const ProfileUrl = ({ t, profile }: { t: any; profile: any }) => {
   return (

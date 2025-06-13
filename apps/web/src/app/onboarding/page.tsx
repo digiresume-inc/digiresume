@@ -1,5 +1,5 @@
 import { FlipWords } from '@/components/homepage/flipword';
-import { cn } from '@lf/ui/lib/utils';
+import { cn } from '@dr/ui/lib/utils';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import OnboardingForm from './components/onboardingform';

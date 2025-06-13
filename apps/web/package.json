@@ -1,5 +1,5 @@
 {
-  "name": "lf-web",
+  "name": "dr-web",
   "version": "0.1.0",
   "type": "module",
   "private": true,
@@ -13,9 +13,9 @@
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "^5.0.1",
-    "@lf/ui": "workspace:*",
-    "@lf/utils": "workspace:*",
-    "@lf/schemas": "workspace:*",
+    "@dr/ui": "workspace:*",
+    "@dr/utils": "workspace:*",
+    "@dr/schemas": "workspace:*",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
     "@tanstack/react-virtual": "^3.13.8",

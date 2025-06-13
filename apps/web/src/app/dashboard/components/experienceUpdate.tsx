@@ -1,11 +1,11 @@
 'use client';
-import { formatMonthYear } from '@lf/utils';
+import { formatMonthYear } from '@dr/utils';
 import React, { useState } from 'react';
 import { updateExperience } from '../actions/updateExperience';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
-import { Button } from '@lf/ui/components/base/button';
+import { Button } from '@dr/ui/components/base/button';
 import { BriefcaseBusiness, CornerDownRight, Loader2, Pencil, Plus, Trash } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@lf/ui/components/base/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@dr/ui/components/base/dialog';
 import ExperienceForm from '../forms/experienceForm';
 import { useRouter } from 'next/navigation';
 import type { Database, Experience } from '@/lib/types/supabasetypes';

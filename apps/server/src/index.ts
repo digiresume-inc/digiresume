@@ -45,8 +45,8 @@ const ROUTER_AI = {
   endpoint: 'https://openrouter.ai/api/v1/chat/completions',
   headers: {
     Authorization: `Bearer ${process.env.ROUTER_API_KEY}`,
-    'HTTP-Referer': 'https://linkfolio.space',
-    'X-Title': 'Linkfolio',
+    'HTTP-Referer': 'https://digiresu.me',
+    'X-Title': 'Digiresume',
     'Content-Type': 'application/json',
   },
   active: !!process.env.ROUTER_API_KEY,

@@ -1,7 +1,7 @@
 {
-  "name": "@lf/schemas",
+  "name": "@dr/schemas",
   "version": "1.0.0",
-  "description": "Form schemas for Linkfolio",
+  "description": "Form schemas for Digiresume",
   "exports": {
     ".": "./src/index.ts"
   },

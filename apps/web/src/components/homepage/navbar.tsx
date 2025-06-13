@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   NavigationMenu,
@@ -9,10 +9,10 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from '@lf/ui/components/base/navigation-menu';
-import { Button } from '@lf/ui/components/base/button';
+} from '@dr/ui/components/base/navigation-menu';
+import { Button } from '@dr/ui/components/base/button';
 import { FileText, Menu, X } from 'lucide-react';
-import { cn } from '@lf/ui/lib/utils';
+import { cn } from '@dr/ui/lib/utils';
 import SlideInNavbar from './mobilenavbar';
 
 const components: { title: string; href: string; description: string }[] = [
@@ -55,23 +55,34 @@ const components: { title: string; href: string; description: string }[] = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   return (
     <>
       <SlideInNavbar isOpen={isOpen} setIsOpen={setIsOpen} />
       <nav className="fixed top-0 left-0 z-[1000] w-full pt-5 px-5 lg:px-0">
         <div
           className={cn(
-            'max-w-5xl w-full relative mx-auto flex items-center justify-between rounded-full p-2 lg:p-3 pl-5',
+            'max-w-5xl w-full relative mx-auto flex items-center justify-between rounded-full p-2 lg:p-3 lg:pl-5 transition-colors',
             {
               'bg-clip-padding backdrop-filter backdrop-blur-sm border bg-secondary/10': !isOpen,
               'bg-background': isOpen,
             }
           )}
         >
-          <div className="block lg:hidden">
-            <Button onClick={() => setIsOpen(!isOpen)} size={'lg'} variant="ghost">
-              {isOpen ? <X /> : <Menu />}
-            </Button>
+          <div className="block lg:hidden pl-2">
+            <span onClick={() => setIsOpen(!isOpen)}>
+              {isOpen ? <X size={20}/> : <Menu size={20}/>}
+            </span>
           </div>
 
           <h1 className="text-xl lg:text-2xl font-extrabold pl-2">

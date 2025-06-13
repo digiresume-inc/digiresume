@@ -4,25 +4,25 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Input } from '@lf/ui/components/base/input';
-import { Textarea } from '@lf/ui/components/base/textarea';
-import { Button } from '@lf/ui/components/base/button';
+import { Input } from '@dr/ui/components/base/input';
+import { Textarea } from '@dr/ui/components/base/textarea';
+import { Button } from '@dr/ui/components/base/button';
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from '@lf/ui/components/base/select';
-import { Checkbox } from '@lf/ui/components/base/checkbox';
-import { startupSchema, statusOptions, categoryOptions,Startup } from '@lf/schemas';
-import { Switch } from '@lf/ui/components/base/switch';
+} from '@dr/ui/components/base/select';
+import { Checkbox } from '@dr/ui/components/base/checkbox';
+import { startupSchema, statusOptions, categoryOptions,Startup } from '@dr/schemas';
+import { Switch } from '@dr/ui/components/base/switch';
 import { Check, Loader2, Save } from 'lucide-react';
 import { addStartup } from '../actions/addStartup';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { updateStartup } from '../actions/updateStartup';
 import { useRouter } from 'next/navigation';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 
 type StartupFormData = z.infer<typeof startupSchema>;
 

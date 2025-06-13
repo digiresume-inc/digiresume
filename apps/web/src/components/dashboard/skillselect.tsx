@@ -2,15 +2,15 @@
 'use client';
 
 import { useState } from 'react';
-import { skills as allSkills, Skill } from '@lf/utils';
-import { Badge } from '@lf/ui/components/base/badge';
+import { skills as allSkills, Skill } from '@dr/utils';
+import { Badge } from '@dr/ui/components/base/badge';
 import {
   Command,
   CommandInput,
   CommandItem,
   CommandList,
   CommandEmpty,
-} from '@lf/ui/components/base/command';
+} from '@dr/ui/components/base/command';
 import { CircleHelp, X } from 'lucide-react';
 
 type Props = {

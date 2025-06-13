@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import AvatarComponent from './components/avatar';
 import FaviconComponent from './components/favicon';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@dr/ui/components/base/tabs';
 import ThemeSelect from './components/themeSelect';
 import ExperienceUpdate from './components/experienceUpdate';
 import SocialsUpdate from './components/socialsUpdate';
@@ -10,7 +10,7 @@ import MobilePreview from './components/mobilePreview';
 import ProfileUpdate from './components/profileUpdate';
 import PreviewButton from './components/previewButton';
 import AnalyticsCard from './components/analyticsCard';
-import { Button } from '@lf/ui/components/base/button';
+import { Button } from '@dr/ui/components/base/button';
 import { LogOut } from 'lucide-react';
 import LogoutConfirmation from '@/modals/logoutconfirmation';
 

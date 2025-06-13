@@ -1,24 +1,24 @@
 // ExperienceUpdate.tsx
 'use client';
 import React from 'react';
-import { singleExperienceSchema } from '@lf/schemas';
+import { singleExperienceSchema } from '@dr/schemas';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from '@lf/ui/components/base/button';
-import { Label } from '@lf/ui/components/base/label';
-import { Input } from '@lf/ui/components/base/input';
+import { Button } from '@dr/ui/components/base/button';
+import { Label } from '@dr/ui/components/base/label';
+import { Input } from '@dr/ui/components/base/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@lf/ui/components/base/select';
-import { Switch } from '@lf/ui/components/base/switch';
+} from '@dr/ui/components/base/select';
+import { Switch } from '@dr/ui/components/base/switch';
 import { Check, Loader2, Save } from 'lucide-react';
-import { Textarea } from '@lf/ui/components/base/textarea';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
+import { Textarea } from '@dr/ui/components/base/textarea';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 import { SkillsSelect } from '@/components/dashboard/skillselect';
 import { Experience } from '@/lib/types/supabasetypes';
 

@@ -1,9 +1,9 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@lf/ui/components/base/button';
-import { Input } from '@lf/ui/components/base/input';
-import { blurFade } from '@lf/utils';
-import { usernameSchema } from '@lf/schemas';
+import { Button } from '@dr/ui/components/base/button';
+import { Input } from '@dr/ui/components/base/input';
+import { blurFade } from '@dr/utils';
+import { usernameSchema } from '@dr/schemas';
 import { IdCard, Loader2 } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';

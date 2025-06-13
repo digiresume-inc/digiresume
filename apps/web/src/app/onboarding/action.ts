@@ -1,6 +1,6 @@
 'use server';
 import { z } from 'zod';
-import { onboardingSchema, usernameSchema } from '@lf/schemas';
+import { onboardingSchema, usernameSchema } from '@dr/schemas';
 import { createSClient } from '@/supabase/server';
 
 export async function onboardUser(data: z.infer<typeof onboardingSchema>) {

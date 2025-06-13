@@ -1,7 +1,7 @@
 {
-    "name": "@lf/utils",
+    "name": "@dr/utils",
     "version": "1.0.0",
-    "description": "Utilities for the Linkfolio",
+    "description": "Utilities for the Digiresume",
     "exports": {
         ".": "./src/index.ts"
     },

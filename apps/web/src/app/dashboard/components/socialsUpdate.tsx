@@ -1,6 +1,6 @@
 'use client';
-import { Button } from '@lf/ui/components/base/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@lf/ui/components/base/dialog';
+import { Button } from '@dr/ui/components/base/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@dr/ui/components/base/dialog';
 import { Globe, Link2, Pencil, Plus } from 'lucide-react';
 import React, { useState } from 'react';
 import SocialsForm from '../forms/socialsForm';

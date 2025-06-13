@@ -1,9 +1,9 @@
 'use client';
 import React, { useState } from 'react';
-import { Avatar, AvatarImage, AvatarFallback } from '@lf/ui/components/base/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@dr/ui/components/base/avatar';
 import type { User } from '@supabase/supabase-js';
-import { Popover, PopoverContent, PopoverTrigger } from '@lf/ui/components/base/popover';
-import { Button } from '@lf/ui/components/base/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@dr/ui/components/base/popover';
+import { Button } from '@dr/ui/components/base/button';
 import { CircleFadingArrowUp, HelpCircle, LogOut } from 'lucide-react';
 
 const Navbar = ({
@@ -45,10 +45,10 @@ const Navbar = ({
                 </div>
               </div>
               <div className="flex flex-col items-start justify-center gap-1 w-full pb-2">
-                <span className="cursor-pointer bg-transparent hover:bg-background rounded-md px-2 py-1 flex items-center justify-between gap-1 text-sm text-foreground/80 hover:text-foreground transition-colors duration-200 w-full">
+                <span className="font-medium cursor-pointer bg-transparent hover:bg-background rounded-md px-2 py-1 flex items-center justify-between gap-1 text-sm text-foreground/80 hover:text-foreground transition-colors duration-200 w-full">
                   Upgrade plan <CircleFadingArrowUp size={16} />
                 </span>
-                <span className="cursor-pointer bg-transparent hover:bg-background rounded-md px-2 py-1 flex items-center justify-between gap-1 text-sm text-foreground/80 hover:text-foreground transition-colors duration-200 w-full">
+                <span className="font-medium cursor-pointer bg-transparent hover:bg-background rounded-md px-2 py-1 flex items-center justify-between gap-1 text-sm text-foreground/80 hover:text-foreground transition-colors duration-200 w-full">
                   Get help <HelpCircle size={16} />
                 </span>
               </div>
@@ -57,7 +57,7 @@ const Navbar = ({
                   setLogoutModel(true);
                   setMenuOpen(false);
                 }}
-                className="cursor-pointer bg-transparent hover:bg-destructive rounded-md px-2 py-1 flex items-center justify-between gap-1 text-sm text-foreground/80 hover:text-foreground transition-colors duration-200 w-full"
+                className="font-medium cursor-pointer bg-transparent hover:bg-destructive rounded-md px-2 py-1 flex items-center justify-between gap-1 text-sm text-foreground/80 hover:text-foreground transition-colors duration-200 w-full"
               >
                 Logout <LogOut size={16} />
               </span>

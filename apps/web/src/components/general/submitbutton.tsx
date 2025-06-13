@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@lf/ui/components/base/button";
+import { Button } from "@dr/ui/components/base/button";
 
 export function SubmitButton({
   children,

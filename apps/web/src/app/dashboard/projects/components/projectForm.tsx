@@ -4,24 +4,24 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Input } from '@lf/ui/components/base/input';
-import { Textarea } from '@lf/ui/components/base/textarea';
-import { Button } from '@lf/ui/components/base/button';
+import { Input } from '@dr/ui/components/base/input';
+import { Textarea } from '@dr/ui/components/base/textarea';
+import { Button } from '@dr/ui/components/base/button';
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from '@lf/ui/components/base/select';
-import { Checkbox } from '@lf/ui/components/base/checkbox';
-import {  categoryOptions, Project, projectSchema } from '@lf/schemas';
+} from '@dr/ui/components/base/select';
+import { Checkbox } from '@dr/ui/components/base/checkbox';
+import {  categoryOptions, Project, projectSchema } from '@dr/schemas';
 import { Check, Loader2, Save } from 'lucide-react';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
 import { addProject } from '../actions/addProject';
 import { updateProject } from '../actions/updateProject';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 
 type ProjectFormSchema = z.infer<typeof projectSchema>;
 

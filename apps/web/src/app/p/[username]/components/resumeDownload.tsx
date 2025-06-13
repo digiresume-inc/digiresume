@@ -1,6 +1,6 @@
 'use client';
-import { Button } from '@lf/ui/components/base/button';
-import { hexToHSL } from '@lf/utils';
+import { Button } from '@dr/ui/components/base/button';
+import { hexToHSL } from '@dr/utils';
 import { Download } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 import React from 'react';

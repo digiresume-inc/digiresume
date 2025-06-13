@@ -1,7 +1,7 @@
 'use client';
-import { Button } from '@lf/ui/components/base/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@lf/ui/components/base/dialog';
-import { Project, Startup, categoryOptions } from '@lf/schemas';
+import { Button } from '@dr/ui/components/base/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@dr/ui/components/base/dialog';
+import { Project, Startup, categoryOptions } from '@dr/schemas';
 import { Edit, GripVertical, Plus, Trash } from 'lucide-react';
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';

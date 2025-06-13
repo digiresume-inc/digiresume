@@ -1,4 +1,4 @@
-import { skills as importedSkills } from '@lf/utils';
+import { skills as importedSkills } from '@dr/utils';
 
 function findMatchingSkill(label: string) {
   return importedSkills.find((skill) => skill.value.toLowerCase() === label.toLowerCase());

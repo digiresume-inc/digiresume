@@ -1,5 +1,5 @@
 import { createSClient } from '@/supabase/server';
-import { Badge } from '@lf/ui/components/base/badge';
+import { Badge } from '@dr/ui/components/base/badge';
 import {
   formatMonthShortYear,
   formatMonthYear,
@@ -7,12 +7,12 @@ import {
   getMonthsDifference,
   hexToHSL,
   Skill,
-} from '@lf/utils';
-import { statusOptions, categoryOptions } from '@lf/schemas';
+} from '@dr/utils';
+import { statusOptions, categoryOptions } from '@dr/schemas';
 import React from 'react';
 import { Info, MapPin, Link2 } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
-import { Popover, PopoverTrigger, PopoverContent } from '@lf/ui/components/base/popover';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@dr/ui/components/base/tabs';
+import { Popover, PopoverTrigger, PopoverContent } from '@dr/ui/components/base/popover';
 import { socialIconMap } from '@/lib/utils/iconMap';
 import ShareCard from './components/shareCard';
 import MarkdownParser from '@/components/general/markdownparser';

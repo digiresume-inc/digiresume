@@ -1,7 +1,7 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { countries } from '@lf/utils';
-import {  profileUpdateSchema } from '@lf/schemas';
+import { countries } from '@dr/utils';
+import {  profileUpdateSchema } from '@dr/schemas';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -23,13 +23,13 @@ import {
   University,
   User,
 } from 'lucide-react';
-import { Input } from '@lf/ui/components/base/input';
+import { Input } from '@dr/ui/components/base/input';
 import { CountryCombobox } from '@/components/dashboard/countryselect';
 import { SkillsSelect } from '@/components/dashboard/skillselect';
-import { Button } from '@lf/ui/components/base/button';
+import { Button } from '@dr/ui/components/base/button';
 import { extractDirty } from '../actions/extractDirty';
-import { Textarea } from '@lf/ui/components/base/textarea';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
+import { Textarea } from '@dr/ui/components/base/textarea';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 import type { Database } from '@/lib/types/supabasetypes';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];

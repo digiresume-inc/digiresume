@@ -1,8 +1,8 @@
 'use client';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { createClient } from '@/supabase/client';
-import { Button } from '@lf/ui/components/base/button';
-import { Input } from '@lf/ui/components/base/input';
+import { Button } from '@dr/ui/components/base/button';
+import { Input } from '@dr/ui/components/base/input';
 import { redirect, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import {
@@ -20,11 +20,11 @@ import {
   Wrench,
   X,
 } from 'lucide-react';
-import { Textarea } from '@lf/ui/components/base/textarea';
+import { Textarea } from '@dr/ui/components/base/textarea';
 import { SiLinkedin } from 'react-icons/si';
 import { SkillsSelect } from '@/components/dashboard/skillselect';
-import { blurFade, blurUpFade, countries } from '@lf/utils';
-import {onboardingSchema} from "@lf/schemas"
+import { blurFade, blurUpFade, countries } from '@dr/utils';
+import {onboardingSchema} from "@dr/schemas"
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -35,7 +35,7 @@ import { onboardUser } from '@/app/onboarding/action';
 import { socialIconMap } from '@/lib/utils/iconMap';
 import LinkedinImport from '@/modals/linkedinimport';
 import UsernameSet from '@/app/onboarding/components/usernameset';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@lf/ui/components/base/hover-card';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 
 function getPlatformIcon(url: string) {
   try {
@@ -607,7 +607,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
         </form>
       </main>
       <footer className="onboarding-footer">
-        <p>&copy; {new Date().getFullYear()} Linkfolio INC</p>
+        <p>&copy; {new Date().getFullYear()} Digiresume INC</p>
       </footer>
     </div>
   );

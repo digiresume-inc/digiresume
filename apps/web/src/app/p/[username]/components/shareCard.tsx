@@ -3,8 +3,8 @@ import { Check, Copy, ExternalLink } from 'lucide-react';
 import React, { useState } from 'react';
 import { SiFacebook, SiLinkedin, SiTelegram, SiWhatsapp, SiX } from 'react-icons/si';
 import QRCodeGenerator from './qrGenerator';
-import { Button } from '@lf/ui/components/base/button';
-import { hexToHSL } from '@lf/utils';
+import { Button } from '@dr/ui/components/base/button';
+import { hexToHSL } from '@dr/utils';
 
 const ShareCard = ({ profile, t }: { profile: any; t: any }) => {
   const [modal, setModal] = useState(false);
@@ -129,7 +129,7 @@ const ShareCard = ({ profile, t }: { profile: any; t: any }) => {
               </a>
               <a
                 target="_blank"
-                href={`http://x.com/share?text=Checkout my Linkfolio page%0A&url=${process.env.NEXT_PUBLIC_BASE_URL}/${profile.username}`}
+                href={`http://x.com/share?text=Checkout my Digiresume page%0A&url=${process.env.NEXT_PUBLIC_BASE_URL}/${profile.username}`}
                 style={{
                   background: 'transparent',
                   borderColor: t.border,
@@ -153,7 +153,7 @@ const ShareCard = ({ profile, t }: { profile: any; t: any }) => {
               </a>{' '}
               <a
                 target="_blank"
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${process.env.NEXT_PUBLIC_BASE_URL}/${profile.username}&text=Checkout my Linkfolio page`}
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${process.env.NEXT_PUBLIC_BASE_URL}/${profile.username}&text=Checkout my Digiresume page`}
                 style={{
                   background: 'transparent',
                   borderColor: t.border,
@@ -165,7 +165,7 @@ const ShareCard = ({ profile, t }: { profile: any; t: any }) => {
               </a>{' '}
               <a
                 target="_blank"
-                href={`https://telegram.me/share/url?url=${process.env.NEXT_PUBLIC_BASE_URL}/${profile.username}&text=Checkout my Linkfolio page`}
+                href={`https://telegram.me/share/url?url=${process.env.NEXT_PUBLIC_BASE_URL}/${profile.username}&text=Checkout my Digiresume page`}
                 style={{
                   background: 'transparent',
                   borderColor: t.border,

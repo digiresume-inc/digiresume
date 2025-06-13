@@ -1,7 +1,7 @@
 'use client';
-import { Button } from '@lf/ui/components/base/button';
-import { Tabs, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
-import { Theme, Themes } from '@lf/utils';
+import { Button } from '@dr/ui/components/base/button';
+import { Tabs, TabsList, TabsTrigger } from '@dr/ui/components/base/tabs';
+import { Theme, Themes } from '@dr/utils';
 import { ArrowDown, ArrowUp, Smile } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 

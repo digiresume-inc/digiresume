@@ -1,7 +1,7 @@
 {
-  "name": "lf-server",
-  "version": "1.0.0",
-  "description": "Express API server with multiple AI model integrations",
+  "name": "dr-api",
+  "version": "0.1.0",
+  "description": "API server for Digiresume to structure Linkedin data",
   "main": "server.js",
   "scripts": {
     "start": "node ./dist/index.js",

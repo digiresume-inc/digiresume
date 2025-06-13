@@ -1,4 +1,4 @@
-import { cn } from '@lf/ui/lib/utils';
+import { cn } from '@dr/ui/lib/utils';
 import React from 'react';
 
 const DotGradient = () => {

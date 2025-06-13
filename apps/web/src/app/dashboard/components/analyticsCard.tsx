@@ -1,14 +1,14 @@
 'use client';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@lf/ui/components/base/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@dr/ui/components/base/tabs';
 import { ExternalLink } from 'lucide-react';
 import React from 'react';
-import { CartesianGrid, Line, LineChart } from 'recharts';
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from '@lf/ui/components/base/chart';
+} from '@dr/ui/components/base/chart';
 
 export const description = 'A simple area chart';
 
@@ -20,6 +20,14 @@ const chartData = [
   { month: 'May', views: 120, clicks: 90 },
   { month: 'June', views: 100, clicks: 70 },
 ];
+
+const getYAxisLabels = (key: keyof typeof chartConfig) => {
+  const values = chartData.map((d) => d[key]);
+  const max = Math.max(...values);
+  const mid1 = Math.round(max / 3);
+  const mid2 = Math.round((2 * max) / 3);
+  return [0, mid1, mid2, max].reverse();
+};
 
 const chartConfig = {
   views: {
@@ -77,10 +85,15 @@ const AnalyticsCard = () => {
         <TabsContent value="views"></TabsContent>
         <TabsContent value="clicks"></TabsContent>
       </Tabs>
-      <div className="w-full h-24 rounded-md bg-muted mb-2 pt-2">
+      <div className="w-full flex items-center h-24 mb-1 gap-1">
+        <span className="flex flex-col items-center justify-between text-tiny h-full py-1">
+          {getYAxisLabels(activeChart).map((val, index) => (
+            <span key={index}>{val}</span>
+          ))}
+        </span>
         <ChartAreaDefault activeChart={activeChart} />
       </div>
-      <span className="flex items-center justify-between text-xxs w-full">
+      <span className="flex ml-auto items-center justify-between text-tiny w-[95%] pl-3">
         {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'].map((mon, index) => (
           <span key={index}>{mon}</span>
         ))}
@@ -94,7 +107,7 @@ const AnalyticsCard = () => {
 
 const ChartAreaDefault = ({ activeChart }: { activeChart: keyof typeof chartConfig }) => {
   return (
-    <ChartContainer className="px-0" config={chartConfig}>
+    <ChartContainer className="px-0 w-[95%] bg-muted rounded-md" config={chartConfig}>
       <LineChart
         accessibilityLayer
         data={chartData}
@@ -104,7 +117,6 @@ const ChartAreaDefault = ({ activeChart }: { activeChart: keyof typeof chartConf
         }}
       >
         <CartesianGrid vertical={false} />
-        {/* <YAxis domain={['auto', (dataMax: number) => dataMax + 10]} hide /> */}
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
         <Line
           dataKey={activeChart}
@@ -117,6 +129,7 @@ const ChartAreaDefault = ({ activeChart }: { activeChart: keyof typeof chartConf
           activeDot={{
             r: 5,
           }}
+          isAnimationActive={false}
         />
       </LineChart>
     </ChartContainer>

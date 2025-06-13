@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import { logout } from '../actions/logout';
-import { Button } from '@lf/ui/components/base/button';
+import { Button } from '@dr/ui/components/base/button';
 import { LoadingButton } from '@/components/general/loadingbutton';
 
 const LogoutConfirmation = ({

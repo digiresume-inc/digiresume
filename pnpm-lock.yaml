@@ -76,21 +76,21 @@ importers:
 
   apps/web:
     dependencies:
+      '@dr/schemas':
+        specifier: workspace:*
+        version: link:../../packages/schemas
+      '@dr/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
+      '@dr/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@hello-pangea/dnd':
         specifier: ^18.0.1
         version: 18.0.1(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@hookform/resolvers':
         specifier: ^5.0.1
         version: 5.0.1(react-hook-form@7.56.3(react@19.0.0))
-      '@lf/schemas':
-        specifier: workspace:*
-        version: link:../../packages/schemas
-      '@lf/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
-      '@lf/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
       '@supabase/ssr':
         specifier: ^0.6.1
         version: 0.6.1(@supabase/supabase-js@2.49.4)

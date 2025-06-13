@@ -1,7 +1,7 @@
 'use server';
 
 import { createSClient } from '@/supabase/server';
-import { Startup } from '@lf/schemas';
+import { Startup } from '@dr/schemas';
 
 export async function addStartup(data: Startup) {
   const supabase = await createSClient();
