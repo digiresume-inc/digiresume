@@ -16,11 +16,12 @@ const Navbar = ({
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="z-[49] w-full h-fit px-6 py-3 sticky top-0 left-0 max-w-5xl rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm border bg-secondary/10">
+    <div className="z-[49] w-full h-fit px-6 py-2 sticky top-0 left-0 max-w-5xl rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm border bg-secondary/10">
       <div className="flex items-center justify-between w-full">
-        <h1 className="text-xl lg:text-2xl font-extrabold">
+        {/* <h1 className="text-xl lg:text-2xl font-extrabold">
           digiresu.<span className="text-primary">me</span>
-        </h1>
+        </h1> */}
+        <img src='/word-mark.png' className='h-10 w-10 object-cover' />
         <Popover open={menuOpen} onOpenChange={setMenuOpen}>
           <PopoverTrigger asChild>
             <Avatar className="cursor-pointer">

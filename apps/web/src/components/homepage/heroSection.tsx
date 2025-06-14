@@ -20,7 +20,7 @@ const HeroSection = () => {
                   </span>
                 </h1>
                 <p className="pt-2 text-sm sm:text-base lg:text-lg font-medium text-muted-foreground my-3 sm:mt-5 lg:mb-0 sm:px-6 lg:px-10 max-w-prose text-center">
-                  Create a stunning, paper-like digital resume with <strong>Digiresu.me</strong>.
+                  Create a stunning, paper-like digital resume with <strong>digiresu.me</strong>.
                   Highlight your startups, showcase projects, map your journey, and get verified —
                   all in one sleek, shareable profile.
                 </p>

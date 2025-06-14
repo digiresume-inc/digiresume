@@ -10,8 +10,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@dr/ui/components/base/navigation-menu';
-import { Button } from '@dr/ui/components/base/button';
-import { FileText, Menu, X } from 'lucide-react';
+import {  Menu, X } from 'lucide-react';
 import { cn } from '@dr/ui/lib/utils';
 import SlideInNavbar from './mobilenavbar';
 
@@ -81,13 +80,12 @@ const Navbar = () => {
         >
           <div className="block lg:hidden pl-2">
             <span onClick={() => setIsOpen(!isOpen)}>
-              {isOpen ? <X size={20}/> : <Menu size={20}/>}
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
             </span>
           </div>
 
-          <h1 className="text-xl lg:text-2xl font-extrabold pl-2">
-            digiresu.<span className="text-primary">me</span>
-          </h1>
+          <img src="/text_logo.png" className="w-34 object-cover" />
+
           <NavigationMenu className="hidden lg:block">
             <NavigationMenuList>
               <NavigationMenuItem>
