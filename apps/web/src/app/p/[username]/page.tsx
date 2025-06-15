@@ -113,7 +113,7 @@ async function renderProfile(profile: Profile, startups: Startup[], projects: Pr
                       style={{
                         color: hexToHSL(t.foreground!, 0.7),
                       }}
-                      className="flex items-center justify-start text-sm font-normal lg:font-medium gap-0.5 lg:gap-1 px-1"
+                      className="flex items-center justify-start text-sm font-normal lg:font-medium gap-0.5 lg:gap-1 px-0"
                     >
                       <MapPin className="w-3 lg:w-[14px] h-3 lg:h-[14px]" />{' '}
                       {profile.country.split('-')[0]}{' '}
@@ -121,6 +121,10 @@ async function renderProfile(profile: Profile, startups: Startup[], projects: Pr
                         src={`https://flagsapi.com/${profile.country.split('-')[1]}/flat/64.png`}
                         className="w-4 lg:w-5 h-4 lg:h-5"
                       />
+                      <span>/</span>
+                      <span>{profile.geo_info.state}</span>
+                      <span>/</span>
+                       <span>{profile.geo_info.city}</span>
                     </p>
                   </div>
                 </div>

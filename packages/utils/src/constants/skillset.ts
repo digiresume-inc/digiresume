@@ -594,4 +594,5 @@ export const skills: Skill[] = [
     logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f2/ClamAV_Logo.png',
     category: 'Cybersecurity',
   },
+
 ];

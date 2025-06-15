@@ -142,7 +142,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
             >
               <Phone strokeWidth={1.3} size={16} />
               <span className="truncate max-w-[120px] sm:max-w-[160px] lg:max-w-none">
-                +91-8074414860
+                +91-100-MARYADA
               </span>
             </a>
             <a
