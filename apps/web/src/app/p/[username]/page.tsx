@@ -289,7 +289,7 @@ async function renderProfile(profile: Profile, startups: Startup[], projects: Pr
                                   src={
                                     company.company_link
                                       ? `https://www.google.com/s2/favicons?sz=128&domain_url=${company.company_link}`
-                                      : '/company.png'
+                                      : '/general/company.png'
                                   }
                                 />
                               </div>

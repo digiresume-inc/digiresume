@@ -10,9 +10,10 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@dr/ui/components/base/navigation-menu';
-import {  Menu, X } from 'lucide-react';
+import { LogIn, Menu, X } from 'lucide-react';
 import { cn } from '@dr/ui/lib/utils';
 import SlideInNavbar from './mobilenavbar';
+import ThemeBasedImage from './themeBasedImage';
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -65,31 +66,44 @@ const Navbar = () => {
     };
   }, [isOpen]);
 
+  const NavLogos = ['/wordmarks/text_logo.png', '/wordmarks/text_logo_black.png'];
+
   return (
     <>
       <SlideInNavbar isOpen={isOpen} setIsOpen={setIsOpen} />
       <nav className="fixed top-0 left-0 z-[1000] w-full pt-5 px-5 lg:px-0">
         <div
           className={cn(
-            'max-w-5xl w-full relative mx-auto flex items-center justify-between rounded-full p-2 lg:p-3 lg:pl-5 transition-colors',
+            'max-w-5xl border w-full relative mx-auto flex items-center justify-between rounded-full px-4 lg:px-6 py-2 lg:py-3 transition-colors',
             {
-              'bg-clip-padding backdrop-filter backdrop-blur-sm border bg-secondary/10': !isOpen,
-              'bg-background': isOpen,
+              'bg-clip-padding backdrop-filter backdrop-blur-sm bg-secondary/10': !isOpen,
+              'bg-background border-transparent': isOpen,
             }
           )}
         >
-          <div className="block lg:hidden pl-2">
+          <div className="block lg:hidden pl-2 text-foreground">
             <span onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X size={20} /> : <Menu size={20} />}
             </span>
           </div>
 
-          <img src="/text_logo.png" className="w-34 object-cover" />
+          <ThemeBasedImage
+            images={NavLogos}
+            width={600}
+            height={136}
+            alt="Navbar logo"
+            className="w-34 object-cover"
+            priority
+            disableAnimation
+          />
+
 
           <NavigationMenu className="hidden lg:block">
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-foreground">
+                  Getting started
+                </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                     <li className="row-span-3">
@@ -98,7 +112,6 @@ const Navbar = () => {
                           className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                           href="/"
                         >
-                          {/* <Icons.logo className="h-6 w-6" /> */}
                           <div className="mb-2 mt-4 text-lg font-medium">shadcn/ui</div>
                           <p className="text-sm leading-tight text-muted-foreground">
                             Beautifully designed components that you can copy and paste into your
@@ -120,7 +133,9 @@ const Navbar = () => {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="text-foreground">
+                  Components
+                </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                     {components.map((component) => (
@@ -133,16 +148,16 @@ const Navbar = () => {
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink href="/dashboard" className={navigationMenuTriggerStyle()}>
-                  Dashboard
+                  <span className="text-foreground">Dashboard</span>
                 </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
           <Link
-            href={'/signin'}
-            className="bg-primary font-medium text-primary-foreground flex px-4 py-2 rounded-full items-center gap-2 text-xs lg:text-sm cursor-pointer"
+            href="/signin"
+            className="flex items-center gap-1 px-2 py-1 text-xs lg:px-4 lg:py-1.5 lg:text-sm bg-foreground/10 backdrop-blur-md border border-foreground/20 hover:border-foreground/40 transition-all font-medium text-foreground rounded-full"
           >
-            Sign in
+            <span className="hidden sm:block">Sign In</span> <LogIn size={20} strokeWidth={1} />
           </Link>
         </div>
       </nav>

@@ -17,7 +17,7 @@ export default function QRCodeGenerator({ link, color }: { link: string; color: 
         height: 150,
         type: 'svg',
         data: link,
-        image: '/transparent.png',
+        image: '/general/transparent.png',
         dotsOptions: {
           color: color,
           type: 'square',

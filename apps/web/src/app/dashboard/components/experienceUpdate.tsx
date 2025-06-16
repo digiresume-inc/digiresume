@@ -114,7 +114,7 @@ const ExperienceUpdate = ({ profile }: { profile: Profile }) => {
                   src={
                     exp.company_link
                       ? `https://www.google.com/s2/favicons?sz=128&domain_url=${exp.company_link}`
-                      : '/company.png'
+                      : '/general/company.png'
                   }
                   className="w-8 h-8 rounded-full"
                   alt={`${exp.company} Logo`}

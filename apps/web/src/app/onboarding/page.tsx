@@ -60,7 +60,7 @@ export default async function Onboarding() {
           width={600}
           height={600}
           alt="Onboarding background banner"
-          src="/test/linkfolio_vertical_login.png"
+          src="/general/vertical_login.png"
           className="absolute opacity-70 bottom-[-100px] right-0 hidden lg:block"
         />
       </div>

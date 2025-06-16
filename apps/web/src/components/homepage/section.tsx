@@ -13,7 +13,7 @@ const Section1 = () => {
           </div>
         </div>
         <div className="w-full lg:w-1/2 flex flex-col items-start justify-center text-left p-4">
-          <h1 className="text-2xl lg:text-3xl font-extrabold mb-4">
+          <h1 className="text-2xl lg:text-3xl font-extrabold mb-4 text-foreground">
             Share your Startup story with everyone
           </h1>
           <p className="text-lg lg:text-xl text-foreground/80">

@@ -1,17 +1,17 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { AnimatePresence, motion } from 'motion/react';
 import { blurFade } from '@dr/utils';
+import ThemeBasedImage from './themeBasedImage';
 
 const HeroImage = () => {
-  const images = ['/verticals/profile_vertcial.png', '/verticals/resume_vertical.png'];
+  const MobileImages = ['/verticals/profile_vertcial.png', '/verticals/resume_vertical.png'];
+  const DesktopImages = ['/profiles', '/resumes'];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex: number) => (prevIndex + 1) % images.length);
+      setCurrentImageIndex((prevIndex: number) => (prevIndex + 1) % 2);
     }, 10000);
 
     return () => clearInterval(interval);
@@ -21,24 +21,14 @@ const HeroImage = () => {
     <>
       <div className="relative flex lg:hidden">
         <div className="absolute bottom-0 left-0 w-full h-36 pointer-events-none bg-gradient-to-t from-background/80 to-transparent z-10" />
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={images[currentImageIndex]} // Move key to motion.div
-            variants={blurFade}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            transition={{ duration: 0.3 }}
-          >
-            <Image
-              width={600}
-              height={600}
-              alt="Home page hero banner"
-              src={images[currentImageIndex] as string}
-              priority
-            />
-          </motion.div>
-        </AnimatePresence>
+        <ThemeBasedImage
+          images={MobileImages}
+          width={600}
+          height={600}
+          alt="Home page hero banner"
+          animationVariants={blurFade}
+          priority
+        />
       </div>
       <div className="relative hidden lg:flex min-h-[554px] rounded-md">
         <div className="absolute bottom-0 left-0 w-full h-48 pointer-events-none bg-gradient-to-t from-background/80 to-transparent z-10" />
@@ -94,7 +84,7 @@ const HeroImage = () => {
                     style={{ display: 'block' }}
                   >
                     <image
-                      href="/profiles/bottom.png"
+                      href={`${DesktopImages[currentImageIndex]}/bottom.png`}
                       width="2048px"
                       height="2048px"
                       preserveAspectRatio="xMidYMid slice"
@@ -114,7 +104,7 @@ const HeroImage = () => {
                     style={{ display: 'block' }}
                   >
                     <image
-                      href="/profiles/middle.png"
+                      href={`${DesktopImages[currentImageIndex]}/middle.png`}
                       width="2048px"
                       height="2048px"
                       preserveAspectRatio="xMidYMid slice"
@@ -134,7 +124,7 @@ const HeroImage = () => {
                     style={{ display: 'block' }}
                   >
                     <image
-                      href="/profiles/top.png"
+                      href={`${DesktopImages[currentImageIndex]}/top.png`}
                       width="2048px"
                       height="2048px"
                       preserveAspectRatio="xMidYMid slice"

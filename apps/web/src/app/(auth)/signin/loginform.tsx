@@ -52,7 +52,7 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
   return (
     <Card className="max-w-sm w-full">
       <CardHeader className="space-y-1">
-        <img src="/text_logo.png" className="w-34 object-cover mx-auto" />
+        <img src="/wordmarks/text_logo.png" className="w-34 object-cover mx-auto" />
       </CardHeader>
       <CardContent>
         <GoogleSignin isMagicLoading={isLoading} />

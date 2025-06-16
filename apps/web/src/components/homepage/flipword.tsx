@@ -12,7 +12,7 @@ interface FlipWordsProps {
 export const FlipWords: React.FC<FlipWordsProps> = ({
   duration = 3000,
   className,
-  words = ['Startup ', 'Project ', 'Creation ', 'Skills ', 'Journey ', 'Earnings ', 'Career '],
+  words = ['Skills.', 'Projects.', 'Career.', 'Creation.', 'Vision.','Startups.'],
 }) => {
   const [currentWord, setCurrentWord] = useState(words[0]);
   const [isAnimating, setIsAnimating] = useState(false);

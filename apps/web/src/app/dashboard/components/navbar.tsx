@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from '@dr/ui/components/base/avatar';
 import type { User } from '@supabase/supabase-js';
 import { Popover, PopoverContent, PopoverTrigger } from '@dr/ui/components/base/popover';
-import { Button } from '@dr/ui/components/base/button';
+import Image from 'next/image';
 import { CircleFadingArrowUp, HelpCircle, LogOut } from 'lucide-react';
 
 const Navbar = ({
@@ -18,10 +18,13 @@ const Navbar = ({
   return (
     <div className="z-[49] w-full h-fit px-6 py-2 sticky top-0 left-0 max-w-5xl rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm border bg-secondary/10">
       <div className="flex items-center justify-between w-full">
-        {/* <h1 className="text-xl lg:text-2xl font-extrabold">
-          digiresu.<span className="text-primary">me</span>
-        </h1> */}
-        <img src='/word-mark.png' className='h-10 w-10 object-cover' />
+        <Image
+          src="/logos/word-mark.png"
+          width={600}
+          height={136}
+          alt="Dashboard logo"
+          className="w-34 object-cover"
+        />
         <Popover open={menuOpen} onOpenChange={setMenuOpen}>
           <PopoverTrigger asChild>
             <Avatar className="cursor-pointer">

@@ -23,7 +23,7 @@ export default function SlideInNavbar({
             transition={{ duration: 0.3 }}
             className="fixed top-0 left-0 h-full w-full z-[1000] pt-20 pb-4 bg-background px-8"
           >
-            <nav className="flex flex-col divide-y-2 divide-foreground/20 font-medium">
+            <nav className="flex flex-col divide-y-2 divide-foreground/20 font-medium text-foreground">
               <a href="/" className="py-3 pl-2">
                 Home
               </a>

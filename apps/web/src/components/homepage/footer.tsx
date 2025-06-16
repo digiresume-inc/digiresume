@@ -1,13 +1,18 @@
+'use client';
+import Image from 'next/image';
 import { Button } from '@dr/ui/components/base/button';
 import { Input } from '@dr/ui/components/base/input';
 import { cn } from '@dr/ui/lib/utils';
 import { ArrowRight, AtSign } from 'lucide-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SiGithub, SiInstagram, SiLinkedin, SiX } from 'react-icons/si';
+import ThemeBasedImage from './themeBasedImage';
 
 const Footer = () => {
+  const FooterLogos = ['/logos/word-mark-shrinked.png', '/logos/word-mark-shrinked-black.png'];
+
   return (
-    <div className="py-12 px-6 bg-transparent min-h-98 lg:h-98 relative">
+    <div id="homeFooter" className="py-12 px-6 bg-transparent min-h-98 lg:h-98 relative">
       <div className="absolute inset-0 z-0">
         <div
           className={cn(
@@ -23,7 +28,15 @@ const Footer = () => {
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center [mask-image:radial-gradient(ellipse_at_center,transparent_80%,black)] bg-background"></div>
       <div className="relative z-20 max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between h-full bg-background/60 md:bg-background/90 px-4 md:px-8 lg:px-12 pb-8 rounded-b-3xl">
         <div className="flex flex-col flex-1 items-start gap-2 h-full">
-          <img className="w-20 lg:w-24" src="word-mark-shrinked.png" />
+          <ThemeBasedImage
+            images={FooterLogos}
+            width={96}
+            height={136}
+            alt="Footer logo"
+            className="w-20 lg:w-24"
+            priority
+            disableAnimation
+          />
           <p className="text-xs text-muted-foreground font-medium tracking-wide italic mt-2">
             Proudly{' '}
             <span className="text-primary font-semibold not-italic ml-1 hover:underline cursor-pointer">
@@ -36,13 +49,14 @@ const Footer = () => {
             Highlight your startups, showcase projects, map your journey, and get verified — all in
             one sleek, shareable profile.
           </p>
-          <div className="flex-col gap-2 mt-auto hidden md:flex">
+          <div className="flex-col gap-2 mt-auto hidden md:flex text-foreground">
             <div className="flex items-center gap-1 text-sm font-light">
               <AtSign size={16} strokeWidth={1} /> 2025 <strong>Digiresume</strong>, All rights
               reserved
             </div>
             <span className="flex items-center w-full">
-              Made with ❤️ by <span className="font-semibold hover:underline ml-1">@prasadreddy03</span>
+              Made with ❤️ by{' '}
+              <span className="font-semibold hover:underline ml-1">@prasadreddy03</span>
             </span>
           </div>
         </div>
@@ -59,23 +73,36 @@ const Footer = () => {
             </div>
           </div>
           <div className="flex items-center gap-4 py-6">
-            <SiX size={24} className='text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer' />
-            <SiInstagram size={24} className='text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer'  />
-            <SiLinkedin size={24} className='text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer'  />
-            <SiGithub size={24} className='text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer'  />
+            <SiX
+              size={24}
+              className="text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer"
+            />
+            <SiInstagram
+              size={24}
+              className="text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer"
+            />
+            <SiLinkedin
+              size={24}
+              className="text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer"
+            />
+            <SiGithub
+              size={24}
+              className="text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer"
+            />
           </div>
-          <div className="flex gap-4 items-center mt-auto text-sm">
+          <div className="flex gap-4 items-center mt-auto text-sm text-foreground">
             <p className="font-light underline decoration-1 cursor-pointer">Privacy policy</p>
             <p className="font-light underline decoration-1 cursor-pointer">Terms of service</p>
           </div>
         </div>
-        <div className="flex-col gap-2 mt-4 flex md:hidden w-full">
+        <div className="flex-col gap-2 mt-4 flex md:hidden w-full text-foreground">
           <div className="flex items-center gap-1 text-sm font-light">
             <AtSign size={16} strokeWidth={1} /> 2025 <strong>Digiresume</strong>, All rights
             reserved
           </div>
           <span className="flex items-center w-full text-sm">
-            Made with ❤️ by <span className="font-semibold hover:underline ml-1">@prasadreddy03</span>
+            Made with ❤️ by{' '}
+            <span className="font-semibold hover:underline ml-1">@prasadreddy03</span>
           </span>
         </div>
       </div>

@@ -149,7 +149,7 @@ const LinkedinImport = ({
                     height={384}
                     width={1000}
                     className="w-full object-cover h-48 rounded-lg border"
-                    src="/linkedinpdf.png"
+                    src="/general/linkedinpdf.png"
                     alt="Linkedin Import Guide"
                   />
                   {loading ? (
