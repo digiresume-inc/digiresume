@@ -28,11 +28,11 @@ const ThemeBasedImage = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex: number) => (prevIndex + 1) % images.length);
+      setCurrentImageIndex((prevIndex: number) => (prevIndex + 1) % 2);
     }, 10000);
 
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, []);
 
   const imageElement = (
     <Image

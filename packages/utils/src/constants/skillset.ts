@@ -595,4 +595,102 @@ export const skills: Skill[] = [
     category: 'Cybersecurity',
   },
 
+  //jetha
+
+  {
+    label: 'Excuse Expert',
+    value: 'excuse-expert',
+    logo: 'https://emojiapi.dev/api/v1/eyes/64.png', // or a placeholder emoji or image
+    category: 'Comedy',
+  },
+  {
+    label: 'TV Seller (Confused)',
+    value: 'tv-seller-confused',
+    logo: 'https://emojiapi.dev/api/v1/television/64.png',
+    category: 'Comedy',
+  },
+  {
+    label: 'Crisis Magnet',
+    value: 'crisis-magnet',
+    logo: 'https://emojiapi.dev/api/v1/fire/64.png',
+    category: 'Comedy',
+  },
+  {
+    label: 'Daya Devotee',
+    value: 'daya-devotee',
+    logo: 'https://emojiapi.dev/api/v1/smiling_face_with_hearteyes/64.png',
+    category: 'Comedy',
+  },
+  {
+    label: 'Chappal Dodger',
+    value: 'chappal-dodger',
+    logo: 'https://emojiapi.dev/api/v1/thong_sandal/64.png',
+    category: 'Comedy',
+  },
+
+  // daya
+
+  {
+    label: 'Microwave Whisperer',
+    value: 'microwave-whisperer',
+    logo: '🌀',
+    category: 'Misunderstood Electronics',
+  },
+  {
+    label: 'Blame Manage',
+    value: 'blame-management',
+    logo: 'https://emojiapi.dev/api/v1/yawning_face/64.png',
+    category: 'Leadership',
+  },
+  {
+    label: 'Babita Ji',
+    value: 'babita-ji-enthusiasm',
+    logo: 'https://emojiapi.dev/api/v1/heart_with_arrow/64.png',
+    category: 'Core Passion',
+  },
+  {
+    label: 'Tea Drinking',
+    value: 'tea-drinking',
+    logo: 'https://emojiapi.dev/api/v1/teacup_without_handle/64.png',
+    category: 'Productivity Booster',
+  },
+  {
+    label: 'Phone Misdialing',
+    value: 'phone-misdialing',
+    logo: 'https://emojiapi.dev/api/v1/yawning_face/64.png',
+    category: 'Communication',
+  },
+  {
+    label: 'Nattu Kaka Delegation',
+    value: 'nattu-delegation',
+    logo: 'https://emojiapi.dev/api/v1/face_with_headbandage/64.png',
+    category: 'Human Resources',
+  },
+
+  // champak lal
+
+  {
+    label: 'Slipper Accuracy',
+    value: 'slipper-accuracy',
+    logo: 'https://emojiapi.dev/api/v1/thong_sandal/64.png',
+    category: 'Discipline',
+  },
+  {
+    label: 'Moral Lectures',
+    value: 'moral-lectures',
+    logo: 'https://emojiapi.dev/api/v1/prayer_beads/64.png',
+    category: 'Wisdom',
+  },
+  {
+    label: 'Tapu Sena Tracker',
+    value: 'tapu-tracker',
+    logo: 'https://emojiapi.dev/api/v1/magnifying_glass_tilted_left/64.png',
+    category: 'Surveillance',
+  },
+  {
+    label: 'Jetha Manager',
+    value: 'jetha-manager',
+    logo: 'https://emojiapi.dev/api/v1/brain/64.png',
+    category: 'Patience',
+  },
 ];

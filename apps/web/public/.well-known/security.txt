@@ -1,0 +1,4 @@
+Contact: mailto:linkfolio.page@gmail.com
+Expires: 2034-10-21T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://digiresu.me/.well-known/security.txt

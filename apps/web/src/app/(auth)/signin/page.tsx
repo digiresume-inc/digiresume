@@ -17,7 +17,7 @@ export default async function LoginPage({
 
   return (
     <div className="h-screen w-full flex items-center justify-center lg:justify-start">
-      <div className="w-full max-w-md lg:ml-[20%] px-6 lg:px-0">
+      <div className="w-full max-w-md px-6 lg:px-0 mx-auto">
         <LoginForm username={username}/>
       </div>
     </div>

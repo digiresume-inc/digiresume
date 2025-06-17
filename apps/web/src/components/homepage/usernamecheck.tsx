@@ -15,10 +15,7 @@ const UsernameCheck = () => {
     if (!username) return;
     setUsernameLoading(true);
 
-    const { data } = await supabase
-      .from('profiles')
-      .select('username')
-      .eq('username', username);
+    const { data } = await supabase.from('profiles').select('username').eq('username', username);
 
     setUsernameAvailable(data?.length === 0);
     setUsernameLoading(false);
@@ -89,39 +86,46 @@ const UsernameCheck = () => {
           )}
         </a>
       </div>
-      <AnimatePresence>
-        {usernameAvailable && !isTyping && usernameCheck ? (
-          <motion.p
-            className="text-green-500 text-sm lg:text-base"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.3 }}
-          >
-            Cheers, username available. 🤩
-          </motion.p>
-        ) : !usernameAvailable && !isTyping && usernameCheck ? (
-          <motion.p
-            className="text-red-500 text-sm lg:text-base"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.3 }}
-          >
-            Sorry, username already taken. 😔
-          </motion.p>
-        ) : (
-          <motion.p
-            className="text-foreground/70 text-xs lg:text-base"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.3 }}
-          >
-            Good usernames vanish. Be quicker.
-          </motion.p>
+      <div
+        className={cn(
+          'px-3 py-2 rounded-md shadow-sm',
+          'bg-[linear-gradient(to_right,transparent,var(--text-background),transparent)]'
         )}
-      </AnimatePresence>
+      >
+        <AnimatePresence>
+          {usernameAvailable && !isTyping && usernameCheck ? (
+            <motion.p
+              className="text-green-500 text-sm lg:text-base"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3 }}
+            >
+              Cheers, username available. 🤩
+            </motion.p>
+          ) : !usernameAvailable && !isTyping && usernameCheck ? (
+            <motion.p
+              className="text-red-500 text-sm lg:text-base"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3 }}
+            >
+              Sorry, username already taken. 😔
+            </motion.p>
+          ) : (
+            <motion.p
+              className="text-foreground/70 text-xs lg:text-base"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3 }}
+            >
+              Good usernames vanish. Be quicker.
+            </motion.p>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };

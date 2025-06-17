@@ -14,9 +14,16 @@ export default function Home() {
   useEffect(() => {
     const homePage = document.getElementById('homePage');
 
+    if (isWhiteTheme) {
+      homePage?.classList.add('theme-white');
+    } else {
+      homePage?.classList.remove('theme-white');
+    }
+
     const interval = setInterval(() => {
       setIsWhiteTheme((prev) => {
         const newTheme = !prev;
+        const homePage = document.getElementById('homePage'); // fetch fresh
         if (newTheme) {
           homePage?.classList.add('theme-white');
         } else {

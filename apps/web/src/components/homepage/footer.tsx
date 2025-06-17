@@ -9,7 +9,7 @@ import { SiGithub, SiInstagram, SiLinkedin, SiX } from 'react-icons/si';
 import ThemeBasedImage from './themeBasedImage';
 
 const Footer = () => {
-  const FooterLogos = ['/logos/word-mark-shrinked.png', '/logos/word-mark-shrinked-black.png'];
+  const FooterLogos = ['/logos/dr_dark.png', '/logos/dr_light.png'];
 
   return (
     <div id="homeFooter" className="py-12 px-6 bg-transparent min-h-98 lg:h-98 relative">
@@ -17,15 +17,15 @@ const Footer = () => {
         <div
           className={cn(
             'absolute inset-x-0 bottom-0 h-[216px]',
-            '[background-size:20px_20px]',
-            '[background-image:radial-gradient(#8a6642_1.1px,transparent_1.1px)]',
+            '[background-size:40px_40px]',
+            '[background-image:linear-gradient(to_right,var(--grid-color)_1px,transparent_1px),linear-gradient(to_bottom,var(--grid-color)_1px,transparent_1px)]',
             '[mask-image:linear-gradient(to_top,black,transparent)]',
             'dark:[mask-image:linear-gradient(to_top,black,transparent)]',
             'mask-image-[linear-gradient(to_top,black,transparent)]'
           )}
         />
       </div>
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center [mask-image:radial-gradient(ellipse_at_center,transparent_80%,black)] bg-background"></div>
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] bg-background"></div>
       <div className="relative z-20 max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between h-full bg-background/60 md:bg-background/90 px-4 md:px-8 lg:px-12 pb-8 rounded-b-3xl">
         <div className="flex flex-col flex-1 items-start gap-2 h-full">
           <ThemeBasedImage
@@ -54,10 +54,19 @@ const Footer = () => {
               <AtSign size={16} strokeWidth={1} /> 2025 <strong>Digiresume</strong>, All rights
               reserved
             </div>
-            <span className="flex items-center w-full">
-              Made with ❤️ by{' '}
-              <span className="font-semibold hover:underline ml-1">@prasadreddy03</span>
-            </span>
+            <div className="flex h-12 items-center bg-linear-(--gradient-background) bg-clip-text text-right text-transparent lg:order-4 lg:mr-0 md:order-3 md:ml-auto md:h-11 sm:ml-0 sm:mt-2 sm:w-full">
+              <Image
+                alt="Love"
+                loading="lazy"
+                width={68}
+                height={68}
+                className="-mr-3 sm:-ml-4"
+                style={{ color: 'transparent' }}
+                src="/general/love.svg"
+              />
+              Made by
+              <span className="font-medium ml-2 hover:text-foreground transition-colors duration-200 cursor-pointer">@prasadreddy03</span>
+            </div>
           </div>
         </div>
         <div className="flex flex-col items-start gap-2 h-full w-full lg:w-auto mt-6 md:mt-0">
@@ -91,8 +100,12 @@ const Footer = () => {
             />
           </div>
           <div className="flex gap-4 items-center mt-auto text-sm text-foreground">
-            <p className="font-light underline decoration-1 cursor-pointer">Privacy policy</p>
-            <p className="font-light underline decoration-1 cursor-pointer">Terms of service</p>
+            <p className="font-medium leading-none tracking-tight text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer">
+              Privacy policy
+            </p>
+            <p className="font-medium leading-none tracking-tight text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer">
+              Terms of service
+            </p>
           </div>
         </div>
         <div className="flex-col gap-2 mt-4 flex md:hidden w-full text-foreground">
@@ -100,10 +113,19 @@ const Footer = () => {
             <AtSign size={16} strokeWidth={1} /> 2025 <strong>Digiresume</strong>, All rights
             reserved
           </div>
-          <span className="flex items-center w-full text-sm">
-            Made with ❤️ by{' '}
-            <span className="font-semibold hover:underline ml-1">@prasadreddy03</span>
-          </span>
+          <div className="text-sm flex h-12 items-center bg-linear-(--gradient-background) bg-clip-text text-right text-transparent lg:order-4 lg:mr-0 md:order-3 md:ml-auto md:h-11 sm:ml-0 sm:mt-2 sm:w-full">
+            <Image
+              alt="Love"
+              loading="lazy"
+              width={68}
+              height={68}
+              className="-mr-3 -ml-4"
+              style={{ color: 'transparent' }}
+              src="/general/love.svg"
+            />
+            Made by
+            <span className="font-medium ml-2 hover:text-foreground transition-colors duration-200 cursor-pointer">@prasadreddy03</span>
+          </div>
         </div>
       </div>
     </div>

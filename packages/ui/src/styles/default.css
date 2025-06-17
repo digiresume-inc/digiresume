@@ -42,51 +42,64 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --text-tiny: 0.5rem;
-  --text-xxs: 0.6rem
+  --text-xxs: 0.6rem;
+  --color-gradient: var(--gradient-background);
+  --color-dot: var(--dot-color)
 }
 
 :root {
   --radius: 0.5rem;
-  --background: oklch(0.27 0.01 57.65);
-  --foreground: oklch(0.92 0.02 83.06);
-  --card: oklch(0.32 0.02 59.06);
-  --card-foreground: oklch(0.92 0.02 83.06);
-  --popover: oklch(0.32 0.02 59.06);
-  --popover-foreground: oklch(0.92 0.02 83.06);
-  --primary: oklch(0.73 0.06 66.70);
-  --primary-foreground: oklch(0.27 0.01 57.65);
-  --secondary: oklch(0.38 0.02 57.13);
-  --secondary-foreground: oklch(0.92 0.02 83.06);
-  --muted: oklch(0.32 0.02 59.06);
-  --muted-foreground: oklch(0.80 0.02 82.11);
-  --accent: oklch(0.42 0.03 56.34);
-  --accent-foreground: oklch(0.92 0.02 83.06);
-  --destructive: oklch(0.55 0.14 32.91);
-  --destructive-foreground: oklch(1.00 0 0);
-  --border: oklch(0.38 0.02 57.13);
-  --input: oklch(0.38 0.02 57.13);
-  --ring: oklch(0.73 0.06 66.70);
-  --chart-1: oklch(0.73 0.06 66.70);
-  --chart-2: oklch(0.68 0.06 64.78);
-  --chart-3: oklch(0.62 0.08 65.54);
-  --chart-4: oklch(0.56 0.06 68.58);
-  --chart-5: oklch(0.49 0.06 72.68);
-  --sidebar: oklch(0.27 0.01 57.65);
-  --sidebar-foreground: oklch(0.92 0.02 83.06);
-  --sidebar-primary: oklch(0.73 0.06 66.70);
-  --sidebar-primary-foreground: oklch(0.27 0.01 57.65);
-  --sidebar-accent: oklch(0.42 0.03 56.34);
-  --sidebar-accent-foreground: oklch(0.92 0.02 83.06);
-  --sidebar-border: oklch(0.38 0.02 57.13);
-  --sidebar-ring: oklch(0.73 0.06 66.70);
-  --shadow-2xs: 2px 3px 5px 0px hsl(28 13% 20% / 0.06);
-  --shadow-xs: 2px 3px 5px 0px hsl(28 13% 20% / 0.06);
-  --shadow-sm: 2px 3px 5px 0px hsl(28 13% 20% / 0.12), 2px 1px 2px -1px hsl(28 13% 20% / 0.12);
-  --shadow: 2px 3px 5px 0px hsl(28 13% 20% / 0.12), 2px 1px 2px -1px hsl(28 13% 20% / 0.12);
-  --shadow-md: 2px 3px 5px 0px hsl(28 13% 20% / 0.12), 2px 2px 4px -1px hsl(28 13% 20% / 0.12);
-  --shadow-lg: 2px 3px 5px 0px hsl(28 13% 20% / 0.12), 2px 4px 6px -1px hsl(28 13% 20% / 0.12);
-  --shadow-xl: 2px 3px 5px 0px hsl(28 13% 20% / 0.12), 2px 8px 10px -1px hsl(28 13% 20% / 0.12);
-  --shadow-2xl: 2px 3px 5px 0px hsl(28 13% 20% / 0.30);
+  --background: oklch(0.1448 0 0);
+  --foreground: oklch(0.9851 0 0);
+  --card: oklch(0.2134 0 0);
+  --card-foreground: oklch(0.9851 0 0);
+  --popover: oklch(0.2686 0 0);
+  --popover-foreground: oklch(0.9851 0 0);
+  --primary: oklch(0.5555 0 0);
+  --primary-foreground: oklch(0.9851 0 0);
+  --secondary: oklch(0.2686 0 0);
+  --secondary-foreground: oklch(0.9851 0 0);
+  --muted: oklch(0.2686 0 0);
+  --muted-foreground: oklch(0.7090 0 0);
+  --accent: oklch(0.3715 0 0);
+  --accent-foreground: oklch(0.9851 0 0);
+  --destructive: oklch(0.7022 0.1892 22.2279);
+  --destructive-foreground: oklch(0.2686 0 0);
+  --border: oklch(0.3407 0 0);
+  --input: oklch(0.4386 0 0);
+  --ring: oklch(0.5555 0 0);
+  --chart-1: oklch(0.5555 0 0);
+  --chart-2: oklch(0.5555 0 0);
+  --chart-3: oklch(0.5555 0 0);
+  --chart-4: oklch(0.5555 0 0);
+  --chart-5: oklch(0.5555 0 0);
+  --sidebar: oklch(0.2046 0 0);
+  --sidebar-foreground: oklch(0.9851 0 0);
+  --sidebar-primary: oklch(0.9851 0 0);
+  --sidebar-primary-foreground: oklch(0.2046 0 0);
+  --sidebar-accent: oklch(0.2686 0 0);
+  --sidebar-accent-foreground: oklch(0.9851 0 0);
+  --sidebar-border: oklch(1.0000 0 0);
+  --sidebar-ring: oklch(0.4386 0 0);
+  --shadow-2xs: 0px 1px 0px 0px hsl(0 0% 0% / 0.00);
+  --shadow-xs: 0px 1px 0px 0px hsl(0 0% 0% / 0.00);
+  --shadow-sm: 0px 1px 0px 0px hsl(0 0% 0% / 0.00), 0px 1px 2px -1px hsl(0 0% 0% / 0.00);
+  --shadow: 0px 1px 0px 0px hsl(0 0% 0% / 0.00), 0px 1px 2px -1px hsl(0 0% 0% / 0.00);
+  --shadow-md: 0px 1px 0px 0px hsl(0 0% 0% / 0.00), 0px 2px 4px -1px hsl(0 0% 0% / 0.00);
+  --shadow-lg: 0px 1px 0px 0px hsl(0 0% 0% / 0.00), 0px 4px 6px -1px hsl(0 0% 0% / 0.00);
+  --shadow-xl: 0px 1px 0px 0px hsl(0 0% 0% / 0.00), 0px 8px 10px -1px hsl(0 0% 0% / 0.00);
+  --shadow-2xl: 0px 1px 0px 0px hsl(0 0% 0% / 0.00);
+
+  --grid-color: oklch(49.261% 0.00006 271.152);
+  --image-border-color: oklch(44.59% 0.00005 271.152);
+  --text-background: oklch(17.764% 0.00002 271.152);
+  --gradient-background: 135deg,
+    #9b5944 0%,
+    #d4b7af 30%,
+    #dcd2cf 55%,
+    #f0e5e0 75%,
+    #fafafa 100%;
+
 }
 
 .theme-white {
@@ -131,12 +144,24 @@
   --shadow-lg: 0px 1px 0px 0px hsl(0 0% 0% / 0.00), 0px 4px 6px -1px hsl(0 0% 0% / 0.00);
   --shadow-xl: 0px 1px 0px 0px hsl(0 0% 0% / 0.00), 0px 8px 10px -1px hsl(0 0% 0% / 0.00);
   --shadow-2xl: 0px 1px 0px 0px hsl(0 0% 0% / 0.00);
+
+
+  --grid-color: oklch(0% 0 0);
+  --image-border-color: oklch(69.601% 0.00008 271.152);
+  --text-background: oklch(95.213% 0.00011 271.152);
+  --gradient-background: 90deg,
+    #a45b42 0%,
+    #3d322e 25.6%,
+    #2e2e2e 41.58%,
+    #232323 56.98%,
+    #0a0a0a 69.44%;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -147,6 +172,7 @@
     opacity: 0;
     transform: translate(-72%, -62%) scale(0.5);
   }
+
   100% {
     opacity: 1;
     transform: translate(-50%, -40%) scale(1);
@@ -189,12 +215,12 @@ select:-webkit-autofill:focus {
 
 table.ContributionCalendar-grid {
   margin-bottom: 0pt;
-  border-spacing: 2pt;        
-  border-collapse: separate;  
+  border-spacing: 2pt;
+  border-collapse: separate;
 }
 
 table.ContributionCalendar-grid td {
-  padding: 4pt;     
+  padding: 4pt;
   border-radius: 2pt;
 }
 
@@ -211,7 +237,7 @@ tool-tip {
   display: none;
 }
 
-.calendar .width-full > .float-left {
+.calendar .width-full>.float-left {
   display: none;
 }
 
@@ -330,10 +356,12 @@ div.float-right span.sr-only {
   margin-left: 9px;
   color: #767676;
 }
+
 .left.text-muted a {
   color: #4078c0;
   text-decoration: none;
 }
+
 .left.text-muted a:hover,
 .monospace a:hover {
   text-decoration: underline;
@@ -346,8 +374,9 @@ h2.f4.text-normal.mb-3 {
 .float-left.text-gray {
   float: left;
 }
-#user-activity-overview{
-  display:none;
+
+#user-activity-overview {
+  display: none;
 }
 
 .day-tooltip {
@@ -358,17 +387,20 @@ h2.f4.text-normal.mb-3 {
   font-size: 12px;
   color: #959da5;
   text-align: center;
-  background: rgba(0,0,0,.85);
+  background: rgba(0, 0, 0, .85);
   border-radius: 3px;
   display: none;
   pointer-events: none;
 }
+
 .day-tooltip strong {
   color: #dfe2e5;
 }
+
 .day-tooltip.is-visible {
   display: block;
 }
+
 .day-tooltip:after {
   position: absolute;
   bottom: -10px;
@@ -379,7 +411,7 @@ h2.f4.text-normal.mb-3 {
   margin: 0 0 0 -5px;
   content: " ";
   border: 5px solid transparent;
-  border-top-color: rgba(0,0,0,.85)
+  border-top-color: rgba(0, 0, 0, .85)
 }
 
 text.ContributionCalendar-label {
@@ -389,7 +421,7 @@ text.ContributionCalendar-label {
 
 @media screen and (max-width: 768px) {
   .table-column {
-      display: block;
-      width: 100%;
+    display: block;
+    width: 100%;
   }
 }

@@ -40,30 +40,16 @@ export default async function Onboarding() {
       <div className="absolute inset-0 z-[-1]">
         <div
           className={cn(
-            'absolute inset-x-0 bottom-0 h-[200px]',
-            '[background-size:20px_20px]',
-            '[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]',
-            'dark:[background-image:radial-gradient(#09090b_1px,transparent_1px)]',
+            'absolute inset-x-0 bottom-0 h-[350px]',
+            '[background-size:40px_40px]',
+            '[background-image:linear-gradient(to_right,var(--grid-color)_1px,transparent_1px),linear-gradient(to_bottom,var(--grid-color)_1px,transparent_1px)]',
             '[mask-image:linear-gradient(to_top,black,transparent)]',
             'dark:[mask-image:linear-gradient(to_top,black,transparent)]',
             'mask-image-[linear-gradient(to_top,black,transparent)]'
           )}
         />
-        <div className="opacity-50 hidden lg:block">
-          <FlipWords
-            className="absolute top-1/4 right-1/12 text-5xl font-bold bricolage"
-            words={words}
-            duration={2000}
-          />
-        </div>
-        <Image
-          width={600}
-          height={600}
-          alt="Onboarding background banner"
-          src="/general/vertical_login.png"
-          className="absolute opacity-70 bottom-[-100px] right-0 hidden lg:block"
-        />
       </div>
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] bg-background"></div>
       <OnboardingForm username={data.username} />
     </div>
   );

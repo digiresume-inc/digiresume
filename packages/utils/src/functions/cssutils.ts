@@ -1,6 +1,6 @@
 export const getLineHeightPercent = (rolesLength: number): string => {
-  if (rolesLength === 1) return '8%';
-  if (rolesLength === 2) return '44%';
+  if (rolesLength === 1) return '14%';
+  if (rolesLength === 2) return '46%';
   if (rolesLength === 3) return '59%';
   if (rolesLength === 4) return '68%';
   if (rolesLength === 5) return '74%';

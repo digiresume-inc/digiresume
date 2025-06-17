@@ -83,7 +83,7 @@ async function renderProfile(profile: Profile, startups: Startup[], projects: Pr
           <div className="flex flex-col max-w-[960px] flex-1 relative py-6 lg:py-0">
             <ShareCard profile={profile} t={t} />
             <ResumeDownload t={t} />
-            <div className="flex p-4">
+            <div className="flex px-6 py-4">
               <div className="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
                 <div className="flex gap-4 items-center justify-start">
                   <div
@@ -124,13 +124,13 @@ async function renderProfile(profile: Profile, startups: Startup[], projects: Pr
                       <span>/</span>
                       <span>{profile.geo_info.state}</span>
                       <span>/</span>
-                       <span>{profile.geo_info.city}</span>
+                      <span>{profile.geo_info.city}</span>
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-start justify-center px-4 py-2">
+            <div className="flex flex-col items-start justify-center px-6 py-2">
               <h1
                 style={{
                   color: t.foreground,
@@ -157,10 +157,10 @@ async function renderProfile(profile: Profile, startups: Startup[], projects: Pr
                 · {profile.education.university} Alumni
               </p>
             </div>
-            <div className="flex items-center justify-start lg:items-start p-4 gap-3">
+            <div className="flex items-center justify-start lg:items-start px-6 py-4 gap-3">
               <ProfileUrl profile={profile} t={t} />
             </div>
-            <div className="gap-2 flex flex-wrap items-center justify-start p-4">
+            <div className="gap-2 flex flex-wrap items-center justify-start px-6 py-4">
               {profile.socials.map((social: any, index: number) => {
                 const icon = getPlatformIcon(social.url);
                 return (
@@ -183,7 +183,7 @@ async function renderProfile(profile: Profile, startups: Startup[], projects: Pr
                 );
               })}
             </div>
-            <div className="flex gap-2 p-4 flex-wrap items-center justify-start">
+            <div className="flex gap-2 px-6 py-4 flex-wrap items-center justify-start">
               {profile.skills.map((skill: Skill) => (
                 <Badge
                   key={skill.value}
@@ -293,36 +293,71 @@ async function renderProfile(profile: Profile, startups: Startup[], projects: Pr
                                   }
                                 />
                               </div>
-                              <p
-                                style={{
-                                  color: t.foreground,
-                                }}
-                                className="font-bold text-base lg:text-lg truncate"
-                              >
-                                {company.company}
-                              </p>
-                              <Popover>
-                                <PopoverTrigger asChild>
-                                  <Info
+                            <div className="flex flex-col items-start justify-center">
+                                <div className="flex items-center justify-start gap-2">
+                                  <p
                                     style={{
                                       color: t.foreground,
                                     }}
-                                    strokeWidth={1}
-                                    size={16}
-                                    className="text-muted-foreground cursor-pointer"
-                                  />
-                                </PopoverTrigger>
-                                <PopoverContent
-                                  style={{
-                                    background: t.background,
-                                    color: t.foreground,
-                                    borderColor: t.border,
-                                  }}
-                                  className="w-80 text-xs font-medium mt-4 relative border"
-                                >
-                                  <MarkdownParser text={company.contribution} />
-                                </PopoverContent>
-                              </Popover>
+                                    className="font-bold text-base lg:text-lg truncate"
+                                  >
+                                    {company.company}
+                                  </p>
+                                  <Popover>
+                                    <PopoverTrigger asChild>
+                                      <Info
+                                        style={{
+                                          color: t.foreground,
+                                        }}
+                                        strokeWidth={1}
+                                        size={16}
+                                        className="text-muted-foreground cursor-pointer"
+                                      />
+                                    </PopoverTrigger>
+                                    <PopoverContent
+                                      style={{
+                                        background: t.background,
+                                        color: t.foreground,
+                                        borderColor: t.border,
+                                      }}
+                                      className="w-80 text-xs font-medium mt-4 relative border"
+                                    >
+                                      <MarkdownParser text={company.contribution} />
+                                    </PopoverContent>
+                                  </Popover>
+                                </div>
+                                {company.skills_used.length > 0 && (
+                                  <div className="mt-0">
+                                    <ul
+                                      className="inline-flex list-none flex-wrap gap-1"
+                                      aria-label="Technologies used"
+                                    >
+                                      {company.skills_used.map((skill: any, index: number) => {
+                                        return (
+                                          <li key={index} aria-label={`Skill: ${skill.label}`}>
+                                            <div
+                                              style={{
+                                                background: t.secondary,
+                                                color: hexToHSL(t.foreground,0.7),
+                                              }}
+                                              className="cursor-default flex items-center rounded-full border px-1.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent  align-middle text-xxs lg:text-xs"
+                                            >
+                                              {skill.logo && (
+                                                <img
+                                                  src={skill.logo}
+                                                  alt={`${skill.label} logo`}
+                                                  className="mr-0.5 h-3 w-3 rounded"
+                                                />
+                                              )}
+                                              {skill.label}
+                                            </div>
+                                          </li>
+                                        );
+                                      })}
+                                    </ul>
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
 

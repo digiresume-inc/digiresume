@@ -26,12 +26,17 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'flagsapi.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'assets.linkfolio.space',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com',
       }
     ],
   },
-  allowedDevOrigins: [
-    '192.168.1.10'
-  ],
   devIndicators: false,
 };
 

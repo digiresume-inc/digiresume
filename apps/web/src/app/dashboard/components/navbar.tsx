@@ -19,7 +19,7 @@ const Navbar = ({
     <div className="z-[49] w-full h-fit px-6 py-2 sticky top-0 left-0 max-w-5xl rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm border bg-secondary/10">
       <div className="flex items-center justify-between w-full">
         <Image
-          src="/logos/word-mark.png"
+          src="/logos/text_dark.png"
           width={600}
           height={136}
           alt="Dashboard logo"

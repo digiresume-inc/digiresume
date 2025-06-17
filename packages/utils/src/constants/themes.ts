@@ -135,12 +135,12 @@ export const Themes: Theme[] = [
   {
     id: 10,
     theme_data: {
-      foreground: '#ffffff',
-      background: '#000000',
-      primary: '#ffffff',
-      card: '#090909',
-      border: '#242424',
-      secondary: '#222222',
+      foreground: '#f4f5f4',
+      background: '#0d0d0d',
+      primary: '#f4f5f4',
+      card: '#202428',
+      border: '#333333',
+      secondary: '#303036',
     },
     theme_type: 'dark',
   },
