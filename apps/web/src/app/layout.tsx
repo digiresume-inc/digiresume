@@ -9,6 +9,7 @@ import {
 } from 'next/font/google';
 import { Toaster } from 'sonner';
 import HolyLoader from 'holy-loader';
+import { ThemeProvider } from '@/context/themeContext';
 
 export const metadata: Metadata = {
   title: 'Digiresume',
@@ -61,7 +62,7 @@ export default function RootLayout({
           boxShadow="0 0 10px #737373,0 0 5px #737373"
         />
         <Toaster richColors position="top-right" />
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

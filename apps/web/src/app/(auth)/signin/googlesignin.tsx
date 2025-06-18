@@ -1,11 +1,19 @@
 'use client';
-import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { createClient } from '@/supabase/client';
 import { Button } from '@dr/ui/components/base/button';
 
-export default function GoogleSignin({ isMagicLoading }: { isMagicLoading: boolean }) {
-  const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
+interface GoogleSignin {
+  isLoginLoading: boolean;
+  isGoogleLoading: boolean;
+  setIsGoogleLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function GoogleSignin({
+  isLoginLoading,
+  isGoogleLoading,
+  setIsGoogleLoading,
+}: GoogleSignin) {
   const supabase = createClient();
   const searchParams = useSearchParams();
   const next = searchParams.get('next');
@@ -33,7 +41,7 @@ export default function GoogleSignin({ isMagicLoading }: { isMagicLoading: boole
   return (
     <Button
       onClick={signInWithGoogle}
-      disabled={isGoogleLoading || isMagicLoading}
+      disabled={isGoogleLoading || isLoginLoading}
       variant="secondary"
       className="w-full border border-foreground/20 h-[38px] cursor-pointer"
     >

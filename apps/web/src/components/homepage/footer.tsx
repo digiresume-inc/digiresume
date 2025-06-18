@@ -24,7 +24,6 @@ const Footer = () => {
             alt="Footer logo"
             className="w-20 lg:w-24"
             priority
-            disableAnimation
           />
           <p className="text-xs text-muted-foreground font-medium tracking-wide italic mt-2">
             Proudly{' '}

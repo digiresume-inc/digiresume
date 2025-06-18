@@ -15,7 +15,6 @@ const HeroImage = () => {
           width={600}
           height={600}
           alt="Home Cover"
-          disableAnimation
           priority
         />
       </div>
@@ -28,7 +27,6 @@ const HeroImage = () => {
             width={1920}
             alt="Home Cover"
             className="w-full object-cover border border-[var(--image-border-color)]/60 rounded-xl"
-            disableAnimation
             priority
           />
         </div>

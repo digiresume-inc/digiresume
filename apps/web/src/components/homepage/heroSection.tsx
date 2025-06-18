@@ -2,8 +2,7 @@ import React from 'react';
 import UsernameCheck from './usernamecheck';
 import { FlipWords } from './flipword';
 
-const HeroSection = ({ isWhiteTheme }: { isWhiteTheme: boolean }) => {
-  
+const HeroSection = () => {
   return (
     <main className="max-w-7xl sm:pt-18 container relative mx-auto px-6 pt-16 md:pt-24 lg:px-16 lg:pt-20 xl:px-20 overflow-hidden">
       <div className="relative">
@@ -15,12 +14,13 @@ const HeroSection = ({ isWhiteTheme }: { isWhiteTheme: boolean }) => {
                   className={`bricolage text-foreground font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight select-none`}
                 >
                   <span className="block cursor-pointer lg:mb-2">
-                    <FlipWords duration={9000} words={['Portfolio', 'Resume']} className="" /> driven by your{' '}
-                    <FlipWords duration={9000} words={['Resume', 'Portfolio']} className="m1-1"/>,
+                    <FlipWords duration={9000} words={['Portfolio', 'Resume']} className="" />{' '}
+                    driven by your{' '}
+                    <FlipWords duration={9000} words={['Resume', 'Portfolio']} className="m1-1" />,
                   </span>
                   <span className="inline md:ml-0">
                     fueled by <span className="hidden md:inline">your</span>
-                    <FlipWords duration={3000} className="ml-0 lg:ml-2 text-primary" />
+                    <FlipWords duration={3000} className="ml-0 lg:ml-2 text-hero" />
                   </span>
                 </h1>
                 <p className="pt-2 text-sm md:text-base lg:text-lg font-medium text-muted-foreground my-3 sm:mt-5 lg:mb-0 sm:px-6 lg:px-10 max-w-prose text-center">

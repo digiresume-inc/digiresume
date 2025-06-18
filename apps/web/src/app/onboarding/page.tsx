@@ -3,19 +3,16 @@ import React from 'react';
 import OnboardingForm from './components/onboardingform';
 import { createSClient } from '@/supabase/server';
 import {GridGradient} from "@dr/ui/components/base/grid-gradient"
+import { getUser } from '@/supabase/getUser';
 
 export default async function Onboarding() {
   const supabase = createSClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
-    redirect('/signin');
-  }
-  const { data, error } = await supabase
+  const user = await getUser();
+
+  const { data } = await supabase
     .from('profiles')
     .select('onboarding,username')
-    .eq('id', user?.id)
+    .eq('id', user.id)
     .single();
 
   if (data?.onboarding !== 'pending') {

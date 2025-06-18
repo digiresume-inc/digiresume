@@ -12,7 +12,7 @@ import { Label } from '@dr/ui/components/base/label';
 import { Input } from '@dr/ui/components/base/input';
 import { SubmitButton } from '@/components/general/submitbutton';
 import GoogleSignin from './googlesignin';
-import { ToastError, ToastSuccess } from '@/components/general/toast';
+import { ToastSuccess } from '@/components/general/toast';
 
 const LoginForm = ({ username }: { username: string | string[] }) => {
   useEffect(() => {
@@ -21,7 +21,8 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
     }
   }, [username]);
   const [serverError, setServerError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoginLoading, setIsLoginLoading] = useState<boolean>(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -33,7 +34,7 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     setServerError(null);
-    setIsLoading(true);
+    setIsLoginLoading(true);
     try {
       const response = await loginUser(data);
       if (response.error) {
@@ -45,7 +46,7 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
     } catch {
       setServerError('An unexpected error occurred. Please try again.');
     } finally {
-      setIsLoading(false);
+      setIsLoginLoading(false);
     }
   };
 
@@ -55,8 +56,11 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
         <img src="/logos/text_dark.png" className="w-34 object-cover mx-auto" />
       </CardHeader>
       <CardContent>
-        <GoogleSignin isMagicLoading={isLoading} />
-
+        <GoogleSignin
+          isLoginLoading={isLoginLoading}
+          isGoogleLoading={isGoogleLoading}
+          setIsGoogleLoading={setIsGoogleLoading}
+        />
         <div className="flex items-center space-x-2 mt-4 mb-4">
           <hr className="flex-grow border-t border-lightsecondary-border dark:border-secondary-border" />
           <span className="text-card-foreground/50 text-xs">OR</span>
@@ -70,8 +74,9 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
               id="email"
               type="email"
               placeholder="user@example.com"
+              required
               {...form.register('email')}
-              disabled={isLoading}
+              disabled={isLoginLoading}
               className="text-sm lg:text-base"
             />
             {form.formState.errors.email && (
@@ -79,7 +84,7 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
             )}
           </div>
           {serverError && <p className="text-sm text-destructive">{serverError}</p>}
-          <SubmitButton className="w-full" pending={isLoading} loadingText="Logging in...">
+          <SubmitButton className="w-full" pending={isLoginLoading} disable={isGoogleLoading} loadingText="Logging in...">
             Login
           </SubmitButton>
         </form>

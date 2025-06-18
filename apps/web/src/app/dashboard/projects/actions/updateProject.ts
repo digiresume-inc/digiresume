@@ -4,7 +4,7 @@ import { createSClient } from '@/supabase/server';
 import { Project } from '@dr/schemas';
 
 export async function updateProject(data: Project) {
-  const supabase = await createSClient();
+  const supabase = createSClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

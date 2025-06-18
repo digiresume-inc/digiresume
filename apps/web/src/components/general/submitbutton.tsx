@@ -7,6 +7,7 @@ export function SubmitButton({
   className,
   loadingText,
   pending,
+  disable,
 }: {
   children: React.ReactNode;
   variant?:
@@ -21,6 +22,7 @@ export function SubmitButton({
   className?: string;
   loadingText: string
   pending: boolean;
+  disable? : boolean;
 }) {
 
   return (
@@ -28,7 +30,7 @@ export function SubmitButton({
       variant={variant}
       className={className}
       type="submit"
-      disabled={pending}
+      disabled={pending || disable}
     >
       {pending ? (
         <>
