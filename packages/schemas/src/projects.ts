@@ -13,6 +13,7 @@ const categoryValues = z.enum([
   'developer-tools',
   'marketing',
   'finance',
+  'electronics',
   'other',
 ]);
 

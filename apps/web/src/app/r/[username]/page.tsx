@@ -7,7 +7,6 @@ import { createSClient } from '@/supabase/server';
 import DynamicImage from '@/components/general/dynamicImage';
 import type { Database } from '@/lib/types/supabasetypes';
 
-
 function getPlatformIcon(url: string) {
   try {
     const host = new URL(url).hostname.replace('www.', '');
@@ -57,9 +56,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
   );
 
   return (
-    <div
-      className="container relative mx-auto scroll-my-12 overflow-auto px-4 py-8 print:p-0 md:px-16 md:py-16 bg-white"
-    >
+    <div className="container relative mx-auto scroll-my-12 overflow-auto px-4 py-8 print:p-0 md:px-16 md:py-16 bg-white">
       <section className="mx-auto w-full max-w-2xl space-y-8 bg-white print:space-y-4">
         <header className="flex items-start justify-between">
           <div className="flex-1 space-y-1.5">
@@ -490,26 +487,34 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                             className="mt-2 flex list-none flex-wrap gap-1 p-0"
                             aria-label="Technologies used"
                           >
-                            <li>
-                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                                TypeScript
-                              </div>
-                            </li>
-                            <li>
-                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                                Next.js
-                              </div>
-                            </li>
-                            <li>
-                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                                Browser Extension
-                              </div>
-                            </li>
-                            <li>
-                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
-                                PostgreSQL
-                              </div>
-                            </li>
+                            {index === 0 && (
+                              <>
+                                <li>
+                                  <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                    🛠️ JugadScript
+                                  </div>
+                                </li>
+                                <li>
+                                  <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                    🔋 Battery Debugging
+                                  </div>
+                                </li>{' '}
+                              </>
+                            )}
+                            {index === 1 && (
+                              <>
+                                <li>
+                                  <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                    📟 Infrared UI
+                                  </div>
+                                </li>
+                                <li>
+                                  <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                    🤳 Clap-to-Connect™
+                                  </div>
+                                </li>
+                              </>
+                            )}
                           </ul>
                         </div>
                       </div>

@@ -15,7 +15,7 @@ import {
   SelectItem,
 } from '@dr/ui/components/base/select';
 import { Checkbox } from '@dr/ui/components/base/checkbox';
-import { startupSchema, statusOptions, categoryOptions,Startup } from '@dr/schemas';
+import { startupSchema, statusOptions, categoryOptions, Startup } from '@dr/schemas';
 import { Switch } from '@dr/ui/components/base/switch';
 import { Check, Loader2, Save } from 'lucide-react';
 import { addStartup } from '../actions/addStartup';
@@ -109,10 +109,10 @@ export default function StartupForm({
             {...register('description')}
             placeholder="How crazy is your startup?"
             className="text-sm pb-6"
-            maxLength={200}
+            maxLength={300}
           />
           <p className="absolute bottom-1.5 right-3 text-xxs text-muted-foreground">
-            {(watch('description') || '').length}/200
+            {(watch('description') || '').length}/300
           </p>
         </div>
         {errors.description && (

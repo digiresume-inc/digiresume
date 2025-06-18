@@ -155,7 +155,7 @@ const Navbar = () => {
           </NavigationMenu>
           <Link
             href="/signin"
-            className="flex items-center gap-1 px-2 py-1 text-xs lg:px-3 lg:py-1.5 lg:text-sm bg-foreground/10 backdrop-blur-md border border-foreground/20 hover:border-foreground/40 transition-all font-semibold text-foreground rounded-full"
+            className="flex items-center gap-1 px-2 py-1 text-xs lg:px-3 lg:py-1.5 lg:text-sm bg-foreground/10 backdrop-blur-md border border-foreground/20 hover:border-foreground/40 transition-all font-medium text-foreground rounded-full"
           >
             <span className="hidden sm:block">Sign In</span> <LogIn size={20} strokeWidth={2} />
           </Link>

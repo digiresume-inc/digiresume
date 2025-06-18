@@ -119,6 +119,12 @@ export const categoryOptions = [
     icon: '💰',
     color: 'bg-green-100/80 text-green-800',
   },
+    {
+    category: 'electronics',
+    text: 'Electronics',
+    icon: '🔌',
+    color: 'bg-green-100/80 text-green-800',
+  },
   {
     category: 'other',
     text: 'Others',
@@ -151,6 +157,7 @@ const categoryValues = z.enum([
   'developer-tools',
   'marketing',
   'finance',
+  'electronics',
   'other',
 ]);
 
@@ -158,7 +165,7 @@ export const startupSchema = z.object({
   id: z.string(),
   index: z.number().nonnegative(),
   name: z.string().min(1, { message: 'Startup Name is required' }),
-  description: z.string().min(1, { message: 'Description is required' }).max(200,{ message: 'Max length exceeded' } ),
+  description: z.string().min(1, { message: 'Description is required' }).max(300,{ message: 'Max length exceeded' } ),
   url: z
     .string()
     .url({ message: 'Please enter a valid URL' })

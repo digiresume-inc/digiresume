@@ -15,12 +15,12 @@ export const Themes: Theme[] = [
   {
     id: 0,
     theme_data: {
-      foreground: '#ebe4d6',
-      background: '#2a2522',
-      primary: '#c2a180',
-      card: '#3b3129',
-      border: '#ac8053',
-      secondary: '#4b4038',
+      foreground: '#fafafa',
+      background: '#08090a',
+      primary: '#737373',
+      card: '#191919',
+      border: '#383838',
+      secondary: '#262626',
     },
     theme_type: 'default',
   },

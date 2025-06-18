@@ -33,6 +33,10 @@ export default async function DashboardPage() {
     return <div>error</div>;
   }
 
+  if(!data.username){
+    redirect('/onboarding');
+  }
+
   let startups = data.startups.sort((a: Startup, b: Startup) => a.index - b.index);
   let projects = data.projects.sort((a: Project, b: Project) => a.index - b.index);
 

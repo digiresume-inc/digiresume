@@ -140,7 +140,7 @@ const MobilePreview = ({
                 >
                   /{profile.username}
                 </p>
-                <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/p/${profile.username}`}>
+                <Link target='_blank' href={`${process.env.NEXT_PUBLIC_BASE_URL}/p/${profile.username}`}>
                   <ExternalLink
                     style={{
                       color: t.foreground,

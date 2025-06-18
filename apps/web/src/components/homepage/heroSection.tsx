@@ -3,6 +3,7 @@ import UsernameCheck from './usernamecheck';
 import { FlipWords } from './flipword';
 
 const HeroSection = ({ isWhiteTheme }: { isWhiteTheme: boolean }) => {
+  
   return (
     <main className="max-w-7xl sm:pt-18 container relative mx-auto px-6 pt-16 md:pt-24 lg:px-16 lg:pt-20 xl:px-20 overflow-hidden">
       <div className="relative">

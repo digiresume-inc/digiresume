@@ -7,25 +7,14 @@ import { ArrowRight, AtSign } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { SiGithub, SiInstagram, SiLinkedin, SiX } from 'react-icons/si';
 import ThemeBasedImage from './themeBasedImage';
+import { GridGradient } from '@dr/ui/components/base/grid-gradient';
 
 const Footer = () => {
   const FooterLogos = ['/logos/dr_dark.png', '/logos/dr_light.png'];
 
   return (
     <div id="homeFooter" className="py-12 px-6 bg-transparent min-h-98 lg:h-98 relative">
-      <div className="absolute inset-0 z-0">
-        <div
-          className={cn(
-            'absolute inset-x-0 bottom-0 h-[216px]',
-            '[background-size:40px_40px]',
-            '[background-image:linear-gradient(to_right,var(--grid-color)_1px,transparent_1px),linear-gradient(to_bottom,var(--grid-color)_1px,transparent_1px)]',
-            '[mask-image:linear-gradient(to_top,black,transparent)]',
-            'dark:[mask-image:linear-gradient(to_top,black,transparent)]',
-            'mask-image-[linear-gradient(to_top,black,transparent)]'
-          )}
-        />
-      </div>
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] bg-background"></div>
+      <GridGradient className="h-[216px]" />
       <div className="relative z-20 max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between h-full bg-background/60 md:bg-background/90 px-4 md:px-8 lg:px-12 pb-8 rounded-b-3xl">
         <div className="flex flex-col flex-1 items-start gap-2 h-full">
           <ThemeBasedImage
@@ -65,7 +54,9 @@ const Footer = () => {
                 src="/general/love.svg"
               />
               Made by
-              <span className="font-medium ml-2 hover:text-foreground transition-colors duration-200 cursor-pointer">@prasadreddy03</span>
+              <span className="font-medium ml-2 hover:text-foreground transition-colors duration-200 cursor-pointer">
+                @prasadreddy03
+              </span>
             </div>
           </div>
         </div>
@@ -124,7 +115,9 @@ const Footer = () => {
               src="/general/love.svg"
             />
             Made by
-            <span className="font-medium ml-2 hover:text-foreground transition-colors duration-200 cursor-pointer">@prasadreddy03</span>
+            <span className="font-medium ml-2 hover:text-foreground transition-colors duration-200 cursor-pointer">
+              @prasadreddy03
+            </span>
           </div>
         </div>
       </div>

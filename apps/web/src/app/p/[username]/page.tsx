@@ -20,6 +20,7 @@ import ProfileUrl from './components/profileUrl';
 import ResumeDownload from './components/resumeDownload';
 import DynamicImage from '@/components/general/dynamicImage';
 import type { Database } from '@/lib/types/supabasetypes';
+import RevenueChart from './components/revenueChart';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 type Startup = Database['public']['Tables']['startups']['Row'];
@@ -293,7 +294,7 @@ async function renderProfile(profile: Profile, startups: Startup[], projects: Pr
                                   }
                                 />
                               </div>
-                            <div className="flex flex-col items-start justify-center">
+                              <div className="flex flex-col items-start justify-center">
                                 <div className="flex items-center justify-start gap-2">
                                   <p
                                     style={{
@@ -338,7 +339,7 @@ async function renderProfile(profile: Profile, startups: Startup[], projects: Pr
                                             <div
                                               style={{
                                                 background: t.secondary,
-                                                color: hexToHSL(t.foreground,0.7),
+                                                color: hexToHSL(t.foreground, 0.7),
                                               }}
                                               className="cursor-default flex items-center rounded-full border px-1.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent  align-middle text-xxs lg:text-xs"
                                             >
@@ -581,17 +582,23 @@ async function renderProfile(profile: Profile, startups: Startup[], projects: Pr
                             style={{ background: hexToHSL(t.primary!, 0.6) }}
                             className="h-px w-full"
                           />
-                          <div
-                            style={{
-                              color: hexToHSL(t.foreground!, 0.7),
-                            }}
-                            className="text-sm font-medium"
-                          >
-                            <span className="line-clamp-3">
-                              <MarkdownParser
-                                text={startup.description || 'No Description Found.'}
-                              />
-                            </span>
+                          <div className="h-32 w-full">
+                            {startup.show_revenue ? (
+                              <RevenueChart />
+                            ) : (
+                              <div
+                                style={{
+                                  color: hexToHSL(t.foreground!, 0.7),
+                                }}
+                                className="text-sm lg:text-base font-medium h-full"
+                              >
+                                <span className="">
+                                  <MarkdownParser
+                                    text={startup.description || 'No Description Found.'}
+                                  />
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
                       );

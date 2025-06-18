@@ -1,8 +1,14 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Montserrat, Bricolage_Grotesque, JetBrains_Mono, Merriweather } from 'next/font/google';
+import {
+  Montserrat,
+  Bricolage_Grotesque,
+  JetBrains_Mono,
+  Merriweather,
+  Sora,
+} from 'next/font/google';
 import { Toaster } from 'sonner';
-import HolyLoader from "holy-loader";
+import HolyLoader from 'holy-loader';
 
 export const metadata: Metadata = {
   title: 'Digiresume',
@@ -30,6 +36,10 @@ const merriweather = Merriweather({
   weight: ['300', '400', '700', '900'],
 });
 
+const sora = Sora({
+  variable: '--font-sora',
+  subsets: ['latin'],
+});
 
 export default function RootLayout({
   children,
@@ -38,19 +48,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${montserrat.variable} ${bricolage.variable} ${jetbrains.variable} ${merriweather.variable} montserrat`}>
+      <body
+        className={`${montserrat.variable} ${bricolage.variable} ${jetbrains.variable} ${merriweather.variable} ${sora.variable} sora`}
+      >
         <HolyLoader
-          color="#c2a180"
+          color="#737373"
           initialPosition={0.08}
           height={3}
           showSpinner={false}
           easing="ease"
           speed={200}
-          boxShadow="0 0 10px #c2a180,0 0 5px #c2a180"
+          boxShadow="0 0 10px #737373,0 0 5px #737373"
         />
         <Toaster richColors position="top-right" />
         {children}
-        
       </body>
     </html>
   );
