@@ -37,6 +37,7 @@ import LinkedinImport from '@/modals/linkedinimport';
 import UsernameSet from '@/app/onboarding/components/usernameset';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 import { cn } from '@dr/ui/lib/utils';
+import LinkedinURLImport from '@/modals/linkedinurlimport';
 
 function getPlatformIcon(url: string) {
   try {
@@ -112,7 +113,8 @@ const OnboardingForm = ({ username }: { username: string }) => {
 
   return (
     <div className="w-full h-full px-6 py-12 lg:px-52 lg:py-24">
-      <LinkedinImport modal={onboardingType === 'linkedin'} setModal={setOnboardingType} />
+      <LinkedinImport modal={onboardingType === 'linkedinpdf'} setModal={setOnboardingType} />
+      <LinkedinURLImport modal={onboardingType === 'linkedinurl'} setModal={setOnboardingType} />
       <motion.header
         variants={blurFade}
         initial="initial"
@@ -190,11 +192,25 @@ const OnboardingForm = ({ username }: { username: string }) => {
                 <div className="relative inline-block">
                   <Button
                     onClick={() => {
-                      setOnboardingType('linkedin');
+                      setOnboardingType('linkedinpdf');
                     }}
                     className="min-w-58 py-4"
                   >
-                    Import from LinkedIn <SiLinkedin />
+                    Import from LinkedIn PDF <SiLinkedin />
+                  </Button>
+                  <span className="border border-primary bg-gradient-to-r from-popover via-primary/40 to-popover flex place-items-center justify-center gap-1 absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-secondary text-foreground px-2 py-0.5 rounded-full shadow-md">
+                    Recommended <ThumbsUp strokeWidth={1} size={13} />
+                  </span>
+                </div>
+
+                <div className="relative inline-block">
+                  <Button
+                    onClick={() => {
+                      setOnboardingType('linkedinurl');
+                    }}
+                    className="min-w-58 py-4"
+                  >
+                    Import from LinkedIn URL <SiLinkedin />
                   </Button>
                   <span className="border border-primary bg-gradient-to-r from-popover via-primary/40 to-popover flex place-items-center justify-center gap-1 absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-secondary text-foreground px-2 py-0.5 rounded-full shadow-md">
                     Recommended <ThumbsUp strokeWidth={1} size={13} />

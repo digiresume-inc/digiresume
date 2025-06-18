@@ -3,14 +3,25 @@ import { AnimatePresence, motion } from 'motion/react';
 import React, { useEffect, useState } from 'react';
 import { SiLinkedin } from 'react-icons/si';
 import Image from 'next/image';
-import { blurFade, extractTextFromPDF, processLinkedinData } from '@dr/utils';
-import { FileWarning, Loader2 } from 'lucide-react';
+import {
+  blurFade,
+  extractTextFromPDF,
+  formatLinkedInProfile,
+  processLinkedinData,
+} from '@dr/utils';
+import { FileWarning, Info, Loader2 } from 'lucide-react';
 import { Input } from '@dr/ui/components/base/input';
 import { updateLinkedinData } from '@/app/onboarding/action';
 import { ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
+import { Button } from '@dr/ui/components/base/button';
 
-const LinkedinImport = ({
+const isValidLinkedInUrl = (url: string) => {
+  const regex = /^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$/;
+  return regex.test(url.trim());
+};
+
+const LinkedinURLImport = ({
   modal,
   setModal,
 }: {
@@ -18,11 +29,11 @@ const LinkedinImport = ({
   setModal: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [loading, setLoading] = useState(false);
-  const [finalOutput, setFinalOutput] = useState<any>(null);
   const [error, setError] = useState('');
   const loadingMessages = ['Processing... ', 'Analyzing...  ', 'Structuring...'];
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const router = useRouter();
+  const [linkedinUrl, setLinkedinUrl] = useState<string>('');
 
   useEffect(() => {
     if (!loading) return;
@@ -34,36 +45,21 @@ const LinkedinImport = ({
     return () => clearInterval(interval);
   }, [loading]);
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    if (file.type !== 'application/pdf') {
-      setError('Please select PDF File');
-      return;
-    }
-
+  const handleLinkedinData = async (url: string) => {
     setLoading(true);
     setError('');
-    setFinalOutput('');
 
     try {
-      const extractedText = await extractTextFromPDF(file);
-      const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/resume`, {
+      const apiResponse = await fetch('/api/linkedin', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prompt: extractedText,
-        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url: url }),
       });
-      const json = await apiResponse.json();
-      const finalOutput = json.data['choices'][0]['message']['content'];
-      const cleaned = finalOutput.replace(/```json\s*|\s*```/g, '').trim();
-      const parsed = JSON.parse(cleaned);
-      const finalData = processLinkedinData(parsed);
-      setFinalOutput(finalData);
 
-      console.log(finalData);
+      const data = await apiResponse.json();
+      const finalData = formatLinkedInProfile(data.data[0]);
 
       const result = await updateLinkedinData(finalData);
       if (!result.success) {
@@ -104,7 +100,7 @@ const LinkedinImport = ({
             <div className="flex flex-col gap-1.5 text-center sm:text-left py-4 px-5 border-b">
               <h2 id="radix-:r9q:" className="text-base lm:eading-none font-normal">
                 <span className="break-words flex items-center gap-2">
-                  Linkedin PDF Import <SiLinkedin />
+                  Linkedin URL Import <SiLinkedin />
                 </span>
               </h2>
             </div>
@@ -116,73 +112,64 @@ const LinkedinImport = ({
               transition={{ duration: 0.3 }}
               className="py-4 px-5 overflow-hidden"
             >
-              {finalOutput ? (
-                <div className="space-y-4">
-                  <p className="text-sm">Review your info</p>
-                  {finalOutput && (
-                    <div className="p-4 bg-muted rounded-xl">
-                      <h2 className="text-lg font-semibold">{finalOutput.full_name}</h2>
-                      <p className="text-sm text-muted-foreground">{finalOutput.headline}</p>
+              <div className="space-y-4">
+                {error && (
+                  <span className="border border-destructive w-full px-2.5 py-1.5 h-fit bg-destructive/80 flex items-center rounded-md text-xs gap-2">
+                    <Info size={18} strokeWidth={1} /> {error}
+                  </span>
+                )}
+                <p className="text-sm">Get data from Linkedin URL</p>
+                <Image
+                  height={384}
+                  width={1000}
+                  className="w-full h-48 object-cover object-top rounded-lg border"
+                  src="/general/linkedinurl.png"
+                  alt="Linkedin Import Guide"
+                />
+                {loading ? (
+                  <span className="flex items-center w-full justify-center opacity-70 gap-2 bg-secondary rounded-full py-2">
+                    <Loader2 size={18} className="animate-spin" />
 
-                      <div className="mt-2">
-                        <h3 className="font-medium text-sm">Skills:</h3>
-                        <ul className="list-disc list-inside text-xs">
-                          {finalOutput.skills?.map((skill: any, i: number) => (
-                            <li key={i}>
-                              {skill.label} ({skill.category})
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {error && (
-                    <span className="border border-destructive w-full px-2.5 py-1.5 h-fit bg-destructive/80 flex items-center rounded-md text-xs gap-2">
-                      <FileWarning size={18} strokeWidth={1} /> {error}
-                    </span>
-                  )}
-                  <p className="text-sm">Download your PDF from Linkedin</p>
-                  <Image
-                    height={384}
-                    width={1000}
-                    className="w-full object-cover h-48 rounded-lg border"
-                    src="/general/linkedinpdf.png"
-                    alt="Linkedin Import Guide"
-                  />
-                  {loading ? (
-                    <span className="flex items-center w-full justify-center opacity-70 gap-2 bg-secondary rounded-full py-2">
-                      <Loader2 size={18} className="animate-spin" />
-
-                      <AnimatePresence mode="wait" initial={false}>
-                        <motion.span
-                          key={loadingMessages[currentMessageIndex]}
-                          variants={blurFade}
-                          initial="initial"
-                          animate="animate"
-                          exit="exit"
-                          transition={{ duration: 0.3 }}
-                        >
-                          {loadingMessages[currentMessageIndex]}
-                        </motion.span>
-                      </AnimatePresence>
-                    </span>
-                  ) : (
-                    <span className="text-sm flex flex-col gap-2">
-                      <span>Upload PDF</span>
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.span
+                        key={loadingMessages[currentMessageIndex]}
+                        variants={blurFade}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        transition={{ duration: 0.3 }}
+                      >
+                        {loadingMessages[currentMessageIndex]}
+                      </motion.span>
+                    </AnimatePresence>
+                  </span>
+                ) : (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (!linkedinUrl || !isValidLinkedInUrl(linkedinUrl)) {
+                        setError('Please enter a valid LinkedIn profile URL.');
+                        return;
+                      }
+                      handleLinkedinData(linkedinUrl);
+                    }}
+                  >
+                    <div className="text-sm flex flex-col gap-2">
+                      <label htmlFor="linkedinUrl">Enter LinkedIn URL</label>
                       <Input
-                        type="file"
-                        accept="application/pdf"
-                        onChange={handleFileChange}
-                        className="block inset-2 file:mr-2 w-full text-xs file:text-xs file:bg-secondary file:px-2 file:py-0.5 file:rounded-full file:cursor-pointer"
-                        disabled={loading}
+                        id="linkedinUrl"
+                        type="text"
+                        value={linkedinUrl}
+                        onChange={(e) => setLinkedinUrl(e.target.value)}
+                        required
                       />
-                    </span>
-                  )}
-                </div>
-              )}
+                      <Button type="submit" variant="default">
+                        Update data
+                      </Button>
+                    </div>
+                  </form>
+                )}
+              </div>
             </motion.div>
             <div className="w-full h-px" />
             <button
@@ -217,4 +204,4 @@ const LinkedinImport = ({
   );
 };
 
-export default LinkedinImport;
+export default LinkedinURLImport;

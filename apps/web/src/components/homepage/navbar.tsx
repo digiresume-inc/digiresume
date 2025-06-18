@@ -94,7 +94,6 @@ const Navbar = () => {
             alt="Navbar logo"
             className="w-34 object-cover"
             priority
-            disableAnimation
           />
 
 
