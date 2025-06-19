@@ -81,7 +81,7 @@ const Navbar = () => {
             }
           )}
         >
-          <div className="block lg:hidden pl-2 text-foreground">
+          <div className="block md:hidden pl-2 text-foreground">
             <span onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X size={20} strokeWidth={2} /> : <Menu size={20} strokeWidth={2} />}
             </span>
@@ -97,7 +97,7 @@ const Navbar = () => {
           />
 
 
-          <NavigationMenu className="hidden lg:block">
+          <NavigationMenu className="hidden md:block">
             <NavigationMenuList>
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="text-foreground">

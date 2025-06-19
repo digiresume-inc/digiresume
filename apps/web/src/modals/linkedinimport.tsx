@@ -9,6 +9,7 @@ import { Input } from '@dr/ui/components/base/input';
 import { updateLinkedinData } from '@/app/onboarding/action';
 import { ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
+import Loader from '@/components/general/loader';
 
 const LinkedinImport = ({
   modal,
@@ -154,7 +155,7 @@ const LinkedinImport = ({
                   />
                   {loading ? (
                     <span className="flex items-center w-full justify-center opacity-70 gap-2 bg-secondary rounded-full py-2">
-                      <Loader2 size={18} className="animate-spin" />
+                      <Loader />
 
                       <AnimatePresence mode="wait" initial={false}>
                         <motion.span

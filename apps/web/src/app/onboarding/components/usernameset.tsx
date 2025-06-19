@@ -11,6 +11,7 @@ import { z } from 'zod';
 import { ToastSuccess } from '@/components/general/toast';
 import { updateUsername } from '@/app/onboarding/action';
 import { motion } from 'motion/react';
+import Loader from '@/components/general/loader';
 
 const UsernameSet = ({ setStep }: { setStep: React.Dispatch<React.SetStateAction<number>> }) => {
   const form = useForm<z.infer<typeof usernameSchema>>({
@@ -96,7 +97,7 @@ const UsernameSet = ({ setStep }: { setStep: React.Dispatch<React.SetStateAction
         >
           {isSubmitting ? (
             <>
-              <Loader2 className="animate-spin" /> Updating...
+              <Loader /> Updating...
             </>
           ) : (
             <>Update Username</>

@@ -1,7 +1,7 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { countries } from '@dr/utils';
-import {  profileUpdateSchema } from '@dr/schemas';
+import { profileUpdateSchema } from '@dr/schemas';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -31,6 +31,7 @@ import { extractDirty } from '../actions/extractDirty';
 import { Textarea } from '@dr/ui/components/base/textarea';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 import type { Database } from '@/lib/types/supabasetypes';
+import Loader from '@/components/general/loader';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 
@@ -549,7 +550,8 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
         >
           {isSubmitting ? (
             <>
-              <Loader2 className="animate-spin" /> Saving...
+              <Loader />
+              Saving...
             </>
           ) : (
             <>

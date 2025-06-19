@@ -22,6 +22,7 @@ import { useRouter } from 'next/navigation';
 import { addProject } from '../actions/addProject';
 import { updateProject } from '../actions/updateProject';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
+import Loader from '@/components/general/loader';
 
 type ProjectFormSchema = z.infer<typeof projectSchema>;
 
@@ -163,7 +164,7 @@ export default function ProjectForm({
         <Button disabled={!isDirty || isSubmitting} type="submit">
           {isSubmitting ? (
             <>
-              <Loader2 className="animate-spin" />{' '}
+              <Loader />{' '}
               {actionType === 'Add' ? 'Adding...' : 'Saving...'}
             </>
           ) : actionType === 'Add' ? (

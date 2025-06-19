@@ -10,6 +10,7 @@ import ExperienceForm from '../forms/experienceForm';
 import { useRouter } from 'next/navigation';
 import type { Database, Experience } from '@/lib/types/supabasetypes';
 import Image from 'next/image';
+import Loader from '@/components/general/loader';
 
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
@@ -136,7 +137,7 @@ const ExperienceUpdate = ({ profile }: { profile: Profile }) => {
                   disabled={deletingA === exp.a}
                 >
                   {deletingA === exp.a ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <Loader />
                   ) : (
                     <Trash size={12} />
                   )}

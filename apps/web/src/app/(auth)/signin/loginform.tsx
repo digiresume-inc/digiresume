@@ -51,7 +51,7 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
   };
 
   return (
-    <Card className="max-w-sm w-full">
+    <Card className="max-w-md w-full mb-6 lg:mb-8">
       <CardHeader className="space-y-1">
         <img src="/logos/text_dark.png" className="w-34 object-cover mx-auto" />
       </CardHeader>
@@ -67,7 +67,7 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
           <hr className="flex-grow border-t border-lightsecondary-border dark:border-secondary-border" />
         </div>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mb-8">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -84,10 +84,22 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
             )}
           </div>
           {serverError && <p className="text-sm text-destructive">{serverError}</p>}
-          <SubmitButton className="w-full" pending={isLoginLoading} disable={isGoogleLoading} loadingText="Logging in...">
+          <SubmitButton
+            className="w-full"
+            pending={isLoginLoading}
+            disable={isGoogleLoading}
+            loadingText="Logging in..."
+          >
             Login
           </SubmitButton>
         </form>
+
+        <p className="text-sm md:text-base font-light text-center text-foreground/70">
+          Having trouble?{' '}
+          <span className="cursor-pointer font-medium hover:text-foreground transition-colors duration-200">
+            Get support
+          </span>
+        </p>
       </CardContent>
     </Card>
   );

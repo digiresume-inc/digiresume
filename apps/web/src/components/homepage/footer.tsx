@@ -99,8 +99,8 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex-col gap-2 mt-4 flex md:hidden w-full text-foreground">
-          <div className="flex items-center gap-1 text-sm font-light">
-            <AtSign size={16} strokeWidth={1} /> 2025 <strong>Digiresume</strong>, All rights
+          <div className="flex-wrap items-center gap-1 text-sm font-light">
+            @2025 <strong>Digiresume</strong>, All rights
             reserved
           </div>
           <div className="text-sm flex h-12 items-center bg-linear-(--gradient-background) bg-clip-text text-right text-transparent lg:order-4 lg:mr-0 md:order-3 md:ml-auto md:h-11 sm:ml-0 sm:mt-2 sm:w-full">

@@ -1,9 +1,10 @@
 'use client';
 import React, { useState, useCallback } from 'react';
-import { Loader, MoveRight } from 'lucide-react';
+import { MoveRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import supabase from '@/supabase/supabase';
 import { cn } from '@dr/ui/lib/utils';
+import Loader from '../general/loader';
 
 const UsernameCheck = () => {
   const [usernameAvailable, setUsernameAvailable] = useState(false);
@@ -47,6 +48,7 @@ const UsernameCheck = () => {
         <input
           type="text"
           placeholder="username"
+          autoCapitalize='off'
           value={usernameCheck}
           onChange={(e) => handleChange(e.target.value)}
           className={cn(
@@ -72,11 +74,7 @@ const UsernameCheck = () => {
           aria-disabled={!usernameCheck || !usernameAvailable}
         >
           {usernameLoading && usernameCheck ? (
-            <Loader
-              size={20}
-              strokeWidth={1}
-              className="animate-spin text-primary-foreground"
-            />
+            <Loader className="text-primary-foreground w-5 h-5" />
           ) : (
             <MoveRight
               aria-disabled={!usernameCheck || !usernameAvailable}
@@ -88,7 +86,7 @@ const UsernameCheck = () => {
       </div>
       <div
         className={cn(
-          'px-3 py-2 rounded-md shadow-sm',
+          'px-3 py-2',
           'bg-[linear-gradient(to_right,transparent,var(--text-background),transparent)]'
         )}
       >

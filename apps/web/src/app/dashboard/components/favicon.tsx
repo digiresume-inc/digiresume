@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { Pencil, Loader2, GlobeLock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Loader from '@/components/general/loader';
 
 const FaviconUploader = ({ favicon_url }: { favicon_url: string }) => {
   const supabase = createClient();
@@ -106,7 +107,7 @@ const FaviconUploader = ({ favicon_url }: { favicon_url: string }) => {
 
       {isLoading ? (
         <div className="transition-all w-18 lg:w-24 aspect-square rounded-lg border-2 flex items-center justify-center border-dashed border-foreground/30 bg-muted opacity-80">
-          <Loader2 className="w-6 h-6 text-foreground/60 animate-spin" />
+          <Loader className="w-6 h-6 text-foreground/60" />
         </div>
       ) : faviconUrl ? (
         <div className="relative">

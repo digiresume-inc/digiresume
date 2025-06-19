@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { Pencil, ImagePlus, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Loader from '@/components/general/loader';
 
 const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
   const supabase = createClient();
@@ -100,7 +101,7 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
         <div
           className={`transition-all w-18 lg:w-24 aspect-square rounded-lg border-2 flex items-center justify-center border-dashed border-foreground/30 bg-muted opacity-80`}
         >
-          <Loader2 className="w-6 h-6 text-foreground/60 animate-spin" />
+          <Loader className='w-6 h-6 text-foreground/60'/>
         </div>
       ) : avatarUrl ? (
         <div className="relative">

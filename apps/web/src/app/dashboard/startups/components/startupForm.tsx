@@ -23,6 +23,7 @@ import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { updateStartup } from '../actions/updateStartup';
 import { useRouter } from 'next/navigation';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
+import Loader from '@/components/general/loader';
 
 type StartupFormData = z.infer<typeof startupSchema>;
 
@@ -219,7 +220,7 @@ export default function StartupForm({
         <Button disabled={!isDirty || isSubmitting} type="submit">
           {isSubmitting ? (
             <>
-              <Loader2 className="animate-spin" />{' '}
+              <Loader />{' '}
               {actionType === 'Add' ? 'Adding...' : 'Saving...'}
             </>
           ) : actionType === 'Add' ? (

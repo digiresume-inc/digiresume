@@ -1,10 +1,9 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { useRouter } from 'next/navigation';
 import { logout } from '../actions/logout';
 import { Button } from '@dr/ui/components/base/button';
-import { LoadingButton } from '@/components/general/loadingbutton';
+import Loader from '@/components/general/loader';
 
 const LogoutConfirmation = ({
   modal,
@@ -13,21 +12,14 @@ const LogoutConfirmation = ({
   modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const router = useRouter();
   const [logoutLoading, setLogoutLoading] = useState(false);
 
   const handleLogout = async () => {
     setLogoutLoading(true);
     try {
-      const response = await logout();
-
-      if (response.success) {
-        setLogoutLoading(false);
-        setModal(false);
-        router.refresh();
-        router.push('/login');
-      }
+      await logout();
     } catch (error) {
+      console.error(error);
       setLogoutLoading(false);
     }
   };
@@ -65,19 +57,30 @@ const LogoutConfirmation = ({
             </div>
             <div className="w-full h-px" />
             <div className="flex gap-2 px-5 pt-5">
-              <Button disabled={logoutLoading} onClick={() => setModal(false)} variant={'outline'} className="w-1/2 cursor-pointer">
+              <Button
+                disabled={logoutLoading}
+                onClick={() => setModal(false)}
+                variant={'outline'}
+                className="w-1/2 cursor-pointer"
+              >
                 {' '}
                 <span className="truncate">Cancel</span>{' '}
               </Button>
-              <LoadingButton
+              <Button
+                className="w-1/2 cursor-pointer"
                 variant={'destructive'}
                 onClick={() => handleLogout()}
-                loadingText="Logging out..."
-                className="w-1/2 cursor-pointer"
-                pending={logoutLoading}
+                disabled={logoutLoading}
               >
-                <span className="truncate">Logout</span>
-              </LoadingButton>
+                {logoutLoading ? (
+                  <>
+                    {' '}
+                    <Loader /> Logging out...
+                  </>
+                ) : (
+                  <>Logout</>
+                )}
+              </Button>
             </div>
             <button
               disabled={logoutLoading}

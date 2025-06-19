@@ -11,6 +11,7 @@ import { socialIconMap } from '@/lib/utils/iconMap';
 import { updateSocials } from '../actions/updateSocials';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
+import Loader from '@/components/general/loader';
 
 function getPlatformIcon(url: string) {
   try {
@@ -110,7 +111,7 @@ const SocialsForm = ({
       >
         {isSubmitting ? (
           <>
-            <Loader2 className="animate-spin" /> Saving...
+            <Loader /> Saving...
           </>
         ) : (
           <>

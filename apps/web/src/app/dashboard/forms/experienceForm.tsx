@@ -21,6 +21,7 @@ import { Textarea } from '@dr/ui/components/base/textarea';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 import { SkillsSelect } from '@/components/dashboard/skillselect';
 import { Experience } from '@/lib/types/supabasetypes';
+import Loader from '@/components/general/loader';
 
 type SingleExperience = z.infer<typeof singleExperienceSchema>;
 
@@ -338,7 +339,7 @@ const ExperienceForm = ({
         <Button disabled={!isDirty || isSubmitting} type="submit">
           {isSubmitting ? (
             <>
-              <Loader2 className="animate-spin" />{' '}
+              <Loader />{' '}
               {actionType === 'Add' ? 'Adding...' : 'Saving...'}
             </>
           ) : actionType === 'Add' ? (

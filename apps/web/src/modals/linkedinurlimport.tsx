@@ -15,6 +15,7 @@ import { updateLinkedinData } from '@/app/onboarding/action';
 import { ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
 import { Button } from '@dr/ui/components/base/button';
+import Loader from '@/components/general/loader';
 
 const isValidLinkedInUrl = (url: string) => {
   const regex = /^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$/;
@@ -128,7 +129,7 @@ const LinkedinURLImport = ({
                 />
                 {loading ? (
                   <span className="flex items-center w-full justify-center opacity-70 gap-2 bg-secondary rounded-full py-2">
-                    <Loader2 size={18} className="animate-spin" />
+                    <Loader />
 
                     <AnimatePresence mode="wait" initial={false}>
                       <motion.span
