@@ -14,7 +14,6 @@ import {
   GraduationCap,
   IdCard,
   Link2,
-  Loader2,
   Mail,
   Medal,
   Newspaper,

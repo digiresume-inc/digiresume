@@ -4,12 +4,11 @@ import React, { useState } from 'react';
 import { updateExperience } from '../actions/updateExperience';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { Button } from '@dr/ui/components/base/button';
-import { BriefcaseBusiness, CornerDownRight, Loader2, Pencil, Plus, Trash } from 'lucide-react';
+import { BriefcaseBusiness, CornerDownRight, Pencil, Plus, Trash } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@dr/ui/components/base/dialog';
 import ExperienceForm from '../forms/experienceForm';
 import { useRouter } from 'next/navigation';
 import type { Database, Experience } from '@/lib/types/supabasetypes';
-import Image from 'next/image';
 import Loader from '@/components/general/loader';
 
 

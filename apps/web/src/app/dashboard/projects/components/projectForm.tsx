@@ -16,7 +16,7 @@ import {
 } from '@dr/ui/components/base/select';
 import { Checkbox } from '@dr/ui/components/base/checkbox';
 import {  categoryOptions, Project, projectSchema } from '@dr/schemas';
-import { Check, Loader2, Save } from 'lucide-react';
+import { Check, Save } from 'lucide-react';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
 import { addProject } from '../actions/addProject';

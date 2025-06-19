@@ -10,32 +10,6 @@ import { GridGradient } from '@dr/ui/components/base/grid-gradient';
 import { ThemeProvider } from '@/context/themeContext';
 
 export default function Home() {
-  // const [isWhiteTheme, setIsWhiteTheme] = useState(false);
-
-  // useEffect(() => {
-  //   const homePage = document.getElementById('homePage');
-
-  //   if (isWhiteTheme) {
-  //     homePage?.classList.add('theme-white');
-  //   } else {
-  //     homePage?.classList.remove('theme-white');
-  //   }
-
-  //   const interval = setInterval(() => {
-  //     setIsWhiteTheme((prev) => {
-  //       const newTheme = !prev;
-  //       const homePage = document.getElementById('homePage'); // fetch fresh
-  //       if (newTheme) {
-  //         homePage?.classList.add('theme-white');
-  //       } else {
-  //         homePage?.classList.remove('theme-white');
-  //       }
-  //       return newTheme;
-  //     });
-  //   }, 10000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
 
   return (
     <ThemeProvider>

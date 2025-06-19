@@ -5,11 +5,9 @@ import { SiLinkedin } from 'react-icons/si';
 import Image from 'next/image';
 import {
   blurFade,
-  extractTextFromPDF,
   formatLinkedInProfile,
-  processLinkedinData,
 } from '@dr/utils';
-import { FileWarning, Info, Loader2 } from 'lucide-react';
+import {  Info } from 'lucide-react';
 import { Input } from '@dr/ui/components/base/input';
 import { updateLinkedinData } from '@/app/onboarding/action';
 import { ToastSuccess } from '@/components/general/toast';

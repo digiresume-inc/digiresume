@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const monthYearRegex = /^(0[1-9]|1[0-2])\/\d{4}$/;
+export const usernameRegex = /^(?!.*[.]{2})[a-zA-Z0-9](?:[a-zA-Z0-9._]*[a-zA-Z0-9_])?$/;
 
 export const educationSchema = z
   .object({
@@ -54,7 +55,7 @@ export const usernameSchema = z.object({
     .min(1, 'Username must be at least 1 character')
     .max(30, 'Username can be maximum 30 characters long.')
     .regex(
-      /^(?!.*[.]{2})[a-zA-Z0-9](?:[a-zA-Z0-9._]*[a-zA-Z0-9_])?$/,
+      usernameRegex,
       'Only letters, numbers, underscores, and dots allowed. No ending or consecutive dots.'
     ),
 });

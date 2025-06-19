@@ -3,7 +3,7 @@ import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { createClient } from '@/supabase/client';
 import { Button } from '@dr/ui/components/base/button';
 import React, { useState } from 'react';
-import { Pencil, Loader2, GlobeLock } from 'lucide-react';
+import { Pencil, GlobeLock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Loader from '@/components/general/loader';

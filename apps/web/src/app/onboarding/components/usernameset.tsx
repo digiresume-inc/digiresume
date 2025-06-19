@@ -4,7 +4,7 @@ import { Button } from '@dr/ui/components/base/button';
 import { Input } from '@dr/ui/components/base/input';
 import { blurFade } from '@dr/utils';
 import { usernameSchema } from '@dr/schemas';
-import { IdCard, Loader2 } from 'lucide-react';
+import { IdCard } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

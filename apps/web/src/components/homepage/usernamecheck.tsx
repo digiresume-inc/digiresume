@@ -5,15 +5,28 @@ import { AnimatePresence, motion } from 'motion/react';
 import supabase from '@/supabase/supabase';
 import { cn } from '@dr/ui/lib/utils';
 import Loader from '../general/loader';
+import { usernameRegex } from '@dr/schemas';
 
 const UsernameCheck = () => {
   const [usernameAvailable, setUsernameAvailable] = useState(false);
   const [usernameCheck, setUsernameCheck] = useState('');
   const [usernameLoading, setUsernameLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [usernameInvalid, setUsernameInvalid] = useState(false);
 
   const checkUsername = async (username: string) => {
-    if (!username) return;
+    if (!username || !username.trim()) {
+      setUsernameInvalid(false);
+      return;
+    }
+    if (!usernameRegex.test(username)) {
+      setUsernameInvalid(true);
+      setUsernameAvailable(false);
+      setIsTyping(false);
+      return;
+    }
+
+    setUsernameInvalid(false);
     setUsernameLoading(true);
 
     const { data } = await supabase.from('profiles').select('username').eq('username', username);
@@ -48,14 +61,14 @@ const UsernameCheck = () => {
         <input
           type="text"
           placeholder="username"
-          autoCapitalize='off'
+          autoCapitalize="off"
           value={usernameCheck}
           onChange={(e) => handleChange(e.target.value)}
           className={cn(
             'flex-1 border-none outline-none py-1 lg:py-2 bg-transparent text-sm lg:text-lg w-[90%] transition-colors duration-300',
             {
               'text-green-500': !isTyping && usernameAvailable && usernameCheck,
-              'text-red-500': !isTyping && !usernameAvailable && usernameCheck,
+              'text-red-500': (!isTyping && !usernameAvailable && usernameCheck) || usernameInvalid,
               'text-foreground': isTyping || !usernameCheck,
             }
           )}
@@ -91,7 +104,17 @@ const UsernameCheck = () => {
         )}
       >
         <AnimatePresence>
-          {usernameAvailable && !isTyping && usernameCheck ? (
+          {usernameInvalid ? (
+            <motion.p
+              className="text-red-500 text-sm lg:text-base"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3 }}
+            >
+              Invalid username format. ❌
+            </motion.p>
+          ) : usernameAvailable && !isTyping && usernameCheck ? (
             <motion.p
               className="text-green-500 text-sm lg:text-base"
               initial={{ opacity: 0, y: 20 }}

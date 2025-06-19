@@ -3,7 +3,7 @@ import MarkdownParser from '@/components/general/markdownparser';
 import { Button } from '@dr/ui/components/base/button';
 import { categoryOptions, Project } from '@dr/schemas';
 import { BatteryLow, SignalMedium, X } from 'lucide-react';
-import React, { useState } from 'react';
+import React from 'react';
 import { cn } from '@dr/ui/lib/utils';
 
 const ProjectsPreviewComponent = ({

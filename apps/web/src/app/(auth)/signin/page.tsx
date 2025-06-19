@@ -18,12 +18,6 @@ export default async function LoginPage({
   }
 
   return (
-    // <div className="h-screen w-full flex items-center justify-center lg:justify-start relative">
-    //   <GridGradient className='h-[350px]' />
-    //   <div className="w-full max-w-md px-6 lg:px-0 mx-auto relative z-1">
-    //     <LoginForm username={username}/>
-    //   </div>
-    // </div>
     <div className="h-screen w-full flex items-center justify-center bg-background relative">
       <GridGradient className="h-[350px]" />
       <div className="flex w-full max-w-7xl mx-auto h-full">
@@ -48,7 +42,7 @@ export default async function LoginPage({
             className="object-cover w-full h-full"
             priority
           />
-          <div className="absolute bottom-24 right-0 h-24 w-full bg-gradient-to-t from-background/70 to-transparent" />
+          {/* <div className="absolute bottom-24 right-0 h-24 w-full bg-gradient-to-t from-background/70 to-transparent" /> */}
         </div>
       </div>
     </div>

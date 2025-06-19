@@ -3,7 +3,7 @@
 import React from 'react';
 import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Trash2, Link2, Plus, Save, Loader2 } from 'lucide-react';
+import { Trash2, Link2, Plus, Save } from 'lucide-react';
 import { Input } from '@dr/ui/components/base/input';
 import { Button } from '@dr/ui/components/base/button';
 import { socialsSchema, SocialsSchema } from '@dr/schemas';

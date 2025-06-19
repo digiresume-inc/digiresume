@@ -155,7 +155,7 @@
   --shadow-xl: 0px 1px 0px 0px hsl(0 0% 0% / 0.00), 0px 8px 10px -1px hsl(0 0% 0% / 0.00);
   --shadow-2xl: 0px 1px 0px 0px hsl(0 0% 0% / 0.00);
 
-  --home-divider: hsla(0, 0%, 0%, 0.15);
+  --home-divider: hsla(0, 0%, 0%, 0.12);
   --hero-color: oklch(0.5452 0.1107 254.08);
 
   --grid-color: oklch(0% 0 0);

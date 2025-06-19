@@ -1,4 +1,3 @@
-// plugins/remarkMark.ts
 import { visit } from 'unist-util-visit';
 
 export function remarkMark() {

@@ -7,9 +7,7 @@ import { redirect, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import {
   AtSign,
-  FolderKanban,
   Globe,
-  IdCard,
   Link2,
   ListChecks,
   Pencil,

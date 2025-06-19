@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { SiLinkedin } from 'react-icons/si';
 import Image from 'next/image';
 import { blurFade, extractTextFromPDF, processLinkedinData } from '@dr/utils';
-import { FileWarning, Loader2 } from 'lucide-react';
+import { FileWarning } from 'lucide-react';
 import { Input } from '@dr/ui/components/base/input';
 import { updateLinkedinData } from '@/app/onboarding/action';
 import { ToastSuccess } from '@/components/general/toast';

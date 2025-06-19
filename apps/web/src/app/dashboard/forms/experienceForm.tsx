@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from '@dr/ui/components/base/select';
 import { Switch } from '@dr/ui/components/base/switch';
-import { Check, Loader2, Save } from 'lucide-react';
+import { Check, Save } from 'lucide-react';
 import { Textarea } from '@dr/ui/components/base/textarea';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 import { SkillsSelect } from '@/components/dashboard/skillselect';
