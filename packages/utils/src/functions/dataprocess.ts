@@ -107,3 +107,104 @@ export function formatLinkedInProfile(profile: any) {
 
   return newData;
 }
+
+export function formatProxyCurlData(data: any) {
+  function getCountry(code: string) {
+    return (
+      countries.find((country) => {
+        const [, countryCode] = country.split('-');
+        return (countryCode as string).toLowerCase() === code.toLowerCase();
+      }) || ''
+    );
+  }
+
+  const formatExperiences = (experiences: any) => {
+    const grouped = new Map();
+
+    experiences.forEach((pos: any, i: number) => {
+      const companyKey = pos.company || `company-${i}`;
+      const existing = grouped.get(companyKey);
+
+      const role = {
+        start_date: pos.starts_at
+          ? `${String(pos.starts_at.month || 1)
+              .toString()
+              .padStart(2, '0')}/${pos.starts_at.year}`
+          : '',
+        end_date: pos.ends_at
+          ? `${String(pos.ends_at.month || 1)
+              .toString()
+              .padStart(2, '0')}/${pos.ends_at.year}`
+          : '',
+        headline: pos.title || '',
+        location: pos.location?.toLowerCase() || '',
+        location_type: 'On-site',
+        employment_type: 'Full-time',
+        currently_working: pos.ends_at === null,
+      };
+
+      if (existing) {
+        existing.roles.push(role);
+      } else {
+        grouped.set(companyKey, {
+          a: i,
+          company: pos.company || '',
+          company_link: '',
+          skills_used: [], // You can parse this from Proxycurl's `skills` if available
+          contribution: pos.description || '',
+          roles: [role],
+        });
+      }
+    });
+
+    return Array.from(grouped.values());
+  };
+
+  const finalData = {
+    shortbio: data.summary
+      ? data.summary.replace(/\\n/g, ' ').replace(/\s+/g, ' ').replace('+', '').trim()
+      : '',
+    full_name: data.full_name,
+    skills: (data.skills || []).slice(0, 10).map((skill: any) => ({
+      logo: '',
+      label: skill,
+      value: skill.toLowerCase().replace(/\s+/g, '-'),
+      category: 'general',
+    })),
+    country: getCountry(data.country),
+    profile_link: {
+      url: '',
+      text: '',
+    },
+    headline: data.headline || '',
+    company: data.occupation.split(' at ')[1] || '',
+    education: (() => {
+      const edu = data.education?.[0];
+      return {
+        university: edu?.school || '',
+        branch: edu?.field_of_study || '',
+        start_date: edu?.starts_at
+          ? `${edu.starts_at.month.toString().padStart(2, '0')}/${edu.starts_at.year}`
+          : '',
+        end_date: edu?.ends_at
+          ? `${edu.ends_at.month.toString().padStart(2, '0')}/${edu.ends_at.year}`
+          : '',
+        grade: edu.grade ? edu.grade : 'A',
+      };
+    })(),
+    experience: formatExperiences(data.experiences),
+    geo_info: {
+      city: data.city || '',
+      state: data.state || '',
+    },
+  };
+
+  let newData = finalData;
+
+  newData.skills = finalData.skills.map((userSkill: any) => {
+    const match = findMatchingSkill(userSkill.label);
+    return match ? match : userSkill;
+  });
+
+  return newData;
+}

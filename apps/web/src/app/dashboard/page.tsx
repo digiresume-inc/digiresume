@@ -28,7 +28,7 @@ export default async function DashboardPage() {
     return <div>error</div>;
   }
 
-  if(!data.username){
+  if (data.onboarding === 'pending') {
     redirect('/onboarding');
   }
 

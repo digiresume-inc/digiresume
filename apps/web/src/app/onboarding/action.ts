@@ -16,7 +16,6 @@ export async function onboardUser(data: z.infer<typeof onboardingSchema>) {
     };
   }
 
-
   const { error: onboardError } = await supabase
     .from('profiles')
     .update({
@@ -45,7 +44,7 @@ export async function updateUsername(data: z.infer<typeof usernameSchema>) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if(!user){
+  if (!user) {
     return {
       success: false,
       message: `Authentication error. User not found.`,
@@ -82,13 +81,15 @@ export async function updateUsername(data: z.infer<typeof usernameSchema>) {
   };
 }
 
-export async function updateLinkedinData(data: any) {
+export async function updateLinkedinData(data: any, updateAvatar: boolean,avatar_url: string) {
+  
+
   const supabase = createSClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-    if(!user){
+  if (!user) {
     return {
       success: false,
       message: `Authentication error. User not found.`,
@@ -100,6 +101,8 @@ export async function updateLinkedinData(data: any) {
     .update({
       ...data,
       onboarding: 'completed',
+      avatar_url: avatar_url,
+      ...(updateAvatar && { avatar_url }),
     })
     .eq('id', user?.id);
 
@@ -114,4 +117,49 @@ export async function updateLinkedinData(data: any) {
     success: true,
     message: 'Profile updated successfully.',
   };
+}
+
+export async function getAvatarUrl(avatarUrl: string) {
+  
+  if(avatarUrl === '' || !avatarUrl){
+    return {
+      success: false,
+      message: `Invalid avatar url`,
+    };
+  }
+
+  const supabase = createSClient();
+
+  const response = await fetch(avatarUrl);
+  const blob = await response.blob();
+
+
+  const contentType = blob.type;
+  const ext = contentType.split('/')[1] || 'jpg';
+
+
+  const filePath = `${Date.now()}.${ext}`;
+
+  // Upload to Supabase bucket
+  const { error: uploadError } = await supabase.storage.from('userimages').upload(filePath, blob, {
+    contentType: blob.type,
+    upsert: true,
+  });
+
+  if (uploadError) {
+    return {
+      success: false,
+      message: `Image upload error. ${uploadError.message}`,
+    };
+  }
+
+  // Get the public URL
+  const { data: publicUrlData } = supabase.storage.from('userimages').getPublicUrl(filePath);
+
+  const publicUrl = publicUrlData.publicUrl;
+
+  return{
+    success: true,
+    message: publicUrl,
+  }
 }

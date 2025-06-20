@@ -3,22 +3,19 @@ import { AnimatePresence, motion } from 'motion/react';
 import React, { useEffect, useState } from 'react';
 import { SiLinkedin } from 'react-icons/si';
 import Image from 'next/image';
-import {
-  blurFade,
-  formatLinkedInProfile,
-} from '@dr/utils';
-import {  Info } from 'lucide-react';
+import { blurFade, formatLinkedInProfile, formatProxyCurlData } from '@dr/utils';
+import { Info } from 'lucide-react';
 import { Input } from '@dr/ui/components/base/input';
-import { updateLinkedinData } from '@/app/onboarding/action';
-import { ToastSuccess } from '@/components/general/toast';
+import { getAvatarUrl, updateLinkedinData } from '@/app/onboarding/action';
+import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
 import { Button } from '@dr/ui/components/base/button';
 import Loader from '@/components/general/loader';
-
-const isValidLinkedInUrl = (url: string) => {
-  const regex = /^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]+\/?$/;
-  return regex.test(url.trim());
-};
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { linkedinUsernameSchema } from '@dr/schemas';
+import { cn } from '@dr/ui/lib/utils';
 
 const LinkedinURLImport = ({
   modal,
@@ -32,7 +29,7 @@ const LinkedinURLImport = ({
   const loadingMessages = ['Processing... ', 'Analyzing...  ', 'Structuring...'];
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const router = useRouter();
-  const [linkedinUrl, setLinkedinUrl] = useState<string>('');
+  const [linkedinUsername, setLinkedinUsername] = useState<string>('');
 
   useEffect(() => {
     if (!loading) return;
@@ -44,23 +41,30 @@ const LinkedinURLImport = ({
     return () => clearInterval(interval);
   }, [loading]);
 
-  const handleLinkedinData = async (url: string) => {
+
+  const onSubmit = async (data: z.infer<typeof linkedinUsernameSchema>) => {
     setLoading(true);
     setError('');
 
     try {
-      const apiResponse = await fetch('/api/linkedin', {
+      const res = await fetch('/api/proxycurl', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ url: url }),
+        body: JSON.stringify({ username: data.username }),
       });
 
-      const data = await apiResponse.json();
-      const finalData = formatLinkedInProfile(data.data[0]);
+      const dataObject = await res.json();
 
-      const result = await updateLinkedinData(finalData);
+      // upload image to supabase
+      const avatar_url = dataObject.data.profile_pic_url;
+      const hosted_url = await getAvatarUrl(avatar_url);
+
+      // update profile data
+      const finalData = formatProxyCurlData(dataObject.data);
+      
+      const result = await updateLinkedinData(finalData,hosted_url.success, hosted_url.message);
       if (!result.success) {
         setError(result.message);
         return;
@@ -75,6 +79,14 @@ const LinkedinURLImport = ({
       setLoading(false);
     }
   };
+
+  const form = useForm<z.infer<typeof linkedinUsernameSchema>>({
+    resolver: zodResolver(linkedinUsernameSchema),
+    defaultValues: {
+      username: '',
+    },
+  });
+
   return (
     <AnimatePresence>
       {modal && (
@@ -112,11 +124,13 @@ const LinkedinURLImport = ({
               className="py-4 px-5 overflow-hidden"
             >
               <div className="space-y-4">
-                {error && (
-                  <span className="border border-destructive w-full px-2.5 py-1.5 h-fit bg-destructive/80 flex items-center rounded-md text-xs gap-2">
-                    <Info size={18} strokeWidth={1} /> {error}
-                  </span>
-                )}
+                {error ||
+                  (form.formState.errors.username && (
+                    <span className="border border-destructive w-full px-2.5 py-1.5 h-fit bg-destructive/80 flex items-center rounded-md text-xs gap-2">
+                      <Info size={18} strokeWidth={1} /> {error}
+                      {form.formState.errors.username.message}
+                    </span>
+                  ))}
                 <p className="text-sm">Get data from Linkedin URL</p>
                 <Image
                   height={384}
@@ -143,25 +157,27 @@ const LinkedinURLImport = ({
                     </AnimatePresence>
                   </span>
                 ) : (
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      if (!linkedinUrl || !isValidLinkedInUrl(linkedinUrl)) {
-                        setError('Please enter a valid LinkedIn profile URL.');
-                        return;
-                      }
-                      handleLinkedinData(linkedinUrl);
-                    }}
-                  >
+                  <form onSubmit={form.handleSubmit(onSubmit)}>
                     <div className="text-sm flex flex-col gap-2">
-                      <label htmlFor="linkedinUrl">Enter LinkedIn URL</label>
-                      <Input
-                        id="linkedinUrl"
-                        type="text"
-                        value={linkedinUrl}
-                        onChange={(e) => setLinkedinUrl(e.target.value)}
-                        required
-                      />
+                      <label htmlFor="urlusername">Enter Linkedin username</label>
+                      <div className="flex items-center justify-start border rounded-md">
+                        <span className="text-sm font-medium text-muted-foreground bg-background px-2 py-2 rounded-l-md border-muted border-r">
+                          https://linkedin.com/in/
+                        </span>
+                        <Input
+                          id="urlusername"
+                          type="text"
+                          placeholder="username"
+                          {...form.register('username')}
+                          required
+                          className={cn(
+                            'w-full text-sm rounded-none rounded-r-md bg-background border',
+                            form.formState.errors.username
+                              ? 'border-destructive focus-visible:border-destructive focus-visible:ring-destructive/50 focus-visible:ring-[3px]'
+                              : 'border-input focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]'
+                          )}
+                        />
+                      </div>
                       <Button type="submit" variant="default">
                         Update data
                       </Button>

@@ -439,7 +439,7 @@ const MobilePreview = ({
                                                       color: t.foreground,
                                                     }}
                                                   >
-                                                    •
+                                                    &middot;
                                                   </p>
                                                   <span
                                                     style={{

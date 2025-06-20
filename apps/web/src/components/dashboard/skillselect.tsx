@@ -1,4 +1,3 @@
-// components/SkillsSelect.tsx
 'use client';
 
 import { useState } from 'react';
@@ -35,9 +34,9 @@ export function SkillsSelect({ value, onChange, className, largeBadge }: Props) 
   return (
     <div className={`space-y-2 w-full ${className}`}>
       <div className="flex flex-wrap gap-2">
-        {value.map((skill) => (
+        {value.map((skill,index) => (
           <Badge
-            key={skill.value}
+            key={`${skill.value}-${index}`}
             variant="secondary"
             className={`flex items-center gap-1 rounded-full ${largeBadge && 'px-2 py-1'}`}
           >

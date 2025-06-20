@@ -29,9 +29,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitButton } from '@/components/general/submitbutton';
 import { motion } from 'motion/react';
 import { CountryCombobox } from '@/components/dashboard/countryselect';
-import { onboardUser } from '@/app/onboarding/action';
+import { getAvatarUrl, onboardUser } from '@/app/onboarding/action';
 import { socialIconMap } from '@/lib/utils/iconMap';
-import LinkedinImport from '@/modals/linkedinimport';
 import UsernameSet from '@/app/onboarding/components/usernameset';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 import { cn } from '@dr/ui/lib/utils';
@@ -110,19 +109,28 @@ const OnboardingForm = ({ username }: { username: string }) => {
   };
 
   return (
-    <div className="w-full h-full px-6 py-12 lg:px-52 lg:py-24">
-      <LinkedinImport modal={onboardingType === 'linkedinpdf'} setModal={setOnboardingType} />
-      <LinkedinURLImport modal={onboardingType === 'linkedinurl'} setModal={setOnboardingType} />
+    <div className="w-full h-full px-6 py-12 lg:py-24">
+      <LinkedinURLImport modal={onboardingType === 'linkedin'} setModal={setOnboardingType} />
       <motion.header
         variants={blurFade}
         initial="initial"
         animate="animate"
         exit="exit"
         transition={{ duration: 0.3 }}
-        className="mb-6"
+        className="mb-3 lg:mb-6"
       >
         <div className="flex items-center justify-between lg:justify-start gap-4 w-full">
-          <h1 className="text-2xl lg:text-4xl font-bold">Onboarding</h1>
+          <h1 className="text-2xl lg:text-3xl font-bold">Onboarding</h1>
+          <p
+            onClick={async () => {
+              const res = await getAvatarUrl(
+                'https://images.pexels.com/photos/32407922/pexels-photo-32407922.jpeg'
+              );
+              ToastSuccess({ message: res.message });
+            }}
+          >
+            upload
+          </p>
           <Button
             disabled={form.formState.isSubmitting || step === 1}
             onClick={updateOnboardStatus}
@@ -134,7 +142,8 @@ const OnboardingForm = ({ username }: { username: string }) => {
         </div>
       </motion.header>
       <div className="absolute top-[80px] lg:top-[140px] w-full lg:max-w-4xl lg:left-12 lg:right-12 h-36 pointer-events-none bg-gradient-to-b from-background/80 to-transparent z-10" />
-      <main className="w-full max-w-2xl flex-1 overflow-y-auto h-full no_scrollbar scrollbar-hidden relative">
+      <div className="absolute bottom-0 lg:bottom-[20px] w-full lg:max-w-4xl lg:left-12 lg:right-12 h-24 pointer-events-none bg-gradient-to-t from-background/80 to-transparent z-10" />
+      <main className="w-full max-w-2xl flex-1 overflow-y-auto h-[95%] lg:h-full no_scrollbar scrollbar-hidden relative">
         <motion.div
           variants={blurUpFade}
           initial="initial"
@@ -187,30 +196,17 @@ const OnboardingForm = ({ username }: { username: string }) => {
               </div>
               <div className="flex flex-col items-start justify start px-3 py-2 gap-4">
                 <h1 className="text-lg lg:text-xl font-semibold mb-2">Select onboarding type</h1>
-                <div className="relative inline-block">
-                  <Button
-                    onClick={() => {
-                      setOnboardingType('linkedinpdf');
-                    }}
-                    className="min-w-58 py-4"
-                  >
-                    Import from LinkedIn PDF <SiLinkedin />
-                  </Button>
-                  <span className="border border-primary bg-gradient-to-r from-popover via-primary/40 to-popover flex place-items-center justify-center gap-1 absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-secondary text-foreground px-2 py-0.5 rounded-full shadow-md">
-                    Recommended <ThumbsUp strokeWidth={1} size={13} />
-                  </span>
-                </div>
 
                 <div className="relative inline-block">
                   <Button
                     onClick={() => {
-                      setOnboardingType('linkedinurl');
+                      setOnboardingType('linkedin');
                     }}
                     className="min-w-58 py-4"
                   >
-                    Import from LinkedIn URL <SiLinkedin />
+                    Import Linkedin Profile <SiLinkedin />
                   </Button>
-                  <span className="border border-primary bg-gradient-to-r from-popover via-primary/40 to-popover flex place-items-center justify-center gap-1 absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-secondary text-foreground px-2 py-0.5 rounded-full shadow-md">
+                  <span className="border border-primary/70 bg-gradient-to-r from-popover via-primary/30 to-popover flex place-items-center justify-center gap-1 absolute -top-4 left-1/2 -translate-x-1/2 text-xs bg-secondary text-foreground px-2 py-[3px] rounded-full shadow-md">
                     Recommended <ThumbsUp strokeWidth={1} size={13} />
                   </span>
                 </div>
@@ -236,17 +232,17 @@ const OnboardingForm = ({ username }: { username: string }) => {
               transition={{ duration: 0.3 }}
               className="flex flex-col items-start justify-start"
             >
-              <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
+              <div className="flex items-start justify-start gap-1 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
                   {step}{' '}
                   <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 </div>
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
-                <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
+                <div className="flex flex-col items-start justify start px-1.5 lg:px-3 py-2 gap-4 w-full">
                   <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
                     <User className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Profile information
                   </h1>
-                  <div className="flex flex-col gap-4 w-full max-w-112">
+                  <div className="flex flex-col gap-3 lg:gap-4 w-full max-w-md">
                     <div>
                       <Input
                         id="full_name"
@@ -414,16 +410,16 @@ const OnboardingForm = ({ username }: { username: string }) => {
                   </div>
                 </div>
               </div>
-              <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
+              <div className="flex items-start justify-start gap-1 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
                   {step + 1}
                 </div>
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
-                <div className="flex flex-col items-start justify-start px-3 py-2 gap-4 w-full">
+                <div className="flex flex-col items-start justify-start px-1.5 lg:px-3 py-2 gap-4 w-full">
                   <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
                     <University className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Education
                   </h1>
-                  <div className="flex flex-col gap-2 w-full max-w-98">
+                  <div className="flex flex-col gap-2 w-full max-w-md">
                     <div>
                       <label
                         className="text-sm font-medium text-foreground/70"
@@ -477,7 +473,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           id="education.start_date"
                           className="bg-secondary w-full text-sm"
                           type="text"
-                          placeholder="MM/20YY..."
+                          placeholder="MM/20YY"
                           {...form.register('education.start_date')}
                         />
                         {form.formState.errors.education?.start_date && (
@@ -498,7 +494,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           id="education.end_date"
                           className="bg-secondary w-full text-sm"
                           type="text"
-                          placeholder="MM/20YY..."
+                          placeholder="MM/20YY"
                           {...form.register('education.end_date')}
                         />
                         {form.formState.errors.education?.end_date && (
@@ -519,7 +515,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           id="education.grade"
                           className="bg-secondary w-full text-sm"
                           type="text"
-                          placeholder="MM/20YY..."
+                          placeholder="9.4, A"
                           {...form.register('education.grade')}
                         />
                         {form.formState.errors.education?.grade && (
@@ -532,12 +528,12 @@ const OnboardingForm = ({ username }: { username: string }) => {
                   </div>
                 </div>
               </div>
-              <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
+              <div className="flex items-start justify-start gap-1 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
                   {step + 2}
                 </div>
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
-                <div className="flex flex-col items-start justify-start px-3 py-2 gap-4 w-full">
+                <div className="flex flex-col items-start justify-start px-1.5 lg:px-3 py-2 gap-4 w-full">
                   <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
                     <Globe className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Socials
                   </h1>
@@ -547,12 +543,12 @@ const OnboardingForm = ({ username }: { username: string }) => {
                     return (
                       <div
                         key={field.id}
-                        className="flex flex-col items-start justify-start gap-1 w-full max-w-98"
+                        className="flex flex-col items-start justify-start gap-1 w-full max-w-md"
                       >
                         <div className="flex items-center gap-2 w-full">
                           {getPlatformIcon(currentUrl)}
                           <Input
-                            className="bg-secondary flex-1"
+                            className="bg-secondary flex-1 text-sm"
                             type="text"
                             placeholder="https://yourlink.com/username"
                             {...register(`socials.${index}.url`)}
@@ -577,7 +573,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
 
                   <Button
                     type="button"
-                    className="w-full max-w-98"
+                    className="w-full max-w-md"
                     variant="outline"
                     size="sm"
                     onClick={() =>
@@ -590,25 +586,24 @@ const OnboardingForm = ({ username }: { username: string }) => {
                   </Button>
                 </div>
               </div>
-              <div className="flex items-start justify-start gap-1.5 lg:gap-3 mb-4 h-fit relative w-full">
+              <div className="flex items-start justify-start gap-1 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
                   {step + 3}
                 </div>
-                <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
-                <div className="flex flex-col items-start justify start px-3 py-2 gap-4 w-full">
+                <div className="flex flex-col items-start justify start px-1.5 lg:px-3 py-2 gap-4 w-full">
                   <h1 className="text-lg lg:text-xl font-semibold flex items-center justify-center gap-2">
                     <Wrench className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Skills
                   </h1>
                   <SkillsSelect
                     value={form.watch('skills') ?? []}
                     onChange={(v) => form.setValue('skills', v)}
-                    className="max-w-98"
+                    className="max-w-md"
                   />
                 </div>
               </div>
-              <div className="w-full max-w-md flex mb-15">
+              <div className="w-full max-w-md flex lg:ml-16 mb-15">
                 <SubmitButton
-                  className="ml-auto w-full max-w-[85%] items-center justify-center text-sm lg:text-lg font-medium lg:font-semibold"
+                  className="w-full max-w-md items-center justify-center text-sm lg:text-lg font-medium lg:font-semibold"
                   pending={form.formState.isSubmitting}
                   loadingText="Finishing up..."
                 >
@@ -622,7 +617,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
       </main>
       <footer
         className={cn(
-          'relative z-20 px-3 py-2 rounded-md shadow-sm mb-3 text-foreground/70 w-fit text-sm',
+          'relative z-20 px-3 py-2 rounded-md shadow-sm lg:mb-3 text-foreground/70 w-full lg:w-[90%] text-sm flex items-center justify-center',
           'bg-[linear-gradient(to_right,transparent,var(--text-background),transparent)]'
         )}
       >
