@@ -18,7 +18,7 @@ import {
   getMonthsDifference,
   hexToHSL,
 } from '@dr/utils';
-import {statusOptions, categoryOptions } from '@dr/schemas';
+import { statusOptions, categoryOptions } from '@dr/schemas';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@dr/ui/components/base/tabs';
 import MarkdownParser from '@/components/general/markdownparser';
 import { socialIconMap } from '@/lib/utils/iconMap';
@@ -142,7 +142,10 @@ const MobilePreview = ({
                 >
                   /{profile.username}
                 </p>
-                <Link target='_blank' href={`${process.env.NEXT_PUBLIC_BASE_URL}/p/${profile.username}`}>
+                <Link
+                  target="_blank"
+                  href={`${process.env.NEXT_PUBLIC_BASE_URL}/p/${profile.username}`}
+                >
                   <ExternalLink
                     style={{
                       color: t.foreground,
@@ -505,175 +508,196 @@ const MobilePreview = ({
                 {showStartups && (
                   <TabsContent value="startups">
                     <div className="space-y-2">
-                      {startups.map((startup: Startup, index: number) => (
-                        <div
-                          key={index}
-                          style={{
-                            background: t.card,
-                            borderColor: hexToHSL(t.primary!, 0.3),
-                          }}
-                          className="w-full rounded-lg border border-primary/60 h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
-                        >
-                          <div className="flex items-center justify-center gap-2">
-                            <img
-                              src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
-                              className="w-8 h-8 rounded-full"
-                              alt={`${startup.name} Icon`}
-                            />
-                            <div className="flex flex-col items-start justify-center gap-1">
-                              <p style={{ color: t.foreground }} className="text-xs font-semibold">
-                                {startup.name}
-                              </p>
-                              <div className="flex gap-2 items-center justify-start w-full">
-                                {(() => {
-                                  const currentStatus = statusOptions.find(
-                                    (s) => s.status === startup.status
-                                  );
-                                  return currentStatus ? (
-                                    <span
-                                      style={{
-                                        background: t.secondary,
-                                        color: t.foreground,
-                                      }}
-                                      className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
-                                    >
-                                      <span>{currentStatus.icon}</span>
-                                      <span>{currentStatus.text}</span>
-                                    </span>
-                                  ) : (
-                                    <span
-                                      style={{
-                                        background: t.secondary,
-                                        color: t.foreground,
-                                      }}
-                                      className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
-                                    >
-                                      {startup.status}
-                                    </span>
-                                  );
-                                })()}
-                                {(() => {
-                                  const currentCategory = categoryOptions.find(
-                                    (s) => s.category === startup.category
-                                  );
-                                  return currentCategory ? (
-                                    <span
-                                      style={{
-                                        background: t.secondary,
-                                        color: t.foreground,
-                                      }}
-                                      className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
-                                    >
-                                      <span>{currentCategory.icon}</span>
-                                      <span>{currentCategory.text}</span>
-                                    </span>
-                                  ) : (
-                                    <span
-                                      style={{
-                                        background: t.secondary,
-                                        color: t.foreground,
-                                      }}
-                                      className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
-                                    >
-                                      {startup.category}
-                                    </span>
-                                  );
-                                })()}
+                      {startups.map(
+                        (startup: Startup, index: number) =>
+                          startup.show_on_profile && (
+                            <div
+                              key={index}
+                              style={{
+                                background: t.card,
+                                borderColor: hexToHSL(t.primary!, 0.3),
+                              }}
+                              className="w-full rounded-lg border border-primary/60 h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
+                            >
+                              <div className="flex items-center justify-center gap-2">
+                                <img
+                                  src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
+                                  className="w-8 h-8 rounded-full"
+                                  alt={`${startup.name} Icon`}
+                                />
+                                <div className="flex flex-col items-start justify-center gap-1">
+                                  <p
+                                    style={{ color: t.foreground }}
+                                    className="text-xs font-semibold"
+                                  >
+                                    {startup.name}
+                                  </p>
+                                  <div className="flex gap-2 items-center justify-start w-full">
+                                    {(() => {
+                                      const currentStatus = statusOptions.find(
+                                        (s) => s.status === startup.status
+                                      );
+                                      return currentStatus ? (
+                                        <span
+                                          style={{
+                                            background: t.secondary,
+                                            color: t.foreground,
+                                          }}
+                                          className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
+                                        >
+                                          <img
+                                            className="w-3 h-3"
+                                            src={`/startupStatus/${currentStatus.status}.png`}
+                                          />
+                                          <span>{currentStatus.text}</span>
+                                        </span>
+                                      ) : (
+                                        <span
+                                          style={{
+                                            background: t.secondary,
+                                            color: t.foreground,
+                                          }}
+                                          className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
+                                        >
+                                          {startup.status}
+                                        </span>
+                                      );
+                                    })()}
+                                    {(() => {
+                                      const currentCategory = categoryOptions.find(
+                                        (s) => s.category === startup.category
+                                      );
+                                      return currentCategory ? (
+                                        <span
+                                          style={{
+                                            background: t.secondary,
+                                            color: t.foreground,
+                                          }}
+                                          className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
+                                        >
+                                          <img
+                                            className="w-3 h-3"
+                                            src={`/startupCategory/${currentCategory.category}.png`}
+                                          />
+                                          <span>{currentCategory.text}</span>
+                                        </span>
+                                      ) : (
+                                        <span
+                                          style={{
+                                            background: t.secondary,
+                                            color: t.foreground,
+                                          }}
+                                          className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
+                                        >
+                                          {startup.category}
+                                        </span>
+                                      );
+                                    })()}
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                style={{
+                                  background: hexToHSL(t.primary, 0.3),
+                                }}
+                                className="w-full h-px"
+                              />
+                              <div
+                                style={{
+                                  color: hexToHSL(t.foreground!, 0.7),
+                                }}
+                                className="text-xxs font-medium"
+                              >
+                                <span className="line-clamp-3">
+                                  <MarkdownParser text={startup.description} />{' '}
+                                </span>
                               </div>
                             </div>
-                          </div>
-                          <div
-                            style={{
-                              background: hexToHSL(t.primary, 0.3),
-                            }}
-                            className="w-full h-px"
-                          />
-                          <div
-                            style={{
-                              color: hexToHSL(t.foreground!, 0.7),
-                            }}
-                            className="text-xxs font-medium"
-                          >
-                            <span className="line-clamp-3">
-                              <MarkdownParser text={startup.description} />{' '}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
+                          )
+                      )}
                     </div>
                   </TabsContent>
                 )}
                 {showProjects && (
                   <TabsContent value="projects">
                     <div className="space-y-2">
-                      {projects.map((project: Project, index: number) => (
-                        <div
-                          key={index}
-                          style={{
-                            background: t.card,
-                            borderColor: hexToHSL(t.primary, 0.3),
-                          }}
-                          className="w-full rounded-lg border h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
-                        >
-                          <div className="flex items-center justify-center gap-2">
-                            <img
-                              src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
-                              className="w-8 h-8 rounded-full"
-                              alt={`${project.name} Icon`}
-                            />
-                            <div className="flex flex-col items-start justify-center gap-1">
-                              <p style={{ color: t.foreground }} className="text-xs font-semibold">
-                                {project.name}
-                              </p>
-                              <div className="flex gap-2 items-center justify-start w-full">
-                                {(() => {
-                                  const currentCategory = categoryOptions.find(
-                                    (s) => s.category === project.category
-                                  );
-                                  return currentCategory ? (
-                                    <span
-                                      style={{
-                                        background: t.secondary,
-                                        color: t.foreground,
-                                      }}
-                                      className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
-                                    >
-                                      <span>{currentCategory.icon}</span>
-                                      <span>{currentCategory.text}</span>
-                                    </span>
-                                  ) : (
-                                    <span
-                                      style={{
-                                        background: t.secondary,
-                                        color: t.foreground,
-                                      }}
-                                      className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
-                                    >
-                                      {project.category}
-                                    </span>
-                                  );
-                                })()}
+                      {projects.map(
+                        (project: Project, index: number) =>
+                          project.show_on_profile && (
+                            <div
+                              key={index}
+                              style={{
+                                background: t.card,
+                                borderColor: hexToHSL(t.primary, 0.3),
+                              }}
+                              className="w-full rounded-lg border h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
+                            >
+                              <div className="flex items-center justify-center gap-2">
+                                <img
+                                  src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
+                                  className="w-8 h-8 rounded-full"
+                                  alt={`${project.name} Icon`}
+                                />
+                                <div className="flex flex-col items-start justify-center gap-1">
+                                  <p
+                                    style={{ color: t.foreground }}
+                                    className="text-xs font-semibold"
+                                  >
+                                    {project.name}
+                                  </p>
+                                  <div className="flex gap-2 items-center justify-start w-full">
+                                    {(() => {
+                                      const currentCategory = categoryOptions.find(
+                                        (s) => s.category === project.category
+                                      );
+                                      return currentCategory ? (
+                                        <span
+                                          style={{
+                                            background: t.secondary,
+                                            color: t.foreground,
+                                          }}
+                                          className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny`}
+                                        >
+                                          <img
+                                            className="w-3 h-3"
+                                            src={`/startupCategory/${currentCategory.category}.png`}
+                                          />
+                                          <span>{currentCategory.text}</span>
+                                        </span>
+                                      ) : (
+                                        <span
+                                          style={{
+                                            background: t.secondary,
+                                            color: t.foreground,
+                                          }}
+                                          className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny"
+                                        >
+                                          {project.category}
+                                        </span>
+                                      );
+                                    })()}
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                style={{
+                                  background: hexToHSL(t.primary, 0.3),
+                                }}
+                                className="w-full h-px"
+                              />
+                              <div
+                                style={{
+                                  color: hexToHSL(t.foreground!, 0.7),
+                                }}
+                                className="text-xxs font-medium"
+                              >
+                                <span className="line-clamp-3">
+                                  <MarkdownParser text={project.description} />{' '}
+                                </span>
                               </div>
                             </div>
-                          </div>
-                          <div
-                            style={{
-                              background: hexToHSL(t.primary, 0.3),
-                            }}
-                            className="w-full h-px"
-                          />
-                          <div
-                            style={{
-                              color: hexToHSL(t.foreground!, 0.7),
-                            }}
-                            className="text-xxs font-medium"
-                          >
-                            <span className="line-clamp-3">
-                              <MarkdownParser text={project.description} />{' '}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
+                          )
+                      )}
                     </div>
                   </TabsContent>
                 )}

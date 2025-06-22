@@ -59,7 +59,7 @@ const ProjectsPreviewComponent = ({
           <div className="w-[270px] h-[590px] bg-secondary rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
             <div className="p-4 space-y-2">
               {projects.map((project: Project, index: number) => (
-                <div
+                project.show_on_profile && <div
                   key={index}
                   className="w-full bg-card rounded-lg border border-primary/30 h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
                 >
@@ -79,7 +79,7 @@ const ProjectsPreviewComponent = ({
                             <span
                               className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary`}
                             >
-                              <span>{currentCategory.icon}</span>
+                              <img className='w-3 h-3' src={`/startupCategory/${currentCategory.category}.png`} />
                               <span>{currentCategory.text}</span>
                             </span>
                           ) : (

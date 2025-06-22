@@ -65,40 +65,25 @@ export const categoryOptions = [
     icon: '📚',
     color: 'bg-orange-100/80 text-orange-800',
   },
-  {
-    category: 'no-code',
-    text: 'No Code',
-    icon: '🐲',
-    color: 'bg-pink-100/80 text-pink-800',
-  },
+  { category: 'no-code', text: 'No Code', icon: '🧩', color: 'bg-pink-100/80 text-pink-800' },
   {
     category: 'social-media',
     text: 'Social Media',
     icon: '💬',
     color: 'bg-purple-100/80 text-purple-800',
   },
-  {
-    category: 'e-commerce',
-    text: 'E-Commerce',
-    icon: '🛍️',
-    color: 'bg-teal-100/80 text-teal-800',
-  },
+  { category: 'e-commerce', text: 'E-Commerce', icon: '🛍️', color: 'bg-teal-100/80 text-teal-800' },
   {
     category: 'analytics',
     text: 'Analytics',
     icon: '📈',
     color: 'bg-yellow-100/80 text-yellow-800',
   },
-  {
-    category: 'web3',
-    text: 'Web 3',
-    icon: '🦇',
-    color: 'bg-indigo-100/80 text-indigo-800',
-  },
+  { category: 'web3', text: 'Web3', icon: '🦇', color: 'bg-indigo-100/80 text-indigo-800' },
   {
     category: 'design-tools',
     text: 'Design Tools',
-    icon: '👓',
+    icon: '🎨',
     color: 'bg-red-100/80 text-red-800',
   },
   {
@@ -107,24 +92,18 @@ export const categoryOptions = [
     icon: '🧑‍💻',
     color: 'bg-gray-100/80 text-gray-800',
   },
+  { category: 'marketing', text: 'Marketing', icon: '📊', color: 'bg-lime-100/80 text-lime-800' },
+  { category: 'finance', text: 'Finance', icon: '💰', color: 'bg-emerald-100/80 text-emerald-800' },
   {
-    category: 'marketing',
-    text: 'Marketing',
-    icon: '📊',
-    color: 'bg-lime-100/80 text-lime-800',
-  },
-  {
-    category: 'finance',
-    text: 'Finance',
-    icon: '💰',
-    color: 'bg-green-100/80 text-green-800',
-  },
-    {
     category: 'electronics',
     text: 'Electronics',
     icon: '🔌',
-    color: 'bg-green-100/80 text-green-800',
+    color: 'bg-cyan-100/80 text-cyan-800',
   },
+  // Optional additions:
+  { category: 'healthtech', text: 'Healthtech', icon: '🏥', color: 'bg-rose-100/80 text-rose-800' },
+  { category: 'gaming', text: 'Gaming', icon: '🎮', color: 'bg-sky-100/80 text-sky-800' },
+  { category: 'saas', text: 'SaaS', icon: '☁️', color: 'bg-zinc-100/80 text-zinc-800' },
   {
     category: 'other',
     text: 'Others',
@@ -165,7 +144,10 @@ export const startupSchema = z.object({
   id: z.string(),
   index: z.number().nonnegative(),
   name: z.string().min(1, { message: 'Startup Name is required' }),
-  description: z.string().min(1, { message: 'Description is required' }).max(300,{ message: 'Max length exceeded' } ),
+  description: z
+    .string()
+    .min(1, { message: 'Description is required' })
+    .max(300, { message: 'Max length exceeded' }),
   url: z
     .string()
     .url({ message: 'Please enter a valid URL' })
@@ -187,4 +169,3 @@ export const startupSchema = z.object({
 });
 
 export type Startup = z.infer<typeof startupSchema>;
-

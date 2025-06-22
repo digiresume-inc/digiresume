@@ -144,7 +144,7 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                                         <span
                                           className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary`}
                                         >
-                                          <span>{currentCategory.icon}</span>
+                                          <img className='w-4 h-4' src={`/startupCategory/${currentCategory.category}.png`} />
                                           <span>{currentCategory.text}</span>
                                         </span>
                                       ) : (

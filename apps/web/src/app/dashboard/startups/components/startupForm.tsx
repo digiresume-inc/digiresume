@@ -154,7 +154,7 @@ export default function StartupForm({
             </SelectTrigger>
             <SelectContent>
               {statusOptions.map((s) => (
-                <SelectItem key={s.status} value={s.status}>
+                <SelectItem className='data-[state=checked]:bg-background/30' key={s.status} value={s.status}>
                   <div className={`flex items-center gap-2 rounded p-1 ${s.color}`}>
                     <img className='w-4 h-4' src={`/startupStatus/${s.status}.png`} />
                     <span>{s.text}</span>
@@ -193,9 +193,9 @@ export default function StartupForm({
           </SelectTrigger>
           <SelectContent>
             {categoryOptions.map((c) => (
-              <SelectItem key={c.category} value={c.category}>
+              <SelectItem className='data-[state=checked]:bg-background/30' key={c.category} value={c.category}>
                 <div className={`flex items-center gap-2 rounded p-1 ${c.color}`}>
-                  <span>{c.icon}</span>
+                 <img className='w-4 h-4' src={`/startupCategory/${c.category}.png`} />
                   <span>{c.text}</span>
                 </div>
               </SelectItem>

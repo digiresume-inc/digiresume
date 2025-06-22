@@ -540,7 +540,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
           largeBadge
         />
       </div>
-      <div className="w-full flex items-center justify-end">
+      <div className="w-full flex items-center justify-end px-4">
         <Button
           type="submit"
           variant={'outline'}
