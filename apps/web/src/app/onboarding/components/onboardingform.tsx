@@ -94,17 +94,17 @@ const OnboardingForm = ({ username }: { username: string }) => {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      redirect('/signin');
+      return
     }
     const { error } = await supabase
       .from('profiles')
       .update({
         onboarding: 'skipped',
       })
-      .eq('id', user?.id);
+      .eq('id', user.id);
     if (!error) {
       ToastSuccess({ message: 'Onboarding skipped' });
-      router.push('/dashboard/home');
+      router.replace('/dashboard');
     }
   };
 
@@ -121,16 +121,6 @@ const OnboardingForm = ({ username }: { username: string }) => {
       >
         <div className="flex items-center justify-between lg:justify-start gap-4 w-full">
           <h1 className="text-2xl lg:text-3xl font-bold">Onboarding</h1>
-          <p
-            onClick={async () => {
-              const res = await getAvatarUrl(
-                'https://images.pexels.com/photos/32407922/pexels-photo-32407922.jpeg'
-              );
-              ToastSuccess({ message: res.message });
-            }}
-          >
-            upload
-          </p>
           <Button
             disabled={form.formState.isSubmitting || step === 1}
             onClick={updateOnboardStatus}

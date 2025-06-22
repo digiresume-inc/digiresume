@@ -98,9 +98,6 @@ const AnalyticsCard = () => {
           <span key={index}>{mon}</span>
         ))}
       </span>
-      {/* <span className="w-full h-6 bg-primary cursor-pointer text-primary-foreground rounded-md text-xxs font-medium flex items-center justify-center gap-1">
-        View Dashboard <ArrowRight size={16} />
-      </span> */}
     </div>
   );
 };
@@ -112,6 +109,7 @@ const ChartAreaDefault = ({ activeChart }: { activeChart: keyof typeof chartConf
         accessibilityLayer
         data={chartData}
         margin={{
+          top: 4,
           left: 8,
           right: 8,
         }}

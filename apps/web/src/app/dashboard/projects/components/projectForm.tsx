@@ -74,9 +74,9 @@ export default function ProjectForm({
           Description
           <HoverCard openDelay={250}>
             <HoverCardTrigger className="text-xs font-medium text-lightprimary-text dark:text-primary-text cursor-pointer">
-              <button className="underline cursor-pointer text-card-foreground/80">
+              <span className="underline cursor-pointer text-card-foreground/80">
                 (*Markdown Guide*)
-              </button>
+              </span>
             </HoverCardTrigger>
             <HoverCardContent className="bg-secondary border rounded-md z-50">
               <div className="flex flex-col p-2">

@@ -21,10 +21,10 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
     url: '',
     revenue: 0,
     status: 'active',
-    show_status: false,
+    show_status: true,
     category: 'other',
     verified: false,
-    show_on_profile: false,
+    show_on_profile: true,
   };
   const [open, setOpen] = useState(false);
   const [actionType, setActionType] = useState('Edit');
@@ -148,7 +148,7 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
                                         <span
                                           className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary`}
                                         >
-                                          <span>{currentStatus.icon}</span>
+                                          <img className='w-4 h-4' src={`/startupStatus/${currentStatus.status}.png`} />
                                           <span>{currentStatus.text}</span>
                                         </span>
                                       ) : (

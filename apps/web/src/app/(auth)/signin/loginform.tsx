@@ -94,7 +94,7 @@ const LoginForm = ({ username }: { username: string | string[] }) => {
           </SubmitButton>
         </form>
 
-        <p className="text-sm md:text-base font-light text-center text-foreground/70">
+        <p className="select-none text-sm md:text-base font-light text-center text-foreground/70">
           Having trouble?{' '}
           <span className="cursor-pointer font-medium hover:text-foreground transition-colors duration-200">
             Get support

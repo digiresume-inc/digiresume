@@ -17,15 +17,10 @@ export default async function Onboarding() {
     .single();
 
   if (data?.onboarding !== 'pending') {
-    redirect('/');
+    redirect('/dashboard');
   }
 
   return (
-    // <div className="flex flex-col items-start justify-start w-full h-screen relative overflow-hidden">
-    //   <GridGradient className='h-[350px]'/>
-    //   <OnboardingForm username={data.username} />
-    // </div>
-
     <div className="h-screen w-full flex items-center justify-center bg-background overflow-hidden relative">
       <GridGradient className="h-[350px]" />
       <div className="flex w-full max-w-7xl mx-auto h-full">

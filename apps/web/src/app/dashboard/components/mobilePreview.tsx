@@ -18,7 +18,7 @@ import {
   getMonthsDifference,
   hexToHSL,
 } from '@dr/utils';
-import { Startup, Project, statusOptions, categoryOptions } from '@dr/schemas';
+import {statusOptions, categoryOptions } from '@dr/schemas';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@dr/ui/components/base/tabs';
 import MarkdownParser from '@/components/general/markdownparser';
 import { socialIconMap } from '@/lib/utils/iconMap';
@@ -26,6 +26,8 @@ import { cn } from '@dr/ui/lib/utils';
 import type { Database, Experience, Skill, Social, Theme } from '@/lib/types/supabasetypes';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
+type Startup = Database['public']['Tables']['startups']['Row'];
+type Project = Database['public']['Tables']['projects']['Row'];
 
 function getPlatformIcon(url: string) {
   try {
@@ -49,11 +51,11 @@ const MobilePreview = ({
   preview: boolean;
   setPreview: React.Dispatch<React.SetStateAction<boolean>>;
   profile: Profile;
-  startups: any;
-  projects: any;
+  startups: Startup[];
+  projects: Project[];
   theme: Theme;
 }) => {
-  const t = theme?.theme_data;
+  const t = theme.theme_data;
   const showExp = profile.experience.length > 0;
   const showStartups = startups.length > 0;
   const showProjects = projects.length > 0;

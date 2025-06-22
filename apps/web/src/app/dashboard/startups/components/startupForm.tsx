@@ -75,9 +75,9 @@ export default function StartupForm({
           Description
           <HoverCard openDelay={250}>
             <HoverCardTrigger className="text-xs font-medium text-lightprimary-text dark:text-primary-text cursor-pointer">
-              <button className="underline cursor-pointer text-card-foreground/80">
+              <span className="underline cursor-pointer text-card-foreground/80">
                 (*Markdown Guide*)
-              </button>
+              </span>
             </HoverCardTrigger>
             <HoverCardContent className="bg-secondary border rounded-md z-50">
               <div className="flex flex-col p-2">
@@ -141,7 +141,7 @@ export default function StartupForm({
       </div>
 
       <div className="flex items-center justify-center gap-2">
-        <div className="w-[70%]">
+        <div className="w-[70%] lg:w-[80%]">
           <label className="block mb-1 text-sm text-foreground/70">Status</label>
           <Select
             value={watch('status')}
@@ -156,7 +156,7 @@ export default function StartupForm({
               {statusOptions.map((s) => (
                 <SelectItem key={s.status} value={s.status}>
                   <div className={`flex items-center gap-2 rounded p-1 ${s.color}`}>
-                    <span>{s.icon}</span>
+                    <img className='w-4 h-4' src={`/startupStatus/${s.status}.png`} />
                     <span>{s.text}</span>
                   </div>
                 </SelectItem>
@@ -167,7 +167,7 @@ export default function StartupForm({
             <p className="text-sm text-destructive mt-0.5">{errors.status.message}</p>
           )}
         </div>
-        <div className="w-[30%]">
+        <div className="w-[30%] lg:w-[20%]">
           <label className="flex items-center gap-2 text-xs lg:text-sm text-foreground/70">
             Show Status
           </label>

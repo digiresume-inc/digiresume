@@ -79,7 +79,7 @@ const StartupsPreviewComponent = ({
                             <span
                               className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary`}
                             >
-                              <span>{currentStatus.icon}</span>
+                              <img className='w-3 h-3' src={`/startupStatus/${currentStatus.status}.png`} />
                               <span>{currentStatus.text}</span>
                             </span>
                           ) : (
