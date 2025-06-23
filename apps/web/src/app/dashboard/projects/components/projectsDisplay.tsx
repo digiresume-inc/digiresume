@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@dr/ui/components/base/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@dr/ui/components/base/dialog';
-import { Project, Startup, categoryOptions } from '@dr/schemas';
+import { Project, categoryOptions } from '@dr/schemas';
 import { Edit, GripVertical, Plus, Trash } from 'lucide-react';
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
@@ -9,6 +9,7 @@ import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { createClient } from '@/supabase/client';
 import { useRouter } from 'next/navigation';
 import ProjectForm from './projectForm';
+import Loader from '@/components/general/loader';
 
 const ProjectsDisplay = ({ projects }: { projects: any }) => {
   const supabase = createClient();
@@ -25,6 +26,7 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
   const [open, setOpen] = useState(false);
   const [actionType, setActionType] = useState('Edit');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [deletingIndex, setDeletingIndex] = useState<number>(0);
   const router = useRouter();
 
   const ProjectDragStart = (start: any) => {
@@ -38,7 +40,7 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
 
     const reorderedProjects = Array.from(projects as Project[]);
     const [reorderedProject] = reorderedProjects.splice(result.source.index, 1);
-    reorderedProjects.splice(result.destination.index, 0, reorderedProject as Startup);
+    reorderedProjects.splice(result.destination.index, 0, reorderedProject as Project);
     try {
       await Promise.all(
         reorderedProjects.map(async (project: Project, index: number) => {
@@ -61,6 +63,32 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
       ToastError({ message: 'An unexpected error occurred.' });
     }
   };
+
+  const handleDeleteProject = async (projectid: string, index: number) => {
+    setDeletingIndex(index);
+
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return;
+
+    const { error } = await supabase.rpc('delete_and_reindex_p', {
+      project_id: projectid,
+      input_user_id: user.id,
+      deleted_index: index,
+    });
+
+    if (error) {
+      ToastError({ message: `Something went wrong. Try again. ${error.message}` });
+    } else {
+      router.refresh();
+    }
+
+    setDeletingIndex(0);
+  };
+
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-3 relative">
@@ -130,8 +158,15 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                                       >
                                         <Edit />
                                       </Button>
-                                      <Button size={'icon'} variant={'destructive'}>
-                                        <Trash />
+                                      <Button
+                                        onClick={() => {
+                                          handleDeleteProject(project.id, index + 1);
+                                        }}
+                                        size={'icon'}
+                                        variant={'destructive'}
+                                        disabled={deletingIndex === index + 1}
+                                      >
+                                        {deletingIndex === index + 1 ? <Loader /> : <Trash />}
                                       </Button>
                                     </div>
                                   </div>
@@ -144,7 +179,10 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                                         <span
                                           className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary`}
                                         >
-                                          <img className='w-4 h-4' src={`/startupCategory/${currentCategory.category}.png`} />
+                                          <img
+                                            className="w-4 h-4"
+                                            src={`/startupCategory/${currentCategory.category}.png`}
+                                          />
                                           <span>{currentCategory.text}</span>
                                         </span>
                                       ) : (

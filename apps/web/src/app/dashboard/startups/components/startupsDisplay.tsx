@@ -9,6 +9,7 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { createClient } from '@/supabase/client';
 import { useRouter } from 'next/navigation';
+import Loader from '@/components/general/loader';
 
 const StartupsDisplay = ({ startups }: { startups: any }) => {
   const supabase = createClient();
@@ -30,9 +31,10 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
   const [actionType, setActionType] = useState('Edit');
   const [selectedStartup, setSelectedStartup] = useState<Startup | null>(null);
   const router = useRouter();
+  const [deletingIndex, setDeletingIndex] = useState<number>(0);
 
   const StartupsDragStart = (start: any) => {
-    setStartupDraggingItemId(start.draggableId); // Set the ID of the currently dragged item
+    setStartupDraggingItemId(start.draggableId);
   };
 
   const StartupsDragEnd = async (result: any) => {
@@ -65,6 +67,33 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
       ToastError({ message: 'An unexpected error occurred.' });
     }
   };
+
+const handleDeleteStartup = async (startupid: string, index: number) => {
+  setDeletingIndex(index);
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return;
+
+  const { error } = await supabase.rpc('delete_and_reindex', {
+    startup_id: startupid,
+    input_user_id: user.id,
+    deleted_index: index,
+  });
+
+  if (error) {
+    ToastError({ message: `Something went wrong. Try again. ${error.message}` });
+  } else {
+    router.refresh();
+  }
+
+  setDeletingIndex(0);
+};
+
+
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-3 relative">
@@ -103,7 +132,10 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
                               : 'opacity-100 border border-primary/40'
                         }`}
                       >
-                        <div key={index} className="bg-card w-full min-h-36 rounded-lg p-2 lg:p-4 relative">
+                        <div
+                          key={index}
+                          className="bg-card w-full min-h-36 rounded-lg p-2 lg:p-4 relative"
+                        >
                           <div className="flex items-center justify-center w-full gap-2">
                             <div className="w-[5%] h-full">
                               {' '}
@@ -134,8 +166,15 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
                                       >
                                         <Edit />
                                       </Button>
-                                      <Button size={'icon'} variant={'destructive'}>
-                                        <Trash />
+                                      <Button
+                                        onClick={() => {
+                                          handleDeleteStartup(startup.id, index + 1);
+                                        }}
+                                        size={'icon'}
+                                        variant={'destructive'}
+                                        disabled={deletingIndex === index + 1}
+                                      >
+                                        {deletingIndex === index + 1 ? <Loader /> : <Trash />}
                                       </Button>
                                     </div>
                                   </div>
@@ -148,7 +187,10 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
                                         <span
                                           className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary`}
                                         >
-                                          <img className='w-4 h-4' src={`/startupStatus/${currentStatus.status}.png`} />
+                                          <img
+                                            className="w-4 h-4"
+                                            src={`/startupStatus/${currentStatus.status}.png`}
+                                          />
                                           <span>{currentStatus.text}</span>
                                         </span>
                                       ) : (
@@ -165,7 +207,10 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
                                         <span
                                           className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary`}
                                         >
-                                          <img className='w-4 h-4' src={`/startupCategory/${currentCategory.category}.png`} />
+                                          <img
+                                            className="w-4 h-4"
+                                            src={`/startupCategory/${currentCategory.category}.png`}
+                                          />
                                           <span>{currentCategory.text}</span>
                                         </span>
                                       ) : (

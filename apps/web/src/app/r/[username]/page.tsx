@@ -56,8 +56,8 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
   );
 
   return (
-    <div className="container relative mx-auto scroll-my-12 overflow-auto px-4 py-8 print:p-0 md:px-16 md:py-16 bg-white">
-      <section className="mx-auto w-full max-w-2xl space-y-8 bg-white print:space-y-4">
+    <div className="container relative mx-auto scroll-my-12 overflow-auto px-4 py-8 md:px-16 md:py-16 bg-white">
+      <section className="mx-auto w-full max-w-2xl space-y-8 bg-white">
         <header className="flex items-start justify-between">
           <div className="flex-1 space-y-1.5">
             <h1
@@ -67,7 +67,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
               {profile.full_name} <Verified />
             </h1>
             <p
-              className={`ml-0.5 max-w-md text-pretty jetbrains text-xs lg:text-sm text-black/80 print:text-[12px]`}
+              className={`ml-0.5 max-w-md text-pretty jetbrains text-xs lg:text-sm text-black/80`}
             >
               {profile.headline}{' '}
               <strong className="underline underline-offset-2 cursor-pointer">
@@ -91,7 +91,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
               </a>
             </p>
             <div
-              className="flex gap-x-1 pt-1 jetbrains text-sm text-foreground/80 print:hidden"
+              className="flex gap-x-1 pt-1 jetbrains text-sm text-foreground/80"
               role="list"
               aria-label="Contact links"
             >
@@ -125,8 +125,8 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
             />
           </span>
         </header>
-        <div className="space-y-8 print:space-y-4">
-          <section className="flex min-h-0 gap-x-3 gap-y-2 print:gap-x-1 jetbrains">
+        <div className="space-y-8">
+          <section className="flex min-h-0 gap-x-3 gap-y-2 jetbrains">
             <a
               href={`mailto:${profile.email}`}
               className="flex gap-1 items-center justify-start text-xs border-b border-black lg:border-black/80 hover:border-black text-black lg:text-black/80 hover:text-black transition-colors duration-200"
@@ -154,7 +154,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
             </a>
           </section>
           {profile.shortbio && (
-            <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
+            <section className="flex min-h-0 flex-col gap-y-3">
               <h2
                 className="text-base lg:text-xl font-bold text-black/80 merriweather"
                 id="about-section"
@@ -162,7 +162,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                 About
               </h2>
               <div
-                className="text-pretty jetbrains text-xs lg:text-sm text-black/80 print:text-[12px]"
+                className="text-pretty jetbrains text-xs lg:text-sm text-black/80"
                 aria-labelledby="about-section"
               >
                 <MarkdownParser text={profile.shortbio} />
@@ -170,7 +170,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
             </section>
           )}
           {profile.experience.length > 0 && (
-            <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
+            <section className="flex min-h-0 flex-col gap-y-3">
               <h2
                 className="text-base lg:text-xl font-bold text-black/80 merriweather"
                 id="work-experience"
@@ -178,17 +178,17 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                 Work Experience
               </h2>
               <div
-                className="space-y-4 print:space-y-0"
+                className="space-y-4"
                 role="feed"
                 aria-labelledby="work-experience"
               >
                 {profile.experience.map((exp: any, index: any) => {
                   return (
                     <article key={index} role="article">
-                      <div className="rounded-lg bg-white text-black py-1 print:py-0">
-                        <div className="flex flex-col space-y-1.5 print:space-y-1">
+                      <div className="rounded-lg bg-white text-black py-1">
+                        <div className="flex flex-col space-y-1.5">
                           <div className="flex items-center justify-between gap-x-2 text-base">
-                            <h3 className="text-sm lg:text-base inline-flex items-center justify-center gap-x-1 font-semibold leading-none print:text-sm">
+                            <h3 className="text-sm lg:text-base inline-flex items-center justify-center gap-x-1 font-semibold leading-none">
                               <a
                                 className="hover:underline merriweather"
                                 href={exp.company_link}
@@ -207,16 +207,16 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                                   key={idx}
                                   className="flex flex-col lg:flex-row lg:items-center lg:justify-between text-black/90 gap-y-1"
                                 >
-                                  <h4 className="jetbrains text-xs lg:text-sm font-semibold leading-none print:text-[12px] flex items-center gap-1 flex-wrap">
+                                  <h4 className="jetbrains text-xs lg:text-sm font-semibold leading-none flex items-center gap-1 flex-wrap">
                                     <CornerDownRight strokeWidth={1} size={16} />
                                     <span className="flex-1 min-w-0">
                                       {role.headline || 'No role specified.'}
                                     </span>
-                                    <span className="inline-flex items-center rounded-lg border px-1 lg:px-2 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent cursor-default bg-gray-300/70 text-black hover:bg-gray-300/50 align-middle text-xxs lg:text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                    <span className="inline-flex items-center rounded-lg border px-1 lg:px-2 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent cursor-default bg-gray-300/70 text-black hover:bg-gray-300/50 align-middle text-xxs lg:text-xs">
                                       {role.location_type}
                                     </span>
                                   </h4>
-                                  <p className="pl-6 lg:pl-0 jetbrains text-black/70 text-xs font-medium tracking-tight lg:tracking-normal leading-none print:text-[10px] flex-shrink-0">
+                                  <p className="pl-6 lg:pl-0 jetbrains text-black/70 text-xs font-medium tracking-tight lg:tracking-normal leading-none flex-shrink-0">
                                     {formatMonthShortYear(role.start_date)} -{' '}
                                     {role.end_date
                                       ? formatMonthShortYear(role.end_date)
@@ -233,7 +233,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                           </div>
                         </div>
                         <div className="text-pretty jetbrains text-sm text-muted-foreground pl-2">
-                          <div className="mt-4 text-xs text-black/80 print:mt-1 print:text-[10px] text-pretty">
+                          <div className="mt-4 text-xs text-black/80 text-pretty">
                             <MarkdownParser text={exp.contribution} />
                           </div>
                           {exp.skills_used.length > 0 && (
@@ -245,7 +245,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                                 {exp.skills_used.map((skill: any, index: number) => {
                                   return (
                                     <li key={index} aria-label={`Skill: ${skill.label}`}>
-                                      <div className="cursor-default flex items-center rounded-md border px-1.5 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 align-middle text-xxs lg:text-xs print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                      <div className="cursor-default flex items-center rounded-md border px-1.5 py-0.5 font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 align-middle text-xxs lg:text-xs">
                                         {skill.logo && (
                                           <img
                                             src={skill.logo}
@@ -270,7 +270,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
             </section>
           )}
           {!isEducationEmpty && (
-            <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
+            <section className="flex min-h-0 flex-col gap-y-3">
               <h2
                 className="text-base lg:text-xl font-bold text-black/80 merriweather"
                 id="education-section"
@@ -289,7 +289,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                           {profile.education.university}
                         </h3>
                         <p
-                          className="jetbrains text-xs font-medium leading-none tracking-tighter lg:tracking-normal print:text-[10px] text-black/70 flex-shrink-0"
+                          className="jetbrains text-xs font-medium leading-none tracking-tighter lg:tracking-normal text-black/70 flex-shrink-0"
                           aria-label={`Education period: ${formatMonthShortYear(profile.education.start_date)} to ${profile.education.end_date || 'Present'}`}
                         >
                           {formatMonthShortYear(profile.education.start_date)} -{' '}
@@ -300,7 +300,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                       </div>
                       <div className="flex items-center gap-2 justify-between">
                         <div
-                          className="text-pretty jetbrains text-xs lg:text-sm text-black/80 print:text-[12px] flex-1 min-w-0"
+                          className="text-pretty jetbrains text-xs lg:text-sm text-black/80 flex-1 min-w-0"
                           aria-labelledby={`education-${profile.education.university.replace(/\s+/g, '-').toLowerCase()}`}
                         >
                           {profile.education.branch || 'No branch specified.'}
@@ -316,7 +316,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
             </section>
           )}
           {profile.skills.length > 0 && (
-            <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
+            <section className="flex min-h-0 flex-col gap-y-3">
               <h2
                 className="text-base lg:text-xl font-bold text-black/80 merriweather"
                 id="skills-section"
@@ -328,7 +328,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                   return (
                     <li key={index}>
                       <div
-                        className="cursor-default flex gap-1 items-center justify-center rounded-md border px-2 py-0.5 text-xs font-semibold jetbrains transition-colors text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 print:text-[10px]"
+                        className="cursor-default flex gap-1 items-center justify-center rounded-md border px-2 py-0.5 text-xs font-semibold jetbrains transition-colors text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50"
                         aria-label={`Skill: ${skill.label}`}
                       >
                         {skill.logo && (
@@ -347,7 +347,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
             </section>
           )}
           {projects.length > 0 && (
-            <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
+            <section className="flex min-h-0 flex-col gap-y-3">
               <h2
                 className="text-base lg:text-xl font-bold text-black/80 merriweather"
                 id="skills-section"
@@ -355,7 +355,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                 Projects
               </h2>
               <div
-                className="grid grid-cols-1 gap-3 print:grid-cols-3 print:gap-2 md:grid-cols-2 lg:grid-cols-3"
+                className="grid grid-cols-1 gap-3  md:grid-cols-2 lg:grid-cols-3"
                 role="feed"
                 aria-labelledby="projects"
               >
@@ -383,14 +383,14 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                                 </span>
                               </a>
                               <div
-                                className="hidden jetbrains text-xs underline print:visible"
+                                className="hidden jetbrains text-xs underline"
                                 aria-hidden="true"
                               >
                                 {project.name}
                               </div>
                             </h3>
                             <span
-                              className="text-black/80 text-pretty jetbrains text-xs print:text-[10px]"
+                              className="text-black/80 text-pretty jetbrains text-xs"
                               aria-label="Project description"
                             >
                               <MarkdownParser text={project.description} />
@@ -403,22 +403,22 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                             aria-label="Technologies used"
                           >
                             <li>
-                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px]">
                                 TypeScript
                               </div>
                             </li>
                             <li>
-                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px]">
                                 Next.js
                               </div>
                             </li>
                             <li>
-                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px]">
                                 Browser Extension
                               </div>
                             </li>
                             <li>
-                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                              <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px]">
                                 PostgreSQL
                               </div>
                             </li>
@@ -432,7 +432,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
             </section>
           )}
           {startups.length > 0 && (
-            <section className="flex min-h-0 flex-col gap-y-3 print:gap-y-1">
+            <section className="flex min-h-0 flex-col gap-y-3">
               <h2
                 className="text-base lg:text-xl font-bold text-black/80 merriweather"
                 id="skills-section"
@@ -440,7 +440,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                 Shipped
               </h2>
               <div
-                className="grid grid-cols-1 gap-3 print:grid-cols-3 print:gap-2 md:grid-cols-2 lg:grid-cols-3"
+                className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3"
                 role="feed"
                 aria-labelledby="startups"
               >
@@ -468,14 +468,14 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                                 </span>
                               </a>
                               <div
-                                className="hidden jetbrains text-xs underline print:visible"
+                                className="hidden jetbrains text-xs underline"
                                 aria-hidden="true"
                               >
                                 {startup.name}
                               </div>
                             </h3>
                             <span
-                              className="text-black/80 text-pretty jetbrains text-xs print:text-[10px]"
+                              className="text-black/80 text-pretty jetbrains text-xs"
                               aria-label="Project description"
                             >
                               <MarkdownParser text={startup.description} />
@@ -490,12 +490,12 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                             {index === 0 && (
                               <>
                                 <li>
-                                  <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                  <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px]">
                                     🛠️ JugadScript
                                   </div>
                                 </li>
                                 <li>
-                                  <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                  <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px]">
                                     🔋 Battery Debugging
                                   </div>
                                 </li>{' '}
@@ -504,12 +504,12 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                             {index === 1 && (
                               <>
                                 <li>
-                                  <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                  <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px]">
                                     📟 Infrared UI
                                   </div>
                                 </li>
                                 <li>
-                                  <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px] print:px-1 print:py-0.5 print:text-[8px] print:leading-tight">
+                                  <div className="inline-flex items-center rounded-md border font-semibold jetbrains transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-nowrap border-transparent lg:bg-gray-300/70 bg-gray-200/80 text-black hover:bg-gray-300/50 px-1 py-0 text-[10px]">
                                     🤳 Clap-to-Connect™
                                   </div>
                                 </li>

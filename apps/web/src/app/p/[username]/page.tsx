@@ -77,7 +77,7 @@ async function renderProfile(profile: Profile, startups: Startup[], projects: Pr
       style={{
         background: t.background,
       }}
-      className="relative flex size-full min-h-screen flex-col overflow-x-hidden print:hidden"
+      className="relative flex size-full min-h-screen flex-col overflow-x-hidden"
     >
       <div className="layout-container flex h-full grow flex-col">
         <div className="flex flex-1 justify-center py-5">
