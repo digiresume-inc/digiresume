@@ -16,6 +16,6 @@ export const profileUpdateSchema = z.object({
   shortbio: z
     .string()
     .min(1, 'Bio must be at least 3 characters')
-    .max(500, 'Bio must be at most 100 characters'),
+    .max(300, 'Bio must be at most 100 characters'),
   profile_link: profileLinkSchema.optional(),
 });

@@ -41,7 +41,7 @@ export function formatLinkedInProfile(profile: any) {
   const finalData = {
     full_name: `${profile.firstName} ${profile.lastName}`,
     headline: profile.headline || '',
-    shortbio: shortBio,
+    shortbio: shortBio.slice(0, 300),
     skills: (profile.skills || []).map((skill: any) => ({
       logo: '',
       label: skill,

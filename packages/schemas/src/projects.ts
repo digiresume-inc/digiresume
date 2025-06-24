@@ -24,7 +24,7 @@ export const projectSchema = z.object({
   description: z
     .string()
     .min(1, { message: 'Description is required' })
-    .max(200, { message: 'Max length exceeded' }),
+    .max(300, { message: 'Max length exceeded' }),
   url: z
     .string()
     .url({ message: 'Please enter a valid Project URL' })
