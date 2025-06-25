@@ -66,9 +66,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
             >
               {profile.full_name} <Verified />
             </h1>
-            <p
-              className={`ml-0.5 max-w-md text-pretty jetbrains text-xs lg:text-sm text-black/80`}
-            >
+            <p className={`ml-0.5 max-w-md text-pretty jetbrains text-xs lg:text-sm text-black/80`}>
               {profile.headline}{' '}
               <strong className="underline underline-offset-2 cursor-pointer">
                 @{profile.company}
@@ -177,11 +175,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
               >
                 Work Experience
               </h2>
-              <div
-                className="space-y-4"
-                role="feed"
-                aria-labelledby="work-experience"
-              >
+              <div className="space-y-4" role="feed" aria-labelledby="work-experience">
                 {profile.experience.map((exp: any, index: any) => {
                   return (
                     <article key={index} role="article">

@@ -185,3 +185,118 @@ input[type='number'] {
     list-style-type: disc;
     padding-left: 1.5rem;
 }
+
+
+
+.template-1-grid-top {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex: none;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 12px;
+  height: 100vh;
+  justify-content: flex-start;
+  max-height: 780px;
+  max-width: 1920px;
+  min-height: 740px;
+  overflow: hidden;
+  padding: 30px;
+  position: relative;
+  width: 100%;
+}
+
+
+.template-1-first {
+  align-content: flex-start;
+  align-items: flex-start;
+  display: flex;
+  flex: 0.6 0 0px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 12px;
+  height: 100%;
+  justify-content: flex-start;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+  width: 1px;
+}
+
+.template-1-second {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex: 0.8 0 0px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 12px;
+  height: 100%;
+  justify-content: center;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+  width: 1px;
+}
+
+.template-1-third {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex: 1 0 0px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 12px;
+  height: 100%;
+  justify-content: center;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+  width: 1px;
+}
+
+@media screen and (max-width: 800px) {
+
+  .template-1-grid-top {
+    flex-wrap: wrap;
+    height: auto;
+    justify-content: center;
+    max-height: unset;
+    max-width: 440px;
+    padding: 16px;
+  }
+
+  .template-1-first {
+    flex: 1 0 0px;
+    height: min-content;
+    max-width: 100%;
+    min-width: 100%;
+    order: 2;
+  }
+
+  .template-1-header {
+    flex: 1 0 0px;
+    height: min-content;
+    max-width: 100%;
+    min-width: 100%;
+    order: 0;
+  }
+
+  .template-1-second {
+    flex: 1 0 0px;
+    height: auto;
+    max-width: 100%;
+    min-width: 100%;
+    order: 1;
+  }
+
+  .template-1-third {
+    flex: none;
+    height: auto;
+    max-width: 100%;
+    order: 3;
+    width: 100%;
+  }
+
+}
