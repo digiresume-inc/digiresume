@@ -145,7 +145,7 @@ export const skills: Skill[] = [
   {
     label: 'Next.js',
     value: 'nextjs',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original-wordmark.svg',
+    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg',
     category: 'Framework',
   },
   {
