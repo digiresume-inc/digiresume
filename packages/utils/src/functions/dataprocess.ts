@@ -171,6 +171,12 @@ export function formatProxyCurlData(data: any) {
       value: skill.toLowerCase().replace(/\s+/g, '-'),
       category: 'general',
     })),
+    certifications:
+      data.certifications?.map((cert: any) => ({
+        name: cert.name,
+        url: cert.url,
+        description: `This certifies me for ${cert.name}`,
+      })) || [],
     country: getCountry(data.country),
     profile_link: {
       url: '',

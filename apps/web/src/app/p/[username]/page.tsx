@@ -19,8 +19,9 @@ import MarkdownParser from '@/components/general/markdownparser';
 import ProfileUrl from './components/profileUrl';
 import ResumeDownload from './components/resumeDownload';
 import DynamicImage from '@/components/general/dynamicImage';
-import type { Database } from '@/lib/types/supabasetypes';
+import type { AdditionalInfo, Database, GridSingle } from '@/lib/types/supabasetypes';
 import RevenueChart from './components/revenueChart';
+import GridSingleTemplate from '@/templates/grid-single/template';
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 type Startup = Database['public']['Tables']['startups']['Row'];
@@ -37,7 +38,7 @@ function getPlatformIcon(url: string) {
   }
 }
 
-export default async function UsernamePage({ params }: { params: Promise<{ username: string }> }) {
+export default async function PortfolioPage({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
   const supabase = createSClient();
   const { data, error } = await supabase
@@ -63,7 +64,56 @@ export default async function UsernamePage({ params }: { params: Promise<{ usern
   startups.sort((a: Startup, b: Startup) => a.index - b.index);
   projects.sort((a: Project, b: Project) => a.index - b.index);
 
-  return renderProfile(profile, startups, projects);
+  const additonalInfo: AdditionalInfo = {
+    techstack: [
+      {
+        label: 'Next.js',
+        value: 'nextjs',
+        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg',
+        category: 'Framework',
+      },
+      {
+        label: 'Tailwind CSS',
+        value: 'tailwindcss',
+        logo: 'https://cdn.jsdelivr.net/gh/devicons/deviCon/icons/tailwindcss/tailwindcss-original.svg',
+        category: 'Framework',
+      },
+      {
+        label: 'Supabase',
+        value: 'supabase',
+        logo: 'https://avatars.githubusercontent.com/u/54469796?s=200&v=4',
+        category: 'Database',
+      },
+      {
+        label: 'Prisma',
+        value: 'prisma',
+        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-original.svg',
+        category: 'Tool',
+      },
+    ],
+    timezone: 'IST',
+    nature: {
+      type: 'Active',
+      icon: '⚡️',
+    },
+    educationInShort: 'ECE Grad',
+    universityInShort: 'VBIT',
+    healineInShort: 'Frontend Dev',
+    flipwords: ['Developer', 'IndieHacker', 'Student'],
+    languages: ['English', 'Telugu'],
+    meetingScheduleLink: 'https://calendly.com/linkfolio-page',
+    quote: "Your time is limited, so don't waste it living someone else's life.",
+  };
+
+  const finalData = {
+    ...profile,
+    additonalInfo,
+    startups,
+    projects,
+  };
+
+  // return renderProfile(profile, startups, projects);
+  return renderTemplate1(finalData);
 }
 
 async function renderProfile(profile: Profile, startups: Startup[], projects: Project[]) {
@@ -696,4 +746,8 @@ async function renderProfile(profile: Profile, startups: Startup[], projects: Pr
       </div>
     </div>
   );
+}
+
+function renderTemplate1(profile: GridSingle) {
+  return <GridSingleTemplate profile={profile} />;
 }

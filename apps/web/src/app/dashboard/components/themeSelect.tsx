@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { updateTheme } from '../actions/updateTheme';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import type { Theme } from '@/lib/types/supabasetypes';
+import Image from 'next/image';
 
 const ThemeSelect = ({
   localTheme,
@@ -29,7 +30,7 @@ const ThemeSelect = ({
   return (
     <div className="flex flex-col gap-4">
       {['default', 'light', 'dark'].map((type) => (
-        <div key={type} className="mb-4 px-6">
+        <div key={type} className="mb-4 px-6 flex flex-col gap-2">
           <h3 className="text-foreground/80 text-sm font-semibold capitalize mb-2">{type}</h3>
           <div className="flex flex-wrap gap-4">
             {Themes.filter((t) => t.theme_type === type).map((t: Theme) => (
@@ -71,6 +72,25 @@ const ThemeSelect = ({
           </div>
         </div>
       ))}
+      <div className='flex px-8 items-start justify-start gap-2'>
+        <input
+          id={`grid-single`}
+          aria-describedby={`radio-grid-single`}
+          type="radio"
+          name="grid-single"
+          disabled
+          readOnly
+        />
+        <label htmlFor={`radio-grid-single`} className="flex rounded-lg">
+          <Image
+            height={400}
+            width={192}
+            className="w-48 object-cover rounded-lg"
+            src="/templatepreviews/grid-single.png"
+            alt="Grid Single Preview"
+          />
+        </label>
+      </div>
     </div>
   );
 };

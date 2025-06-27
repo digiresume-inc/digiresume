@@ -1,18 +1,16 @@
-'use client';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
-import { cn } from '@dr/ui/lib/utils';
+"use client";
+import React, { useCallback, useEffect, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { cn } from "@dr/ui/lib/utils";
 
-const words = ['Developer', 'Designer', 'IndieHacker', 'Student'];
-
-export const FlipWords = ({
-  duration = 4000,
-  className,
-}: {
+interface Flipwords {
   duration?: number;
   className?: string;
-}) => {
-  const [currentWord, setCurrentWord] = useState<string>(words[0]!);
+  words?: string[];
+}
+
+export const FlipWords = ({ duration = 4000, className, words = ["Developer", "Designer", "Student"] }: Flipwords) => {
+  const [currentWord, setCurrentWord] = useState(words[0]!);
   const [isAnimating, setIsAnimating] = useState(false);
 
   const startAnimation = useCallback(() => {
@@ -44,7 +42,7 @@ export const FlipWords = ({
           y: 0,
         }}
         transition={{
-          type: 'spring',
+          type: "spring",
           stiffness: 100,
           damping: 10,
         }}
@@ -52,26 +50,26 @@ export const FlipWords = ({
           opacity: 0,
           y: -40,
           x: 40,
-          filter: 'blur(8px)',
+          filter: "blur(8px)",
           scale: 2,
-          position: 'absolute',
+          position: "absolute",
         }}
         className={cn(
-          'z-10 inline-block relative text-left text-neutral-900 dark:text-neutral-100 px-1',
+          "z-10 inline-block relative text-left px-1",
           className
         )}
         key={currentWord}
       >
-        {currentWord.split('').map((letter, index) => (
+        {currentWord.split("").map((letter, index) => (
           <motion.span
             key={currentWord + index}
-            initial={{ opacity: 0, y: 10, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{
               delay: index * 0.08,
               duration: 0.4,
             }}
-            className="inline-block text-[#a290fc]"
+            className="inline-block text-primary"
           >
             {letter}
           </motion.span>

@@ -82,3 +82,14 @@ export const socialLinkSchema = z.object({
       message: 'URL must start with https://',
     }),
 });
+
+export const certificationSchema = z.object({
+  name: z.string().min(1, 'Certificate name is required'),
+  url: z
+    .string()
+    .url({ message: 'Invalid URL format' })
+    .refine((url) => url.startsWith('https://'), {
+      message: 'URL must start with https://',
+    }),
+  description: z.string().min(1, 'Certificate description is required'),
+});

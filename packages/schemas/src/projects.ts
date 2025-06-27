@@ -14,6 +14,9 @@ const categoryValues = z.enum([
   'marketing',
   'finance',
   'electronics',
+  'healthtech',
+  'gaming',
+  'saas',
   'other',
 ]);
 

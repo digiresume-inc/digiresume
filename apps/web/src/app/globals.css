@@ -188,115 +188,252 @@ input[type='number'] {
 
 
 
-.template-1-grid-top {
-  align-content: center;
-  align-items: center;
-  display: flex;
-  flex: none;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 12px;
-  height: 100vh;
-  justify-content: flex-start;
-  max-height: 780px;
-  max-width: 1920px;
-  min-height: 740px;
-  overflow: hidden;
-  padding: 30px;
-  position: relative;
-  width: 100%;
+/* grid-single styles start */
+
+.theme-grid-single {
+    --radius: 0.5rem;
+    --background: oklch(0.173 0 0);
+    --foreground: oklch(1 0 0);
+    --card: oklch(0.2134 0 0);
+    --card-foreground: oklch(0.9851 0 0);
+    --popover: oklch(0.2809 0 0);
+    --popover-foreground: oklch(0.9851 0 0);
+    --primary: oklch(0.7147 0.1543 289.56);
+    --primary-foreground: oklch(28.502% 0.00003 271.152);
+    --secondary: oklch(0.2134 0 0);
+    --secondary-foreground: oklch(0.9851 0 0);
+    --muted: oklch(0.2686 0 0);
+    --muted-foreground: oklch(0.709 0 0);
+    --accent: oklch(0.3715 0 0);
+    --accent-foreground: oklch(0.9851 0 0);
+    --destructive: oklch(47.625% 0.16912 26.507);
+    --destructive-foreground: oklch(0.2686 0 0);
+    --border: oklch(100% 0 0 / 0.08);
+    --input: oklch(0.4386 0 0);
+    --shadow-2xs: 0px 1px 0px 0px hsl(0 0% 0% / 0);
+    --shadow-xs: 0px 1px 0px 0px hsl(0 0% 0% / 0);
+    --shadow-sm: 0px 1px 0px 0px hsl(0 0% 0% / 0),
+        0px 1px 2px -1px hsl(0 0% 0% / 0);
+    --shadow: 0px 1px 0px 0px hsl(0 0% 0% / 0), 0px 1px 2px -1px hsl(0 0% 0% / 0);
+    --shadow-md: 0px 1px 0px 0px hsl(0 0% 0% / 0),
+        0px 2px 4px -1px hsl(0 0% 0% / 0);
+    --shadow-lg: 0px 1px 0px 0px hsl(0 0% 0% / 0),
+        0px 4px 6px -1px hsl(0 0% 0% / 0);
+    --shadow-xl: 0px 1px 0px 0px hsl(0 0% 0% / 0),
+        0px 8px 10px -1px hsl(0 0% 0% / 0);
+    --shadow-2xl: 0px 1px 0px 0px hsl(0 0% 0% / 0);
 }
 
-
-.template-1-first {
-  align-content: flex-start;
-  align-items: flex-start;
-  display: flex;
-  flex: 0.6 0 0px;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  gap: 12px;
-  height: 100%;
-  justify-content: flex-start;
-  overflow: visible;
-  padding: 0;
-  position: relative;
-  width: 1px;
+.grid-single-grid-top {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    flex: none;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 12px;
+    height: 100vh;
+    justify-content: flex-start;
+    max-height: 780px;
+    max-width: 1920px;
+    min-height: 740px;
+    overflow: hidden;
+    padding: 30px;
+    position: relative;
+    width: 100%;
+    background: transparent;
 }
 
-.template-1-second {
-  align-content: center;
-  align-items: center;
-  display: flex;
-  flex: 0.8 0 0px;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  gap: 12px;
-  height: 100%;
-  justify-content: center;
-  overflow: visible;
-  padding: 0;
-  position: relative;
-  width: 1px;
+.grid-single-first {
+    align-content: flex-start;
+    align-items: flex-start;
+    display: flex;
+    flex: 0.6 0 0px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 12px;
+    height: 100%;
+    justify-content: flex-start;
+    overflow: visible;
+    padding: 0;
+    position: relative;
+    width: 1px;
 }
 
-.template-1-third {
-  align-content: center;
-  align-items: center;
-  display: flex;
-  flex: 1 0 0px;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  gap: 12px;
-  height: 100%;
-  justify-content: center;
-  overflow: visible;
-  padding: 0;
-  position: relative;
-  width: 1px;
+.grid-single-second {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    flex: 0.8 0 0px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 12px;
+    height: 100%;
+    justify-content: center;
+    overflow: visible;
+    padding: 0;
+    position: relative;
+    width: 1px;
+}
+
+.grid-single-third {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    flex: 1 0 0px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 12px;
+    height: 100%;
+    justify-content: center;
+    overflow: visible;
+    padding: 0;
+    position: relative;
+    width: 1px;
 }
 
 @media screen and (max-width: 800px) {
+    .grid-single-grid-top {
+        flex-wrap: wrap;
+        height: auto;
+        justify-content: center;
+        max-height: unset;
+        max-width: 440px;
+        padding: 16px;
+    }
 
-  .template-1-grid-top {
-    flex-wrap: wrap;
-    height: auto;
-    justify-content: center;
-    max-height: unset;
-    max-width: 440px;
-    padding: 16px;
-  }
+    .grid-single-first {
+        flex: 1 0 0px;
+        height: min-content;
+        max-width: 100%;
+        min-width: 100%;
+        order: 2;
+    }
 
-  .template-1-first {
-    flex: 1 0 0px;
-    height: min-content;
-    max-width: 100%;
-    min-width: 100%;
-    order: 2;
-  }
+    .grid-single-second {
+        flex: 1 0 0px;
+        height: auto;
+        max-width: 100%;
+        min-width: 100%;
+        order: 1;
+    }
 
-  .template-1-header {
-    flex: 1 0 0px;
-    height: min-content;
-    max-width: 100%;
-    min-width: 100%;
-    order: 0;
-  }
+    .grid-single-third {
+        flex: none;
+        height: auto;
+        max-width: 100%;
+        order: 3;
+        width: 100%;
+    }
 
-  .template-1-second {
-    flex: 1 0 0px;
-    height: auto;
-    max-width: 100%;
-    min-width: 100%;
-    order: 1;
-  }
-
-  .template-1-third {
-    flex: none;
-    height: auto;
-    max-width: 100%;
-    order: 3;
-    width: 100%;
-  }
-
+    .grid-single-header {
+        flex: 1 0 0px;
+        height: min-content;
+        max-width: 100%;
+        min-width: 100%;
+        order: 0;
+    }
 }
+
+.scroll-container {
+    height: 100%;
+}
+
+.scroll-content {
+    display: flex;
+    flex-direction: column;
+    animation: scrollUp 25s linear infinite;
+}
+
+.react-activity-calendar>footer {
+    display: flex !important;
+    flex-direction: row !important;
+    font-size: 10px !important;
+    flex-wrap: nowrap !important;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.react-activity-calendar__legend-month {
+    font-size: 10px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
+
+@media screen and (max-width: 800px) {
+    .react-activity-calendar>footer {
+        display: flex !important;
+        flex-direction: column !important;
+        font-size: 10px !important;
+        flex-wrap: nowrap !important;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .react-activity-calendar__legend-month {
+        font-size: 10px !important;
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+
+    .react-activity-calendar__legend-colors {
+        margin-left: 0 !important;
+    }
+}
+
+@keyframes scrollUp {
+    0% {
+        transform: translateY(0%);
+    }
+
+    100% {
+        transform: translateY(-50%);
+    }
+}
+
+/* Custom animations for dot background */
+@keyframes dotMove {
+    0% {
+        background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+    }
+
+    100% {
+        background-position: 100% 100%, -100% -100%, 100% -100%, -100% 100%;
+    }
+}
+
+@keyframes dotMove2 {
+    0% {
+        background-position: 0% 0%, 0% 0%;
+    }
+
+    100% {
+        background-position: -100% -100%, 100% 100%;
+    }
+}
+
+@keyframes dotFade {
+
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes dotPulse {
+
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 0.9;
+    }
+}
+
+/* grid-single styles end */

@@ -1,5 +1,5 @@
 import {z} from "zod";
-import { geoInfoSchema, educationSchema, socialSchema, skillSchema } from "./general";
+import { geoInfoSchema, educationSchema, socialSchema, skillSchema, certificationSchema } from "./general";
 
 
 export const onboardingSchema = z.object({
@@ -12,4 +12,5 @@ export const onboardingSchema = z.object({
   education: educationSchema,
   socials: z.array(socialSchema).optional(),
   skills: z.array(skillSchema).optional(),
+  certifications: z.array(certificationSchema).optional(),
 });

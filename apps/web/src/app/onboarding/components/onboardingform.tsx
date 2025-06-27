@@ -3,10 +3,11 @@ import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { createClient } from '@/supabase/client';
 import { Button } from '@dr/ui/components/base/button';
 import { Input } from '@dr/ui/components/base/input';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import {
   AtSign,
+  FileText,
   Globe,
   Link2,
   ListChecks,
@@ -29,12 +30,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitButton } from '@/components/general/submitbutton';
 import { motion } from 'motion/react';
 import { CountryCombobox } from '@/components/dashboard/countryselect';
-import { getAvatarUrl, onboardUser } from '@/app/onboarding/action';
+import { onboardUser } from '@/app/onboarding/action';
 import { socialIconMap } from '@/lib/utils/iconMap';
 import UsernameSet from '@/app/onboarding/components/usernameset';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 import { cn } from '@dr/ui/lib/utils';
 import LinkedinURLImport from '@/modals/linkedinurlimport';
+import { certificationIconMap } from '@/lib/utils/certificateIconMap';
 
 function getPlatformIcon(url: string) {
   try {
@@ -44,6 +46,19 @@ function getPlatformIcon(url: string) {
     return Icon ? <Icon size={18} /> : <Link2 size={18} />;
   } catch {
     return <Link2 size={18} />;
+  }
+}
+
+function getCertificateIcon(url: string) {
+  try {
+    const host = new URL(url).hostname.replace('www.', '');
+    const platform = Object.keys(certificationIconMap).find((key) =>
+      host.includes(key.toLowerCase())
+    );
+    const Icon = certificationIconMap[platform || ''];
+    return Icon ? <Icon size={18} /> : <Link2 size={18} />;
+  } catch {
+    return <FileText size={18} />;
   }
 }
 
@@ -74,6 +89,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
       },
       socials: [],
       skills: [],
+      certifications: [],
     },
   });
 
@@ -88,13 +104,22 @@ const OnboardingForm = ({ username }: { username: string }) => {
     name: 'socials',
   });
 
+  const {
+    fields: certificationFields,
+    append: appendCertfication,
+    remove: removeCertfication,
+  } = useFieldArray({
+    control,
+    name: 'certifications',
+  });
+
   const updateOnboardStatus = async () => {
     const {
       data: { user },
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return
+      return;
     }
     const { error } = await supabase
       .from('profiles')
@@ -523,6 +548,22 @@ const OnboardingForm = ({ username }: { username: string }) => {
                   {step + 2}
                 </div>
                 <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
+                <div className="flex flex-col items-start justify start px-1.5 lg:px-3 py-2 gap-4 w-full">
+                  <h1 className="text-lg lg:text-xl font-semibold flex items-center justify-center gap-2">
+                    <Wrench className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Skills
+                  </h1>
+                  <SkillsSelect
+                    value={form.watch('skills') ?? []}
+                    onChange={(v) => form.setValue('skills', v)}
+                    className="max-w-md"
+                  />
+                </div>
+              </div>
+              <div className="flex items-start justify-start gap-1 lg:gap-3 mb-4 h-fit relative w-full">
+                <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
+                  {step + 3}
+                </div>
+                <div className="absolute w-px h-[calc(100%-25px)] bg-border left-5 top-10"></div>
                 <div className="flex flex-col items-start justify-start px-1.5 lg:px-3 py-2 gap-4 w-full">
                   <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
                     <Globe className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Socials
@@ -578,17 +619,74 @@ const OnboardingForm = ({ username }: { username: string }) => {
               </div>
               <div className="flex items-start justify-start gap-1 lg:gap-3 mb-4 h-fit relative w-full">
                 <div className="min-w-10 min-h-10 bg-transparent rounded-full border flex items-center justify-center">
-                  {step + 3}
+                  {step + 4}
                 </div>
-                <div className="flex flex-col items-start justify start px-1.5 lg:px-3 py-2 gap-4 w-full">
-                  <h1 className="text-lg lg:text-xl font-semibold flex items-center justify-center gap-2">
-                    <Wrench className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Skills
+                <div className="flex flex-col items-start justify-start px-1.5 lg:px-3 py-2 gap-4 w-full">
+                  <h1 className="text-lg lg:text-xl font-semibold flex gap-2 items-center justify-center">
+                    <FileText className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1} /> Certifications
                   </h1>
-                  <SkillsSelect
-                    value={form.watch('skills') ?? []}
-                    onChange={(v) => form.setValue('skills', v)}
-                    className="max-w-md"
-                  />
+                  {certificationFields.map((field, index) => {
+                    const currentUrl = form.watch(`certifications.${index}.url`) || '';
+                    return (
+                      <div
+                        key={field.id}
+                        className="flex flex-col items-start justify-start gap-1 w-full max-w-md"
+                      >
+                        <div className="flex flex-col items-center justify-start gap-2 w-full">
+                          <div className="flex items-center gap-2 w-full">
+                            {getCertificateIcon(currentUrl)}
+                            <Input
+                              className="bg-secondary flex-1 text-sm"
+                              type="text"
+                              placeholder="https://cert.com/certname"
+                              {...register(`certifications.${index}.url`)}
+                            />
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="icon"
+                              onClick={() => removeCertfication(index)}
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </div>
+                          {form.formState.errors.socials?.[index]?.url && (
+                            <p className="text-xs lg:text-sm text-red-500 mt-1">
+                              {form.formState.errors.socials[index]?.url?.message}
+                            </p>
+                          )}
+                        </div>
+                        <Input
+                          className="bg-secondary text-sm"
+                          type="text"
+                          placeholder="Amazon Cloud, Hackerank..."
+                          {...register(`certifications.${index}.name`)}
+                        />
+                        <Input
+                          className="bg-secondary text-sm"
+                          type="text"
+                          placeholder="This certifies me in ..."
+                          {...register(`certifications.${index}.description`)}
+                        />
+                      </div>
+                    );
+                  })}
+
+                  <Button
+                    type="button"
+                    className="w-full max-w-md"
+                    variant="outline"
+                    size="sm"
+                    onClick={() =>
+                      appendCertfication({
+                        url: '',
+                        name: '',
+                        description: '',
+                      })
+                    }
+                  >
+                    Add <Plus />
+                  </Button>
                 </div>
               </div>
               <div className="w-full max-w-md flex lg:ml-16 mb-15">
