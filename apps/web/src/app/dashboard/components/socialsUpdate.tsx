@@ -5,9 +5,11 @@ import { Globe, Link2, Pencil, Plus } from 'lucide-react';
 import React, { useState } from 'react';
 import SocialsForm from '../forms/socialsForm';
 import { socialIconMap } from '@/lib/utils/iconMap';
-import type { Database, Social } from '@/lib/types/supabasetypes';
 
-type Profile = Database['public']['Tables']['profiles']['Row'];
+
+import type { Profile, Social } from '@/lib/types/supabasetypes';
+
+// type Profile = Database['public']['Tables']['profiles']['Row'];
 
 function getPlatformIcon(url: string) {
   try {

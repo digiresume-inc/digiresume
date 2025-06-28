@@ -29,10 +29,11 @@ import { Button } from '@dr/ui/components/base/button';
 import { extractDirty } from '../actions/extractDirty';
 import { Textarea } from '@dr/ui/components/base/textarea';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
-import type { Database } from '@/lib/types/supabasetypes';
 import Loader from '@/components/general/loader';
 
-type Profile = Database['public']['Tables']['profiles']['Row'];
+import type { Profile } from '@/lib/types/supabasetypes';
+
+// type Profile = Database['public']['Tables']['profiles']['Row'];
 
 const ProfileUpdate = ({ profile }: { profile: Profile }) => {
   const form = useForm<z.infer<typeof profileUpdateSchema>>({

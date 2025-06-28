@@ -13,14 +13,14 @@ import AnalyticsCard from './components/analyticsCard';
 import { ExternalLink, FolderKanban } from 'lucide-react';
 import LogoutConfirmation from '@/modals/logoutconfirmation';
 import Link from 'next/link';
-
-import type { Database, Theme } from '@/lib/types/supabasetypes';
-import type { User } from '@supabase/supabase-js';
 import Navbar from './components/navbar';
 
-type Profile = Database['public']['Tables']['profiles']['Row'];
-type Startup = Database['public']['Tables']['startups']['Row'];
-type Project = Database['public']['Tables']['projects']['Row'];
+import type { Theme, Profile, Startup, Project } from '@/lib/types/supabasetypes';
+import type { User } from '@supabase/supabase-js';
+
+// type Profile = Database['public']['Tables']['profiles']['Row'];
+// type Startup = Database['public']['Tables']['startups']['Row'];
+// type Project = Database['public']['Tables']['projects']['Row'];
 
 const Dashboard = ({
   user,

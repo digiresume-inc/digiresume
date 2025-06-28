@@ -8,11 +8,12 @@ import { BriefcaseBusiness, CornerDownRight, Pencil, Plus, Trash } from 'lucide-
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@dr/ui/components/base/dialog';
 import ExperienceForm from '../forms/experienceForm';
 import { useRouter } from 'next/navigation';
-import type { Database, Experience } from '@/lib/types/supabasetypes';
 import Loader from '@/components/general/loader';
 
+import type { Profile, Experience } from '@/lib/types/supabasetypes';
 
-type Profile = Database['public']['Tables']['profiles']['Row'];
+
+// type Profile = Database['public']['Tables']['profiles']['Row'];
 
 const ExperienceUpdate = ({ profile }: { profile: Profile }) => {
   const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);

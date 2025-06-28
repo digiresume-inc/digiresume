@@ -1,12 +1,13 @@
 import { createSClient } from '@/supabase/server';
 import React from 'react';
 import Dashboard from './dashboard';
-import type { Database } from '@/lib/types/supabasetypes';
 import { redirect } from 'next/navigation';
 import { getUser } from '@/supabase/getUser';
 
-type Startup = Database['public']['Tables']['startups']['Row'];
-type Project = Database['public']['Tables']['projects']['Row'];
+import type { Startup, Project } from '@/lib/types/supabasetypes';
+
+// type Startup = Database['public']['Tables']['startups']['Row'];
+// type Project = Database['public']['Tables']['projects']['Row'];
 
 export default async function DashboardPage() {
   const supabase = createSClient();

@@ -23,11 +23,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@dr/ui/components/base
 import MarkdownParser from '@/components/general/markdownparser';
 import { socialIconMap } from '@/lib/utils/iconMap';
 import { cn } from '@dr/ui/lib/utils';
-import type { Database, Experience, Skill, Social, Theme } from '@/lib/types/supabasetypes';
 
-type Profile = Database['public']['Tables']['profiles']['Row'];
-type Startup = Database['public']['Tables']['startups']['Row'];
-type Project = Database['public']['Tables']['projects']['Row'];
+
+import type { Profile, Startup, Project, Experience, Skill, Social, Theme } from '@/lib/types/supabasetypes';
+
+// type Profile = Database['public']['Tables']['profiles']['Row'];
+// type Startup = Database['public']['Tables']['startups']['Row'];
+// type Project = Database['public']['Tables']['projects']['Row'];
 
 function getPlatformIcon(url: string) {
   try {

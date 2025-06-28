@@ -1,6 +1,9 @@
 'use server';
-import { Social } from '@/lib/types/supabasetypes';
 import { createSClient } from '@/supabase/server';
+
+import type { Social } from '@/lib/types/supabasetypes';
+
+
 
 export async function updateSocials(data: Social[]) {
   const supabase = createSClient();

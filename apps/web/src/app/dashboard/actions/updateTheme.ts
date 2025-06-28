@@ -1,7 +1,7 @@
 'use server';
-
-import { Theme } from '@/lib/types/supabasetypes';
 import { createSClient } from '@/supabase/server';
+
+import type { Theme } from '@/lib/types/supabasetypes';
 
 export async function updateTheme(data: Theme) {
   const supabase = createSClient();

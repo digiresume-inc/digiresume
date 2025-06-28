@@ -5,7 +5,8 @@ import MarkdownParser from '@/components/general/markdownparser';
 import { formatMonthShortYear, getMonthsDifference } from '@dr/utils';
 import { createSClient } from '@/supabase/server';
 import DynamicImage from '@/components/general/dynamicImage';
-import type { Database } from '@/lib/types/supabasetypes';
+
+import type { Startup, Project } from '@/lib/types/supabasetypes';
 
 function getPlatformIcon(url: string) {
   try {
@@ -22,8 +23,8 @@ function getPlatformIcon(url: string) {
   }
 }
 
-type Startup = Database['public']['Tables']['startups']['Row'];
-type Project = Database['public']['Tables']['projects']['Row'];
+// type Startup = Database['public']['Tables']['startups']['Row'];
+// type Project = Database['public']['Tables']['projects']['Row'];
 
 export default async function ResumePage({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;

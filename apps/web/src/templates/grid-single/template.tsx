@@ -34,7 +34,8 @@ import { socialIconMap } from "@/lib/utils/iconMap";
 import MarkdownParser from "@/components/general/markdownparser";
 import { Button } from "./components/movingborder";
 import { cn } from "@dr/ui/lib/utils";
-import { GridSingle } from "@/lib/types/supabasetypes";
+
+import type { CompleteProfile } from "@/lib/types/supabasetypes";
 
 
 function getPlatformIcon(url: string) {
@@ -50,7 +51,7 @@ function getPlatformIcon(url: string) {
   }
 }
 
-const GridSingleTemplate = ({ profile }: { profile: GridSingle }) => {
+const GridSingleTemplate = ({ profile }: { profile: CompleteProfile }) => {
   const githubUsername =
     profile.socials
       ?.find((s: any) => s.url.includes("github.com"))
@@ -68,7 +69,9 @@ const GridSingleTemplate = ({ profile }: { profile: GridSingle }) => {
     })),
   ].slice(0, 4);
 
-  const additionalinfo = profile.additonalInfo;
+  const additionalinfo = profile.additional_info;
+
+  if (additionalinfo?.templateType !== 'grid-single') return null;
 
   return (
     <div

@@ -3,8 +3,9 @@ import { Themes } from '@dr/utils';
 import React, { useState } from 'react';
 import { updateTheme } from '../actions/updateTheme';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
-import type { Theme } from '@/lib/types/supabasetypes';
 import Image from 'next/image';
+
+import type { Theme } from '@/lib/types/supabasetypes';
 
 const ThemeSelect = ({
   localTheme,
@@ -83,9 +84,9 @@ const ThemeSelect = ({
         />
         <label htmlFor={`radio-grid-single`} className="flex rounded-lg">
           <Image
-            height={400}
-            width={192}
-            className="w-48 object-cover rounded-lg"
+            height={1080}
+            width={1920}
+            className="w-full object-cover rounded-lg"
             src="/templatepreviews/grid-single.png"
             alt="Grid Single Preview"
           />

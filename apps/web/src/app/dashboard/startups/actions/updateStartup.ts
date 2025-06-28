@@ -4,7 +4,6 @@ import { createSClient } from '@/supabase/server';
 import { Startup } from '@dr/schemas';
 
 export async function updateStartup(data: Startup) {
-  console.log("update called");
   const supabase = createSClient();
   const {
     data: { user },
