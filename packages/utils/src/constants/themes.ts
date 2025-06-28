@@ -145,3 +145,78 @@ export const Themes: Theme[] = [
     theme_type: 'dark',
   },
 ];
+
+export const Themes1: Theme[] = [
+  {
+    id: 1,
+    theme_data: {
+      foreground: '#112D4E',
+      background: '#F9F7F7',
+      primary: '#3F72AF',
+      card: '#DBE2EF',
+      border: '#b9c6df',
+      secondary: '#b9c6df',
+    },
+    theme_type: 'light',
+  },
+  {
+    id: 2,
+    theme_data: {
+      foreground: '#5c685a',
+      background: '#F8EDE3',
+      primary: '#849181',
+      card: '#BDD2B6',
+      border: '#9bbb90',
+      secondary: '#a9c5a0',
+    },
+    theme_type: 'light',
+  },
+  {
+    id: 3,
+    theme_data: {
+      foreground: '#0a0a0a',
+      background: '#ffffff',
+      primary: '#737373',
+      card: '#e6e6e6',
+      border: '#a6a6a6',
+      secondary: '#d9d9d9',
+    },
+    theme_type: 'light',
+  },
+  {
+    id: 4,
+    theme_data: {
+      foreground: '#FFD369',
+      background: '#222831',
+      primary: '#b99f64',
+      card: '#393E46',
+      border: '#505762',
+      secondary: '#393e47',
+    },
+    theme_type: 'dark',
+  },
+  {
+    id: 5,
+    theme_data: {
+      foreground: '#e0ddef',
+      background: '#1a1823',
+      primary: '#a995c9',
+      card: '#232030',
+      border: '#302c40',
+      secondary: '#5a5370',
+    },
+    theme_type: 'dark',
+  },
+  {
+    id: 6,
+    theme_data: {
+      foreground: '#fafafa',
+      background: '#08090a',
+      primary: '#737373',
+      card: '#191919',
+      border: '#383838',
+      secondary: '#262626',
+    },
+    theme_type: 'dark',
+  },
+];

@@ -91,7 +91,7 @@ const GridSingleTemplate = ({ profile }: { profile: CompleteProfile }) => {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 flex items-center justify-center [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] bg-black"
       ></div>
-      <div className="grid-single-grid-top mono relative">
+      <div className="grid-single-grid-top jetbrains relative">
         <div
           aria-label="Mobile Navigation"
           role="navigation"
