@@ -42,6 +42,10 @@ const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
   const showStartups = startups.length > 0;
   const showProjects = projects.length > 0;
   const defaultValue = showExp ? 'experience' : showStartups ? 'startups' : 'projects';
+
+  const additionalinfo = profile.template_info;
+
+  if (additionalinfo?.activeTemplate !== 'default') return null;
   return (
     <div
       style={{
@@ -501,10 +505,10 @@ const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
                                         background: t.secondary,
                                         color: t.foreground,
                                       }}
-                                      className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs`}
+                                      className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs lg:text-xs`}
                                     >
                                       <img
-                                        className="w-4 h-4"
+                                        className="w-3 lg:w-4 h-3 lg:h-4"
                                         src={`/startupStatus/${currentStatus.status}.png`}
                                       />
                                       <span>{currentStatus.text}</span>
@@ -515,7 +519,7 @@ const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
                                         background: t.secondary,
                                         color: t.foreground,
                                       }}
-                                      className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs"
+                                      className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs lg:text-xs"
                                     >
                                       {startup.status}
                                     </span>
@@ -531,10 +535,10 @@ const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
                                         background: t.secondary,
                                         color: t.foreground,
                                       }}
-                                      className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs`}
+                                      className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs lg:text-xs`}
                                     >
                                       <img
-                                        className="w-4 h-4"
+                                        className="w-3 lg:w-4 h-3 lg:h-4"
                                         src={`/startupCategory/${currentCategory.category}.png`}
                                       />
                                       <span>{currentCategory.text}</span>
@@ -628,7 +632,7 @@ const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
                                         background: t.secondary,
                                         color: t.foreground,
                                       }}
-                                      className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs`}
+                                      className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs lg:text-xs`}
                                     >
                                       <span>{currentCategory.icon}</span>
                                       <span>{currentCategory.text}</span>
@@ -639,7 +643,7 @@ const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
                                         background: t.secondary,
                                         color: t.foreground,
                                       }}
-                                      className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs"
+                                      className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xxs lg:text-xs"
                                     >
                                       {project.category}
                                     </span>

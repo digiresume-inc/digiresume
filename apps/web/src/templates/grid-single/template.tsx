@@ -69,9 +69,10 @@ const GridSingleTemplate = ({ profile }: { profile: CompleteProfile }) => {
     })),
   ].slice(0, 4);
 
-  const additionalinfo = profile.additional_info;
+  const addInfo = profile.template_info;
+    const additionalinfo = addInfo.templates['grid-single'];
 
-  if (additionalinfo?.templateType !== 'grid-single') return null;
+  if (addInfo?.activeTemplate !== 'grid-single' || !additionalinfo) return null;
 
   return (
     <div
@@ -91,7 +92,7 @@ const GridSingleTemplate = ({ profile }: { profile: CompleteProfile }) => {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 flex items-center justify-center [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] bg-black"
       ></div>
-      <div className="grid-single-grid-top jetbrains relative">
+      <div className="grid-single-grid-top relative">
         <div
           aria-label="Mobile Navigation"
           role="navigation"
@@ -302,7 +303,7 @@ const GridSingleTemplate = ({ profile }: { profile: CompleteProfile }) => {
                     <p className="text-lg md:text-xl font-bold text-foreground px-2 pt-2">
                       {profile.full_name}
                     </p>
-                    <span className="text-sm md:text-base text-foreground/50 px-2 flex tracking-tighter lg:tracking-normal [word-spacing:-3px]">
+                    <span className="text-sm md:text-base text-foreground/50 px-2 flex tracking-tighter lg:tracking-normal">
                       I'm a{" "}
                       <span className="text-primary font-semibold ml-0.5 lg:ml-1">
                         <FlipWords words={additionalinfo.flipwords} />

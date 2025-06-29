@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import AvatarComponent from './components/avatar';
 import FaviconComponent from './components/favicon';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@dr/ui/components/base/tabs';
-import ThemeSelect from './components/themeSelect';
+import TemplateSelect from './components/templateSelect';
 import ExperienceUpdate from './components/experienceUpdate';
 import SocialsUpdate from './components/socialsUpdate';
 import MobilePreview from './components/mobilePreview';
@@ -110,7 +110,7 @@ const Dashboard = ({
               <SocialsUpdate profile={profile} />
             </TabsContent>
             <TabsContent value="themes" className="mt-4">
-              <ThemeSelect localTheme={localTheme} setLocalTheme={setLocalTheme} />
+              <TemplateSelect localTheme={localTheme} setLocalTheme={setLocalTheme} templateInfo={profile.template_info} />
             </TabsContent>
           </Tabs>
         </div>

@@ -1,9 +1,10 @@
 'use server';
+import { TemplateInfo } from '@/lib/types/supabasetypes';
 import { createSClient } from '@/supabase/server';
 
-import type { Theme } from '@/lib/types/supabasetypes';
+type KnownTemplates = keyof TemplateInfo['templates'];
 
-export async function updateTheme(data: Theme) {
+export async function updateTemplate(templateType: KnownTemplates, templateInfo: TemplateInfo) {
   const supabase = createSClient();
   const {
     data: { user },
@@ -16,17 +17,22 @@ export async function updateTheme(data: Theme) {
     };
   }
 
+  const updatedTemplateInfo: TemplateInfo = {
+    ...templateInfo,
+    activeTemplate: templateType,
+  };
+
   const { error: updateError } = await supabase
     .from('profiles')
     .update({
-      theme: data
+      template_info: updatedTemplateInfo,
     })
     .eq('id', user?.id);
 
   if (updateError) {
     return {
       success: false,
-      message: `Theme Update error. ${updateError.message}`,
+      message: `Template Update error. ${updateError.message}`,
     };
   }
 

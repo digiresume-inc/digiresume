@@ -7,3 +7,4 @@ export * from "./projects";
 export * from "./socialsUpdate";
 export * from "./startups";
 export * from "./linkedinUsername";
+export * from "./AdditonalInfo"

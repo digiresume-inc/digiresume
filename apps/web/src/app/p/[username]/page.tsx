@@ -42,11 +42,11 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
     projects,
   };
 
-  if(profile.additional_info?.templateType === 'default'){
+  if(profile.template_info.activeTemplate === 'default'){
     return <DefualtTemplate profile={finalData} />;
   }
 
-  if(profile.additional_info?.templateType === 'grid-single'){
+  if(profile.template_info.activeTemplate === 'grid-single'){
     return <GridSingleTemplate profile={finalData} />;
   }
 }
