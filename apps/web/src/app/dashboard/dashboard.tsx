@@ -92,7 +92,7 @@ const Dashboard = ({
             </TabsContent>
             <TabsContent value="projects_startups" className="mt-4">
               <div className="w-full mt-1 lg:px-8 py-4">
-                <div className="flex flex-col items-center justify-start gap-2">
+                <div className="text-sm lg:text-base flex flex-col items-center justify-start gap-2">
                   <Link href={'/dashboard/projects'} className="cursor-pointer flex items-center justify-between w-full bg-muted rounded-md px-3 py-2 text-foreground/70 hover:text-foreground transition-colors duration-200">
                     <FolderKanban strokeWidth={1}/>
                     <p>Add or edit Projects here</p>
