@@ -45,7 +45,6 @@ const TemplateSelect = ({
     templateInfo: TemplateInfo;
   }) => {
     if (templateInfo.activeTemplate === templateType) {
-      ToastError({ message: 'true active is same' });
       return;
     }
     if (templateUpdating.loading) return;

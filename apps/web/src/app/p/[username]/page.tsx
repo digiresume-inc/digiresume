@@ -1,12 +1,6 @@
 import { createSClient } from '@/supabase/server';
-import GridSingleTemplate from '@/templates/grid-single/template';
-import DefualtTemplate from '@/templates/default/template';
-
-import type {
-  Startup,
-  Project,
-} from '@/lib/types/supabasetypes';
-
+import dynamic from 'next/dynamic';
+import type { Startup, Project } from '@/lib/types/supabasetypes';
 
 export default async function PortfolioPage({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
@@ -22,7 +16,6 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
     )
     .eq('username', username)
     .single();
-
 
   if (error || !data) {
     return (
@@ -42,11 +35,30 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
     projects,
   };
 
-  if(profile.template_info.activeTemplate === 'default'){
-    return <DefualtTemplate profile={finalData} />;
+  const template = profile.template_info.activeTemplate;
+
+  const DynamicTemplate = await importTemplate(template);
+  if (!DynamicTemplate) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center bg-destructive">
+        <h1 className="font-extrabold text-5xl">Template not found</h1>
+      </div>
+    );
   }
 
-  if(profile.template_info.activeTemplate === 'grid-single'){
-    return <GridSingleTemplate profile={finalData} />;
+  return <DynamicTemplate profile={finalData} />;
+}
+
+async function importTemplate(template: string) {
+  try {
+    switch (template) {
+      case 'grid-single':
+        return (await import('@/templates/grid-single/template')).default;
+      case 'default':
+        return (await import('@/templates/default/template')).default;
+    }
+  } catch (err) {
+    console.error('Template load error:', err);
+    return undefined;
   }
 }
