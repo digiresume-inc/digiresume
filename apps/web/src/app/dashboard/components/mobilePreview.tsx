@@ -24,8 +24,16 @@ import MarkdownParser from '@/components/general/markdownparser';
 import { socialIconMap } from '@/lib/utils/iconMap';
 import { cn } from '@dr/ui/lib/utils';
 
-
-import type { Profile, Startup, Project, Experience, Skill, Social, Theme } from '@/lib/types/supabasetypes';
+import type {
+  Profile,
+  Startup,
+  Project,
+  Experience,
+  Skill,
+  Social,
+  Theme,
+} from '@/lib/types/supabasetypes';
+import RevenueChart from '@/templates/default/components/revenueChart';
 
 // type Profile = Database['public']['Tables']['profiles']['Row'];
 // type Startup = Database['public']['Tables']['startups']['Row'];
@@ -82,11 +90,11 @@ const MobilePreview = ({
       </Button>
       <div className="flex flex-col w-full items-center justify-center gap-4 scale-90 lg:scale-100">
         <h2 className="text-lg lg:text-2xl font-bold">Preview</h2>
-        <div className="relative w-[300px] h-[620px] rounded-[50px] bg-[#1a1a1a] shadow-2xl border-[14px] border-[#1a1a1a] flex items-center justify-center">
+        <div className="relative w-[300px] h-[620px] rounded-[50px] bg-black shadow-2xl border-[14px] border-black flex items-center justify-center">
           {/* Dynamic Island */}
-          <div className="absolute top-[-5px] left-1/2 -translate-x-1/2 bg-[#1a1a1a] rounded-t-2xl rounded-b-4xl w-[130px] h-[25px] z-20">
-          <div className='bg-[#404040] size-2.5 rounded-full absolute top-1/4 right-1/4' />
-          <div className='bg-[#404040] w-12 h-2.5 rounded-full absolute top-1/4 right-2/5' />
+          <div className="absolute top-[-5px] left-1/2 -translate-x-1/2 bg-black rounded-t-2xl rounded-b-4xl w-[130px] h-[25px] z-20">
+            <div className="bg-[#404040] size-2.5 rounded-full absolute top-1/4 right-1/4" />
+            <div className="bg-[#404040] w-12 h-2.5 rounded-full absolute top-1/4 right-2/5" />
           </div>
 
           {/* Status Icons (Top Right) */}
@@ -100,9 +108,9 @@ const MobilePreview = ({
           <div className="absolute top-1 left-8 flex items-center gap-2 z-30 text-xs">9:41</div>
 
           {/* Side Buttons */}
-          <div className="absolute left-[-16px] top-[100px] w-[4px] h-[40px] rounded-full bg-[#1a1a1a] z-20"></div>
-          <div className="absolute left-[-16px] top-[160px] w-[4px] h-[40px] rounded-full bg-[#1a1a1a] z-20"></div>
-          <div className="absolute right-[-16px] top-[130px] w-[4px] h-[60px] rounded-full bg-[#1a1a1a] z-20"></div>
+          <div className="absolute left-[-16px] top-[100px] w-[4px] h-[40px] rounded-full bg-black z-20"></div>
+          <div className="absolute left-[-16px] top-[160px] w-[4px] h-[40px] rounded-full bg-black z-20"></div>
+          <div className="absolute right-[-16px] top-[130px] w-[4px] h-[60px] rounded-full bg-black z-20"></div>
 
           {/* iPhone Screen */}
           <div
@@ -611,11 +619,19 @@ const MobilePreview = ({
                                 style={{
                                   color: hexToHSL(t.foreground!, 0.7),
                                 }}
-                                className="text-xxs font-medium"
+                                className="text-xxs font-medium w-full"
                               >
-                                <span className="line-clamp-3">
-                                  <MarkdownParser text={startup.description} />{' '}
-                                </span>
+                                {startup.show_revenue ? (
+                                  <div className="h-24 w-full">
+                                    <RevenueChart />
+                                  </div>
+                                ) : (
+                                  <span className="line-clamp-3">
+                                    <MarkdownParser
+                                      text={startup.description || 'No Description Found.'}
+                                    />
+                                  </span>
+                                )}
                               </div>
                             </div>
                           )

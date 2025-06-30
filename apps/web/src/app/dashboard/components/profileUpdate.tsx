@@ -139,7 +139,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                 />
               </div>
               {form.formState.errors.full_name && (
-                <p className="text-xs lg:text-sm text-destructive mt-1">
+                <p className="text-xs text-destructive mt-1">
                   {form.formState.errors.full_name.message}
                 </p>
               )}
@@ -165,7 +165,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                 )}
               />
               {form.formState.errors.country && (
-                <p className="text-xs lg:text-sm text-destructive mt-1">
+                <p className="text-xs text-destructive mt-1">
                   {form.formState.errors.country.message}
                 </p>
               )}
@@ -279,7 +279,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                 />
               </div>
               {form.formState.errors.shortbio && (
-                <p className="text-xs lg:text-sm text-destructive mt-1">
+                <p className="text-xs text-destructive mt-1">
                   {form.formState.errors.shortbio.message}
                 </p>
               )}
@@ -310,7 +310,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                 />
               </div>
               {form.formState.errors.headline && (
-                <p className="text-xs lg:text-sm text-destructive mt-1">
+                <p className="text-xs text-destructive mt-1">
                   {form.formState.errors.headline.message}
                 </p>
               )}
@@ -334,7 +334,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                 />
               </div>
               {form.formState.errors.company && (
-                <p className="text-xs lg:text-sm text-destructive mt-1">
+                <p className="text-xs text-destructive mt-1">
                   {form.formState.errors.company.message}
                 </p>
               )}
@@ -366,7 +366,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                 />
               </div>
               {form.formState.errors.education?.university && (
-                <p className="text-xs lg:text-sm text-destructive mt-1">
+                <p className="text-xs text-destructive mt-1">
                   {form.formState.errors.education?.university.message}
                 </p>
               )}
@@ -391,7 +391,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                 />
               </div>
               {form.formState.errors.education?.branch && (
-                <p className="text-xs lg:text-sm text-destructive mt-1">
+                <p className="text-xs text-destructive mt-1">
                   {form.formState.errors.education?.branch.message}
                 </p>
               )}
@@ -417,7 +417,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                   />
                 </div>
                 {form.formState.errors.education?.start_date && (
-                  <p className="text-xs lg:text-sm text-destructive mt-1">
+                  <p className="text-xs text-destructive mt-1">
                     {form.formState.errors.education?.start_date.message}
                   </p>
                 )}
@@ -442,7 +442,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                   />
                 </div>
                 {form.formState.errors.education?.end_date && (
-                  <p className="text-xs lg:text-sm text-destructive mt-1">
+                  <p className="text-xs text-destructive mt-1">
                     {form.formState.errors.education?.end_date.message}
                   </p>
                 )}
@@ -467,7 +467,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                   />
                 </div>
                 {form.formState.errors.education?.grade && (
-                  <p className="text-xs lg:text-sm text-destructive mt-1">
+                  <p className="text-xs text-destructive mt-1">
                     {form.formState.errors.education?.grade.message}
                   </p>
                 )}
@@ -499,7 +499,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                 />
               </div>
               {form.formState.errors.profile_link?.text && (
-                <p className="text-xs lg:text-sm text-destructive mt-1">
+                <p className="text-xs text-destructive mt-1">
                   {form.formState.errors.profile_link.text.message}
                 </p>
               )}
@@ -525,7 +525,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                 />
               </div>
               {form.formState.errors.profile_link?.url && (
-                <p className="text-xs lg:text-sm text-destructive mt-1">
+                <p className="text-xs text-destructive mt-1">
                   {form.formState.errors.profile_link.url.message}
                 </p>
               )}

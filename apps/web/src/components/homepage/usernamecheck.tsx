@@ -68,7 +68,7 @@ const UsernameCheck = () => {
             'flex-1 border-none outline-none py-1 lg:py-2 bg-transparent text-sm lg:text-lg w-[90%] transition-colors duration-300',
             {
               'text-green-500': !isTyping && usernameAvailable && usernameCheck,
-              'text-red-500': (!isTyping && !usernameAvailable && usernameCheck) || usernameInvalid,
+              'text-destructive': (!isTyping && !usernameAvailable && usernameCheck) || usernameInvalid,
               'text-foreground': isTyping || !usernameCheck,
             }
           )}
@@ -106,7 +106,7 @@ const UsernameCheck = () => {
         <AnimatePresence>
           {usernameInvalid ? (
             <motion.p
-              className="text-red-500 text-sm lg:text-base"
+              className="text-destructive text-sm lg:text-base"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
@@ -126,7 +126,7 @@ const UsernameCheck = () => {
             </motion.p>
           ) : !usernameAvailable && !isTyping && usernameCheck ? (
             <motion.p
-              className="text-red-500 text-sm lg:text-base"
+              className="text-destructive text-sm lg:text-base"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}

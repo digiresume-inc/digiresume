@@ -67,7 +67,7 @@ export default function StartupForm({
       <div>
         <label className="block mb-1 text-sm text-foreground/70">Name</label>
         <Input {...register('name')} placeholder="Startup name" className="text-sm" />
-        {errors.name && <p className="text-sm text-destructive mt-0.5">{errors.name.message}</p>}
+        {errors.name && <p className="text-xs text-destructive mt-1">{errors.name.message}</p>}
       </div>
 
       <div>
@@ -117,14 +117,14 @@ export default function StartupForm({
           </p>
         </div>
         {errors.description && (
-          <p className="text-sm text-destructive mt-0.5">{errors.description.message}</p>
+          <p className="text-xs text-destructive mt-1">{errors.description.message}</p>
         )}
       </div>
 
       <div>
         <label className="block mb-1 text-sm text-foreground/70">URL</label>
         <Input {...register('url')} placeholder="https://popatmatch.com" className="text-sm" />
-        {errors.url && <p className="text-sm text-destructive mt-0.5">{errors.url.message}</p>}
+        {errors.url && <p className="text-xs text-destructive mt-1">{errors.url.message}</p>}
       </div>
 
       <div>
@@ -136,7 +136,7 @@ export default function StartupForm({
           className="text-sm"
         />
         {errors.revenue && (
-          <p className="text-sm text-destructive mt-0.5">{errors.revenue.message}</p>
+          <p className="text-xs text-destructive mt-1">{errors.revenue.message}</p>
         )}
       </div>
 
@@ -164,7 +164,7 @@ export default function StartupForm({
             </SelectContent>
           </Select>
           {errors.status && (
-            <p className="text-sm text-destructive mt-0.5">{errors.status.message}</p>
+            <p className="text-xs text-destructive mt-1">{errors.status.message}</p>
           )}
         </div>
         <div className="w-[30%] lg:w-[20%]">
@@ -203,7 +203,7 @@ export default function StartupForm({
           </SelectContent>
         </Select>
         {errors.category && (
-          <p className="text-sm text-destructive mt-0.5">{errors.category.message}</p>
+          <p className="text-xs text-destructive mt-1">{errors.category.message}</p>
         )}
       </div>
       {/* Optional api_info */}

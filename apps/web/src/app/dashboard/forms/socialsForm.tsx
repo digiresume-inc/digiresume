@@ -105,8 +105,7 @@ const SocialsForm = ({
 
       <Button
         disabled={!isDirty || isSubmitting}
-        className="ml-auto"
-        variant="outline"
+        className="w-full"
         type="submit"
       >
         {isSubmitting ? (

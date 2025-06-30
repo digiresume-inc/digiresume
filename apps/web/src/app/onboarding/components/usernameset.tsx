@@ -83,7 +83,7 @@ const UsernameSet = ({ setStep }: { setStep: React.Dispatch<React.SetStateAction
               animate="animate"
               exit="exit"
               transition={{ duration: 0.3 }}
-              className="text-xs lg:text-sm text-red-500 mt-1 ml-1 font-medium"
+              className="text-xs lg:text-sm text-destructive mt-1 ml-1 font-medium"
             >
               {form.formState.errors.username.message}
             </motion.p>

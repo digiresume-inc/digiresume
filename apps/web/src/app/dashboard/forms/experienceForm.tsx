@@ -22,7 +22,6 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components
 import { SkillsSelect } from '@/components/dashboard/skillselect';
 import Loader from '@/components/general/loader';
 
-
 import type { Experience } from '@/lib/types/supabasetypes';
 type SingleExperience = z.infer<typeof singleExperienceSchema>;
 
@@ -55,32 +54,33 @@ const ExperienceForm = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="grid gap-2">
       {/* Company Info */}
-      <div className="grid grid-cols-4 items-center gap-2">
-        <Label htmlFor="company" className="text-right">
+      <div className="flex flex-col gap-1 lg:grid lg:grid-cols-4 lg:items-center lg:gap-2">
+        <Label htmlFor="company" className="lg:text-right">
           Company
         </Label>
-        <Input {...register('company')} id="company" className="col-span-3 " />
+        <Input {...register('company')} id="company" className="lg:col-span-3 text-sm" />
         {errors.company && (
-          <p className="text-red-500 col-start-2 col-span-3 text-sm">{errors.company.message}</p>
-        )}
-      </div>
-
-      <div className="grid grid-cols-4 items-center gap-2">
-        <Label htmlFor="company_link" className="text-right">
-          Company Link
-        </Label>
-        <Input {...register('company_link')} id="company_link" className="col-span-3" />
-        {errors.company_link && (
-          <p className="text-red-500 col-start-2 col-span-3 text-sm">
-            {errors.company_link.message}
+          <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
+            {errors.company.message}
           </p>
         )}
       </div>
 
-      <div className="grid grid-cols-4 items-center gap-2">
+      <div className="flex flex-col gap-1 lg:grid lg:grid-cols-4 lg:items-center lg:gap-2">
+        <Label htmlFor="company_link" className="lg:text-right">
+          Company Link
+        </Label>
+        <Input {...register('company_link')} id="company_link" className="lg:col-span-3 text-sm" />
+        {errors.company_link && (
+          <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
+            {errors.company_link.message}
+          </p>
+        )}
+      </div>
+      <div className="flex flex-col gap-1.5 lg:grid lg:grid-cols-4 lg:items-center lg:gap-2">
         <Label
           htmlFor="contribution"
-          className="text-right flex flex-col items-start justify-center"
+          className="flex flex-col items-start justify-center lg:text-right"
         >
           <span>Contribution</span>
           <HoverCard openDelay={250}>
@@ -90,29 +90,22 @@ const ExperienceForm = ({
               </span>
             </HoverCardTrigger>
             <HoverCardContent className="bg-secondary border-foreground/20 rounded-md z-50">
-              <div className="flex flex-col p-2">
-                <p className="text-sm font-semibold text-lightprimary-text/80 dark:text-primary-text/80">
-                  Markdown guide
+              <div className="flex flex-col p-2 space-y-2 text-xs text-muted-foreground">
+                <p className="font-semibold text-foreground">Markdown guide</p>
+                <p>
+                  <span className="text-accent-foreground">**text**</span> → <b>text</b>
                 </p>
-                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80 mt-2">
-                  <span className="text-lightaccent-text dark:text-accent-text">**text**</span> →{' '}
-                  <span className="font-bold">text</span>
+                <p>
+                  <span className="text-accent-foreground">*text*</span> → <i>text</i>
                 </p>
-                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
-                  <span className="text-lightaccent-text dark:text-accent-text">*text*</span> →{' '}
-                  <span className="italic">text</span>
-                </p>
-                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
-                  <span className="text-lightaccent-text dark:text-accent-text">
-                    [link](https://feature.com)
-                  </span>{' '}
-                  →{' '}
-                  <a href="https://feature.com" target="_blank" className="font-medium underline">
+                <p>
+                  <span className="text-accent-foreground">[link](https://example.com)</span> →{' '}
+                  <a href="https://example.com" target="_blank" className="underline font-medium">
                     link
                   </a>
                 </p>
-                <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80">
-                  <span className="text-lightaccent-text dark:text-accent-text">==text==</span> →{' '}
+                <p>
+                  <span className="text-accent-foreground">==text==</span> →{' '}
                   <mark className="bg-yellow-200/70 rounded px-0.5 shadow-[inset_0_-0.15em_0_rgba(253,224,71,0.6)]">
                     text
                   </mark>
@@ -121,31 +114,37 @@ const ExperienceForm = ({
             </HoverCardContent>
           </HoverCard>
         </Label>
+
         <Textarea
           rows={2}
           {...register('contribution')}
           id="contribution"
-          className="col-span-3"
+          className="lg:col-span-3 text-sm"
           placeholder="Describe your role, key contributions, and the impact you made…"
         />
+
         {errors.contribution && (
-          <p className="text-red-500 col-start-2 col-span-3 text-sm">
+          <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
             {errors.contribution.message}
           </p>
         )}
       </div>
 
-      <div className="grid grid-cols-4 items-center gap-2">
-        <Label htmlFor="company_link">Skills used</Label>
-        <div className="col-span-4">
+      <div className="flex flex-col gap-1.5 lg:grid lg:grid-cols-4 lg:items-center lg:gap-2 mt-2 lg:mt-0">
+        <Label htmlFor="company_link" className="lg:text-right">
+          Skills used
+        </Label>
+
+        <div className="lg:col-span-3">
           <SkillsSelect
             value={form.watch('skills_used') ?? []}
             onChange={(v) => form.setValue('skills_used', v, { shouldDirty: true })}
             largeBadge
           />
         </div>
+
         {errors.skills_used && (
-          <p className="text-red-500 col-start-2 col-span-3 text-sm">
+          <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
             {errors.skills_used.message}
           </p>
         )}
@@ -154,60 +153,58 @@ const ExperienceForm = ({
       {/* Roles Field Array */}
       <div className="mt-2 space-y-2">
         <h3 className="text-md font-semibold">Roles</h3>
-        {errors.roles && <p className="text-red-500 text-sm">{errors.roles.message}</p>}
+        {errors.roles && <p className="text-destructive text-xs">{errors.roles.message}</p>}
 
         {fields.map((role, index) => {
           const currently_working = form.watch(`roles.${index}.currently_working`);
           const end_date = form.watch(`roles.${index}.end_date`);
           return (
-            <div key={role.id} className="p-3 border rounded-lg space-y-2">
-              <div className="grid grid-cols-4 items-center gap-2">
-                {errors.roles?.[index]?.start_date && (
-                  <p className="text-red-500 col-start-2 col-span-3 text-sm">
-                    {errors.roles[index]?.start_date?.message}
-                  </p>
-                )}
-                <Label htmlFor={`roles.${index}.headline`} className="text-right">
+            <div key={role.id} className="p-3 border rounded-lg space-y-3">
+              {/* Headline */}
+              <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
+                <Label htmlFor={`roles.${index}.headline`} className="lg:text-right">
                   Headline
                 </Label>
                 <Input
                   id={`roles.${index}.headline`}
                   {...register(`roles.${index}.headline`)}
-                  className="col-span-3"
+                  className="col-span-3 text-sm"
                 />
                 {errors.roles?.[index]?.headline && (
-                  <p className="text-red-500 col-start-2 col-span-3 text-sm">
+                  <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
                     {errors.roles[index]?.headline?.message}
                   </p>
                 )}
               </div>
 
-              <div className="grid grid-cols-4 items-center gap-2">
-                <Label htmlFor={`roles.${index}.location`} className="text-right">
+              {/* Location */}
+              <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
+                <Label htmlFor={`roles.${index}.location`} className="lg:text-right">
                   Location
                 </Label>
                 <Input
                   id={`roles.${index}.location`}
                   {...register(`roles.${index}.location`)}
-                  className="col-span-3"
+                  className="col-span-3 text-sm"
                 />
                 {errors.roles?.[index]?.location && (
-                  <p className="text-red-500 col-start-2 col-span-3 text-sm">
+                  <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
                     {errors.roles[index]?.location?.message}
                   </p>
                 )}
               </div>
 
-              <div className="grid grid-cols-4 items-center gap-2">
-                <Label className="text-right">Location Type</Label>
+              {/* Location Type */}
+              <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
+                <Label className="lg:text-right">Location Type</Label>
                 <div className="col-span-3">
                   <Controller
                     control={control}
                     name={`roles.${index}.location_type`}
                     render={({ field }) => (
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select role type" />
+                        <SelectTrigger className="w-full text-sm">
+                          <SelectValue placeholder="Select location type" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="On-site">On-site</SelectItem>
@@ -219,22 +216,23 @@ const ExperienceForm = ({
                   />
                 </div>
                 {errors.roles?.[index]?.location_type && (
-                  <p className="text-red-500 col-start-2 col-span-3 text-sm">
+                  <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
                     {errors.roles[index]?.location_type?.message}
                   </p>
                 )}
               </div>
 
-              <div className="grid grid-cols-4 items-center gap-2">
-                <Label className="text-right">Type</Label>
+              {/* Employment Type */}
+              <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
+                <Label className="lg:text-right">Type</Label>
                 <div className="col-span-3">
                   <Controller
                     control={control}
                     name={`roles.${index}.employment_type`}
                     render={({ field }) => (
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select role type" />
+                        <SelectTrigger className="w-full text-sm">
+                          <SelectValue placeholder="Select employment type" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="Full-time">Full-time</SelectItem>
@@ -249,49 +247,52 @@ const ExperienceForm = ({
                   />
                 </div>
                 {errors.roles?.[index]?.employment_type && (
-                  <p className="text-red-500 col-start-2 col-span-3 text-sm">
+                  <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
                     {errors.roles[index]?.employment_type?.message}
                   </p>
                 )}
               </div>
 
-              <div className="grid grid-cols-4 items-center gap-2">
-                <Label htmlFor={`roles.${index}.start_date`} className="text-right">
+              {/* Start Date */}
+              <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
+                <Label htmlFor={`roles.${index}.start_date`} className="lg:text-right">
                   Start
                 </Label>
                 <Input
                   id={`roles.${index}.start_date`}
                   {...register(`roles.${index}.start_date`)}
-                  className="col-span-3"
+                  className="col-span-3 text-sm"
                 />
                 {errors.roles?.[index]?.start_date && (
-                  <p className="text-red-500 col-start-2 col-span-3 text-sm">
+                  <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
                     {errors.roles[index]?.start_date?.message}
                   </p>
                 )}
               </div>
 
+              {/* End Date (conditionally shown) */}
               {!currently_working && (
-                <div className="grid grid-cols-4 items-center gap-2">
-                  <Label htmlFor={`roles.${index}.end_date`} className="text-right">
+                <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
+                  <Label htmlFor={`roles.${index}.end_date`} className="lg:text-right">
                     End
                   </Label>
                   <Input
                     id={`roles.${index}.end_date`}
                     {...register(`roles.${index}.end_date`)}
-                    className="col-span-3"
+                    className="col-span-3 text-sm"
                   />
                   {errors.roles?.[index]?.end_date && (
-                    <p className="text-red-500 col-start-2 col-span-3 text-sm">
+                    <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
                       {errors.roles[index]?.end_date?.message}
                     </p>
                   )}
                 </div>
               )}
 
+              {/* Currently Working Switch (conditionally shown) */}
               {!end_date && (
-                <div className="grid grid-cols-4 items-center gap-2">
-                  <Label className="text-right">Still working</Label>
+                <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
+                  <Label className="lg:text-right">Still Working</Label>
                   <Controller
                     control={control}
                     name={`roles.${index}.currently_working`}
@@ -306,6 +307,7 @@ const ExperienceForm = ({
                 </div>
               )}
 
+              {/* Remove Button */}
               <div className="flex justify-end">
                 <Button type="button" variant="destructive" size="sm" onClick={() => remove(index)}>
                   Remove Role
@@ -336,12 +338,11 @@ const ExperienceForm = ({
       </div>
 
       {/* Submit */}
-      <div className="flex justify-end mt-2">
-        <Button disabled={!isDirty || isSubmitting} type="submit">
+      <div className="w-full mt-2">
+        <Button disabled={!isDirty || isSubmitting} type="submit" className='w-full'>
           {isSubmitting ? (
             <>
-              <Loader />{' '}
-              {actionType === 'Add' ? 'Adding...' : 'Saving...'}
+              <Loader /> {actionType === 'Add' ? 'Adding...' : 'Saving...'}
             </>
           ) : actionType === 'Add' ? (
             <>

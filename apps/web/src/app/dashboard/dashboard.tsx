@@ -78,9 +78,9 @@ const Dashboard = ({
                 </TabsTrigger>
                 <TabsTrigger
                   className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"
-                  value="themes"
+                  value="templates"
                 >
-                  Themes
+                  Templates
                 </TabsTrigger>
               </TabsList>
             </div>
@@ -109,7 +109,7 @@ const Dashboard = ({
             <TabsContent value="socials" className="mt-4">
               <SocialsUpdate profile={profile} />
             </TabsContent>
-            <TabsContent value="themes" className="mt-4">
+            <TabsContent value="templates" className="mt-4">
               <TemplateSelect localTheme={localTheme} setLocalTheme={setLocalTheme} templateInfo={profile.template_info} />
             </TabsContent>
           </Tabs>

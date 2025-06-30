@@ -7,12 +7,13 @@ type FormType = keyof TemplateInfo['templates'];
 type Props= {
   formType: FormType;
   actionType: 'add' | 'edit',
-  templateInfo?: TemplateInfo;
+  templateInfo: TemplateInfo;
+  setModalOpen:  React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AdditionalInfoForm = ({ formType, actionType, templateInfo }: Props) => {
+const AdditionalInfoForm = ({ formType, actionType, templateInfo, setModalOpen }: Props) => {
   const componentMap: Partial<Record<FormType, JSX.Element>> = {
-    'grid-single': <GridSingleForm data={templateInfo?.templates['grid-single']} actionType={actionType} />,
+    'grid-single': <GridSingleForm  data={templateInfo?.templates['grid-single']} actionType={actionType} fullData={templateInfo} setModalOpen={setModalOpen} />,
   };
 
   return componentMap[formType] ?? null;

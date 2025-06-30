@@ -267,7 +267,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                         {...form.register('full_name')}
                       />
                       {form.formState.errors.full_name && (
-                        <p className="text-xs lg:text-sm text-red-500 mt-1">
+                        <p className="text-xs lg:text-sm text-destructive mt-1">
                           {form.formState.errors.full_name.message}
                         </p>
                       )}
@@ -283,7 +283,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           {...form.register('headline')}
                         />
                         {form.formState.errors.headline && (
-                          <p className="text-xs lg:text-sm text-red-500 mt-1">
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
                             {form.formState.errors.headline.message}
                           </p>
                         )}
@@ -299,7 +299,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           {...form.register('company')}
                         />
                         {form.formState.errors.company && (
-                          <p className="text-xs lg:text-sm text-red-500 mt-1">
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
                             {form.formState.errors.company.message}
                           </p>
                         )}
@@ -321,7 +321,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                                 className="bg-secondary max-w-98"
                               />
                               {form.formState.errors.country && (
-                                <p className="text-xs lg:text-sm text-red-500 mt-1">
+                                <p className="text-xs lg:text-sm text-destructive mt-1">
                                   {form.formState.errors.country.message}
                                 </p>
                               )}
@@ -339,7 +339,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           {...form.register('geo_info.state')}
                         />
                         {form.formState.errors.geo_info?.state && (
-                          <p className="text-xs lg:text-sm text-red-500 mt-1">
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
                             {form.formState.errors.geo_info?.state.message}
                           </p>
                         )}
@@ -354,7 +354,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           {...form.register('geo_info.city')}
                         />
                         {form.formState.errors.geo_info?.city && (
-                          <p className="text-xs lg:text-sm text-red-500 mt-1">
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
                             {form.formState.errors.geo_info?.city.message}
                           </p>
                         )}
@@ -417,7 +417,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                         {...form.register('shortbio')}
                       />
                       {form.formState.errors.shortbio && (
-                        <p className="text-xs lg:text-sm text-red-500 mt-1">
+                        <p className="text-xs lg:text-sm text-destructive mt-1">
                           {form.formState.errors.shortbio.message}
                         </p>
                       )}
@@ -450,7 +450,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                         {...form.register('education.university')}
                       />
                       {form.formState.errors.education?.university && (
-                        <p className="text-xs lg:text-sm text-red-500 mt-1">
+                        <p className="text-xs lg:text-sm text-destructive mt-1">
                           {form.formState.errors.education?.university.message}
                         </p>
                       )}
@@ -470,7 +470,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                         {...form.register('education.branch')}
                       />
                       {form.formState.errors.education?.branch && (
-                        <p className="text-xs lg:text-sm text-red-500 mt-1">
+                        <p className="text-xs lg:text-sm text-destructive mt-1">
                           {form.formState.errors.education?.branch.message}
                         </p>
                       )}
@@ -492,7 +492,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           {...form.register('education.start_date')}
                         />
                         {form.formState.errors.education?.start_date && (
-                          <p className="text-xs lg:text-sm text-red-500 mt-1">
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
                             {form.formState.errors.education?.start_date.message}
                           </p>
                         )}
@@ -513,7 +513,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           {...form.register('education.end_date')}
                         />
                         {form.formState.errors.education?.end_date && (
-                          <p className="text-xs lg:text-sm text-red-500 mt-1">
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
                             {form.formState.errors.education?.end_date.message}
                           </p>
                         )}
@@ -534,7 +534,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           {...form.register('education.grade')}
                         />
                         {form.formState.errors.education?.grade && (
-                          <p className="text-xs lg:text-sm text-red-500 mt-1">
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
                             {form.formState.errors.education?.grade.message}
                           </p>
                         )}
@@ -594,7 +594,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                           </Button>
                         </div>
                         {form.formState.errors.socials?.[index]?.url && (
-                          <p className="text-xs lg:text-sm text-red-500 mt-1">
+                          <p className="text-xs lg:text-sm text-destructive mt-1">
                             {form.formState.errors.socials[index]?.url?.message}
                           </p>
                         )}
@@ -651,7 +651,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                             </Button>
                           </div>
                           {form.formState.errors.socials?.[index]?.url && (
-                            <p className="text-xs lg:text-sm text-red-500 mt-1">
+                            <p className="text-xs lg:text-sm text-destructive mt-1">
                               {form.formState.errors.socials[index]?.url?.message}
                             </p>
                           )}

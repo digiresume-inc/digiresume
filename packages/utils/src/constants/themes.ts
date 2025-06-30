@@ -11,7 +11,7 @@ export type Theme = {
   theme_type: 'light' | 'dark' | 'default';
 };
 
-export const Themes: Theme[] = [
+export const ThemesFull: Theme[] = [
   {
     id: 0,
     theme_data: {
@@ -146,7 +146,7 @@ export const Themes: Theme[] = [
   },
 ];
 
-export const Themes1: Theme[] = [
+export const Themes: Theme[] = [
   {
     id: 1,
     theme_data: {

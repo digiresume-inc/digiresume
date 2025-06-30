@@ -1,20 +1,20 @@
 'use client';
-import { Themes, Themes1 } from '@dr/utils';
+import { Themes } from '@dr/utils';
 import React, { useState } from 'react';
 import { updateTheme } from '../actions/updateTheme';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import Image from 'next/image';
-
-import type { TemplateInfo, Theme } from '@/lib/types/supabasetypes';
 import { cn } from '@dr/ui/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@dr/ui/components/base/dialog';
-import GridSingleForm from '@/templates/grid-single/forms/grid-single-form';
 import { updateTemplate } from '../actions/updateTemplate';
 import AdditionalInfoForm from '@/templates/additionalInfoForm';
 import { Button } from '@dr/ui/components/base/button';
 import { Edit } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@dr/ui/components/base/tooltip';
+
+
+import type { TemplateInfo, Theme } from '@/lib/types/supabasetypes';
 
 const TemplateSelect = ({
   localTheme,
@@ -78,52 +78,8 @@ const TemplateSelect = ({
   return (
     <>
       <div className="flex flex-col gap-4">
-        {/* {['default', 'light', 'dark'].map((type) => (
-        <div key={type} className="mb-4 px-6 flex flex-col gap-2">
-          <h3 className="text-foreground/80 text-sm font-semibold capitalize mb-2">{type}</h3>
-          <div className="flex flex-wrap gap-4">
-            {Themes.filter((t) => t.theme_type === type).map((t: Theme) => (
-              <div key={t.id} className="flex items-center p-2">
-                <input
-                  id={`radio-${t.id}`}
-                  aria-describedby={`radio-text-${t.id}`}
-                  type="radio"
-                  name="colorPalette"
-                  checked={localTheme.id === Number(t.id)}
-                  onChange={() => handleThemeChange(t)}
-                  value={t.theme_type}
-                  className="w-4 h-4 bg-gray-100 mr-2"
-                  disabled={updating}
-                />
-                <label
-                  htmlFor={`radio-${t.id}`}
-                  className="flex rounded-lg overflow-hidden w-32 h-12 border border-lightsecondary-border dark:border-0"
-                >
-                  <div>{t.id}</div>
-                  <div
-                    className="w-[45%] h-full"
-                    style={{ backgroundColor: t.theme_data.background }}
-                  ></div>
-                  <div
-                    className="w-[30%] h-full"
-                    style={{ backgroundColor: t.theme_data.secondary }}
-                  ></div>
-                  <div
-                    className="w-[15%] h-full"
-                    style={{ backgroundColor: t.theme_data.foreground }}
-                  ></div>
-                  <div
-                    className="w-[10%] h-full"
-                    style={{ backgroundColor: t.theme_data.primary }}
-                  ></div>
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))} */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 w-full px-8 gap-4 items-start">
-          <div className="flex flex-col gap-2 items-center justify-center col-span-1">
+        <div className="grid grid-cols-1 lg:grid-cols-2 w-full px-4 lg:px-8 gap-4 items-start">
+          <div className="flex flex-col gap-3 items-center justify-center col-span-1">
             <Image
               height={1080}
               width={1920}
@@ -131,9 +87,9 @@ const TemplateSelect = ({
                 handleTemplateSwitch({ templateInfo: templateInfo, templateType: 'default' })
               }
               className={cn(
-                'w-full object-cover rounded-lg border cursor-pointer',
-                templateInfo.activeTemplate === 'default' &&
-                  'ring-2 ring-ring ring-offset-2 ring-offset-background'
+                'w-full lg:h-38 object-cover rounded-lg border cursor-pointer',
+                templateInfo.activeTemplate === 'default' ?
+                  'ring-2 ring-ring ring-offset-2 ring-offset-background opacity-100' : 'opacity-70'
               )}
               src="/templatepreviews/default.png"
               alt="Grid Single Preview"
@@ -146,7 +102,7 @@ const TemplateSelect = ({
                   : 'opacity-60 cursor-not-allowed'
               )}
             >
-              {Themes1.map((t, index) => {
+              {Themes.map((t, index) => {
                 const isSelected = localTheme.id === t.id;
                 const isTemplateActive = templateInfo.activeTemplate === 'default';
                 return (
@@ -186,7 +142,7 @@ const TemplateSelect = ({
               })}
             </div>
           </div>
-          <div className="flex flex-col gap-2 items-center justify-center col-span-1 relative">
+          <div className="flex flex-col gap-3 items-center justify-center col-span-1 relative">
             <Image
               height={1080}
               width={1920}
@@ -194,9 +150,9 @@ const TemplateSelect = ({
                 handleTemplateSwitch({ templateInfo: templateInfo, templateType: 'grid-single' })
               }
               className={cn(
-                'w-full object-cover rounded-lg border cursor-pointer',
-                templateInfo.activeTemplate === 'grid-single' &&
-                  'ring-2 ring-ring ring-offset-2 ring-offset-background'
+                'w-full lg:h-38 object-cover rounded-lg border cursor-pointer',
+                templateInfo.activeTemplate === 'grid-single' ?
+                  'ring-2 ring-ring ring-offset-2 ring-offset-background opacity-100' : 'opacity-70'
               )}
               src="/templatepreviews/grid-single.png"
               alt="Grid Single Preview"
@@ -204,7 +160,7 @@ const TemplateSelect = ({
             <div className="flex flex-wrap justify-start gap-2 text-xs w-full text-foreground/70">
               <p className="break-words">
                 ⭐ Single page grid template ⭐ Github extensive template ⭐ Showcase Startups &
-                Porjects
+                Projects
               </p>
             </div>
             {templateInfo.templates['grid-single'] &&
@@ -235,12 +191,15 @@ const TemplateSelect = ({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
           <DialogHeader className="mb-4">
-            <DialogTitle>Additional Info Required</DialogTitle>
+            <DialogTitle>
+              {actionType === "add" ? 'Additional Info Required' : 'Edit Additional Info'}
+            </DialogTitle>
           </DialogHeader>
           <AdditionalInfoForm
             actionType={actionType}
             formType={formType}
             templateInfo={templateInfo}
+            setModalOpen={setOpen}
           />
         </DialogContent>
       </Dialog>
