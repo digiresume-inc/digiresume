@@ -14,6 +14,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components
 import Loader from '@/components/general/loader';
 import { addInfoUpdateTemplate } from '@/app/dashboard/actions/updateTemplate';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
+import { useIsMobile } from '@dr/ui/hooks/use-mobile';
 
 const NATURE_OPTIONS = [
   { type: 'Active', icon: '⚡️' },
@@ -43,6 +44,8 @@ export default function GridSingleForm({
   fullData: TemplateInfo;
   setModalOpen:  React.Dispatch<React.SetStateAction<boolean>>
 }) {
+
+  const isMobile = useIsMobile();
   const defaultValues: GridSingleFormType =
     actionType === 'edit' && data
       ? data
@@ -125,14 +128,14 @@ export default function GridSingleForm({
   const nature = watch('nature');
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 max-w-xl">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 lg:space-y-5 max-w-xl">
       <div className="w-full space-y-1.5">
-        <label htmlFor="timezone" className="text-sm font-medium text-muted-foreground">
+        <label htmlFor="timezone" className="text-xs lg:text-sm font-medium text-muted-foreground">
           Your Timezone
         </label>
         <Input
           id="timezone"
-          className="text-sm"
+          className="text-xs lg:text-sm"
           placeholder="e.g., Asia/Kolkata"
           {...register('timezone')}
         />
@@ -140,14 +143,14 @@ export default function GridSingleForm({
           <p className="text-xs text-destructive mt-1">{errors.timezone.message}</p>
         )}
       </div>
-      <div className="w-full space-y-4">
+      <div className="w-full space-y-3 lg:space-y-5">
         <div className="space-y-1.5">
-          <label htmlFor="educationInShort" className="text-sm font-medium text-muted-foreground">
+          <label htmlFor="educationInShort" className="text-xs lg:text-sm font-medium text-muted-foreground">
             Education (Short)
           </label>
           <Input
             id="educationInShort"
-            className="text-sm"
+            className="text-xs lg:text-sm"
             placeholder="e.g., ECE Undergrad, CS Major"
             {...register('educationInShort')}
           />
@@ -157,12 +160,12 @@ export default function GridSingleForm({
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="universityInShort" className="text-sm font-medium text-muted-foreground">
+          <label htmlFor="universityInShort" className="text-xs lg:text-sm font-medium text-muted-foreground">
             University (Short)
           </label>
           <Input
             id="universityInShort"
-            className="text-sm"
+            className="text-xs lg:text-sm"
             placeholder="e.g., MIT, Stanford, NYU"
             {...register('universityInShort')}
           />
@@ -172,12 +175,12 @@ export default function GridSingleForm({
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="healineInShort" className="text-sm font-medium text-muted-foreground">
+          <label htmlFor="healineInShort" className="text-xs lg:text-sm font-medium text-muted-foreground">
             Headline
           </label>
           <Input
             id="healineInShort"
-            className="text-sm"
+            className="text-xs lg:text-sm"
             placeholder="e.g., Frontend Dev, Data Scientist"
             {...register('healineInShort')}
           />
@@ -189,14 +192,14 @@ export default function GridSingleForm({
         <div className="space-y-1.5">
           <label
             htmlFor="meetingScheduleLink"
-            className="text-sm font-medium text-muted-foreground"
+            className="text-xs lg:text-sm font-medium text-muted-foreground"
           >
             Meeting Link
           </label>
           <Input
             id="meetingScheduleLink"
             type="url"
-            className="text-sm"
+            className="text-xs lg:text-sm"
             placeholder="e.g., Calendly, Cal link"
             {...register('meetingScheduleLink')}
           />
@@ -206,12 +209,12 @@ export default function GridSingleForm({
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="quote" className="text-sm font-medium text-muted-foreground">
+          <label htmlFor="quote" className="text-xs lg:text-sm font-medium text-muted-foreground">
             Quote
           </label>
           <Input
             id="quote"
-            className="text-sm"
+            className="text-xs lg:text-sm"
             placeholder="A quote that inspires you"
             {...register('quote')}
           />
@@ -221,11 +224,11 @@ export default function GridSingleForm({
 
       {/* Techstack */}
       <div className="space-y-1">
-        <label className="text-sm font-medium text-muted-foreground">Tech Stack</label>
+        <label className="text-xs lg:text-sm font-medium text-muted-foreground">Tech Stack</label>
         <SkillsSelect
           value={watch('techstack')}
           onChange={(v) => setValue('techstack', v, { shouldDirty: true })}
-          largeBadge
+          largeBadge={!isMobile}
         />
         {errors.techstack && (
           <p className="text-xs text-destructive mt-1">{errors.techstack.message}</p>
@@ -234,7 +237,7 @@ export default function GridSingleForm({
 
       {/* Flipwords Field */}
       <div className="space-y-1.5">
-        <label className="text-sm font-medium text-muted-foreground flex items-center gap-1">
+        <label className="text-xs lg:text-sm font-medium text-muted-foreground flex items-center gap-1">
           Flipwords{' '}
           <HoverCard openDelay={250}>
             <HoverCardTrigger>
@@ -261,7 +264,7 @@ export default function GridSingleForm({
           </HoverCard>
         </label>
         <Input
-          className="text-sm"
+          className="text-xs lg:text-sm"
           placeholder="Press enter to add e.g., Developer"
           value={flipInput}
           onChange={(e) => setFlipInput(e.target.value)}
@@ -296,11 +299,11 @@ export default function GridSingleForm({
 
       {/* Languages Field */}
       <div className="space-y-1.5">
-        <label className="text-sm font-medium text-muted-foreground">
+        <label className="text-xs lg:text-sm font-medium text-muted-foreground">
           Spoken Languages (max 2)
         </label>
         <Input
-          className="text-sm"
+          className="text-xs lg:text-sm"
           placeholder="Press enter to add e.g., English"
           value={langInput}
           onChange={(e) => setLangInput(e.target.value)}
@@ -335,7 +338,7 @@ export default function GridSingleForm({
 
       {/* Nature Field */}
       <div className="space-y-1.5">
-        <label className="text-sm font-medium text-muted-foreground">Nature</label>
+        <label className="text-xs lg:text-sm font-medium text-muted-foreground">Nature</label>
         <Select
           value={nature.type}
           onValueChange={(val) => {
@@ -344,7 +347,7 @@ export default function GridSingleForm({
           }}
         >
           <SelectTrigger className="w-full">
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2 text-xs lg:text-sm">
               <span>{nature.icon}</span>
               <span>{nature.type}</span>
             </span>

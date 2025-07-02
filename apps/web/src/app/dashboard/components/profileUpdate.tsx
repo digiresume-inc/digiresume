@@ -32,10 +32,13 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components
 import Loader from '@/components/general/loader';
 
 import type { Profile } from '@/lib/types/supabasetypes';
+import { useIsMobile } from '@dr/ui/hooks/use-mobile';
 
 // type Profile = Database['public']['Tables']['profiles']['Row'];
 
 const ProfileUpdate = ({ profile }: { profile: Profile }) => {
+  const isMobile = useIsMobile();
+
   const form = useForm<z.infer<typeof profileUpdateSchema>>({
     resolver: zodResolver(profileUpdateSchema),
     defaultValues: profile,
@@ -70,19 +73,19 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div className="flex flex-col items-start justify-center p-3 lg:p-4 rounded-lg w-full mt-4 gap-y-4">
         <div className="border rounded-lg p-4 w-full">
-          <h3 className="text-lg font-semibold text-primary mb-4 pb-2 border-b">
+          <h3 className="text-base lg:text-lg font-semibold text-primary mb-4 pb-2 border-b">
             Personal Information
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4 w-full">
             <div className="col-span-1">
               <label
                 htmlFor="username"
-                className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
               >
                 Username
               </label>
               <div className="relative">
-                <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                <span className="absolute top-1/2 -translate-y-1/2 left-3 flex items-center">
                   <IdCard strokeWidth={1} size={18} />
                 </span>
                 <Input
@@ -91,7 +94,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                   placeholder="Username"
                   autoComplete="off"
                   value={profile.username}
-                  className="focus:ring-0 focus-visible:ring-0 focus-visible:border-accent focus:oultine-none cursor-not-allowed pl-9 py-2 text-sm"
+                  className="focus:ring-0 focus-visible:ring-0 focus-visible:border-accent focus:oultine-none cursor-not-allowed pl-9 py-2 text-xs lg:text-sm"
                   readOnly
                 />
               </div>
@@ -99,12 +102,12 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
             <div className="col-span-1">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
               >
                 Email
               </label>
               <div className="relative">
-                <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                <span className="absolute top-1/2 -translate-y-1/2 left-3 flex items-center">
                   <Mail strokeWidth={1} size={18} />
                 </span>
                 <Input
@@ -113,7 +116,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                   placeholder="Email address"
                   autoComplete="off"
                   value={profile.email}
-                  className="focus:ring-0 focus-visible:ring-0 focus-visible:border-accent focus:oultine-none cursor-not-allowed pl-9 py-2 text-sm"
+                  className="focus:ring-0 focus-visible:ring-0 focus-visible:border-accent focus:oultine-none cursor-not-allowed pl-9 py-2 text-xs lg:text-sm"
                   readOnly
                 />
               </div>
@@ -121,12 +124,12 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
             <div className="col-span-1">
               <label
                 htmlFor="full_name"
-                className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
               >
                 Full Name
               </label>
               <div className="relative">
-                <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                <span className="absolute top-1/2 -translate-y-1/2 left-3 flex items-center">
                   <User strokeWidth={1} size={18} />
                 </span>
                 <Input
@@ -135,7 +138,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                   placeholder="Full name"
                   autoComplete="off"
                   {...form.register('full_name')}
-                  className="pl-9 py-2 text-sm"
+                  className="pl-9 py-2 text-xs lg:text-sm"
                 />
               </div>
               {form.formState.errors.full_name && (
@@ -145,7 +148,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
               )}
             </div>
             <div className="col-span-1">
-              <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+              <label className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
                 Country
               </label>
               <Controller
@@ -171,13 +174,13 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
               )}
             </div>
             <div className="col-span-1 lg:col-span-2">
-              <label className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+              <label className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
                 Geographical Info
               </label>
 
               <div className="flex flex-col gap-2 lg:flex-row lg:items-start">
                 <div className="w-full lg:w-1/3">
-                  <span className="flex items-center gap-2 text-sm p-2 rounded-md border min-h-9">
+                  <span className="flex items-center gap-2 text-xs lg:text-sm p-2 rounded-md border min-h-9">
                     {form.watch('country')}
                     {form.watch('country') && (
                       <img
@@ -193,7 +196,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                     type="text"
                     placeholder="State"
                     {...form.register('geo_info.state')}
-                    className="text-sm"
+                    className="text-xs lg:text-sm"
                   />
                   {form.formState.errors.geo_info?.state && (
                     <p className="text-xs text-destructive mt-1">
@@ -207,7 +210,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                     type="text"
                     placeholder="City"
                     {...form.register('geo_info.city')}
-                    className="text-sm"
+                    className="text-xs lg:text-sm"
                   />
                   {form.formState.errors.geo_info?.city && (
                     <p className="text-xs text-destructive mt-1">
@@ -219,17 +222,17 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
             </div>
 
             <div className="col-span-1 lg:col-span-2">
-              <label className="flex items-center gap-2 text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
+              <label className="flex items-center gap-2 text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5">
                 Short bio
                 <HoverCard openDelay={250}>
                   <HoverCardTrigger>
-                    <span className="text-xs underline text-foreground/80 font-medium cursor-pointer">
+                    <span className="text-xxs lg:text-xs underline text-foreground/80 font-medium cursor-pointer">
                       Markdown Guide *
                     </span>
                   </HoverCardTrigger>
                   <HoverCardContent className="bg-secondary border-foreground/20 rounded-md z-50">
                     <div className="flex flex-col p-2">
-                      <p className="text-sm font-semibold text-lightprimary-text/80 dark:text-primary-text/80">
+                      <p className="text-xs lg:text-sm font-semibold text-lightprimary-text/80 dark:text-primary-text/80">
                         Markdown guide
                       </p>
                       <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80 mt-2">
@@ -275,7 +278,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                   placeholder="Passionate about building meaningful digital experiences..."
                   autoComplete="off"
                   {...form.register('shortbio')}
-                  className="py-2 text-sm"
+                  className="py-2 text-xs lg:text-sm"
                 />
               </div>
               {form.formState.errors.shortbio && (
@@ -287,25 +290,25 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
           </div>
         </div>
         <div className="border rounded-lg p-4 w-full">
-          <h3 className="text-lg font-semibold text-primary mb-4 pb-2 border-b">
+          <h3 className="text-base lg:text-lg font-semibold text-primary mb-4 pb-2 border-b">
             Professional Information
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4 w-full">
             <div className="col-span-1">
               <label
                 htmlFor="headline"
-                className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
               >
                 Headline
               </label>
               <div className="relative">
-                <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                <span className="absolute top-1/2 -translate-y-1/2 left-3 flex items-center">
                   <Newspaper strokeWidth={1} size={18} />
                 </span>
                 <Input
                   id="headline"
                   placeholder="Full Stack Dev | Data Engineer ..."
-                  className="col-span-1 lg:col-span-2 text-sm pl-9 py-2"
+                  className="col-span-1 lg:col-span-2 text-xs lg:text-sm pl-9 py-2"
                   {...form.register('headline')}
                 />
               </div>
@@ -318,18 +321,18 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
             <div className="col-span-1">
               <label
                 htmlFor="company"
-                className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
               >
                 Current Company
               </label>
               <div className="relative">
-                <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                <span className="absolute top-1/2 -translate-y-1/2 left-3 flex items-center">
                   <Building2 strokeWidth={1} size={18} />
                 </span>
                 <Input
                   id="company"
                   placeholder="Google | Meta ..."
-                  className="col-span-1 lg:col-span-2 text-sm pl-9 py-2"
+                  className="col-span-1 lg:col-span-2 text-xs lg:text-sm pl-9 py-2"
                   {...form.register('company')}
                 />
               </div>
@@ -342,19 +345,19 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
           </div>
         </div>
         <div className="border rounded-lg p-4 w-full">
-          <h3 className="text-lg font-semibold text-primary mb-4 pb-2 border-b">
+          <h3 className="text-base lg:text-lg font-semibold text-primary mb-4 pb-2 border-b">
             Education Information
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4 w-full">
             <div className="col-span-1">
               <label
                 htmlFor="education.university"
-                className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
               >
                 Education
               </label>
               <div className="relative">
-                <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                <span className="absolute top-1/2 -translate-y-1/2 left-3 flex items-center">
                   <University strokeWidth={1} size={18} />
                 </span>
                 <Input
@@ -362,7 +365,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                   type="text"
                   placeholder="Jethalal Uni | IITkgp ..."
                   {...form.register('education.university')}
-                  className="pl-9 py-2 text-sm"
+                  className="pl-9 py-2 text-xs lg:text-sm"
                 />
               </div>
               {form.formState.errors.education?.university && (
@@ -374,12 +377,12 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
             <div className="col-span-1">
               <label
                 htmlFor="education.branch"
-                className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
               >
                 Branch
               </label>
               <div className="relative">
-                <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                <span className="absolute top-1/2 -translate-y-1/2 left-3 flex items-center">
                   <GraduationCap strokeWidth={1} size={18} />
                 </span>
                 <Input
@@ -387,7 +390,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                   type="text"
                   placeholder="CS, AI, ECE, Math..."
                   {...form.register('education.branch')}
-                  className="pl-9 py-2 text-sm"
+                  className="pl-9 py-2 text-xs lg:text-sm"
                 />
               </div>
               {form.formState.errors.education?.branch && (
@@ -400,12 +403,12 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
               <div className="lg:w-2/5 w-full">
                 <label
                   htmlFor="education.start_date"
-                  className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                  className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
                 >
                   Start
                 </label>
                 <div className="relative">
-                  <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                  <span className="absolute top-1/2 -translate-y-1/2 left-3 flex items-center">
                     <Calendar strokeWidth={1} size={18} />
                   </span>
                   <Input
@@ -413,7 +416,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                     type="text"
                     placeholder="MM/20YY..."
                     {...form.register('education.start_date')}
-                    className="pl-9 py-2 text-sm"
+                    className="pl-9 py-2 text-xs lg:text-sm"
                   />
                 </div>
                 {form.formState.errors.education?.start_date && (
@@ -425,12 +428,12 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
               <div className="lg:w-2/5 w-full">
                 <label
                   htmlFor="education.end_date"
-                  className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                  className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
                 >
                   End
                 </label>
                 <div className="relative">
-                  <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                  <span className="absolute top-1/2 -translate-y-1/2 left-3 flex items-center">
                     <Calendar strokeWidth={1} size={18} />
                   </span>
                   <Input
@@ -438,7 +441,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                     type="text"
                     placeholder="MM/20YY..."
                     {...form.register('education.end_date')}
-                    className="pl-9 py-2 text-sm"
+                    className="pl-9 py-2 text-xs lg:text-sm"
                   />
                 </div>
                 {form.formState.errors.education?.end_date && (
@@ -450,12 +453,12 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
               <div className="lg:w-1/5 w-full">
                 <label
                   htmlFor="education.grade"
-                  className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                  className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
                 >
                   Grade
                 </label>
                 <div className="relative">
-                  <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                  <span className="absolute top-1/2 -translate-y-1/2 left-3 flex items-center">
                     <Medal strokeWidth={1} size={18} />
                   </span>
                   <Input
@@ -463,7 +466,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                     type="text"
                     placeholder="A, 8.4.."
                     {...form.register('education.grade')}
-                    className="pl-9 py-2 text-sm"
+                    className="pl-9 py-2 text-xs lg:text-sm"
                   />
                 </div>
                 {form.formState.errors.education?.grade && (
@@ -476,17 +479,17 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
           </div>
         </div>
         <div className="border rounded-lg p-4 w-full">
-          <h3 className="text-lg font-semibold text-primary mb-4 pb-2 border-b">Link</h3>
+          <h3 className="text-base lg:text-lg font-semibold text-primary mb-4 pb-2 border-b">Link</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4 w-full">
             <div className="col-span-1">
               <label
                 htmlFor="profile_link.text"
-                className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
               >
                 Profile Link Text
               </label>
               <div className="relative">
-                <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                <span className="absolute top-1/2 -translate-y-1/2 left-3 flex items-center">
                   <Type strokeWidth={1} size={18} />
                 </span>
                 <Input
@@ -495,7 +498,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                   placeholder="My profile | My Webiste"
                   autoComplete="off"
                   {...form.register('profile_link.text')}
-                  className="pl-9 py-2 text-sm"
+                  className="pl-9 py-2 text-xs lg:text-sm"
                 />
               </div>
               {form.formState.errors.profile_link?.text && (
@@ -507,12 +510,12 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
             <div className="col-span-1">
               <label
                 htmlFor="profile_link.url"
-                className="block text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
+                className="block text-xs lg:text-sm font-medium text-card-foreground/70 px-1 mb-0.5"
               >
                 Profile Link
               </label>
               <div className="relative">
-                <span className="absolute top-[53%] -translate-y-1/2 left-3 flex items-center">
+                <span className="absolute top-1/2 -translate-y-1/2 left-3 flex items-center">
                   <Link2 strokeWidth={1} size={18} />
                 </span>
                 <Input
@@ -521,7 +524,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                   placeholder="https://mywebsite.com"
                   autoComplete="off"
                   {...form.register('profile_link.url')}
-                  className="pl-9 py-2 text-sm"
+                  className="pl-9 py-2 text-xs lg:text-sm"
                 />
               </div>
               {form.formState.errors.profile_link?.url && (
@@ -534,19 +537,18 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
         </div>
       </div>
       <div className="w-full mt-4 flex flex-col items-start justify-center px-3 lg:px-4 rounded-lg">
-        <p className="text-lg font-semibold mb-4 text-primary">Skills</p>
+        <p className="text-base lg:text-lg font-semibold mb-4 text-primary">Skills</p>
         <SkillsSelect
           value={form.watch('skills') ?? []}
           onChange={(v) => form.setValue('skills', v, { shouldDirty: true })}
-          largeBadge
+          largeBadge={!isMobile}
         />
       </div>
-      <div className="w-full flex items-center justify-end px-4">
+      <div className="w-full flex items-center px-4">
         <Button
           type="submit"
-          variant={'outline'}
           disabled={!isDirty || isSubmitting}
-          className="mt-6 min-w-38"
+          className="mt-6 w-full"
         >
           {isSubmitting ? (
             <>
@@ -555,7 +557,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
             </>
           ) : (
             <>
-              <Save /> Save changes
+              Save changes <Save /> 
             </>
           )}
         </Button>

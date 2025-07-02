@@ -23,6 +23,8 @@ import { SkillsSelect } from '@/components/dashboard/skillselect';
 import Loader from '@/components/general/loader';
 
 import type { Experience } from '@/lib/types/supabasetypes';
+import { useIsMobile } from '@dr/ui/hooks/use-mobile';
+import { cn } from '@dr/ui/lib/utils';
 type SingleExperience = z.infer<typeof singleExperienceSchema>;
 
 const ExperienceForm = ({
@@ -34,6 +36,8 @@ const ExperienceForm = ({
   onSubmit: (data: Experience) => void;
   actionType: String;
 }) => {
+  const isMobile = useIsMobile();
+
   const form = useForm<SingleExperience>({
     resolver: zodResolver(singleExperienceSchema),
     defaultValues: selectedExperience,
@@ -52,13 +56,13 @@ const ExperienceForm = ({
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-2 relative">
       {/* Company Info */}
       <div className="flex flex-col gap-1 lg:grid lg:grid-cols-4 lg:items-center lg:gap-2">
-        <Label htmlFor="company" className="lg:text-right">
+        <Label htmlFor="company" className="lg:text-right text-xs lg:text-sm">
           Company
         </Label>
-        <Input {...register('company')} id="company" className="lg:col-span-3 text-sm" />
+        <Input {...register('company')} id="company" className="lg:col-span-3 text-xs lg:text-sm" />
         {errors.company && (
           <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
             {errors.company.message}
@@ -67,10 +71,14 @@ const ExperienceForm = ({
       </div>
 
       <div className="flex flex-col gap-1 lg:grid lg:grid-cols-4 lg:items-center lg:gap-2">
-        <Label htmlFor="company_link" className="lg:text-right">
+        <Label htmlFor="company_link" className="lg:text-right text-xs lg:text-sm">
           Company Link
         </Label>
-        <Input {...register('company_link')} id="company_link" className="lg:col-span-3 text-sm" />
+        <Input
+          {...register('company_link')}
+          id="company_link"
+          className="lg:col-span-3 text-xs lg:text-sm"
+        />
         {errors.company_link && (
           <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
             {errors.company_link.message}
@@ -80,7 +88,7 @@ const ExperienceForm = ({
       <div className="flex flex-col gap-1.5 lg:grid lg:grid-cols-4 lg:items-center lg:gap-2">
         <Label
           htmlFor="contribution"
-          className="flex flex-col items-start justify-center lg:text-right"
+          className="flex flex-col items-start justify-center lg:text-right text-xs lg:text-sm"
         >
           <span>Contribution</span>
           <HoverCard openDelay={250}>
@@ -119,7 +127,7 @@ const ExperienceForm = ({
           rows={2}
           {...register('contribution')}
           id="contribution"
-          className="lg:col-span-3 text-sm"
+          className="lg:col-span-3 text-xs lg:text-sm"
           placeholder="Describe your role, key contributions, and the impact you made…"
         />
 
@@ -131,7 +139,7 @@ const ExperienceForm = ({
       </div>
 
       <div className="flex flex-col gap-1.5 lg:grid lg:grid-cols-4 lg:items-center lg:gap-2 mt-2 lg:mt-0">
-        <Label htmlFor="company_link" className="lg:text-right">
+        <Label htmlFor="company_link" className="lg:text-right text-xs lg:text-sm">
           Skills used
         </Label>
 
@@ -139,7 +147,7 @@ const ExperienceForm = ({
           <SkillsSelect
             value={form.watch('skills_used') ?? []}
             onChange={(v) => form.setValue('skills_used', v, { shouldDirty: true })}
-            largeBadge
+            largeBadge={!isMobile}
           />
         </div>
 
@@ -162,13 +170,16 @@ const ExperienceForm = ({
             <div key={role.id} className="p-3 border rounded-lg space-y-3">
               {/* Headline */}
               <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
-                <Label htmlFor={`roles.${index}.headline`} className="lg:text-right">
+                <Label
+                  htmlFor={`roles.${index}.headline`}
+                  className="lg:text-right text-xs lg:text-sm"
+                >
                   Headline
                 </Label>
                 <Input
                   id={`roles.${index}.headline`}
                   {...register(`roles.${index}.headline`)}
-                  className="col-span-3 text-sm"
+                  className="col-span-3 text-xs lg:text-sm"
                 />
                 {errors.roles?.[index]?.headline && (
                   <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
@@ -179,13 +190,16 @@ const ExperienceForm = ({
 
               {/* Location */}
               <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
-                <Label htmlFor={`roles.${index}.location`} className="lg:text-right">
+                <Label
+                  htmlFor={`roles.${index}.location`}
+                  className="lg:text-right text-xs lg:text-sm"
+                >
                   Location
                 </Label>
                 <Input
                   id={`roles.${index}.location`}
                   {...register(`roles.${index}.location`)}
-                  className="col-span-3 text-sm"
+                  className="col-span-3 text-xs lg:text-sm"
                 />
                 {errors.roles?.[index]?.location && (
                   <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
@@ -196,14 +210,14 @@ const ExperienceForm = ({
 
               {/* Location Type */}
               <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
-                <Label className="lg:text-right">Location Type</Label>
+                <Label className="lg:text-right text-xs lg:text-sm">Location Type</Label>
                 <div className="col-span-3">
                   <Controller
                     control={control}
                     name={`roles.${index}.location_type`}
                     render={({ field }) => (
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger className="w-full text-sm">
+                        <SelectTrigger className="w-full text-xs lg:text-sm">
                           <SelectValue placeholder="Select location type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -224,14 +238,14 @@ const ExperienceForm = ({
 
               {/* Employment Type */}
               <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
-                <Label className="lg:text-right">Type</Label>
+                <Label className="lg:text-right text-xs lg:text-sm">Type</Label>
                 <div className="col-span-3">
                   <Controller
                     control={control}
                     name={`roles.${index}.employment_type`}
                     render={({ field }) => (
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger className="w-full text-sm">
+                        <SelectTrigger className="w-full text-xs lg:text-sm">
                           <SelectValue placeholder="Select employment type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -255,13 +269,16 @@ const ExperienceForm = ({
 
               {/* Start Date */}
               <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
-                <Label htmlFor={`roles.${index}.start_date`} className="lg:text-right">
+                <Label
+                  htmlFor={`roles.${index}.start_date`}
+                  className="lg:text-right text-xs lg:text-sm"
+                >
                   Start
                 </Label>
                 <Input
                   id={`roles.${index}.start_date`}
                   {...register(`roles.${index}.start_date`)}
-                  className="col-span-3 text-sm"
+                  className="col-span-3 text-xs lg:text-sm"
                 />
                 {errors.roles?.[index]?.start_date && (
                   <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
@@ -273,13 +290,16 @@ const ExperienceForm = ({
               {/* End Date (conditionally shown) */}
               {!currently_working && (
                 <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
-                  <Label htmlFor={`roles.${index}.end_date`} className="lg:text-right">
+                  <Label
+                    htmlFor={`roles.${index}.end_date`}
+                    className="lg:text-right text-xs lg:text-sm"
+                  >
                     End
                   </Label>
                   <Input
                     id={`roles.${index}.end_date`}
                     {...register(`roles.${index}.end_date`)}
-                    className="col-span-3 text-sm"
+                    className="col-span-3 text-xs lg:text-sm"
                   />
                   {errors.roles?.[index]?.end_date && (
                     <p className="text-destructive text-xs lg:col-start-2 lg:col-span-3">
@@ -292,7 +312,7 @@ const ExperienceForm = ({
               {/* Currently Working Switch (conditionally shown) */}
               {!end_date && (
                 <div className="grid grid-cols-1 gap-2 lg:grid-cols-4 lg:items-center">
-                  <Label className="lg:text-right">Still Working</Label>
+                  <Label className="lg:text-right text-xs lg:text-sm">Still Working</Label>
                   <Controller
                     control={control}
                     name={`roles.${index}.currently_working`}
@@ -309,7 +329,13 @@ const ExperienceForm = ({
 
               {/* Remove Button */}
               <div className="flex justify-end">
-                <Button type="button" variant="destructive" size="sm" onClick={() => remove(index)}>
+                <Button
+                  className="text-xs lg:text-sm"
+                  type="button"
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => remove(index)}
+                >
                   Remove Role
                 </Button>
               </div>
@@ -320,7 +346,7 @@ const ExperienceForm = ({
         <Button
           type="button"
           variant="outline"
-          className="w-full"
+          className="w-full text-xs lg:text-sm"
           onClick={() =>
             append({
               headline: '',
@@ -338,8 +364,12 @@ const ExperienceForm = ({
       </div>
 
       {/* Submit */}
-      <div className="w-full mt-2">
-        <Button disabled={!isDirty || isSubmitting} type="submit" className='w-full'>
+      <div className="w-full mt-2 sticky bottom-0 left-0 right-0">
+        <Button
+          disabled={!isDirty || isSubmitting}
+          type="submit"
+          className={cn('w-full', !isDirty ? 'hidden' : 'flex')}
+        >
           {isSubmitting ? (
             <>
               <Loader /> {actionType === 'Add' ? 'Adding...' : 'Saving...'}

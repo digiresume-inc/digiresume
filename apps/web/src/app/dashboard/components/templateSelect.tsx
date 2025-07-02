@@ -218,9 +218,9 @@ const TemplateSelect = ({
         </div>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
+        <DialogContent onOpenAutoFocus={(e) => {e.preventDefault()}} className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
           <DialogHeader className="mb-4">
-            <DialogTitle>
+            <DialogTitle className='text-base lg:text-lg'>
               {actionType === 'add' ? 'Additional Info Required' : 'Edit Additional Info'}
             </DialogTitle>
           </DialogHeader>

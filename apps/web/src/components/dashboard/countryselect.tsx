@@ -187,7 +187,6 @@ export const CountryCombobox = React.forwardRef<HTMLButtonElement, CountryCombob
     {
       options,
       searchPlaceholder = 'Choose country',
-      width = '400px',
       height = '400px',
       value,
       onChange,
@@ -207,7 +206,7 @@ export const CountryCombobox = React.forwardRef<HTMLButtonElement, CountryCombob
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className={`justify-between w-full ${className} font-light text-sm`}
+            className={`justify-between w-full ${className} font-light text-xs lg:text-sm`}
           >
             {selectedOption ? (
               <span className='flex items-center gap-2'>
@@ -223,7 +222,7 @@ export const CountryCombobox = React.forwardRef<HTMLButtonElement, CountryCombob
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 w-full max-w-98" style={{ width }}>
+        <PopoverContent className="p-0 w-[270px] lg:w-[400px] max-w-98">
           <CountryList
             height={height}
             options={options.map((option) => ({ value: option, label: option }))}

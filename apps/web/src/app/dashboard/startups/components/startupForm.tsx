@@ -65,13 +65,13 @@ export default function StartupForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
-        <label className="block mb-1 text-sm text-foreground/70">Name</label>
-        <Input {...register('name')} placeholder="Startup name" className="text-sm" />
+        <label className="block mb-1 text-xs lg:text-sm text-foreground/70">Name</label>
+        <Input {...register('name')} placeholder="Startup name" className="text-xs lg:text-sm" />
         {errors.name && <p className="text-xs text-destructive mt-1">{errors.name.message}</p>}
       </div>
 
       <div>
-        <label className="mb-1 text-sm text-foreground/70 flex items-center gap-2">
+        <label className="mb-1 text-xs lg:text-sm text-foreground/70 flex items-center gap-2">
           Description
           <HoverCard openDelay={250}>
             <HoverCardTrigger className="text-xs font-medium text-lightprimary-text dark:text-primary-text cursor-pointer">
@@ -81,7 +81,7 @@ export default function StartupForm({
             </HoverCardTrigger>
             <HoverCardContent className="bg-secondary border rounded-md z-50">
               <div className="flex flex-col p-2">
-                <p className="text-sm font-semibold text-lightprimary-text/80 dark:text-primary-text/80">
+                <p className="text-xs lg:text-sm font-semibold text-lightprimary-text/80 dark:text-primary-text/80">
                   Markdown guide
                 </p>
                 <p className="text-xs text-lightprimary-text/80 dark:text-primary-text/80 mt-2">
@@ -109,7 +109,7 @@ export default function StartupForm({
           <Textarea
             {...register('description')}
             placeholder="How crazy is your startup?"
-            className="text-sm pb-6"
+            className="text-xs lg:text-sm pb-6"
             maxLength={300}
           />
           <p className="absolute bottom-1.5 right-3 text-xxs text-muted-foreground">
@@ -122,18 +122,24 @@ export default function StartupForm({
       </div>
 
       <div>
-        <label className="block mb-1 text-sm text-foreground/70">URL</label>
-        <Input {...register('url')} placeholder="https://popatmatch.com" className="text-sm" />
+        <label className="block mb-1 text-xs lg:text-sm text-foreground/70">URL</label>
+        <Input
+          {...register('url')}
+          placeholder="https://popatmatch.com"
+          className="text-xs lg:text-sm"
+        />
         {errors.url && <p className="text-xs text-destructive mt-1">{errors.url.message}</p>}
       </div>
 
       <div>
-        <label className="block mb-1 text-sm text-foreground/70">Estimated Revenue</label>
+        <label className="block mb-1 text-xs lg:text-sm text-foreground/70">
+          Estimated Revenue
+        </label>
         <Input
           type="number"
           {...register('revenue', { valueAsNumber: true })}
           placeholder="Estimated startup revenue"
-          className="text-sm"
+          className="text-xs lg:text-sm"
         />
         {errors.revenue && (
           <p className="text-xs text-destructive mt-1">{errors.revenue.message}</p>
@@ -142,21 +148,25 @@ export default function StartupForm({
 
       <div className="flex items-center justify-center gap-2">
         <div className="w-[70%] lg:w-[80%]">
-          <label className="block mb-1 text-sm text-foreground/70">Status</label>
+          <label className="block mb-1 text-xs lg:text-sm text-foreground/70">Status</label>
           <Select
             value={watch('status')}
             onValueChange={(val) =>
               setValue('status', val as StartupFormData['status'], { shouldDirty: true })
             }
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full text-xs lg:text-sm">
               <SelectValue placeholder="Select status" />
             </SelectTrigger>
             <SelectContent>
               {statusOptions.map((s) => (
-                <SelectItem className='data-[state=checked]:bg-background/30' key={s.status} value={s.status}>
+                <SelectItem
+                  className="data-[state=checked]:bg-background/30"
+                  key={s.status}
+                  value={s.status}
+                >
                   <div className={`flex items-center gap-2 rounded p-1 ${s.color}`}>
-                    <img className='w-4 h-4' src={`/startupStatus/${s.status}.png`} />
+                    <img className="w-4 h-4" src={`/startupStatus/${s.status}.png`} />
                     <span>{s.text}</span>
                   </div>
                 </SelectItem>
@@ -181,21 +191,25 @@ export default function StartupForm({
       </div>
 
       <div>
-        <label className="block mb-1 text-sm text-foreground/70">Category</label>
+        <label className="block mb-1 text-xs lg:text-sm text-foreground/70">Category</label>
         <Select
           value={watch('category')}
           onValueChange={(val) =>
             setValue('category', val as StartupFormData['category'], { shouldDirty: true })
           }
         >
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="w-full text-xs lg:text-sm">
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
           <SelectContent>
             {categoryOptions.map((c) => (
-              <SelectItem className='data-[state=checked]:bg-background/30' key={c.category} value={c.category}>
+              <SelectItem
+                className="data-[state=checked]:bg-background/30"
+                key={c.category}
+                value={c.category}
+              >
                 <div className={`flex items-center gap-2 rounded p-1 ${c.color}`}>
-                 <img className='w-4 h-4' src={`/startupCategory/${c.category}.png`} />
+                  <img className="w-4 h-4" src={`/startupCategory/${c.category}.png`} />
                   <span>{c.text}</span>
                 </div>
               </SelectItem>
@@ -208,7 +222,7 @@ export default function StartupForm({
       </div>
       {/* Optional api_info */}
 
-      <label className="flex items-center gap-2 cursor-pointer text-sm">
+      <label className="flex items-center gap-2 cursor-pointer text-xs lg:text-sm">
         <Checkbox
           checked={watch('show_on_profile')}
           onCheckedChange={(val) => setValue('show_on_profile', !!val, { shouldDirty: true })}
@@ -216,12 +230,11 @@ export default function StartupForm({
         Show on Profile
       </label>
 
-      <div className="flex justify-end">
-        <Button disabled={!isDirty || isSubmitting} type="submit">
+      <div className="w-full mt-2">
+        <Button disabled={!isDirty || isSubmitting} type="submit" className="w-full">
           {isSubmitting ? (
             <>
-              <Loader />{' '}
-              {actionType === 'Add' ? 'Adding...' : 'Saving...'}
+              <Loader /> {actionType === 'Add' ? 'Adding...' : 'Saving...'}
             </>
           ) : actionType === 'Add' ? (
             <>

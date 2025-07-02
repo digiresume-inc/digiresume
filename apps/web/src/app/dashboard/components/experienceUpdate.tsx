@@ -12,7 +12,6 @@ import Loader from '@/components/general/loader';
 
 import type { Profile, Experience } from '@/lib/types/supabasetypes';
 
-
 // type Profile = Database['public']['Tables']['profiles']['Row'];
 
 const ExperienceUpdate = ({ profile }: { profile: Profile }) => {
@@ -109,7 +108,7 @@ const ExperienceUpdate = ({ profile }: { profile: Profile }) => {
       {profile.experience.length > 0 ? (
         <div>
           {profile.experience.map((exp: any, index: number) => (
-            <div key={index} className="w-full mt-1 lg:px-8 py-4">
+            <div key={index} className="w-full mt-1 px-6 lg:px-8 py-4">
               <div className="flex items-center justify-start gap-2">
                 <img
                   src={
@@ -120,7 +119,7 @@ const ExperienceUpdate = ({ profile }: { profile: Profile }) => {
                   className="w-8 h-8 rounded-full"
                   alt={`${exp.company} Logo`}
                 />
-                <h3 className="text-lg font-semibold mr-2">{exp.company}</h3>
+                <h3 className="text-base lg:text-lg font-semibold mr-2">{exp.company}</h3>
                 <Button
                   variant={'outline'}
                   size={'icon'}
@@ -136,23 +135,19 @@ const ExperienceUpdate = ({ profile }: { profile: Profile }) => {
                   onClick={() => handleDelete(exp)}
                   disabled={deletingA === exp.a}
                 >
-                  {deletingA === exp.a ? (
-                    <Loader />
-                  ) : (
-                    <Trash size={12} />
-                  )}
+                  {deletingA === exp.a ? <Loader /> : <Trash size={12} />}
                 </Button>
               </div>
               {exp.roles.map((role: any, roleIndex: number) => (
                 <div key={roleIndex} className="flex items-start justify-start gap-2 mt-2 pl-4">
-                  <CornerDownRight className="w-4 h-4 text-muted-foreground" />
+                  <CornerDownRight className="w-4 h-4 text-muted-foreground shrink-0" />
                   <div className="flex flex-col items-start justify-center">
-                    <span className="flex items-center justify-start gap-1">
+                    <span className="flex flex-wrap items-center justify-start gap-1">
                       <p className="text-sm font-medium">{role.headline}</p>
                       <p>&#183;</p>
                       <span className="text-xs text-muted-foreground">{role.employment_type}</span>
                     </span>
-                    <span className="flex items-center justify-start gap-1">
+                    <span className="flex flex-wrap items-center justify-start gap-1">
                       <span className="text-xs text-muted-foreground">
                         ({formatMonthYear(role.start_date)} -{' '}
                         {role.end_date ? formatMonthYear(role.end_date) : 'Present'})
@@ -198,9 +193,12 @@ const ExperienceUpdate = ({ profile }: { profile: Profile }) => {
         </div>
       )}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
+        <DialogContent
+          onOpenAutoFocus={(e) => e.preventDefault()}
+          className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar"
+        >
           <DialogHeader className="mb-4">
-            <DialogTitle>{actionType} Experience</DialogTitle>
+            <DialogTitle className='text-base lg:text-lg'>{actionType} Experience</DialogTitle>
           </DialogHeader>
           {selectedExperience && (
             <ExperienceForm

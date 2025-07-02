@@ -33,7 +33,7 @@ const Navbar = ({
             </Avatar>
           </PopoverTrigger>
           <PopoverContent className="w-fit h-fit max-w-60 mr-1 lg:mr-15 mt-4 relative z-[1000] flex flex-col gap-3">
-            <div className="absolute z-0 -top-2 left-[78%] lg:left-[63%] -translate-x-1/2 w-4 h-4 rotate-45 border-t border-l bg-popover" />
+            <div className="absolute z-0 -top-2 left-[75%] lg:left-[64%] -translate-x-1/2 w-4 h-4 rotate-45 border-t border-l bg-popover" />
             <span title={user.email} className="truncate max-w-[95%] text-sm">
               {user.email}
             </span>

@@ -77,9 +77,14 @@ const SocialsForm = ({
                 <Input
                   {...register(`links.${index}.url`)}
                   placeholder="Enter social URL"
-                  className="w-full text-sm"
+                  className="w-full text-xs lg:text-sm"
                 />
-                <Button type="button" size="icon" variant="destructive" onClick={() => remove(index)}>
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="destructive"
+                  onClick={() => remove(index)}
+                >
                   <Trash2 size={16} />
                 </Button>
               </div>
@@ -97,17 +102,13 @@ const SocialsForm = ({
           variant="outline"
           size="sm"
           onClick={() => append({ url: '' })}
-          className="w-full"
+          className="w-full text-xs lg:text-sm"
         >
           <Plus className="mr-1" /> Add More
         </Button>
       </div>
 
-      <Button
-        disabled={!isDirty || isSubmitting}
-        className="w-full"
-        type="submit"
-      >
+      <Button disabled={!isDirty || isSubmitting} className="w-full" type="submit">
         {isSubmitting ? (
           <>
             <Loader /> Saving...
@@ -115,7 +116,7 @@ const SocialsForm = ({
         ) : (
           <>
             {' '}
-            <Save className="mr-1" /> Save Changes
+            Save changes <Save />
           </>
         )}
       </Button>

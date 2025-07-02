@@ -94,8 +94,8 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
   };
 
   return (
-    <div className="col-span-2 md:col-span-1 h-[200px] lg:h-[235px] rounded-2xl flex flex-col items-center justify-start p-6 bg-secondary shadow-md border border-border">
-      <h3 className="text-sm lg:text-lg font-semibold text-foreground mb-3">Your Avatar</h3>
+    <div className="col-span-2 md:col-span-1 h-[180px] lg:h-[235px] rounded-2xl flex flex-col items-center justify-start py-4 lg:py-6 px-6 bg-secondary shadow-md border border-border">
+      <h3 className="text-xs lg:text-base font-semibold text-foreground mb-3">Your Avatar</h3>
 
       {isLoading ? (
         <div
@@ -152,7 +152,7 @@ const AvatarComponent = ({ avatar_url }: { avatar_url: string }) => {
         className="hidden"
       />
       <p className="text-xxs text-muted-foreground mt-3 text-center">Max size: 2 MB</p>
-      <p className="text-xxs text-muted-foreground mt-1 text-center">Accepted: jpg, png, jpeg</p>
+      <p className="text-xxs text-muted-foreground mt-1 text-center">Only jpg, png</p>
     </div>
   );
 };

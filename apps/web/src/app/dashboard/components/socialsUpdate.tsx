@@ -32,16 +32,16 @@ const SocialsUpdate = ({ profile }: { profile: Profile }) => {
             const Icon = getPlatformIcon(social.url);
             return (
               <div
-                className="flex items-center justify-between gap-4 bg-muted py-2 px-4 rounded-md"
+                className="flex items-center justify-between gap-4 bg-muted py-2 px-3 lg:px-4 rounded-md"
                 key={index}
               >
                 {/* Left side: Icon + URL */}
-                <div className="flex justify-center items-center gap-2">
+                <div className="flex justify-center items-center gap-1.5 lg:gap-2">
                   <div className="text-foreground/60">{Icon}</div>
-                  <p className="text-sm font-medium max-w-36 md:max-w-fit truncate">{social.url}</p>
+                  <p className="text-xs lg:text-sm font-medium max-w-36 md:max-w-fit truncate">{social.url}</p>
                 </div>
 
-                <Button variant="ghost" size="icon" onClick={() => setOpen(true)}>
+                <Button variant="outline" size="icon" onClick={() => setOpen(true)}>
                   <Pencil size={16} />
                 </Button>
               </div>
@@ -71,9 +71,9 @@ const SocialsUpdate = ({ profile }: { profile: Profile }) => {
         </div>
       )}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
+        <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
           <DialogHeader className="mb-4">
-            <DialogTitle>Add/Edit Socials</DialogTitle>
+            <DialogTitle className='text-base lg:text-lg'>Add/Edit Socials</DialogTitle>
           </DialogHeader>
           <SocialsForm profile={profile} setOpen={setOpen} />
         </DialogContent>

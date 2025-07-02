@@ -102,8 +102,8 @@ const FaviconUploader = ({ favicon_url }: { favicon_url: string }) => {
   };
 
   return (
-    <div className="col-span-2 md:col-span-1 h-[200px] lg:h-[235px] rounded-2xl flex flex-col items-center justify-start p-6 bg-secondary shadow-md border border-border">
-      <h3 className="text-sm lg:text-lg font-semibold text-foreground mb-3">Your Favicon</h3>
+    <div className="col-span-2 md:col-span-1 h-[180px] lg:h-[235px] rounded-2xl flex flex-col items-center justify-start py-4 lg:py-6 px-6 bg-secondary shadow-md border border-border">
+      <h3 className="text-xs lg:text-base font-semibold text-foreground mb-3">Your Favicon</h3>
 
       {isLoading ? (
         <div className="transition-all w-18 lg:w-24 aspect-square rounded-lg border-2 flex items-center justify-center border-dashed border-foreground/30 bg-muted opacity-80">
@@ -158,7 +158,7 @@ const FaviconUploader = ({ favicon_url }: { favicon_url: string }) => {
       />
       <p className="text-xxs text-muted-foreground mt-3 text-center">Max size: 1 MB</p>
       <p className="text-xxs text-muted-foreground mt-1 text-center">
-        Only .ico files are accepted
+        Only .ico
       </p>
     </div>
   );

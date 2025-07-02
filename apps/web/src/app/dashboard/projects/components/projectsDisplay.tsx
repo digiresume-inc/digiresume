@@ -194,8 +194,8 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="h-16 w-full bg-secondary text-sm p-3 rounded-md">
-                                <p className="line-clamp-2">{project.description}</p>
+                              <div className="h-16 w-full bg-secondary text-xs lg:text-sm p-2 lg:p-3 rounded-md">
+                                <p className="line-clamp-3 lg:line-clamp-2">{project.description}</p>
                               </div>
                             </div>
                           </div>
@@ -211,9 +211,9 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
         </DragDropContext>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
+        <DialogContent onOpenAutoFocus={(e) => {e.preventDefault()}} className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
           <DialogHeader className="mb-4">
-            <DialogTitle>{actionType} Project</DialogTitle>
+            <DialogTitle className='text-base lg:text-lg'>{actionType} Project</DialogTitle>
           </DialogHeader>
           <ProjectForm project={selectedProject} actionType={actionType} setOpen={setOpen} />
         </DialogContent>
