@@ -148,7 +148,7 @@ const MobilePreview = ({
                       <CircleHelp strokeWidth={1} className="h-4 w-4 text-black" />
                     </span>
                   )}
-                  <p className="text-xs text-black">/{profile.username}</p>
+                  <p className="text-xs text-black">/r/{profile.username}</p>
                   <Link
                     target="_blank"
                     href={`${process.env.NEXT_PUBLIC_BASE_URL}/r/${profile.username}`}
@@ -312,7 +312,7 @@ const MobilePreview = ({
                                                   {role.location_type}
                                                 </span>
                                               </h4>
-                                              <p className="pl-6 jetbrains text-black/70 text-xs font-medium tracking-tight leading-none flex-shrink-0">
+                                              <p className="pl-5 jetbrains text-black/70 text-xxs font-medium tracking-tight leading-none flex-shrink-0">
                                                 {formatMonthShortYear(role.start_date)} -{' '}
                                                 {role.end_date
                                                   ? formatMonthShortYear(role.end_date)
@@ -673,7 +673,7 @@ const MobilePreview = ({
                     }}
                     className="text-xs"
                   >
-                    /{profile.username}
+                    /p/{profile.username}
                   </p>
                   <Link
                     target="_blank"

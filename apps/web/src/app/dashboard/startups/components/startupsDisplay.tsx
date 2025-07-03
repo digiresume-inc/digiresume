@@ -68,31 +68,30 @@ const StartupsDisplay = ({ startups }: { startups: any }) => {
     }
   };
 
-const handleDeleteStartup = async (startupid: string, index: number) => {
-  setDeletingIndex(index);
+  const handleDeleteStartup = async (startupid: string, index: number) => {
+    setDeletingIndex(index);
 
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  if (!user) return;
+    if (!user) return;
 
-  const { error } = await supabase.rpc('delete_and_reindex', {
-    startup_id: startupid,
-    input_user_id: user.id,
-    deleted_index: index,
-  });
+    const { error } = await supabase.rpc('delete_and_reindex', {
+      startup_id: startupid,
+      input_user_id: user.id,
+      deleted_index: index,
+    });
 
-  if (error) {
-    ToastError({ message: `Something went wrong. Try again. ${error.message}` });
-  } else {
-    router.refresh();
-  }
+    if (error) {
+      ToastError({ message: `Something went wrong. Try again. ${error.message}` });
+    } else {
+      router.refresh();
+    }
 
-  setDeletingIndex(0);
-};
-
+    setDeletingIndex(0);
+  };
 
   return (
     <>
@@ -123,7 +122,6 @@ const handleDeleteStartup = async (startupid: string, index: number) => {
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
-                        {...provided.dragHandleProps}
                         className={`transition-colors duration-300 border rounded-md mb-3 ${
                           startupDraggingItemId === startup.id
                             ? 'border-primary/70 border-dashed opacity-100'
@@ -137,11 +135,10 @@ const handleDeleteStartup = async (startupid: string, index: number) => {
                           className="bg-card w-full min-h-36 rounded-lg p-2 lg:p-4 relative"
                         >
                           <div className="flex items-center justify-center w-full gap-2">
-                            <div className="w-[5%] h-full">
-                              {' '}
+                            <div {...provided.dragHandleProps} className="shrink-0 h-full">
                               <GripVertical className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1.2} />
                             </div>
-                            <div className="flex flex-col items-center justify-center w-[95%] gap-2">
+                            <div className="flex flex-col items-center justify-center w-full gap-2">
                               <div className="flex items-center justify-start w-full gap-2">
                                 <div className="w-8 lg:w-12 h-8 lg:h-12 flex items-center justify-center">
                                   <img
@@ -154,7 +151,7 @@ const handleDeleteStartup = async (startupid: string, index: number) => {
                                     <p className="font-semibold text-sm lg:text-base">
                                       {startup.name}
                                     </p>
-                                    <div className="absolute top-2 right-4 flex items-center justify-center gap-2">
+                                    <div className="absolute top-2 lg:top-3 right-2 lg:right-3 flex items-center justify-center gap-2">
                                       <Button
                                         onClick={() => {
                                           setActionType('Edit');
@@ -188,7 +185,7 @@ const handleDeleteStartup = async (startupid: string, index: number) => {
                                           className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary`}
                                         >
                                           <img
-                                            className="w-4 h-4"
+                                            className="w-3 lg:w-4 h-3 lg:h-4"
                                             src={`/startupStatus/${currentStatus.status}.png`}
                                           />
                                           <span>{currentStatus.text}</span>
@@ -208,7 +205,7 @@ const handleDeleteStartup = async (startupid: string, index: number) => {
                                           className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary`}
                                         >
                                           <img
-                                            className="w-4 h-4"
+                                            className="w-3 lg:w-4 h-3 lg:h-4"
                                             src={`/startupCategory/${currentCategory.category}.png`}
                                           />
                                           <span>{currentCategory.text}</span>
@@ -223,7 +220,9 @@ const handleDeleteStartup = async (startupid: string, index: number) => {
                                 </div>
                               </div>
                               <div className="h-16 w-full bg-secondary  text-xs lg:text-sm p-2 lg:p-3 rounded-md">
-                                <p className="line-clamp-3 lg:line-clamp-2">{startup.description}</p>
+                                <p className="line-clamp-3 lg:line-clamp-2">
+                                  {startup.description}
+                                </p>
                               </div>
                             </div>
                           </div>
@@ -239,9 +238,14 @@ const handleDeleteStartup = async (startupid: string, index: number) => {
         </DragDropContext>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent onOpenAutoFocus={(e) => {e.preventDefault()}} className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
+        <DialogContent
+          onOpenAutoFocus={(e) => {
+            e.preventDefault();
+          }}
+          className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar"
+        >
           <DialogHeader className="mb-4">
-            <DialogTitle className='text-base lg:text-lg'>{actionType} Startup</DialogTitle>
+            <DialogTitle className="text-base lg:text-lg">{actionType} Startup</DialogTitle>
           </DialogHeader>
           <StartupForm startup={selectedStartup} actionType={actionType} setOpen={setOpen} />
         </DialogContent>

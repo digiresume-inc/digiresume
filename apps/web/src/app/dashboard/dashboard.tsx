@@ -37,7 +37,7 @@ const Dashboard = ({
   const [preview, setPreview] = useState(false);
   const [localTheme, setLocalTheme] = useState<Theme>(profile.theme);
   const [logoutModal, setLogoutModal] = useState(false);
-    const isMobile = useIsMobile();
+  const isMobile = useIsMobile();
 
   return (
     <>
@@ -51,8 +51,8 @@ const Dashboard = ({
             <FaviconComponent favicon_url={profile.favicon_url} />
             <AnalyticsCard />
           </div>
-          <Tabs defaultValue="profile" className="w-full mt-12 mb-12">
-            <div className="overflow-x-auto">
+          <Tabs defaultValue="profile" className="w-full mt-8 mb-12 lg:mt-12">
+            <div className="overflow-x-auto overflow-y-hidden">
               <TabsList className="flex w-fit gap-3 lg:gap-6 px-2 lg:px-3 bg-background rounded-none">
                 <TabsTrigger
                   className="border-t-0 cursor-pointer border-r-0 border-l-0 border-b-[3px] border-transparent data-[state=active]:border-primary text-muted-foreground data-[state=active]:text-foreground pb-[18px] pt-4 text-xs lg:text-sm font-bold tracking-[0.015em] bg-transparent rounded-none focus-visible:ring-0 focus-visible:outline-none"

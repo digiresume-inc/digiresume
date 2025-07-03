@@ -118,7 +118,6 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
-                        {...provided.dragHandleProps}
                         className={`transition-colors duration-300 border rounded-md mb-3 ${
                           projectDraggingItemId === project.id
                             ? 'border-primary/70 border-dashed opacity-100'
@@ -127,13 +126,15 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                               : 'opacity-100 border border-primary/40'
                         }`}
                       >
-                        <div key={index} className="bg-card w-full min-h-36 rounded-lg p-2 lg:p-4">
+                        <div
+                          key={index}
+                          className="bg-card w-full min-h-36 rounded-lg p-2 lg:p-4 relative"
+                        >
                           <div className="flex items-center justify-center w-full gap-2">
-                            <div className="w-[5%] h-full">
-                              {' '}
+                            <div {...provided.dragHandleProps} className="shrink-0 h-full">
                               <GripVertical className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1.2} />
                             </div>
-                            <div className="flex flex-col items-center justify-center w-[95%] gap-2">
+                            <div className="flex flex-col items-center justify-center w-full gap-2">
                               <div className="flex items-center justify-center w-full gap-2">
                                 <div className="w-8 lg:w-12 h-8 lg:h-12 flex items-center justify-center">
                                   <img
@@ -146,7 +147,7 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                                     <p className="font-semibold text-sm lg:text-base">
                                       {project.name}
                                     </p>
-                                    <div className="flex items-center justify-center gap-2">
+                                    <div className="absolute top-2 lg:top-3 right-2 lg:right-3 flex items-center justify-center gap-2">
                                       <Button
                                         onClick={() => {
                                           setActionType('Edit');
@@ -180,7 +181,7 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                                           className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary`}
                                         >
                                           <img
-                                            className="w-4 h-4"
+                                            className="w-3 lg:w-4 h-3 lg:h-4"
                                             src={`/startupCategory/${currentCategory.category}.png`}
                                           />
                                           <span>{currentCategory.text}</span>
@@ -195,7 +196,9 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                                 </div>
                               </div>
                               <div className="h-16 w-full bg-secondary text-xs lg:text-sm p-2 lg:p-3 rounded-md">
-                                <p className="line-clamp-3 lg:line-clamp-2">{project.description}</p>
+                                <p className="line-clamp-3 lg:line-clamp-2">
+                                  {project.description}
+                                </p>
                               </div>
                             </div>
                           </div>
@@ -211,9 +214,14 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
         </DragDropContext>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent onOpenAutoFocus={(e) => {e.preventDefault()}} className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
+        <DialogContent
+          onOpenAutoFocus={(e) => {
+            e.preventDefault();
+          }}
+          className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar"
+        >
           <DialogHeader className="mb-4">
-            <DialogTitle className='text-base lg:text-lg'>{actionType} Project</DialogTitle>
+            <DialogTitle className="text-base lg:text-lg">{actionType} Project</DialogTitle>
           </DialogHeader>
           <ProjectForm project={selectedProject} actionType={actionType} setOpen={setOpen} />
         </DialogContent>

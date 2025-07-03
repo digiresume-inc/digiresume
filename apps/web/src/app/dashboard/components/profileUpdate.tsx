@@ -34,7 +34,6 @@ import Loader from '@/components/general/loader';
 import type { Profile } from '@/lib/types/supabasetypes';
 import { useIsMobile } from '@dr/ui/hooks/use-mobile';
 
-// type Profile = Database['public']['Tables']['profiles']['Row'];
 
 const ProfileUpdate = ({ profile }: { profile: Profile }) => {
   const isMobile = useIsMobile();

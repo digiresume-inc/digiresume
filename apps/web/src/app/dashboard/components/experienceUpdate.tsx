@@ -108,7 +108,7 @@ const ExperienceUpdate = ({ profile }: { profile: Profile }) => {
       {profile.experience.length > 0 ? (
         <div>
           {profile.experience.map((exp: any, index: number) => (
-            <div key={index} className="w-full mt-1 px-6 lg:px-8 py-4">
+            <div key={index} className="w-full mt-1 px-4 lg:px-8 py-2 lg:py-4">
               <div className="flex items-center justify-start gap-2">
                 <img
                   src={
@@ -116,7 +116,7 @@ const ExperienceUpdate = ({ profile }: { profile: Profile }) => {
                       ? `https://www.google.com/s2/favicons?sz=128&domain_url=${exp.company_link}`
                       : '/general/company.png'
                   }
-                  className="w-8 h-8 rounded-full"
+                  className="w-8 h-8 rounded-full border"
                   alt={`${exp.company} Logo`}
                 />
                 <h3 className="text-base lg:text-lg font-semibold mr-2">{exp.company}</h3>
@@ -161,7 +161,7 @@ const ExperienceUpdate = ({ profile }: { profile: Profile }) => {
             </div>
           ))}
 
-          <div className="lg:px-12">
+          <div className="lg:px-12 mt-4">
             <Button
               onClick={() => {
                 handleNewExperience(emptyExperience);

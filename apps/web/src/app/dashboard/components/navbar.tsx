@@ -16,7 +16,7 @@ const Navbar = ({
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="z-[49] w-full h-fit px-6 py-2 sticky top-0 left-0 max-w-5xl rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm border bg-secondary/10">
+    <div className="z-[49] w-full h-fit px-6 py-2 sticky top-0 left-0 max-w-5xl rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm border border-border/50 bg-secondary/60">
       <div className="flex items-center justify-between w-full">
         <Image
           src="/logos/text_dark.png"

@@ -15,7 +15,6 @@ const ProjectsPreviewComponent = ({
   preview: boolean;
   setPreview: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-
   return (
     <div
       className={cn(
@@ -38,7 +37,10 @@ const ProjectsPreviewComponent = ({
         <h2 className="text-lg lg:text-2xl font-bold">Preview</h2>
         <div className="relative w-[300px] h-[620px] rounded-[50px] bg-black shadow-2xl border-[14px] border-black flex items-center justify-center">
           {/* Dynamic Island (move out of overflow-hidden) */}
-          <div className="absolute top-[-5px] left-1/2 -translate-x-1/2 bg-black rounded-t-2xl rounded-b-4xl w-[130px] h-[25px] z-20"></div>
+          <div className="absolute top-[-5px] left-1/2 -translate-x-1/2 bg-black rounded-t-2xl rounded-b-4xl w-[130px] h-[25px] z-20">
+            <div className="bg-[#404040] size-2.5 rounded-full absolute top-1/4 right-1/4" />
+            <div className="bg-[#404040] w-12 h-2.5 rounded-full absolute top-1/4 right-2/5" />
+          </div>
 
           {/* Status Icons (Top Right) */}
           <div className="absolute top-1 right-8 flex z-30">
@@ -58,48 +60,54 @@ const ProjectsPreviewComponent = ({
           {/* iPhone Screen */}
           <div className="w-[270px] h-[590px] bg-secondary rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
             <div className="p-4 space-y-2">
-              {projects.map((project: Project, index: number) => (
-                project.show_on_profile && <div
-                  key={index}
-                  className="w-full bg-card rounded-lg border border-primary/30 h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
-                >
-                  <div className="flex items-center justify-center gap-2">
-                    <img
-                      src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
-                      className="w-8 h-8 rounded-full"
-                    />
-                    <div className="flex flex-col items-start justify-center gap-1">
-                      <p className="text-xs font-semibold">{project.name}</p>
-                      <div className="flex gap-2 items-center justify-start w-full">
-                        {(() => {
-                          const currentCategory = categoryOptions.find(
-                            (s) => s.category === project.category
-                          );
-                          return currentCategory ? (
-                            <span
-                              className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary`}
-                            >
-                              <img className='w-3 h-3' src={`/startupCategory/${currentCategory.category}.png`} />
-                              <span>{currentCategory.text}</span>
-                            </span>
-                          ) : (
-                            <span className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary">
-                              {project.category}
-                            </span>
-                          );
-                        })()}
+              {projects.map(
+                (project: Project, index: number) =>
+                  project.show_on_profile && (
+                    <div
+                      key={index}
+                      className="w-full bg-card rounded-lg border border-primary/30 h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
+                    >
+                      <div className="flex items-center justify-center gap-2">
+                        <img
+                          src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
+                          className="w-8 h-8 rounded-full"
+                        />
+                        <div className="flex flex-col items-start justify-center gap-1">
+                          <p className="text-xs font-semibold">{project.name}</p>
+                          <div className="flex gap-2 items-center justify-start w-full">
+                            {(() => {
+                              const currentCategory = categoryOptions.find(
+                                (s) => s.category === project.category
+                              );
+                              return currentCategory ? (
+                                <span
+                                  className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary`}
+                                >
+                                  <img
+                                    className="w-3 h-3"
+                                    src={`/startupCategory/${currentCategory.category}.png`}
+                                  />
+                                  <span>{currentCategory.text}</span>
+                                </span>
+                              ) : (
+                                <span className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary">
+                                  {project.category}
+                                </span>
+                              );
+                            })()}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="w-full h-px bg-primary/30" />
+                      <div className="text-xxs font-medium">
+                        <span className="line-clamp-3">
+                          {' '}
+                          <MarkdownParser text={project.description} />
+                        </span>
                       </div>
                     </div>
-                  </div>
-                  <div className="w-full h-px bg-primary/30" />
-                  <div className="text-xxs font-medium">
-                    <span className="line-clamp-3">
-                      {' '}
-                      <MarkdownParser text={project.description} />
-                    </span>
-                  </div>
-                </div>
-              ))}
+                  )
+              )}
             </div>
           </div>
         </div>

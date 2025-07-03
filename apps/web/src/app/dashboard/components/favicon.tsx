@@ -102,7 +102,7 @@ const FaviconUploader = ({ favicon_url }: { favicon_url: string }) => {
   };
 
   return (
-    <div className="col-span-2 md:col-span-1 h-[180px] lg:h-[235px] rounded-2xl flex flex-col items-center justify-start py-4 lg:py-6 px-6 bg-secondary shadow-md border border-border">
+    <div className="col-span-2 md:col-span-1 h-fit lg:h-[235px] rounded-2xl flex flex-col items-center justify-start py-4 lg:py-6 px-6 bg-secondary shadow-md border border-border">
       <h3 className="text-xs lg:text-base font-semibold text-foreground mb-3">Your Favicon</h3>
 
       {isLoading ? (
