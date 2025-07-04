@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { SiGithub, SiInstagram, SiLinkedin, SiX } from 'react-icons/si';
 import ThemeBasedImage from './themeBasedImage';
 import { GridGradient } from '@dr/ui/components/base/grid-gradient';
+import Link from 'next/link';
 
 const Footer = () => {
   const FooterLogos = ['/logos/dr_dark.png', '/logos/dr_light.png'];
@@ -72,18 +73,24 @@ const Footer = () => {
             </div>
           </div>
           <div className="flex items-center gap-4 py-6">
-            <SiX
-              size={24}
-              className="text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer"
-            />
-            <SiInstagram
-              size={24}
-              className="text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer"
-            />
-            <SiLinkedin
-              size={24}
-              className="text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer"
-            />
+            <Link target='="_blank' href={'https://x.com/digiresume'}>
+              <SiX
+                size={24}
+                className="text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer"
+              />
+            </Link>
+            <Link target='="_blank' href={'https://instagram.com/digiresu.me'}>
+              <SiInstagram
+                size={24}
+                className="text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer"
+              />
+            </Link>
+            <Link target='="_blank' href={'https://linkedin.com/company/digiresume'}>
+              <SiLinkedin
+                size={24}
+                className="text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer"
+              />
+            </Link>
             <SiGithub
               size={24}
               className="text-foreground/70 hover:text-foreground transition-colors duration-200 cursor-pointer"
@@ -100,8 +107,7 @@ const Footer = () => {
         </div>
         <div className="flex-col gap-2 mt-4 flex md:hidden w-full text-foreground">
           <div className="flex-wrap items-center gap-1 text-sm font-light">
-            @2025 <strong>Digiresume</strong>, All rights
-            reserved
+            @2025 <strong>Digiresume</strong>, All rights reserved
           </div>
           <div className="text-sm flex h-12 items-center bg-linear-(--gradient-background) bg-clip-text text-right text-transparent lg:order-4 lg:mr-0 md:order-3 md:ml-auto md:h-11 sm:ml-0 sm:mt-2 sm:w-full">
             <Image
