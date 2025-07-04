@@ -1,54 +1,58 @@
 'use client';
 import { Button } from '@dr/ui/components/base/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@dr/ui/components/base/dialog';
-import { Project, categoryOptions } from '@dr/schemas';
+import { Startup, categoryOptions, statusOptions } from '@dr/schemas';
 import { Edit, GripVertical, Plus, Trash } from 'lucide-react';
 import React, { useState } from 'react';
+import StartupForm from './startup-form';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { createClient } from '@/supabase/client';
 import { useRouter } from 'next/navigation';
-import ProjectForm from './projectForm';
 import Loader from '@/components/general/loader';
 
-const ProjectsDisplay = ({ projects }: { projects: any }) => {
+const StartupsDisplay = ({ startups }: { startups: any }) => {
   const supabase = createClient();
-  const [projectDraggingItemId, setProjectDraggingItemId] = useState<string | null>(null);
-  const emptyProject: Project = {
+  const [startupDraggingItemId, setStartupDraggingItemId] = useState<string | null>(null);
+  const emptyStartup: Startup = {
     id: '',
-    index: projects.length + 1,
+    index: startups.length + 1,
     name: '',
     description: '',
     url: '',
+    revenue: 0,
+    status: 'active',
+    show_status: true,
     category: 'other',
-    show_on_profile: false,
+    verified: false,
+    show_on_profile: true,
   };
   const [open, setOpen] = useState(false);
   const [actionType, setActionType] = useState('Edit');
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [deletingIndex, setDeletingIndex] = useState<number>(0);
+  const [selectedStartup, setSelectedStartup] = useState<Startup | null>(null);
   const router = useRouter();
+  const [deletingIndex, setDeletingIndex] = useState<number>(0);
 
-  const ProjectDragStart = (start: any) => {
-    setProjectDraggingItemId(start.draggableId); // Set the ID of the currently dragged item
+  const StartupsDragStart = (start: any) => {
+    setStartupDraggingItemId(start.draggableId);
   };
 
-  const ProjectDragEnd = async (result: any) => {
-    setProjectDraggingItemId(null);
+  const StartupsDragEnd = async (result: any) => {
+    setStartupDraggingItemId(null);
 
     if (!result.destination) return;
 
-    const reorderedProjects = Array.from(projects as Project[]);
-    const [reorderedProject] = reorderedProjects.splice(result.source.index, 1);
-    reorderedProjects.splice(result.destination.index, 0, reorderedProject as Project);
+    const reorderedStartups = Array.from(startups as Startup[]);
+    const [reorderedStartup] = reorderedStartups.splice(result.source.index, 1);
+    reorderedStartups.splice(result.destination.index, 0, reorderedStartup as Startup);
     try {
       await Promise.all(
-        reorderedProjects.map(async (project: Project, index: number) => {
-          if (project.index !== index + 1) {
+        reorderedStartups.map(async (startup: Startup, index: number) => {
+          if (startup.index !== index + 1) {
             const { error } = await supabase
-              .from('projects')
+              .from('startups')
               .update({ index: index + 1 })
-              .eq('id', project.id);
+              .eq('id', startup.id);
 
             if (error) {
               ToastError({ message: 'An unexpected error occurred.' });
@@ -64,7 +68,7 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
     }
   };
 
-  const handleDeleteProject = async (projectid: string, index: number) => {
+  const handleDeleteStartup = async (startupid: string, index: number) => {
     setDeletingIndex(index);
 
     const supabase = createClient();
@@ -74,8 +78,8 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
 
     if (!user) return;
 
-    const { error } = await supabase.rpc('delete_and_reindex_p', {
-      project_id: projectid,
+    const { error } = await supabase.rpc('delete_and_reindex', {
+      startup_id: startupid,
       input_user_id: user.id,
       deleted_index: index,
     });
@@ -95,7 +99,7 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
         <Button
           onClick={() => {
             setActionType('Add');
-            setSelectedProject(emptyProject);
+            setSelectedStartup(emptyStartup);
             setOpen(true);
           }}
           variant={'outline'}
@@ -103,7 +107,7 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
         >
           <Plus /> Add New
         </Button>
-        <DragDropContext onDragStart={ProjectDragStart} onDragEnd={ProjectDragEnd}>
+        <DragDropContext onDragStart={StartupsDragStart} onDragEnd={StartupsDragEnd}>
           <Droppable droppableId="startup-list">
             {(provided) => (
               <div
@@ -112,16 +116,16 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                 className="w-full flex flex-col"
               >
                 {/* Render draggable items here */}
-                {projects.map((project: Project, index: number) => (
-                  <Draggable key={project.id} draggableId={project.id!} index={index}>
+                {startups.map((startup: Startup, index: number) => (
+                  <Draggable key={startup.id} draggableId={startup.id!} index={index}>
                     {(provided) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         className={`transition-colors duration-300 border rounded-md mb-3 ${
-                          projectDraggingItemId === project.id
+                          startupDraggingItemId === startup.id
                             ? 'border-primary/70 border-dashed opacity-100'
-                            : projectDraggingItemId
+                            : startupDraggingItemId
                               ? 'opacity-50 border border-dashed border-primary/40'
                               : 'opacity-100 border border-primary/40'
                         }`}
@@ -135,23 +139,23 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                               <GripVertical className="w-4 h-4 lg:w-6 lg:h-6" strokeWidth={1.2} />
                             </div>
                             <div className="flex flex-col items-center justify-center w-full gap-2">
-                              <div className="flex items-center justify-center w-full gap-2">
+                              <div className="flex items-center justify-start w-full gap-2">
                                 <div className="w-8 lg:w-12 h-8 lg:h-12 flex items-center justify-center">
                                   <img
-                                    src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
+                                    src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
                                     className="w-8 lg:w-12 h-8 lg:h-12 rounded-full"
                                   />
                                 </div>
                                 <div className="w-[calc(100%-64px)] flex flex-col items-center justify-center gap-1">
                                   <div className="w-full flex items-center justify-between">
                                     <p className="font-semibold text-sm lg:text-base">
-                                      {project.name}
+                                      {startup.name}
                                     </p>
                                     <div className="absolute top-2 lg:top-3 right-2 lg:right-3 flex items-center justify-center gap-2">
                                       <Button
                                         onClick={() => {
                                           setActionType('Edit');
-                                          setSelectedProject(project);
+                                          setSelectedStartup(startup);
                                           setOpen(true);
                                         }}
                                         size={'icon'}
@@ -161,7 +165,7 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                                       </Button>
                                       <Button
                                         onClick={() => {
-                                          handleDeleteProject(project.id, index + 1);
+                                          handleDeleteStartup(startup.id, index + 1);
                                         }}
                                         size={'icon'}
                                         variant={'destructive'}
@@ -173,8 +177,28 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                                   </div>
                                   <div className="flex gap-2 items-center justify-start w-full">
                                     {(() => {
+                                      const currentStatus = statusOptions.find(
+                                        (s) => s.status === startup.status
+                                      );
+                                      return currentStatus ? (
+                                        <span
+                                          className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary`}
+                                        >
+                                          <img
+                                            className="w-3 lg:w-4 h-3 lg:h-4"
+                                            src={`/startupStatus/${currentStatus.status}.png`}
+                                          />
+                                          <span>{currentStatus.text}</span>
+                                        </span>
+                                      ) : (
+                                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary">
+                                          {startup.status}
+                                        </span>
+                                      );
+                                    })()}
+                                    {(() => {
                                       const currentCategory = categoryOptions.find(
-                                        (s) => s.category === project.category
+                                        (s) => s.category === startup.category
                                       );
                                       return currentCategory ? (
                                         <span
@@ -188,16 +212,16 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
                                         </span>
                                       ) : (
                                         <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-tiny lg:text-xs font-medium bg-secondary">
-                                          {project.category}
+                                          {startup.category}
                                         </span>
                                       );
                                     })()}
                                   </div>
                                 </div>
                               </div>
-                              <div className="h-16 w-full bg-secondary text-xs lg:text-sm p-2 lg:p-3 rounded-md">
+                              <div className="h-16 w-full bg-secondary  text-xs lg:text-sm p-2 lg:p-3 rounded-md">
                                 <p className="line-clamp-3 lg:line-clamp-2">
-                                  {project.description}
+                                  {startup.description}
                                 </p>
                               </div>
                             </div>
@@ -221,13 +245,13 @@ const ProjectsDisplay = ({ projects }: { projects: any }) => {
           className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar"
         >
           <DialogHeader className="mb-4">
-            <DialogTitle className="text-base lg:text-lg">{actionType} Project</DialogTitle>
+            <DialogTitle className="text-base lg:text-lg">{actionType} Startup</DialogTitle>
           </DialogHeader>
-          <ProjectForm project={selectedProject} actionType={actionType} setOpen={setOpen} />
+          <StartupForm startup={selectedStartup} actionType={actionType} setOpen={setOpen} />
         </DialogContent>
       </Dialog>
     </>
   );
 };
 
-export default ProjectsDisplay;
+export default StartupsDisplay;

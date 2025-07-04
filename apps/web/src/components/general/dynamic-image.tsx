@@ -1,4 +1,4 @@
-import { getImage } from '@/lib/utils/getImage';
+import { getBlurredImage } from '@/lib/utils/get-blurred-image';
 import Image from 'next/image';
 
 export default async function DynamicImage({
@@ -14,7 +14,7 @@ export default async function DynamicImage({
   height: number;
   className?: string;
 }) {
-  const { img, base64 } = await getImage(url);
+  const { img, base64 } = await getBlurredImage(url);
 
   return (
     <Image

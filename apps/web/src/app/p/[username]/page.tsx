@@ -1,5 +1,5 @@
 import { createSClient } from '@/supabase/server';
-import type { Startup, Project } from '@/lib/types/supabasetypes';
+import type { Startup, Project } from '@/lib/types/supabase-types';
 import { createClient } from '@/supabase/client';
 import { Metadata } from 'next';
 import removeMarkdown from "remove-markdown";

@@ -3,11 +3,11 @@ import { Button } from '@dr/ui/components/base/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@dr/ui/components/base/dialog';
 import { Globe, Link2, Pencil, Plus } from 'lucide-react';
 import React, { useState } from 'react';
-import SocialsForm from '../forms/socialsForm';
-import { socialIconMap } from '@/lib/utils/iconMap';
+import SocialsForm from '../forms/socials-form';
+import { socialIconMap } from '@/lib/utils/socials-icon-map';
 
 
-import type { Profile, Social } from '@/lib/types/supabasetypes';
+import type { Profile, Social } from '@/lib/types/supabase-types';
 
 // type Profile = Database['public']['Tables']['profiles']['Row'];
 

@@ -1,11 +1,11 @@
 'use client';
 import Navbar from '@/components/homepage/navbar';
-import HeroImage from '@/components/homepage/heroImage';
-import HeroSection from '@/components/homepage/heroSection';
+import HeroImage from '@/components/homepage/hero-image';
+import HeroSection from '@/components/homepage/hero-section';
 import Footer from '@/components/homepage/footer';
 import Section1 from '@/components/homepage/section';
 import { GridGradient } from '@dr/ui/components/base/grid-gradient';
-import { ThemeProvider } from '@/context/themeContext';
+import { ThemeProvider } from '@/context/theme-context';
 
 export default function HomePage() {
   return (

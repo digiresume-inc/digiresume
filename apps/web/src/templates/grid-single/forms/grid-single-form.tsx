@@ -8,11 +8,11 @@ import { Select, SelectTrigger, SelectContent, SelectItem } from '@dr/ui/compone
 import { Badge } from '@dr/ui/components/base/badge';
 import { Check, Info, Save, X } from 'lucide-react';
 import { gridSingleSchema, GridSingleFormType } from '@dr/schemas';
-import { SkillsSelect } from '@/components/dashboard/skillselect';
-import { TemplateInfo } from '@/lib/types/supabasetypes';
+import { SkillsSelect } from '@/components/dashboard/skill-select';
+import { TemplateInfo } from '@/lib/types/supabase-types';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 import Loader from '@/components/general/loader';
-import { addInfoUpdateTemplate } from '@/app/dashboard/actions/updateTemplate';
+import { addInfoUpdateTemplate } from '@/app/dashboard/actions/update-template';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { useIsMobile } from '@dr/ui/hooks/use-mobile';
 

@@ -1,17 +1,17 @@
 'use client';
-import MarkdownParser from '@/components/general/markdownparser';
+import MarkdownParser from '@/components/general/markdown-parser';
 import { Button } from '@dr/ui/components/base/button';
-import { categoryOptions, Project } from '@dr/schemas';
+import { Startup, statusOptions, categoryOptions } from '@dr/schemas';
 import { BatteryLow, SignalMedium, X } from 'lucide-react';
 import React from 'react';
 import { cn } from '@dr/ui/lib/utils';
 
-const ProjectsPreviewComponent = ({
-  projects,
+const StartupsPreviewComponent = ({
+  startups,
   preview,
   setPreview,
 }: {
-  projects: any;
+  startups: any;
   preview: boolean;
   setPreview: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
@@ -58,26 +58,46 @@ const ProjectsPreviewComponent = ({
           <div className="absolute right-[-16px] top-[130px] w-[4px] h-[60px] rounded-full bg-black z-20"></div>
 
           {/* iPhone Screen */}
-          <div className="w-[270px] h-[590px] bg-secondary rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
+          <div className="w-[270px] h-[590px] bg-background rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar">
             <div className="p-4 space-y-2">
-              {projects.map(
-                (project: Project, index: number) =>
-                  project.show_on_profile && (
+              {startups.map(
+                (startup: Startup, index: number) =>
+                  startup.show_on_profile && (
                     <div
                       key={index}
                       className="w-full bg-card rounded-lg border border-primary/30 h-fit px-3 py-2 flex flex-col gap-2 items-start justify-center"
                     >
                       <div className="flex items-center justify-center gap-2">
                         <img
-                          src={`https://www.google.com/s2/favicons?sz=128&domain_url=${project.url}`}
+                          src={`https://www.google.com/s2/favicons?sz=128&domain_url=${startup.url}`}
                           className="w-8 h-8 rounded-full"
                         />
                         <div className="flex flex-col items-start justify-center gap-1">
-                          <p className="text-xs font-semibold">{project.name}</p>
+                          <p className="text-xs font-semibold">{startup.name}</p>
                           <div className="flex gap-2 items-center justify-start w-full">
                             {(() => {
+                              const currentStatus = statusOptions.find(
+                                (s) => s.status === startup.status
+                              );
+                              return currentStatus ? (
+                                <span
+                                  className={`flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary`}
+                                >
+                                  <img
+                                    className="w-3 h-3"
+                                    src={`/startupStatus/${currentStatus.status}.png`}
+                                  />
+                                  <span>{currentStatus.text}</span>
+                                </span>
+                              ) : (
+                                <span className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary">
+                                  {startup.status}
+                                </span>
+                              );
+                            })()}
+                            {(() => {
                               const currentCategory = categoryOptions.find(
-                                (s) => s.category === project.category
+                                (s) => s.category === startup.category
                               );
                               return currentCategory ? (
                                 <span
@@ -91,7 +111,7 @@ const ProjectsPreviewComponent = ({
                                 </span>
                               ) : (
                                 <span className="flex items-center gap-0.5 px-1 py-0.5 rounded-full text-tiny bg-secondary">
-                                  {project.category}
+                                  {startup.category}
                                 </span>
                               );
                             })()}
@@ -102,7 +122,7 @@ const ProjectsPreviewComponent = ({
                       <div className="text-xxs font-medium">
                         <span className="line-clamp-3">
                           {' '}
-                          <MarkdownParser text={project.description} />
+                          <MarkdownParser text={startup.description} />
                         </span>
                       </div>
                     </div>
@@ -116,4 +136,4 @@ const ProjectsPreviewComponent = ({
   );
 };
 
-export default ProjectsPreviewComponent;
+export default StartupsPreviewComponent;

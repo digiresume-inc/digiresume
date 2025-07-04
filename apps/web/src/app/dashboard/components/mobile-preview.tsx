@@ -25,8 +25,8 @@ import {
 } from '@dr/utils';
 import { statusOptions, categoryOptions } from '@dr/schemas';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@dr/ui/components/base/tabs';
-import MarkdownParser from '@/components/general/markdownparser';
-import { socialIconMap } from '@/lib/utils/iconMap';
+import MarkdownParser from '@/components/general/markdown-parser';
+import { socialIconMap } from '@/lib/utils/socials-icon-map';
 import { cn } from '@dr/ui/lib/utils';
 
 import type {
@@ -37,9 +37,9 @@ import type {
   Skill,
   Social,
   Theme,
-} from '@/lib/types/supabasetypes';
-import RevenueChart from '@/templates/default/components/revenueChart';
-import ViewSwitch from './viewSwitcher';
+} from '@/lib/types/supabase-types';
+import RevenueChart from '@/templates/default/components/revenue-chart';
+import ViewSwitch from './view-switcher';
 
 // type Profile = Database['public']['Tables']['profiles']['Row'];
 // type Startup = Database['public']['Tables']['startups']['Row'];
@@ -167,9 +167,9 @@ const MobilePreview = ({
                           >
                             {profile.full_name.slice(0, 18)} <Verified size={15} className='mb-[3px]' />
                           </h1>
-                          <p className="max-w-md items-center text-pretty jetbrains text-xs text-black">
+                          <p className="max-w-md items-center jetbrains text-xxs text-black">
                             <a
-                              className="flex flex-wrap items-center gap-x-0.5 leading-none hover:underline"
+                              className="flex flex-wrap items-center gap-x-1 leading-tight hover:underline"
                               href={`https://www.google.com/maps/place/${profile.geo_info.city}`}
                               target="_blank"
                               rel="noopener noreferrer"
@@ -197,7 +197,7 @@ const MobilePreview = ({
                           />
                         </span>
                       </div>
-                      <p className={`ml-0.5 text-balance jetbrains text-xs text-black/80`}>
+                      <p className={`ml-0.5 text-balance jetbrains text-[0.7rem] leading-[1.3333] text-black/80 tracking-tighter`}>
                         {profile.headline}{' '}
                         <strong className="underline underline-offset-2 cursor-pointer">
                           @{profile.company}

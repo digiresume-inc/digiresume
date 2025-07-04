@@ -1,5 +1,5 @@
 import React, { JSX } from 'react';
-import { TemplateInfo } from '@/lib/types/supabasetypes';
+import { TemplateInfo } from '@/lib/types/supabase-types';
 import GridSingleForm from './grid-single/forms/grid-single-form';
 
 type FormType = keyof TemplateInfo['templates'];

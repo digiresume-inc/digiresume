@@ -5,7 +5,7 @@ import { profileUpdateSchema } from '@dr/schemas';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { updateProfile } from '../actions/updateProfile';
+import { updateProfile } from '../actions/update-profile';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
 import {
@@ -23,15 +23,15 @@ import {
   User,
 } from 'lucide-react';
 import { Input } from '@dr/ui/components/base/input';
-import { CountryCombobox } from '@/components/dashboard/countryselect';
-import { SkillsSelect } from '@/components/dashboard/skillselect';
+import { CountryCombobox } from '@/components/dashboard/country-select';
+import { SkillsSelect } from '@/components/dashboard/skill-select';
 import { Button } from '@dr/ui/components/base/button';
-import { extractDirty } from '../actions/extractDirty';
+import { extractDirty } from '../actions/extract-dirty';
 import { Textarea } from '@dr/ui/components/base/textarea';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 import Loader from '@/components/general/loader';
 
-import type { Profile } from '@/lib/types/supabasetypes';
+import type { Profile } from '@/lib/types/supabase-types';
 import { useIsMobile } from '@dr/ui/hooks/use-mobile';
 
 

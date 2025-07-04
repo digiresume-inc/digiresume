@@ -1,16 +1,16 @@
 'use client';
 import { formatMonthYear } from '@dr/utils';
 import React, { useState } from 'react';
-import { updateExperience } from '../actions/updateExperience';
+import { updateExperience } from '../actions/update-experience';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { Button } from '@dr/ui/components/base/button';
 import { BriefcaseBusiness, CornerDownRight, Pencil, Plus, Trash } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@dr/ui/components/base/dialog';
-import ExperienceForm from '../forms/experienceForm';
+import ExperienceForm from '../forms/experience-form';
 import { useRouter } from 'next/navigation';
 import Loader from '@/components/general/loader';
 
-import type { Profile, Experience } from '@/lib/types/supabasetypes';
+import type { Profile, Experience } from '@/lib/types/supabase-types';
 
 // type Profile = Database['public']['Tables']['profiles']['Row'];
 

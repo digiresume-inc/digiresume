@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import ThemeBasedImage from './themeBasedImage';
-import { MovingBorder } from '../general/movingborder';
+import ThemeBasedImage from './theme-based-image';
+import { MovingBorder } from '../general/moving-border';
 import { cn } from '@dr/ui/lib/utils';
 import { useIsMobile } from '@dr/ui/hooks/use-mobile';
 
@@ -25,7 +25,7 @@ const HeroImage = () => {
               <MovingBorder>
                 <div
                   className={cn(
-                    'h-20 w-20 bg-[radial-gradient(var(--moving-border)_40%,transparent_60%)] opacity-[0.8]'
+                    'h-[1000px] w-[1000px] bg-[radial-gradient(var(--moving-border)_40%,transparent_60%)] opacity-[0.8]'
                   )}
                 />
               </MovingBorder>

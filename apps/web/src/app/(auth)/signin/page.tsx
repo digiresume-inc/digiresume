@@ -1,6 +1,6 @@
 import { createSClient } from '@/supabase/server';
 import { redirect } from 'next/navigation';
-import LoginForm from './loginform';
+import LoginForm from './login-form';
 import { GridGradient } from '@dr/ui/components/base/grid-gradient';
 import Image from 'next/image';
 

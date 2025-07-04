@@ -19,8 +19,8 @@ import {  categoryOptions, Project, projectSchema } from '@dr/schemas';
 import { Check, Save } from 'lucide-react';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
-import { addProject } from '../actions/addProject';
-import { updateProject } from '../actions/updateProject';
+import { addProject } from '../actions/add-project';
+import { updateProject } from '../actions/update-project';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 import Loader from '@/components/general/loader';
 

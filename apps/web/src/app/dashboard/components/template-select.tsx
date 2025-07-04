@@ -1,19 +1,19 @@
 'use client';
 import { Themes } from '@dr/utils';
 import React, { useState } from 'react';
-import { updateTheme } from '../actions/updateTheme';
+import { updateTheme } from '../actions/update-theme';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import Image from 'next/image';
 import { cn } from '@dr/ui/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@dr/ui/components/base/dialog';
-import { updateTemplate } from '../actions/updateTemplate';
-import AdditionalInfoForm from '@/templates/additionalInfoForm';
+import { updateTemplate } from '../actions/update-template';
+import AdditionalInfoForm from '@/templates/additional-info-form';
 import { Button } from '@dr/ui/components/base/button';
 import { Edit } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@dr/ui/components/base/tooltip';
 
-import type { TemplateInfo, Theme } from '@/lib/types/supabasetypes';
+import type { TemplateInfo, Theme } from '@/lib/types/supabase-types';
 import Loader from '@/components/general/loader';
 
 const TemplateSelect = ({

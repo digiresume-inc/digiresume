@@ -1,4 +1,4 @@
-import MarkdownParser from "@/components/general/markdownparser";
+import MarkdownParser from "@/components/general/markdown-parser";
 import React from "react";
 
 /**

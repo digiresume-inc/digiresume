@@ -1,21 +1,21 @@
 'use client';
 import React, { useState } from 'react';
-import AvatarComponent from './components/avatar';
-import FaviconComponent from './components/favicon';
+import AvatarComponent from './components/avatar-update';
+import FaviconComponent from './components/favicon-update';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@dr/ui/components/base/tabs';
-import TemplateSelect from './components/templateSelect';
-import ExperienceUpdate from './components/experienceUpdate';
-import SocialsUpdate from './components/socialsUpdate';
-import MobilePreview from './components/mobilePreview';
-import ProfileUpdate from './components/profileUpdate';
-import PreviewButton from './components/previewButton';
-import AnalyticsCard from './components/analyticsCard';
+import TemplateSelect from './components/template-select';
+import ExperienceUpdate from './components/experience-update';
+import SocialsUpdate from './components/socials-update';
+import MobilePreview from './components/mobile-preview';
+import ProfileUpdate from './components/profile-update';
+import PreviewButton from './components/preview-button';
+import AnalyticsCard from './components/analytics-card';
 import { ExternalLink, FolderKanban } from 'lucide-react';
-import LogoutConfirmation from '@/modals/logoutconfirmation';
+import LogoutConfirmation from '@/modals/logout-confirmation';
 import Link from 'next/link';
 import Navbar from './components/navbar';
 
-import type { Theme, Profile, Startup, Project } from '@/lib/types/supabasetypes';
+import type { Theme, Profile, Startup, Project } from '@/lib/types/supabase-types';
 import type { User } from '@supabase/supabase-js';
 import { useIsMobile } from '@dr/ui/hooks/use-mobile';
 

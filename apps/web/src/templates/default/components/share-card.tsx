@@ -2,7 +2,7 @@
 import { Check, Copy, ExternalLink } from 'lucide-react';
 import React, { useState } from 'react';
 import { SiFacebook, SiLinkedin, SiTelegram, SiWhatsapp, SiX } from 'react-icons/si';
-import QRCodeGenerator from './qrGenerator';
+import QRCodeGenerator from './qr-generator';
 import { Button } from '@dr/ui/components/base/button';
 import { hexToHSL } from '@dr/utils';
 

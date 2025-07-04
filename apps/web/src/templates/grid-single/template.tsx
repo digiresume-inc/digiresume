@@ -27,15 +27,15 @@ import Link from "next/link";
 
 // components and data
 import Timeline from "./components/timeline";
-import SkillsMarquee from "./components/skillsmarquee";
-import { FlipWords } from "./components/flipwords";
-import GithubCalender from "./components/githubcalendar";
-import { socialIconMap } from "@/lib/utils/iconMap";
-import MarkdownParser from "@/components/general/markdownparser";
-import { Button } from "./components/movingborder";
+import SkillsMarquee from "./components/skills-marquee";
+import { FlipWords } from "./components/flip-word";
+import GithubCalender from "./components/github-calendar";
+import { socialIconMap } from "@/lib/utils/socials-icon-map";
+import MarkdownParser from "@/components/general/markdown-parser";
+import { Button } from "./components/moving-border";
 import { cn } from "@dr/ui/lib/utils";
 
-import type { CompleteProfile } from "@/lib/types/supabasetypes";
+import type { CompleteProfile } from "@/lib/types/supabase-types";
 
 
 function getPlatformIcon(url: string) {

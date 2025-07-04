@@ -1,7 +1,7 @@
 'use server';
 import { createSClient } from '@/supabase/server';
 
-import type { Social } from '@/lib/types/supabasetypes';
+import type { Social } from '@/lib/types/supabase-types';
 
 
 

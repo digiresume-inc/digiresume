@@ -1,7 +1,7 @@
 'use server';
 import { createSClient } from '@/supabase/server';
 
-import type { Experience } from '@/lib/types/supabasetypes';
+import type { Experience } from '@/lib/types/supabase-types';
 
 export async function updateExperience(data: Experience[]) {
   'use server';

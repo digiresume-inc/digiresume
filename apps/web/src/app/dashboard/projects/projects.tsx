@@ -1,8 +1,8 @@
 'use client';
 import React, { useState } from 'react';
-import ProjectsDisplay from './components/projectsDisplay';
-import ProjectsPreviewComponent from './components/projectsPreviewComponent';
-import PreviewButton from '../components/previewButton';
+import ProjectsDisplay from './components/projects-display';
+import ProjectsPreviewComponent from './components/projects-preview';
+import PreviewButton from '../components/preview-button';
 import { useIsMobile } from '@dr/ui/hooks/use-mobile';
 
 export function ProjectsClient({ projects }: { projects: any }) {

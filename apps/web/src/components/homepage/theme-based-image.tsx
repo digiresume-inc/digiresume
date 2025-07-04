@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
-import { useTheme } from '@/context/themeContext';
+import { useTheme } from '@/context/theme-context';
 
 type ThemeBasedImageProps = {
   images: string[]; // [darkImage, lightImage]

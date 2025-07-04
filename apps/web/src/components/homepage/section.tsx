@@ -1,6 +1,6 @@
 import React from 'react';
-import ThemeBasedImage from './themeBasedImage';
-import { useTheme } from '@/context/themeContext';
+import ThemeBasedImage from './theme-based-image';
+import { useTheme } from '@/context/theme-context';
 
 const Section1 = () => {
   const first = ['/product_showcase/profile_showcase.png', '/product_showcase/resume_showcase.png'];

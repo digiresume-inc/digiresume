@@ -6,7 +6,7 @@ import { cn } from '@dr/ui/lib/utils';
 import { ArrowRight, AtSign } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { SiGithub, SiInstagram, SiLinkedin, SiX } from 'react-icons/si';
-import ThemeBasedImage from './themeBasedImage';
+import ThemeBasedImage from './theme-based-image';
 import { GridGradient } from '@dr/ui/components/base/grid-gradient';
 import Link from 'next/link';
 

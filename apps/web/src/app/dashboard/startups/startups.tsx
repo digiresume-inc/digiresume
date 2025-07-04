@@ -1,8 +1,8 @@
 'use client';
 import React, { useState } from 'react';
-import StartupsDisplay from './components/startupsDisplay';
-import StartupsPreviewComponent from './components/startupsPreviewComponent';
-import PreviewButton from '../components/previewButton';
+import StartupsDisplay from './components/startups-display';
+import StartupsPreviewComponent from './components/startups-preview';
+import PreviewButton from '../components/preview-button';
 import { useIsMobile } from '@dr/ui/hooks/use-mobile';
 
 export function StartupsClient({ startups }: { startups: any }) {

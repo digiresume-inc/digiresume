@@ -12,8 +12,8 @@ import {
 } from '@dr/ui/components/base/navigation-menu';
 import { LogIn, Menu, X } from 'lucide-react';
 import { cn } from '@dr/ui/lib/utils';
-import SlideInNavbar from './mobilenavbar';
-import ThemeBasedImage from './themeBasedImage';
+import SlideInNavbar from './mobile-navbar';
+import ThemeBasedImage from './theme-based-image';
 
 const components: { title: string; href: string; description: string }[] = [
   {

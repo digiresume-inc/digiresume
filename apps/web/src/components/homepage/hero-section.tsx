@@ -1,6 +1,6 @@
 import React from 'react';
-import UsernameCheck from './usernamecheck';
-import { FlipWords } from './flipword';
+import UsernameCheck from './username-check';
+import { FlipWords } from './flip-word';
 
 const HeroSection = () => {
   return (

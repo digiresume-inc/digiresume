@@ -10,8 +10,8 @@ import { loginUser } from './action';
 import { Card, CardHeader, CardContent } from '@dr/ui/components/base/card';
 import { Label } from '@dr/ui/components/base/label';
 import { Input } from '@dr/ui/components/base/input';
-import { SubmitButton } from '@/components/general/submitbutton';
-import GoogleSignin from './googlesignin';
+import { SubmitButton } from '@/components/general/submit-button';
+import GoogleSignin from './google-signin';
 import { ToastSuccess } from '@/components/general/toast';
 
 const LoginForm = ({ username }: { username: string | string[] }) => {

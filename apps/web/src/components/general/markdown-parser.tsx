@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import type { Components } from 'react-markdown';
-import { remarkMark } from '@/lib/utils/remarkMark';
+import { remarkMark } from '@/lib/utils/remark-mark';
 
 const MarkdownParser = ({
   text,

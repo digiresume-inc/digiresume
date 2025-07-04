@@ -9,7 +9,7 @@ import {
 } from 'next/font/google';
 import { Toaster } from 'sonner';
 import HolyLoader from 'holy-loader';
-import { ThemeProvider } from '@/context/themeContext';
+import { ThemeProvider } from '@/context/theme-context';
 
 export const metadata: Metadata = {
   title: 'Digiresume',

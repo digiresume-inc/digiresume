@@ -21,22 +21,22 @@ import {
 } from 'lucide-react';
 import { Textarea } from '@dr/ui/components/base/textarea';
 import { SiLinkedin } from 'react-icons/si';
-import { SkillsSelect } from '@/components/dashboard/skillselect';
+import { SkillsSelect } from '@/components/dashboard/skill-select';
 import { blurFade, blurUpFade, countries } from '@dr/utils';
 import { onboardingSchema } from '@dr/schemas';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitButton } from '@/components/general/submitbutton';
+import { SubmitButton } from '@/components/general/submit-button';
 import { motion } from 'motion/react';
-import { CountryCombobox } from '@/components/dashboard/countryselect';
+import { CountryCombobox } from '@/components/dashboard/country-select';
 import { onboardUser } from '@/app/onboarding/action';
-import { socialIconMap } from '@/lib/utils/iconMap';
-import UsernameSet from '@/app/onboarding/components/usernameset';
+import { socialIconMap } from '@/lib/utils/socials-icon-map';
+import UsernameSet from '@/app/onboarding/components/username-update';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 import { cn } from '@dr/ui/lib/utils';
-import LinkedinURLImport from '@/modals/linkedinurlimport';
-import { certificationIconMap } from '@/lib/utils/certificateIconMap';
+import LinkedinURLImport from '@/modals/linkedin-url-import';
+import { certificationIconMap } from '@/lib/utils/certificate-icon-map';
 
 function getPlatformIcon(url: string) {
   try {

@@ -12,15 +12,15 @@ import { statusOptions, categoryOptions } from '@dr/schemas';
 import { Info, MapPin, Link2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@dr/ui/components/base/tabs';
 import { Popover, PopoverTrigger, PopoverContent } from '@dr/ui/components/base/popover';
-import { socialIconMap } from '@/lib/utils/iconMap';
-import ShareCard from './components/shareCard';
-import MarkdownParser from '@/components/general/markdownparser';
-import ProfileUrl from './components/profileUrl';
-import ResumeDownload from './components/resumeDownload';
-import DynamicImage from '@/components/general/dynamicImage';
-import RevenueChart from './components/revenueChart';
+import { socialIconMap } from '@/lib/utils/socials-icon-map';
+import ShareCard from './components/share-card';
+import MarkdownParser from '@/components/general/markdown-parser';
+import ProfileUrl from './components/profile-url';
+import ResumeDownload from './components/resume-download';
+import DynamicImage from '@/components/general/dynamic-image';
+import RevenueChart from './components/revenue-chart';
 
-import type { CompleteProfile, Project, Startup } from '@/lib/types/supabasetypes';
+import type { CompleteProfile, Project, Startup } from '@/lib/types/supabase-types';
 
 function getPlatformIcon(url: string) {
   try {

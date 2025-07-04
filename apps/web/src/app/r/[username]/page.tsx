@@ -1,12 +1,12 @@
 import React from 'react';
 import { CornerDownRight, Link2, Mail, MapPin, Phone, Verified } from 'lucide-react';
-import { socialIconMap } from '@/lib/utils/iconMap';
-import MarkdownParser from '@/components/general/markdownparser';
+import { socialIconMap } from '@/lib/utils/socials-icon-map';
+import MarkdownParser from '@/components/general/markdown-parser';
 import { formatMonthShortYear, getMonthsDifference } from '@dr/utils';
 import { createSClient } from '@/supabase/server';
-import DynamicImage from '@/components/general/dynamicImage';
+import DynamicImage from '@/components/general/dynamic-image';
 
-import type { Startup, Project } from '@/lib/types/supabasetypes';
+import type { Startup, Project } from '@/lib/types/supabase-types';
 
 function getPlatformIcon(url: string) {
   try {

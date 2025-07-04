@@ -1,5 +1,5 @@
 'use server';
-import { GridSingleInfo, TemplateInfo } from '@/lib/types/supabasetypes';
+import { GridSingleInfo, TemplateInfo } from '@/lib/types/supabase-types';
 import { createSClient } from '@/supabase/server';
 
 type KnownTemplates = keyof TemplateInfo['templates'];

@@ -19,10 +19,10 @@ import { Switch } from '@dr/ui/components/base/switch';
 import { Check, Save } from 'lucide-react';
 import { Textarea } from '@dr/ui/components/base/textarea';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
-import { SkillsSelect } from '@/components/dashboard/skillselect';
+import { SkillsSelect } from '@/components/dashboard/skill-select';
 import Loader from '@/components/general/loader';
 
-import type { Experience } from '@/lib/types/supabasetypes';
+import type { Experience } from '@/lib/types/supabase-types';
 import { useIsMobile } from '@dr/ui/hooks/use-mobile';
 import { cn } from '@dr/ui/lib/utils';
 type SingleExperience = z.infer<typeof singleExperienceSchema>;

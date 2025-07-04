@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import React from 'react';
-import OnboardingForm from './components/onboardingform';
+import OnboardingForm from './components/onboarding-form';
 import { createSClient } from '@/supabase/server';
 import { GridGradient } from '@dr/ui/components/base/grid-gradient';
 import { getUser } from '@/supabase/getUser';
