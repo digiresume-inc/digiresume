@@ -643,7 +643,7 @@ const MobilePreview = ({
               <div className="p-4 space-y-2">
                 <div
                   style={{
-                    background: hexToHSL(t.secondary!, 0.5),
+                    background: hexToHSL(t.secondary!, 0.8),
                   }}
                   className="w-full rounded-full h-6 flex items-center justify-between px-2"
                 >
