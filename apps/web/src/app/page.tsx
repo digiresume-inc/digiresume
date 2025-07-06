@@ -4,14 +4,14 @@ import HomePage from './home-page';
 export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
-    title: 'Digiresume',
+    title: process.env.NEXT_PUBLIC_APP_NAME,
     description:
       'One platform. Your resume and portfolio, perfectly synced. Show off your skills, projects, and achievements.',
     icons: {
       icon: '/favicon.ico',
     },
     openGraph: {
-      title: 'Digiresume',
+      title: process.env.NEXT_PUBLIC_APP_NAME,
       description:
         'One platform. Your resume and portfolio, perfectly synced. Show off your skills, projects, and achievements.',
       url: process.env.NEXT_PUBLIC_BASE_URL,
@@ -20,14 +20,14 @@ export async function generateMetadata(): Promise<Metadata> {
           url: '/ogimage.png',
           width: 1200,
           height: 630,
-          alt: "Digiresume's OpenGraph Image",
+          alt: `${process.env.NEXT_PUBLIC_APP_NAME}'s OpenGraph Image`,
         },
       ],
-      siteName: 'Digiresume',
+      siteName: process.env.NEXT_PUBLIC_APP_NAME,
     },
     twitter: {
-      card: 'summary',
-      title: 'Digiresume',
+      card: 'summary_large_image',
+      title: process.env.NEXT_PUBLIC_APP_NAME,
       description:
         'One platform. Your resume and portfolio, perfectly synced. Show off your skills, projects, and achievements.',
       images: ['/ogimage.png'],

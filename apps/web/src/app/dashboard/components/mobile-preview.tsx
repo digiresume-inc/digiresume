@@ -26,7 +26,6 @@ import {
 import { statusOptions, categoryOptions } from '@dr/schemas';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@dr/ui/components/base/tabs';
 import MarkdownParser from '@/components/general/markdown-parser';
-import { socialIconMap } from '@/lib/utils/socials-icon-map';
 import { cn } from '@dr/ui/lib/utils';
 
 import type {
@@ -40,21 +39,7 @@ import type {
 } from '@/lib/types/supabase-types';
 import RevenueChart from '@/templates/default/components/revenue-chart';
 import ViewSwitch from './view-switcher';
-
-// type Profile = Database['public']['Tables']['profiles']['Row'];
-// type Startup = Database['public']['Tables']['startups']['Row'];
-// type Project = Database['public']['Tables']['projects']['Row'];
-
-function getPlatformIcon(url: string) {
-  try {
-    const host = new URL(url).hostname.replace('www.', '');
-    const platform = Object.keys(socialIconMap).find((key) => host.includes(key.toLowerCase()));
-    const Icon = socialIconMap[platform || ''];
-    return Icon ? <Icon size={15} /> : <Link2 size={15} />;
-  } catch {
-    return <Link2 size={15} />;
-  }
-}
+import { PlatformIcon } from '@/components/general/get-platform-icon';
 
 const MobilePreview = ({
   preview,
@@ -209,7 +194,6 @@ const MobilePreview = ({
                         aria-label="Contact links"
                       >
                         {profile.socials.map((social: any, index: any) => {
-                          const icon = getPlatformIcon(social.url);
                           return (
                             <a
                               key={index}
@@ -219,7 +203,7 @@ const MobilePreview = ({
                               className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-200 lg:border-gray-300 bg-white hover:bg-gray-200 text-black/80 hover:text-black size-8"
                               aria-label={`Link to ${new URL(social.url).hostname}`}
                             >
-                              <>{icon}</>
+                              <PlatformIcon url={social.url} size={15} />
                             </a>
                           );
                         })}
@@ -816,7 +800,6 @@ const MobilePreview = ({
                 {profile.socials.length > 0 && (
                   <div className="gap-1 flex flex-wrap items-center justify-start p-2">
                     {profile.socials.map((social: Social, index: number) => {
-                      const icon = getPlatformIcon(social.url);
                       return (
                         <a
                           style={
@@ -832,7 +815,7 @@ const MobilePreview = ({
                           key={index}
                           className="w-8 h-8 border transition-colors duration-200 rounded-md px-2 flex items-center justify-center hover:bg-[var(--hover-background)] hover:border-[var(--hover-border)]"
                         >
-                          <>{icon}</>
+                          <PlatformIcon url={social.url} />
                         </a>
                       );
                     })}

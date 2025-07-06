@@ -16,5 +16,8 @@
         "Resume"
     ],
     "author": "Sai Prasad <prasadreddymar6@gmail.com>",
-    "license": "MIT"
+    "license": "MIT",
+    "dependencies": {
+        "remove-markdown": "^0.6.2"
+    }
 }

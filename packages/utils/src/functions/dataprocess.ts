@@ -1,4 +1,5 @@
 import { countries, skills as importedSkills } from '@dr/utils';
+import removeMarkdown from "remove-markdown";
 
 function findMatchingSkill(label: string) {
   return importedSkills.find((skill) => skill.value.toLowerCase() === label.toLowerCase());
@@ -214,3 +215,11 @@ export function formatProxyCurlData(data: any) {
 
   return newData;
 }
+
+
+export function RemoveMarkdown(markdown: string): string {
+  const result = removeMarkdown(markdown).replace(/\s+/g, " ").trim();
+
+  return result;
+}
+

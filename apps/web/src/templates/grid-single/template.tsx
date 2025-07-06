@@ -30,26 +30,14 @@ import Timeline from "./components/timeline";
 import SkillsMarquee from "./components/skills-marquee";
 import { FlipWords } from "./components/flip-word";
 import GithubCalender from "./components/github-calendar";
-import { socialIconMap } from "@/lib/utils/socials-icon-map";
 import MarkdownParser from "@/components/general/markdown-parser";
 import { Button } from "./components/moving-border";
 import { cn } from "@dr/ui/lib/utils";
 
 import type { CompleteProfile } from "@/lib/types/supabase-types";
+import { PlatformIcon } from "@/components/general/get-platform-icon";
 
 
-function getPlatformIcon(url: string) {
-  try {
-    const host = new URL(url).hostname.replace("www.", "");
-    const platform = Object.keys(socialIconMap).find((key) =>
-      host.includes(key.toLowerCase())
-    );
-    const Icon = socialIconMap[platform || ""];
-    return Icon ? <Icon size={18} /> : <Link2 size={18} />;
-  } catch {
-    return <Link2 size={18} />;
-  }
-}
 
 const GridSingleTemplate = ({ profile }: { profile: CompleteProfile }) => {
   const githubUsername =
@@ -556,7 +544,6 @@ const GridSingleTemplate = ({ profile }: { profile: CompleteProfile }) => {
                 {profile.socials
                   .slice(0, 4)
                   .map((social: any, index: number) => {
-                    const Icon = getPlatformIcon(social.url);
                     const lastPart = social.url
                       .split("/")
                       .filter(Boolean)
@@ -570,7 +557,7 @@ const GridSingleTemplate = ({ profile }: { profile: CompleteProfile }) => {
                       >
                         <span className="flex items-center justify-start w-[90%]">
                           <span className="p-1 text-primary rounded-md">
-                            {Icon}
+                            <PlatformIcon url={social.url} />
                           </span>
                           <p className="ml-1 text-foreground/60 text-sm overflow-hidden whitespace-nowrap overflow-ellipsis font-semibold">
                             @{lastPart}

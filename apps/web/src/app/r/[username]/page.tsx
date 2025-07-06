@@ -1,30 +1,83 @@
 import React from 'react';
 import { CornerDownRight, Link2, Mail, MapPin, Phone, Verified } from 'lucide-react';
-import { socialIconMap } from '@/lib/utils/socials-icon-map';
 import MarkdownParser from '@/components/general/markdown-parser';
-import { formatMonthShortYear, getMonthsDifference } from '@dr/utils';
+import { formatMonthShortYear, getMonthsDifference, RemoveMarkdown } from '@dr/utils';
 import { createSClient } from '@/supabase/server';
 import DynamicImage from '@/components/general/dynamic-image';
 
 import type { Startup, Project } from '@/lib/types/supabase-types';
+import { createClient } from '@/supabase/client';
+import { Metadata } from 'next';
+import { PlatformIcon } from '@/components/general/get-platform-icon';
 
-function getPlatformIcon(url: string) {
-  try {
-    const host = new URL(url).hostname.replace('www.', '');
-    const platform = Object.keys(socialIconMap).find((key) => host.includes(key.toLowerCase()));
-    const Icon = socialIconMap[platform || ''];
-    return Icon ? (
-      <Icon className="w-4 h-4 lg:w-4.5 lg:h-4.5" />
-    ) : (
-      <Link2 className="w-4 h-4 lg:w-4.5 lg:h-4.5" />
-    );
-  } catch {
-    return <Link2 className="w-4 h-4 lg:w-4.5 lg:h-4.5" />;
+export async function generateStaticParams() {
+  const supabase = createClient();
+
+  const { data: profiles, error } = await supabase.from('profiles').select('username');
+
+  if (error || !profiles) {
+    return [];
   }
+
+  return profiles.map((profile) => ({
+    username: profile.username,
+  }));
 }
 
-// type Startup = Database['public']['Tables']['startups']['Row'];
-// type Project = Database['public']['Tables']['projects']['Row'];
+const getNameBio = async (username: string) => {
+  const supabase = createSClient();
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('full_name, shortbio, avatar_url, favicon_url')
+    .eq('username', username)
+    .single();
+
+  if (profileError || !profile) {
+    return null;
+  }
+
+  return profile;
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}): Promise<Metadata> {
+  const { username } = await params;
+  const results = await getNameBio(username);
+  const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${username}`;
+
+  return {
+    title: `${results?.full_name}'s Resume`,
+    description: RemoveMarkdown(results?.shortbio || results?.full_name! + "'s Resume"),
+    icons: {
+      icon: results?.favicon_url,
+    },
+    alternates: {
+      canonical: fullUrl,
+    },
+    openGraph: {
+      title: `${results?.full_name}'s Resume`,
+      description: RemoveMarkdown(results?.shortbio || results?.full_name! + "'s Resume"),
+      url: fullUrl,
+      images: [
+        {
+          url: results?.avatar_url!,
+          width: 1200,
+          height: 630,
+          alt: `${results?.full_name}'s OpenGraph Image`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary',
+      title: `${results?.full_name}'s Portfolio`,
+      description: RemoveMarkdown(results?.shortbio || results?.full_name! + "'s Resume"),
+      images: [results?.avatar_url!],
+    },
+  };
+}
 
 export default async function ResumePage({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
@@ -95,7 +148,6 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
               aria-label="Contact links"
             >
               {profile.socials.map((social: any, index: any) => {
-                const icon = getPlatformIcon(social.url);
                 return (
                   <a
                     key={index}
@@ -105,7 +157,7 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
                     className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-200 lg:border-gray-300 bg-white hover:bg-gray-200 text-black/80 hover:text-black size-8"
                     aria-label={`Link to ${new URL(social.url).hostname}`}
                   >
-                    <>{icon}</>
+                    <PlatformIcon url={social.url} className="w-4 h-4 lg:w-4.5 lg:h-4.5" />
                   </a>
                 );
               })}

@@ -9,10 +9,9 @@ import {
   Skill,
 } from '@dr/utils';
 import { statusOptions, categoryOptions } from '@dr/schemas';
-import { Info, MapPin, Link2 } from 'lucide-react';
+import { Info, MapPin } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@dr/ui/components/base/tabs';
 import { Popover, PopoverTrigger, PopoverContent } from '@dr/ui/components/base/popover';
-import { socialIconMap } from '@/lib/utils/socials-icon-map';
 import ShareCard from './components/share-card';
 import MarkdownParser from '@/components/general/markdown-parser';
 import ProfileUrl from './components/profile-url';
@@ -21,17 +20,8 @@ import DynamicImage from '@/components/general/dynamic-image';
 import RevenueChart from './components/revenue-chart';
 
 import type { CompleteProfile, Project, Startup } from '@/lib/types/supabase-types';
+import { PlatformIcon } from '@/components/general/get-platform-icon';
 
-function getPlatformIcon(url: string) {
-  try {
-    const host = new URL(url).hostname.replace('www.', '');
-    const platform = Object.keys(socialIconMap).find((key) => host.includes(key.toLowerCase()));
-    const Icon = socialIconMap[platform || ''];
-    return Icon ? <Icon size={18} /> : <Link2 size={18} />;
-  } catch {
-    return <Link2 size={18} />;
-  }
-}
 
 const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
   const t = profile.theme.theme_data;
@@ -137,7 +127,6 @@ const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
             </div>
             <div className="gap-2 flex flex-wrap items-center justify-start px-6 py-4">
               {profile.socials.map((social: any, index: number) => {
-                const icon = getPlatformIcon(social.url);
                 return (
                   <a
                     target="_blank"
@@ -153,7 +142,7 @@ const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
                     }
                     className="w-10 h-10 border-[1.5px] transition-colors duration-200 rounded-lg p-2 flex items-center justify-center hover:bg-[var(--hover-background)] hover:border-[var(--hover-border)]"
                   >
-                    <>{icon}</>
+                    <PlatformIcon url={social.url} />
                   </a>
                 );
               })}

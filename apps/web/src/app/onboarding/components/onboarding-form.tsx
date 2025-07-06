@@ -31,23 +31,12 @@ import { SubmitButton } from '@/components/general/submit-button';
 import { motion } from 'motion/react';
 import { CountryCombobox } from '@/components/dashboard/country-select';
 import { onboardUser } from '@/app/onboarding/action';
-import { socialIconMap } from '@/lib/utils/socials-icon-map';
 import UsernameSet from '@/app/onboarding/components/username-update';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@dr/ui/components/base/hover-card';
 import { cn } from '@dr/ui/lib/utils';
 import LinkedinURLImport from '@/modals/linkedin-url-import';
 import { certificationIconMap } from '@/lib/utils/certificate-icon-map';
-
-function getPlatformIcon(url: string) {
-  try {
-    const host = new URL(url).hostname.replace('www.', '');
-    const platform = Object.keys(socialIconMap).find((key) => host.includes(key.toLowerCase()));
-    const Icon = socialIconMap[platform || ''];
-    return Icon ? <Icon size={18} /> : <Link2 size={18} />;
-  } catch {
-    return <Link2 size={18} />;
-  }
-}
+import { PlatformIcon } from '@/components/general/get-platform-icon';
 
 function getCertificateIcon(url: string) {
   try {
@@ -577,7 +566,7 @@ const OnboardingForm = ({ username }: { username: string }) => {
                         className="flex flex-col items-start justify-start gap-1 w-full max-w-md"
                       >
                         <div className="flex items-center gap-2 w-full">
-                          {getPlatformIcon(currentUrl)}
+                          <PlatformIcon url={currentUrl} />
                           <Input
                             className="bg-secondary flex-1 text-sm"
                             type="text"

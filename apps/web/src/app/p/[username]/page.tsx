@@ -2,7 +2,7 @@ import { createSClient } from '@/supabase/server';
 import type { Startup, Project } from '@/lib/types/supabase-types';
 import { createClient } from '@/supabase/client';
 import { Metadata } from 'next';
-import removeMarkdown from "remove-markdown";
+import { RemoveMarkdown } from '@dr/utils';
 
 export async function generateStaticParams() {
   const supabase = createClient();
@@ -33,12 +33,6 @@ const getNameBio = async (username: string) => {
   return profile;
 };
 
-function RemoveMarkdown(markdown: string): string {
-  const result = removeMarkdown(markdown).replace(/\s+/g, " ").trim();
-
-  return result;
-}
-
 
 export async function generateMetadata({ params }: { params: Promise<{ username: string }> }): Promise<Metadata> {
   const { username } = await params;
@@ -46,8 +40,8 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
   const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${username}`;
 
   return {
-    title: `${results?.full_name}`,
-    description: RemoveMarkdown(results?.shortbio || results?.full_name!+"'s Profile"),
+    title: `${results?.full_name}'s Portfolio`,
+    description: RemoveMarkdown(results?.shortbio || results?.full_name!+"'s Portfolio"),
     icons: {
       icon: results?.favicon_url,
     },
@@ -55,8 +49,8 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
       canonical: fullUrl,
     },
     openGraph: {
-      title: results?.full_name,
-      description: RemoveMarkdown(results?.shortbio || results?.full_name!+"'s Profile"),
+      title: `${results?.full_name}'s Portfolio`,
+      description: RemoveMarkdown(results?.shortbio || results?.full_name!+"'s Portfolio"),
       url: fullUrl,
       images: [
         {
@@ -69,12 +63,13 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
     },
     twitter: {
       card: 'summary',
-      title: results?.full_name,
-      description: RemoveMarkdown(results?.shortbio || results?.full_name!+"'s Profile"),
+      title: `${results?.full_name}'s Portfolio`,
+      description: RemoveMarkdown(results?.shortbio || results?.full_name!+"'s Portfolio"),
       images: [results?.avatar_url!],
     },
   };
 }
+
 export default async function PortfolioPage({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
   const supabase = createSClient();

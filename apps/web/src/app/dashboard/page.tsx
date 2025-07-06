@@ -6,9 +6,6 @@ import { getUser } from '@/supabase/getUser';
 
 import type { Startup, Project } from '@/lib/types/supabase-types';
 
-// type Startup = Database['public']['Tables']['startups']['Row'];
-// type Project = Database['public']['Tables']['projects']['Row'];
-
 export default async function DashboardPage() {
   const supabase = createSClient();
   const user = await getUser();

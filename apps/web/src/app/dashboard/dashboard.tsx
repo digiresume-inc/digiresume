@@ -19,9 +19,6 @@ import type { Theme, Profile, Startup, Project } from '@/lib/types/supabase-type
 import type { User } from '@supabase/supabase-js';
 import { useIsMobile } from '@dr/ui/hooks/use-mobile';
 
-// type Profile = Database['public']['Tables']['profiles']['Row'];
-// type Startup = Database['public']['Tables']['startups']['Row'];
-// type Project = Database['public']['Tables']['projects']['Row'];
 
 const Dashboard = ({
   user,

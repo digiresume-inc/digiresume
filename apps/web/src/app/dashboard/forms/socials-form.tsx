@@ -7,22 +7,11 @@ import { Trash2, Link2, Plus, Save } from 'lucide-react';
 import { Input } from '@dr/ui/components/base/input';
 import { Button } from '@dr/ui/components/base/button';
 import { socialsSchema, SocialsSchema } from '@dr/schemas';
-import { socialIconMap } from '@/lib/utils/socials-icon-map';
 import { updateSocials } from '../actions/update-socials';
 import { ToastError, ToastSuccess } from '@/components/general/toast';
 import { useRouter } from 'next/navigation';
 import Loader from '@/components/general/loader';
-
-function getPlatformIcon(url: string) {
-  try {
-    const host = new URL(url).hostname.replace('www.', '');
-    const platform = Object.keys(socialIconMap).find((key) => host.includes(key.toLowerCase()));
-    const Icon = socialIconMap[platform || ''];
-    return Icon ? <Icon size={18} /> : <Link2 size={18} />;
-  } catch {
-    return <Link2 size={18} />;
-  }
-}
+import { PlatformIcon } from '@/components/general/get-platform-icon';
 
 const SocialsForm = ({
   profile,
@@ -67,13 +56,12 @@ const SocialsForm = ({
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <div className="flex flex-col gap-3">
         {fields.map((field, index) => {
-          const url = watchedLinks?.[index]?.url || '';
-          const Icon = getPlatformIcon(url);
+          const socialUrl = watchedLinks?.[index]?.url || '';
 
           return (
             <div key={field.id} className="flex flex-col gap-1 w-full">
               <div className="flex items-center gap-2 w-full">
-                <div className="w-6 h-6 text-foreground/60">{Icon}</div>
+                <PlatformIcon url={socialUrl} className="w-6 h-6 text-foreground/60" />
                 <Input
                   {...register(`links.${index}.url`)}
                   placeholder="Enter social URL"

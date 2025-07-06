@@ -4,23 +4,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@dr/ui/compone
 import { Globe, Link2, Pencil, Plus } from 'lucide-react';
 import React, { useState } from 'react';
 import SocialsForm from '../forms/socials-form';
-import { socialIconMap } from '@/lib/utils/socials-icon-map';
 
 
 import type { Profile, Social } from '@/lib/types/supabase-types';
-
-// type Profile = Database['public']['Tables']['profiles']['Row'];
-
-function getPlatformIcon(url: string) {
-  try {
-    const host = new URL(url).hostname.replace('www.', '');
-    const platform = Object.keys(socialIconMap).find((key) => host.includes(key.toLowerCase()));
-    const Icon = socialIconMap[platform || ''];
-    return Icon ? <Icon size={18} /> : <Link2 size={18} />;
-  } catch {
-    return <Link2 size={18} />;
-  }
-}
+import { PlatformIcon } from '@/components/general/get-platform-icon';
 
 const SocialsUpdate = ({ profile }: { profile: Profile }) => {
   const [open, setOpen] = useState(false);
@@ -29,7 +16,6 @@ const SocialsUpdate = ({ profile }: { profile: Profile }) => {
       {profile.socials.length > 0 ? (
         <div className="flex flex-col gap-2 px-4">
           {profile.socials.map((social: Social, index: number) => {
-            const Icon = getPlatformIcon(social.url);
             return (
               <div
                 className="flex items-center justify-between gap-4 bg-muted py-2 px-3 lg:px-4 rounded-md"
@@ -37,7 +23,7 @@ const SocialsUpdate = ({ profile }: { profile: Profile }) => {
               >
                 {/* Left side: Icon + URL */}
                 <div className="flex justify-center items-center gap-1.5 lg:gap-2">
-                  <div className="text-foreground/60">{Icon}</div>
+                  <PlatformIcon url={social.url} className='text-foreground/60' />
                   <p className="text-xs lg:text-sm font-medium max-w-36 md:max-w-fit truncate">{social.url}</p>
                 </div>
 
