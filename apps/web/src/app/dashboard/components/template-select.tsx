@@ -129,8 +129,8 @@ const TemplateSelect = ({
                         ToastError({ message: 'Please select Template first.' });
                         return;
                       }
-                      if(templateUpdating.loading){
-                        ToastError({message: "Hold on for a sec."});
+                      if (templateUpdating.loading) {
+                        ToastError({ message: 'Hold on for a sec.' });
                         return;
                       }
                       handleThemeChange(t);
@@ -215,12 +215,48 @@ const TemplateSelect = ({
                 </Tooltip>
               )}
           </div>
+          <div className="flex flex-col gap-3 items-center justify-center col-span-1 relative">
+            <div className="relative">
+              <Image
+                height={1080}
+                width={1920}
+                onClick={() =>
+                  handleTemplateSwitch({ templateInfo: templateInfo, templateType: 'scifi' })
+                }
+                className={cn(
+                  'w-full lg:h-38 object-cover rounded-lg border cursor-pointer',
+                  templateInfo.activeTemplate === 'scifi'
+                    ? 'ring-2 ring-ring ring-offset-2 ring-offset-background opacity-100'
+                    : 'opacity-70',
+                  templateUpdating.loading && templateUpdating.templateType === 'scifi'
+                    ? 'opacity-70'
+                    : 'opacity-100'
+                )}
+                src="/templatepreviews/scifi.png"
+                alt="Grid Single Preview"
+              />
+              {templateUpdating.loading && templateUpdating.templateType === 'scifi' && (
+                <Loader className="absolute top-1/2 right-1/2 w-16 h-16 translate-x-1/2 -translate-y-1/2 opacity-70" />
+              )}
+            </div>
+            <div className="flex flex-wrap justify-start gap-2 text-xs w-full text-foreground/70">
+              <p className="break-words">
+                ⭐ Single page scifi dark template ⭐ Work extensive template ⭐ Clean &
+                Minimal look
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent onOpenAutoFocus={(e) => {e.preventDefault()}} className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar">
+        <DialogContent
+          onOpenAutoFocus={(e) => {
+            e.preventDefault();
+          }}
+          className="sm:max-w-[600px] max-h-[70vh] overflow-y-auto scrollbar-hidden no_scrollbar"
+        >
           <DialogHeader className="mb-4">
-            <DialogTitle className='text-base lg:text-lg'>
+            <DialogTitle className="text-base lg:text-lg">
               {actionType === 'add' ? 'Additional Info Required' : 'Edit Additional Info'}
             </DialogTitle>
           </DialogHeader>

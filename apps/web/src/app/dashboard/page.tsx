@@ -3,8 +3,8 @@ import React from 'react';
 import Dashboard from './dashboard';
 import { redirect } from 'next/navigation';
 import { getUser } from '@/supabase/getUser';
-
 import type { Startup, Project } from '@/lib/types/supabase-types';
+import { performance } from 'perf_hooks';
 
 export default async function DashboardPage() {
   const supabase = createSClient();

@@ -19,9 +19,11 @@ export async function generateStaticParams() {
     return [];
   }
 
-  return profiles.map((profile) => ({
-    username: profile.username,
-  }));
+  return profiles
+    .filter((profile) => typeof profile.username === 'string' && profile.username.trim() !== '')
+    .map((profile) => ({
+      username: profile.username,
+    }));
 }
 
 const getNameBio = async (username: string) => {

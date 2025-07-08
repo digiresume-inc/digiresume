@@ -13,9 +13,11 @@ export async function generateStaticParams() {
     return [];
   }
 
-  return profiles.map((profile) => ({
-    username: profile.username,
-  }));
+  return profiles
+    .filter((profile) => typeof profile.username === 'string' && profile.username.trim() !== '')
+    .map((profile) => ({
+      username: profile.username,
+    }));
 }
 
 const getNameBio = async (username: string) => {
@@ -33,15 +35,18 @@ const getNameBio = async (username: string) => {
   return profile;
 };
 
-
-export async function generateMetadata({ params }: { params: Promise<{ username: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}): Promise<Metadata> {
   const { username } = await params;
   const results = await getNameBio(username);
   const fullUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${username}`;
 
   return {
     title: `${results?.full_name}'s Portfolio`,
-    description: RemoveMarkdown(results?.shortbio || results?.full_name!+"'s Portfolio"),
+    description: RemoveMarkdown(results?.shortbio || results?.full_name! + "'s Portfolio"),
     icons: {
       icon: results?.favicon_url,
     },
@@ -50,7 +55,7 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
     },
     openGraph: {
       title: `${results?.full_name}'s Portfolio`,
-      description: RemoveMarkdown(results?.shortbio || results?.full_name!+"'s Portfolio"),
+      description: RemoveMarkdown(results?.shortbio || results?.full_name! + "'s Portfolio"),
       url: fullUrl,
       images: [
         {
@@ -64,7 +69,7 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
     twitter: {
       card: 'summary',
       title: `${results?.full_name}'s Portfolio`,
-      description: RemoveMarkdown(results?.shortbio || results?.full_name!+"'s Portfolio"),
+      description: RemoveMarkdown(results?.shortbio || results?.full_name! + "'s Portfolio"),
       images: [results?.avatar_url!],
     },
   };
@@ -122,6 +127,8 @@ async function importTemplate(template: string) {
     switch (template) {
       case 'grid-single':
         return (await import('@/templates/grid-single/template')).default;
+      case 'scifi':
+        return (await import('@/templates/scifi/template')).default;
       case 'default':
         return (await import('@/templates/default/template')).default;
     }
