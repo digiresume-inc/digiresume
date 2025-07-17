@@ -28,6 +28,8 @@ const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
   const showExp = profile.experience.length > 0;
   const startups = profile.startups!;
   const projects = profile.projects!;
+  const showCountry = profile.country && profile.geo_info.state && profile.geo_info.city;
+  const showHeadline = profile.headline && profile.company && profile.education.university;
 
   const showStartups = startups.length > 0;
   const showProjects = projects.length > 0;
@@ -74,7 +76,7 @@ const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
                     >
                       {profile.full_name}
                     </p>
-                    <p
+                    {showCountry && <p
                       style={{
                         color: hexToHSL(t.foreground!, 0.7),
                       }}
@@ -90,12 +92,12 @@ const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
                       <span>{profile.geo_info.state}</span>
                       <span>/</span>
                       <span>{profile.geo_info.city}</span>
-                    </p>
+                    </p>}
                   </div>
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-start justify-center px-6 py-2">
+            {showHeadline && <div className="flex flex-col items-start justify-center px-6 py-2">
               <h1
                 style={{
                   color: t.foreground,
@@ -121,7 +123,7 @@ const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
                 </span>{' '}
                 · {profile.education.university} Alumni
               </p>
-            </div>
+            </div>}
             <div className="flex items-center justify-start lg:items-start px-6 py-4 gap-3">
               <ProfileUrl profile={profile} t={t} />
             </div>

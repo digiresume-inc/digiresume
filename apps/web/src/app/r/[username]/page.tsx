@@ -1,5 +1,5 @@
 import React from 'react';
-import { CornerDownRight, Link2, Mail, MapPin, Phone, Verified } from 'lucide-react';
+import { CornerDownRight, Download, Link2, Mail, MapPin, Phone, Verified } from 'lucide-react';
 import MarkdownParser from '@/components/general/markdown-parser';
 import { formatMonthShortYear, getMonthsDifference, RemoveMarkdown } from '@dr/utils';
 import { createSClient } from '@/supabase/server';
@@ -9,6 +9,7 @@ import type { Startup, Project } from '@/lib/types/supabase-types';
 import { createClient } from '@/supabase/client';
 import { Metadata } from 'next';
 import { PlatformIcon } from '@/components/general/get-platform-icon';
+import ResumeDownload from '../components/resume-download';
 
 export async function generateStaticParams() {
   const supabase = createClient();
@@ -165,18 +166,21 @@ export default async function ResumePage({ params }: { params: Promise<{ usernam
               })}
             </div>
           </div>
-          <span
-            className="relative flex shrink-0 overflow-hidden rounded-xl size-22 lg:size-28"
-            aria-hidden="true"
-          >
-            <DynamicImage
-              height={112}
-              width={112}
-              className="aspect-square h-full w-full object-cover grayscale border border-gray-200 lg:border-gray-300 rounded-xl"
-              alt={`${profile.full_name}'s profile picture`}
-              url={profile.avatar_url}
-            />
-          </span>
+          <div>
+            <span
+              className="relative flex shrink-0 overflow-hidden rounded-xl size-22 lg:size-28"
+              aria-hidden="true"
+            >
+              <DynamicImage
+                height={112}
+                width={112}
+                className="aspect-square h-full w-full object-cover grayscale border border-gray-200 lg:border-gray-300 rounded-xl"
+                alt={`${profile.full_name}'s profile picture`}
+                url={profile.avatar_url}
+              />
+            </span>
+            <ResumeDownload data={data} profile={profile} />
+          </div>
         </header>
         <div className="space-y-8">
           <section className="flex min-h-0 gap-x-3 gap-y-2 jetbrains">
