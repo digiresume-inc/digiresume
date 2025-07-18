@@ -25,11 +25,13 @@ const Dashboard = ({
   profile,
   startups,
   projects,
+  tab
 }: {
   user: User;
   profile: Profile;
   startups: Startup[];
   projects: Project[];
+  tab: string;
 }) => {
   const [preview, setPreview] = useState(false);
   const [localTheme, setLocalTheme] = useState<Theme>(profile.theme);
@@ -48,7 +50,7 @@ const Dashboard = ({
             <FaviconComponent favicon_url={profile.favicon_url} />
             <AnalyticsCard />
           </div>
-          <Tabs defaultValue="profile" className="w-full mt-8 mb-12 lg:mt-12">
+          <Tabs defaultValue={tab} className="w-full mt-8 mb-12 lg:mt-12">
             <div className="overflow-x-auto overflow-y-hidden">
               <TabsList className="flex w-fit gap-3 lg:gap-6 px-2 lg:px-3 bg-background rounded-none">
                 <TabsTrigger

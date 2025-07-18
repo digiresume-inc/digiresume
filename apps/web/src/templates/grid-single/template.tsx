@@ -170,7 +170,20 @@ const GridSingleTemplate = ({ profile }: { profile: CompleteProfile }) => {
                   My Timeline
                 </p>
               </div>
-              <Timeline profile={profile} />
+              { profile.education.university || profile.experience.length > 0 ? (
+                <Timeline profile={profile} />
+              ) : (
+                <span className="text-sm text-foreground/80 items-center justify-center flex flex-col gap-2">
+                  This bastard has no timeline
+                  <a
+                    className="underline text-foreground ml-2"
+                    href="/dashboard?tab=experience"
+                    target="_blank"
+                  >
+                    Add Education ?
+                  </a>
+                </span>
+              )}
             </Block>
           </div>
         </div>
@@ -183,9 +196,14 @@ const GridSingleTemplate = ({ profile }: { profile: CompleteProfile }) => {
               aria-labelledby="github-calendar-heading"
               className="bg-background px-2 text-xs md:text-sm text-foreground relative row-span-5 lg:row-span-6 col-span-4 rounded-2xl border w-full h-full order-2 sm:order-none flex flex-col items-center justify-center overflow-hidden"
             >
-              {!githubUsername && <h2 id="github-calendar-heading">
-                GitHub Contribution Calendar Here
-              </h2>}
+              {!githubUsername && (
+                <h2 id="github-calendar-heading" className="flex flex-col gap-2">
+                  GitHub Contribution Calendar Here
+                  <a href="/dashboard?tab=socials" target="_blank" className="underline">
+                    Add your github url in socials section
+                  </a>
+                </h2>
+              )}
               {githubUsername && <GithubCalender username={githubUsername} />}
             </Block>
             <MainBlock
@@ -351,7 +369,20 @@ const GridSingleTemplate = ({ profile }: { profile: CompleteProfile }) => {
               </div>
               <div className="absolute bottom-0 left-0 w-8 h-[70%] bg-gradient-to-r from-background to-transparent to-90% z-10 pointer-events-none" />
               <div className="absolute bottom-0 right-0 w-8 h-[70%] bg-gradient-to-l from-background to-transparent to-90% z-10 pointer-events-none" />
-              <SkillsMarquee skills={profile.skills} />
+              {profile.skills.length > 0 ? (
+                <SkillsMarquee skills={profile.skills} />
+              ) : (
+                <span className="inline text-foreground/80 text-sm">
+                  This bastard has no skills
+                  <a
+                    className="underline text-foreground ml-2"
+                    href="/dashboard#skills"
+                    target="_blank"
+                  >
+                    Add your skills ?
+                  </a>
+                </span>
+              )}
             </Block>
           </div>
         </div>
@@ -371,40 +402,53 @@ const GridSingleTemplate = ({ profile }: { profile: CompleteProfile }) => {
                 <p className="text-foreground/60 text-sm font-semibold">My Stuff</p>
               </span>
               <p className="text-foreground/80 font-bold mb-4">Currently Building</p>
-              <div className="flex flex-col gap-2 w-full">
-                {stuff.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-col gap-3 items-center justify-center w-full px-4"
+              {stuff.length > 0 ? (
+                <div className="flex flex-col gap-2 w-full">
+                  {stuff.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col gap-3 items-center justify-center w-full px-4"
+                    >
+                      <span className="w-full bg-secondary rounded-xl group border flex items-center justify-center px-3 py-2 gap-2">
+                        <img
+                          className={cn(
+                            'w-10 h-10',
+                            item.type === 'project' ? 'rounded-full' : 'rounded-xl'
+                          )}
+                          src={`https://www.google.com/s2/favicons?sz=128&domain_url=${item.url}`}
+                          alt={`${item.name} favicon`}
+                        />
+                        <div className="flex flex-col items-start justify-center">
+                          <span className="text-lg md:text-[1.2rem] leading-[1.75rem] text-foreground font-bold flex items-center justify-center">
+                            <p className="text-base line-clamp-1">{item.name}</p>
+                            <a
+                              href={item.url}
+                              target="_blank"
+                              className="cursor-pointer p-1 bg-popover ml-2 rounded-md text-foreground/60 hover:text-foreground/80 transition-all duration-300"
+                            >
+                              <RxExternalLink />
+                            </a>
+                          </span>
+                          <span className="text-xs text-foreground/80 line-clamp-1">
+                            <MarkdownParser text={item.description} />
+                          </span>
+                        </div>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <span className="flex flex-col gap-2 text-foreground/80 text-sm px-6 w-full items-center justify-center">
+                  This bastard is not building anything
+                  <a
+                    className="underline text-foreground ml-2"
+                    href="/dashboard/projects"
+                    target="_blank"
                   >
-                    <span className="w-full bg-secondary rounded-xl group border flex items-center justify-center px-3 py-2 gap-2">
-                      <img
-                        className={cn(
-                          'w-10 h-10',
-                          item.type === 'project' ? 'rounded-full' : 'rounded-xl'
-                        )}
-                        src={`https://www.google.com/s2/favicons?sz=128&domain_url=${item.url}`}
-                        alt={`${item.name} favicon`}
-                      />
-                      <div className="flex flex-col items-start justify-center">
-                        <span className="text-lg md:text-[1.2rem] leading-[1.75rem] text-foreground font-bold flex items-center justify-center">
-                          <p className="text-base line-clamp-1">{item.name}</p>
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            className="cursor-pointer p-1 bg-popover ml-2 rounded-md text-foreground/60 hover:text-foreground/80 transition-all duration-300"
-                          >
-                            <RxExternalLink />
-                          </a>
-                        </span>
-                        <span className="text-xs text-foreground/80 line-clamp-1">
-                          <MarkdownParser text={item.description} />
-                        </span>
-                      </div>
-                    </span>
-                  </div>
-                ))}
-              </div>
+                    Add your work ?
+                  </a>
+                </span>
+              )}
             </Block>
             <Block
               delay={1.4}
@@ -464,32 +508,45 @@ const GridSingleTemplate = ({ profile }: { profile: CompleteProfile }) => {
                 <p className="text-foreground/60 text-sm font-semibold">Follow Me</p>
               </span>
               <p className="text-foreground/80 font-bold mb-6">Online Presence</p>
-              <div className="flex flex-col gap-3 items-center justify-center w-full px-4">
-                {profile.socials.slice(0, 4).map((social: any, index: number) => {
-                  const lastPart = social.url.split('/').filter(Boolean).pop();
-                  return (
-                    <a
-                      key={index}
-                      href={social.url}
-                      target="_blank"
-                      className="cursor-pointer w-full bg-secondary rounded-lg group border hover:border-foreground/20 transition-all duration-300 flex items-center justify-between px-3 py-1"
-                    >
-                      <span className="flex items-center justify-start w-[90%]">
-                        <span className="p-1 text-primary rounded-md">
-                          <PlatformIcon url={social.url} />
+              {profile.socials.length > 0 ? (
+                <div className="flex flex-col gap-3 items-center justify-center w-full px-4">
+                  {profile.socials.slice(0, 4).map((social: any, index: number) => {
+                    const lastPart = social.url.split('/').filter(Boolean).pop();
+                    return (
+                      <a
+                        key={index}
+                        href={social.url}
+                        target="_blank"
+                        className="cursor-pointer w-full bg-secondary rounded-lg group border hover:border-foreground/20 transition-all duration-300 flex items-center justify-between px-3 py-1"
+                      >
+                        <span className="flex items-center justify-start w-[90%]">
+                          <span className="p-1 text-primary rounded-md">
+                            <PlatformIcon url={social.url} />
+                          </span>
+                          <p className="ml-1 text-foreground/60 text-sm overflow-hidden whitespace-nowrap overflow-ellipsis font-semibold">
+                            @{lastPart}
+                          </p>
                         </span>
-                        <p className="ml-1 text-foreground/60 text-sm overflow-hidden whitespace-nowrap overflow-ellipsis font-semibold">
-                          @{lastPart}
-                        </p>
-                      </span>
-                      <IoArrowForward
-                        className="text-foreground/60 transition-transform duration-500 group-hover:-rotate-45"
-                        size={20}
-                      />
-                    </a>
-                  );
-                })}
-              </div>
+                        <IoArrowForward
+                          className="text-foreground/60 transition-transform duration-500 group-hover:-rotate-45"
+                          size={20}
+                        />
+                      </a>
+                    );
+                  })}
+                </div>
+              ) : (
+                <span className="flex flex-col text-center gap-2 text-foreground/80 text-sm px-6 w-full items-center justify-center">
+                  This bastard has Sociophobia
+                  <a
+                    className="underline text-foreground ml-2"
+                    href="/dashboard?tab=socials"
+                    target="_blank"
+                  >
+                    Add your socials ?
+                  </a>
+                </span>
+              )}
             </Block>
             <Block
               delay={1.5}

@@ -49,7 +49,7 @@ const DefualtTemplate = ({ profile }: { profile: CompleteProfile }) => {
         <div className="flex flex-1 justify-center py-5">
           <div className="flex flex-col max-w-[960px] flex-1 relative py-6 lg:py-0">
             <ShareCard profile={profile} t={t} />
-            <ResumeDownload t={t} />
+            <ResumeDownload t={t} username={profile.username} />
             <div className="flex px-6 py-4">
               <div className="flex w-full flex-col gap-4 @[520px]:flex-row @[520px]:justify-between @[520px]:items-center">
                 <div className="flex gap-4 items-center justify-start">

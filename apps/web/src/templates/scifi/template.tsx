@@ -11,6 +11,8 @@ import { SiGithub } from 'react-icons/si';
 const ScifiTemplate = ({ profile }: { profile: CompleteProfile }) => {
   const addInfo = profile.template_info;
   const additionalinfo = addInfo.templates['scifi'];
+  const showEducation =
+    profile.education.university && profile.education.branch && profile.education.grade;
 
   if (addInfo?.activeTemplate !== 'scifi' || !additionalinfo) return null;
 
@@ -30,141 +32,222 @@ const ScifiTemplate = ({ profile }: { profile: CompleteProfile }) => {
             <section className="mt-6">
               <p className="text-neutral-400">
                 {profile.headline}{' '}
-                <a
-                  className="text-stone-300 underline decoration-stone-400 decoration-[0.5px] underline-offset-4 transition-colors hover:text-stone-200 hover:decoration-stone-200"
-                  href="https://scira.ai"
-                  target="_blank"
-                >
-                  @{profile.company}
-                </a>
+                <span className="text-stone-300 underline decoration-stone-400 decoration-[0.5px] underline-offset-4 transition-colors hover:text-stone-200 hover:decoration-stone-200">
+                  {profile.company ? (
+                    `@${profile.company}`
+                  ) : (
+                    <a href="/dashboard?tab=profile#company" target="_blank">
+                      Add your company name ?
+                    </a>
+                  )}
+                </span>
               </p>
-              <p className="mt-4 text-neutral-400">
-                Alumni{' '}
-                <a
-                  className="text-stone-300 underline decoration-stone-400 decoration-[0.5px] underline-offset-4 transition-colors hover:text-stone-200 hover:decoration-stone-200"
-                  href="https://scira.ai"
-                  target="_blank"
-                >
-                  @{profile.education.university}
-                </a>
-              </p>
+              {profile.education.university ? (
+                <span className="mt-4 text-neutral-400 flex items-center gap-2">
+                  Alumni{' '}
+                  <p className="text-stone-300 underline decoration-stone-400 decoration-[0.5px] underline-offset-4 transition-colors hover:text-stone-200 hover:decoration-stone-200">
+                    @{profile.education.university}
+                  </p>
+                </span>
+              ) : (
+                <span className="inline text-foreground/80">
+                  This bastard has no University
+                  <a
+                    className="underline text-foreground ml-2"
+                    href="/dashboard?tab=profile#education.university"
+                    target="_blank"
+                  >
+                    Add your Uni ?
+                  </a>
+                </span>
+              )}
             </section>
             <section className="mt-8">
               <h2 className="mb-2 text-neutral-100">about me</h2>
-              <span className="text-neutral-400">
-                <MarkdownParser text={profile.shortbio} />
-              </span>
+              {profile.shortbio ? (
+                <span className="text-neutral-400">
+                  <MarkdownParser text={profile.shortbio} />
+                </span>
+              ) : (
+                <span className="inline text-foreground/80">
+                  This bastard has no Bio
+                  <a
+                    className="underline text-foreground ml-2"
+                    href="/dashboard?tab=profile#shortbio"
+                    target="_blank"
+                  >
+                    Add your bio ?
+                  </a>
+                </span>
+              )}
             </section>
             <section className="mt-12">
-              <a href="/work">
-                <h2 className="text-neutral-100 mb-2">skills</h2>
-              </a>
-              <div className="flex flex-wrap items-center gap-2">
-                {profile.skills.map((skill, i) => {
-                  return <SkillBox key={i} {...skill} />;
-                })}
-              </div>
+              <h2 className="text-neutral-100 mb-2">skills</h2>
+              {profile.skills.length > 0 ? (
+                <div className="flex flex-wrap items-center gap-2">
+                  {profile.skills.map((skill, i) => {
+                    return <SkillBox key={i} {...skill} />;
+                  })}
+                </div>
+              ) : (
+                <span className="inline text-foreground/80">
+                  This bastard has no skills
+                  <a
+                    className="underline text-foreground ml-2"
+                    href="/dashboard?tab=profile#skills"
+                  >
+                    Add your skills ?
+                  </a>
+                </span>
+              )}
             </section>
             <section className="mt-12">
-              <a href="/work">
-                <h2 className="text-neutral-100 mb-2">projects</h2>
-              </a>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {profile.projects?.map((project, i) => {
-                  return <ProjectBox key={i} project={project} setSelectedItem={setSelectedItem} />;
-                })}
-              </ul>
+              <h2 className="text-neutral-100 mb-2">projects</h2>
+              {profile.projects && profile.projects.length > 0 ? (
+                <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {profile.projects.map((project, i) => {
+                    return (
+                      <ProjectBox key={i} project={project} setSelectedItem={setSelectedItem} />
+                    );
+                  })}
+                </ul>
+              ) : (
+                <span className="inline text-foreground/80">
+                  This bastard has no projects
+                  <a className="underline text-foreground ml-2" href="/dashboard/projects" target='_blank'>
+                    Add your projects ?
+                  </a>
+                </span>
+              )}
             </section>
             <section className="mt-12">
               <a href="/work">
                 <h2 className="text-neutral-100 mb-2">shipped</h2>
               </a>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {profile.startups?.map((startup, i) => {
-                  return <StartupBox key={i} startup={startup} setSelectedItem={setSelectedItem} />;
-                })}
-              </ul>
+              {profile.startups && profile.startups.length > 0 ? (
+                <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {profile.startups?.map((startup, i) => {
+                    return (
+                      <StartupBox key={i} startup={startup} setSelectedItem={setSelectedItem} />
+                    );
+                  })}
+                </ul>
+              ) : (
+                <span className="inline text-foreground/80">
+                  This bastard hasn't even shipped stuff yet
+                  <a className="underline text-foreground ml-2"  href="/dashboard/startups" target='_blank'>
+                    Add your Startups ?
+                  </a>
+                </span>
+              )}
             </section>
             <section className="mt-12">
               <a href="/work">
                 <h2 className="text-neutral-100 mb-2">experience</h2>
               </a>
-              <div className="space-y-4 cursor-pointer">
-                {profile.experience.map((exp, i) => {
-                  return (
-                    <div
-                      key={i}
-                      className="cursor-all-scroll px-3 py-2 group relative border border-neutral-800/50 bg-neutral-900/20 hover:bg-neutral-900 transition-colors"
-                    >
-                      <div className="absolute top-0 left-0 w-2 h-[0.5px] bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
-                      <div className="absolute top-0 left-0 w-[0.5px] h-2 bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
-                      <div className="absolute top-0 right-0 w-2 h-[0.5px] bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
-                      <div className="absolute top-0 right-0 w-[0.5px] h-2 bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
-                      <div className="absolute bottom-0 left-0 w-2 h-[0.5px] bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
-                      <div className="absolute bottom-0 left-0 w-[0.5px] h-2 bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
-                      <div className="absolute bottom-0 right-0 w-2 h-[0.5px] bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
-                      <div className="absolute bottom-0 right-0 w-[0.5px] h-2 bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <img
-                          title={exp.company_link}
-                          className="h-4 w-4 grayscale"
-                          src={`https://www.google.com/s2/favicons?sz=128&domain_url=${exp.company_link}`}
-                        />
-                        <span className="text-neutral-200 text-sm transition-colors group-hover:text-white">
-                          {exp.company}
-                        </span>
-                      </div>
-                      <div className="space-y-3 pl-4 text-xs">
-                        {exp.roles.map((exp, i) => {
-                          return (
-                            <div key={i} className="flex items-center justify-between">
-                              <span className="flex items-center gap-2">
-                                <div className="h-2.5 w-2.5 relative">
-                                  <div className="absolute h-full w-[1px] left-1/2 top-0 bg-neutral-400" />
-                                  <div className="absolute w-full h-[1px] top-1/2 left-0 bg-neutral-400" />
-                                </div>
-                                <span className="text-neutral-300 transition-colors group-hover:text-neutral-200">
-                                  {exp.headline}
+              {profile.experience && profile.experience.length > 0 ? (
+                <div className="space-y-4 cursor-pointer">
+                  {profile.experience.map((exp, i) => {
+                    return (
+                      <div
+                        key={i}
+                        className="cursor-all-scroll px-3 py-2 group relative border border-neutral-800/50 bg-neutral-900/20 hover:bg-neutral-900 transition-colors"
+                      >
+                        <div className="absolute top-0 left-0 w-2 h-[0.5px] bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
+                        <div className="absolute top-0 left-0 w-[0.5px] h-2 bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
+                        <div className="absolute top-0 right-0 w-2 h-[0.5px] bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
+                        <div className="absolute top-0 right-0 w-[0.5px] h-2 bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
+                        <div className="absolute bottom-0 left-0 w-2 h-[0.5px] bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
+                        <div className="absolute bottom-0 left-0 w-[0.5px] h-2 bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
+                        <div className="absolute bottom-0 right-0 w-2 h-[0.5px] bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
+                        <div className="absolute bottom-0 right-0 w-[0.5px] h-2 bg-neutral-700 group-hover:bg-neutral-500 transition-colors"></div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <img
+                            title={exp.company_link}
+                            className="h-4 w-4 grayscale"
+                            src={`https://www.google.com/s2/favicons?sz=128&domain_url=${exp.company_link}`}
+                          />
+                          <span className="text-neutral-200 text-sm transition-colors group-hover:text-white">
+                            {exp.company}
+                          </span>
+                        </div>
+                        <div className="space-y-3 pl-4 text-xs">
+                          {exp.roles.map((exp, i) => {
+                            return (
+                              <div key={i} className="flex items-center justify-between">
+                                <span className="flex items-center gap-2">
+                                  <div className="h-2.5 w-2.5 relative">
+                                    <div className="absolute h-full w-[1px] left-1/2 top-0 bg-neutral-400" />
+                                    <div className="absolute w-full h-[1px] top-1/2 left-0 bg-neutral-400" />
+                                  </div>
+                                  <span className="text-neutral-300 transition-colors group-hover:text-neutral-200">
+                                    {exp.headline}
+                                  </span>
                                 </span>
-                              </span>
-                              <span>
-                                {exp.start_date} - {exp.end_date ? exp.end_date : 'Present'}
-                              </span>
-                            </div>
-                          );
-                        })}
+                                <span>
+                                  {exp.start_date} - {exp.end_date ? exp.end_date : 'Present'}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <span className="inline text-foreground/80">
+                  This bastard has no Experience
+                  <a className="underline text-foreground ml-2" href="/dashboard?tab=experience" target='_blank'>
+                    Add Experience ?
+                  </a>
+                </span>
+              )}
             </section>
             <section className="mt-12">
               <a href="/work">
                 <h2 className="text-neutral-100 mb-2">education</h2>
               </a>
-              <div className="flex flex-col gap-2 items-center group">
-                <div className="flex items-center justify-between w-full">
-                  <span className="text-neutral-200 text-sm transition-colors group-hover:text-white">
-                    {profile.education.university}
-                  </span>
-                  <span className=" text-xs">
-                    {profile.education.start_date} - {profile.education.end_date}
-                  </span>
+              {showEducation ? (
+                <div className="flex flex-col gap-2 items-center group">
+                  <div className="flex items-center justify-between w-full">
+                    <span className="text-neutral-200 text-sm transition-colors group-hover:text-white">
+                      {profile.education.university}
+                    </span>
+                    <span className=" text-xs">
+                      {profile.education.start_date} - {profile.education.end_date}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between w-full text-xs">
+                    <span>{profile.education.branch}</span>
+                    <span>grade: {profile.education.grade}</span>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between w-full text-xs">
-                  <span>{profile.education.branch}</span>
-                  <span>grade: {profile.education.grade}</span>
-                </div>
-              </div>
+              ) : (
+                <span className="inline text-foreground/80">
+                  This bastard didn't even go to school
+                  <a className="underline text-foreground ml-2" href="/dashboard#education.university" target='_blank'>
+                    Add Education ?
+                  </a>
+                </span>
+              )}
             </section>
             <section className="mt-12">
               <h2 className="text-neutral-100">connect</h2>
-              <div className="mt-2 flex flex-wrap gap-2 text-neutral-400">
-                {profile.socials.map((social, i) => {
-                  return <SocialBox key={i} social={social} />;
-                })}
-              </div>
+              {profile.socials && profile.socials.length > 0 ? (
+                <div className="mt-2 flex flex-wrap gap-2 text-neutral-400">
+                  {profile.socials.map((social, i) => {
+                    return <SocialBox key={i} social={social} />;
+                  })}
+                </div>
+              ) : (
+                <span className="inline text-foreground/80">
+                  This bastard has  Sociophobia
+                  <a className="underline text-foreground ml-2" href="/dashboard?tab=socials" target='_blank'>
+                    Add your socials ?
+                  </a>
+                </span>
+              )}
             </section>
           </div>
         </div>
@@ -549,9 +632,10 @@ const StartupModel = ({
                 <div className="flex items-center justify-start gap-2">
                   <img
                     title={selectedItem.url}
-                    className={cn("h-12 w-12 grayscale",
-                        selectedItem.status ? 'rounded-none' : 'rounded-full'
-                    )} 
+                    className={cn(
+                      'h-12 w-12 grayscale',
+                      selectedItem.status ? 'rounded-none' : 'rounded-full'
+                    )}
                     src={`https://www.google.com/s2/favicons?sz=128&domain_url=${selectedItem.url}`}
                   />
                   <div className="flex flex-col items-start justify-start">

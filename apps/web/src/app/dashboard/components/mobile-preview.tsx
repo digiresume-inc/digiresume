@@ -111,7 +111,7 @@ const MobilePreview = ({
           {/* iPhone Screen */}
           <div
             style={{
-              background: t.background,
+              background: isResumeView ? "#ffffff" :t.background,
             }}
             className="w-[270px] h-[590px] rounded-[36px] overflow-y-auto z-10 py-4 scrollbar-hidden no_scrollbar"
           >

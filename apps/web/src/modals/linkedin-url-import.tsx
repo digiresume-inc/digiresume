@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import React, { useEffect, useState } from 'react';
 import { SiLinkedin } from 'react-icons/si';
 import Image from 'next/image';
-import { blurFade, formatLinkedInProfile, formatProxyCurlData } from '@dr/utils';
+import { blurFade, formatLinkedInProfile, formatProxyCurlData, formatScrapingDogData } from '@dr/utils';
 import { Info } from 'lucide-react';
 import { Input } from '@dr/ui/components/base/input';
 import { getAvatarUrl, updateLinkedinData } from '@/app/onboarding/action';
@@ -47,7 +47,7 @@ const LinkedinURLImport = ({
     setError('');
 
     try {
-      const res = await fetch('/api/proxycurl', {
+      const res = await fetch('/api/scrapingdog', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,12 +57,14 @@ const LinkedinURLImport = ({
 
       const dataObject = await res.json();
 
+      console.log('LinkedIn Data:', dataObject);
+
       // upload image to supabase
-      const avatar_url = dataObject.data.profile_pic_url;
+      const avatar_url = dataObject.data[0].profile_photo;
       const hosted_url = await getAvatarUrl(avatar_url);
 
       // update profile data
-      const finalData = formatProxyCurlData(dataObject.data);
+      const finalData = formatScrapingDogData(dataObject.data[0]);
       
       const result = await updateLinkedinData(finalData,hosted_url.success, hosted_url.message);
       if (!result.success) {

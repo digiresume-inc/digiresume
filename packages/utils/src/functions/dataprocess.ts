@@ -1,5 +1,5 @@
 import { countries, skills as importedSkills } from '@dr/utils';
-import removeMarkdown from "remove-markdown";
+import removeMarkdown from 'remove-markdown';
 
 function findMatchingSkill(label: string) {
   return importedSkills.find((skill) => skill.value.toLowerCase() === label.toLowerCase());
@@ -216,10 +216,120 @@ export function formatProxyCurlData(data: any) {
   return newData;
 }
 
+export function formatScrapingDogData(data: any) {
+  function getCountryFromName(name: string): string {
+    return (
+      countries.find((country) => {
+        const [countryName] = country.split('-');
+        return countryName?.trim().toLowerCase() === name.trim().toLowerCase();
+      }) || ''
+    );
+  }
 
-export function RemoveMarkdown(markdown: string): string {
-  const result = removeMarkdown(markdown).replace(/\s+/g, " ").trim();
+  const shortBio = data.about ? data.about : '';
+
+  function formatExperience(data: any) {
+    const experienceMap: Record<string, any> = {};
+
+    (data.experience || []).forEach((exp: any) => {
+      const companyName = exp.company_name || 'Unknown Company';
+      const companyUrl = exp.company_url || '';
+      const companyImage = exp.company_image || '';
+      const location = exp.location || '';
+      const headline = exp.position || '';
+      const currentlyWorking = (exp.ends_at || '').toLowerCase() === 'present';
+
+      const role = {
+        start_date: parseMonthYear(exp.starts_at),
+        end_date: currentlyWorking ? '' : parseMonthYear(exp.ends_at),
+        headline,
+        location: location.toLowerCase(),
+        location_type: 'On-site',
+        employment_type: 'Full-time',
+        currently_working: currentlyWorking,
+      };
+
+      if (experienceMap[companyName]) {
+        experienceMap[companyName].roles.push(role);
+      } else {
+        experienceMap[companyName] = {
+          company: companyName,
+          company_link: companyUrl,
+          company_logo: companyImage,
+          skills_used: [],
+          contribution: '',
+          roles: [role],
+        };
+      }
+    });
+
+    // Return as array and index
+    return Object.values(experienceMap).map((entry, i) => ({
+      a: i,
+      ...entry,
+    }));
+  }
+
+  // Helper to convert "Jan 2024" → "01/2024"
+  function parseMonthYear(dateStr: string) {
+    if (!dateStr) return '';
+    const [monthStr, yearStr] = dateStr.split(' ');
+    const monthMap: Record<string, string> = {
+      Jan: '01',
+      Feb: '02',
+      Mar: '03',
+      Apr: '04',
+      May: '05',
+      Jun: '06',
+      Jul: '07',
+      Aug: '08',
+      Sep: '09',
+      Oct: '10',
+      Nov: '11',
+      Dec: '12',
+    };
+    const month = monthMap[monthStr as string] || '01';
+    return `${month}/${yearStr}`;
+  }
+
+  const education = (() => {
+    const edu = data.education?.[0];
+    const [startYear, endYear] = edu.college_duration
+      ? edu.college_duration.split('-').map((y: any) => y.trim())
+      : ['', ''];
+    return {
+      university: edu?.college_name || '',
+      branch: edu?.college_degree_field || '',
+      start_date: startYear ? `01/${startYear}` : '',
+      end_date: endYear ? `01/${endYear}` : '',
+      grade: edu?.grade || 'A',
+    };
+  })();
+
+  const result = {
+    full_name: data.fullName || '',
+    headline: data.headline || '',
+    shortbio: shortBio.slice(0, 300),
+    country: getCountryFromName(data.location?.split(',')[2]),
+    geo_info: {
+      city: data.location?.split(',')[0]?.trim() || '',
+      state: data.location?.split(',')[1]?.trim() || '',
+    },
+    profile_link: {
+      url: data.public_identifier ? `https://linkedin.com/in/${data.public_identifier}` : '',
+      text: 'LinkedIn Profile',
+    },
+    experience: formatExperience(data),
+    company: data.companyName || '',
+    education,
+    socials: [],
+  };
 
   return result;
 }
 
+export function RemoveMarkdown(markdown: string): string {
+  const result = removeMarkdown(markdown).replace(/\s+/g, ' ').trim();
+
+  return result;
+}

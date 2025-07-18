@@ -331,7 +331,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                 <Input
                   id="company"
                   placeholder="Google | Meta ..."
-                  className="col-span-1 lg:col-span-2 text-xs lg:text-sm pl-9 py-2"
+                  className="col-span-1 lg:col-span-2 text-xs lg:text-sm pl-9 py-2 scroll-mt-28"
                   {...form.register('company')}
                 />
               </div>
@@ -364,7 +364,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
                   type="text"
                   placeholder="Jethalal Uni | IITkgp ..."
                   {...form.register('education.university')}
-                  className="pl-9 py-2 text-xs lg:text-sm"
+                  className="pl-9 py-2 text-xs lg:text-sm scroll-mt-28"
                 />
               </div>
               {form.formState.errors.education?.university && (
@@ -535,7 +535,7 @@ const ProfileUpdate = ({ profile }: { profile: Profile }) => {
           </div>
         </div>
       </div>
-      <div className="w-full mt-4 flex flex-col items-start justify-center px-3 lg:px-4 rounded-lg">
+      <div id='skills' className="w-full mt-4 flex flex-col items-start justify-center px-3 lg:px-4 rounded-lg">
         <p className="text-base lg:text-lg font-semibold mb-4 text-primary">Skills</p>
         <SkillsSelect
           value={form.watch('skills') ?? []}

@@ -224,7 +224,7 @@ export default function GridSingleForm({
 
       {/* Techstack */}
       <div className="space-y-1">
-        <label className="text-xs lg:text-sm font-medium text-muted-foreground">Tech Stack</label>
+        <label className="text-xs lg:text-sm font-medium text-muted-foreground">Your Tech Stack</label>
         <SkillsSelect
           value={watch('techstack')}
           onChange={(v) => setValue('techstack', v, { shouldDirty: true })}
