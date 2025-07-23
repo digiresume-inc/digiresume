@@ -4,3 +4,16 @@
 ### About
 
 Build a dynamic digital portfolio and resume that stay in sync. Showcase your skills, projects, startups, and achievements.
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org/) – framework
+- [TypeScript](https://www.typescriptlang.org/) – language
+- [Tailwind](https://tailwindcss.com/) – CSS
+- [Supabase](https://www.supabase.com/) Backend
+- [Upstash](https://upstash.com/) – redis
+- [Tinybird](https://tinybird.com/) – analytics
+- [Turborepo](https://turbo.build/repo) – monorepo
+- [Stripe](https://stripe.com/) – payments
+- [Resend](https://resend.com/) – emails
+- [Vercel](https://vercel.com/) – deployments
