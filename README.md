@@ -13,4 +13,3 @@ Build a dynamic digital portfolio and resume that stay in sync. Showcase your sk
 - [Upstash](https://upstash.com/) – redis
 - [Tinybird](https://tinybird.com/) – analytics
 - [Turborepo](https://turbo.build/repo) – monorepo
-- [Resend](https://resend.com/) – emails
