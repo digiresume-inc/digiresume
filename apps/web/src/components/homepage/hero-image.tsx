@@ -36,7 +36,7 @@ const HeroImage = () => {
             height={1080}
             width={1920}
             alt="Home Cover"
-            className="w-full object-cover border border-hero-image-border/60 rounded-xl antialiased backdrop-blur-xl"
+            className="w-full max-w-7xl object-cover border border-hero-image-border/60 rounded-xl antialiased backdrop-blur-xl"
             priority
           />
         </div>
